@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build output
+dist/
+build/
+*/dist/
+*/build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+docs/creadintials.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (local dev)
+uploads/teachers/*
+uploads/students/*
+!uploads/teachers/.gitkeep
+!uploads/students/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# Prisma
+backend/prisma/migrations/
+
+# Testing
+coverage/
+
+# Vite
+frontend/vite.config.ts.timestamp*

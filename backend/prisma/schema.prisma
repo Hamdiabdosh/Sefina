@@ -1,0 +1,564 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── ENUMS ───────────────────────────────────────
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum StudentStatus {
+  ACTIVE
+  TRANSFERRED
+}
+
+enum MedresaRole {
+  TEACHER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum LetterGrade {
+  A
+  B
+  C
+  D
+  F
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AuditAction {
+  INSERT
+  UPDATE
+  SOFT_DELETE
+}
+
+// ── M01: USER & AUTH ────────────────────────────
+
+/// Stores all system users (super admin & teachers)
+model User {
+  id             String             @id @default(uuid())
+  full_name      String
+  phone          String             @unique
+  email          String             @unique
+  password_hash  String
+  is_super_admin Boolean            @default(false)
+  status         UserStatus         @default(ACTIVE)
+  deleted_at     DateTime?
+  teacher        Teacher?
+  reset_tokens   PasswordResetToken[]
+  refresh_tokens RefreshToken[]
+  audit_logs     AuditLog[]
+  created_at     DateTime           @default(now())
+  updated_at     DateTime           @updatedAt
+
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+}
+
+/// Password reset tokens — hashed, single use, 1hr expiry
+model PasswordResetToken {
+  id         String   @id @default(uuid())
+  user_id    String
+  token_hash String   @unique
+  expires_at DateTime
+  used       Boolean  @default(false)
+  user       User     @relation(fields: [user_id], references: [id])
+  created_at DateTime @default(now())
+
+  @@index([token_hash])
+  @@index([user_id])
+}
+
+/// Refresh tokens — rotated on every use, stored hashed
+model RefreshToken {
+  id         String   @id @default(uuid())
+  user_id    String
+  token_hash String   @unique
+  expires_at DateTime
+  revoked    Boolean  @default(false)
+  user       User     @relation(fields: [user_id], references: [id])
+  created_at DateTime @default(now())
+
+  @@index([token_hash])
+  @@index([user_id])
+}
+
+// ── M02: MEDRESA ────────────────────────────────
+
+/// Islamic school in the Harari network
+model Medresa {
+  id               String           @id @default(uuid())
+  name             String           @unique
+  location         String
+  phone            String?
+  status           Status           @default(ACTIVE)
+  deleted_at       DateTime?
+  teacher_medresas TeacherMedresa[]
+  students         Student[]
+  medresa_courses  MedresaCourse[]
+  fee_payments     FeePayment[]
+  fee_balances     FeeBalance[]
+  created_at       DateTime         @default(now())
+  updated_at       DateTime         @updatedAt
+
+  @@index([status])
+}
+
+// ── M03: TEACHER ────────────────────────────────
+
+/// Network-level teacher entity — not owned by one medresa
+model Teacher {
+  id                  String              @id @default(uuid())
+  user_id             String              @unique
+  full_name           String
+  phone               String              @unique
+  email               String              @unique
+  /// { "en": "Quran", "am": "ቁርአን", "ar": "القرآن" }
+  specialization      Json
+  date_joined         DateTime
+  photo_url           String?
+  status              Status              @default(ACTIVE)
+  deleted_at          DateTime?
+  user                User                @relation(fields: [user_id], references: [id])
+  teacher_medresas    TeacherMedresa[]
+  teacher_ranks       TeacherRank[]
+  salary_payments     SalaryPayment[]
+  course_assignments  CourseAssignment[]
+  attendance_sessions AttendanceSession[]
+  grades              Grade[]
+  grade_edit_requests GradeEditRequest[]
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
+
+  @@index([status])
+  @@index([user_id])
+}
+
+/// Teacher role scoped per medresa
+model TeacherMedresa {
+  id             String      @id @default(uuid())
+  teacher_id     String
+  medresa_id     String
+  role           MedresaRole @default(TEACHER)
+  assigned_since DateTime    @default(now())
+  deleted_at     DateTime?
+  teacher        Teacher     @relation(fields: [teacher_id], references: [id])
+  medresa        Medresa     @relation(fields: [medresa_id], references: [id])
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @updatedAt
+
+  @@unique([teacher_id, medresa_id])
+  @@index([medresa_id])
+  @@index([teacher_id])
+  @@index([role])
+}
+
+// ── M04: COURSE ─────────────────────────────────
+
+/// Master course list — network-wide
+model Course {
+  id              String          @id @default(uuid())
+  /// { "en": "Quran Recitation", "am": "...", "ar": "..." }
+  name            Json
+  description     Json
+  level           CourseLevel
+  status          Status          @default(ACTIVE)
+  deleted_at      DateTime?
+  medresa_courses MedresaCourse[]
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+
+  @@index([status])
+  @@index([level])
+}
+
+/// Course activated per medresa
+model MedresaCourse {
+  id                  String              @id @default(uuid())
+  medresa_id          String
+  course_id           String
+  status              Status              @default(ACTIVE)
+  activated_at        DateTime            @default(now())
+  deleted_at          DateTime?
+  medresa             Medresa             @relation(fields: [medresa_id], references: [id])
+  course              Course              @relation(fields: [course_id], references: [id])
+  assignments         CourseAssignment[]
+  student_courses     StudentCourse[]
+  attendance_sessions AttendanceSession[]
+  grades              Grade[]
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
+
+  @@unique([medresa_id, course_id])
+  @@index([medresa_id])
+  @@index([status])
+}
+
+/// Teacher assigned to a course within a medresa
+model CourseAssignment {
+  id                String        @id @default(uuid())
+  medresa_course_id String
+  teacher_id        String
+  assigned_since    DateTime      @default(now())
+  deleted_at        DateTime?
+  medresa_course    MedresaCourse @relation(fields: [medresa_course_id], references: [id])
+  teacher           Teacher       @relation(fields: [teacher_id], references: [id])
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+
+  @@unique([medresa_course_id, teacher_id])
+  @@index([teacher_id])
+  @@index([medresa_course_id])
+}
+
+// ── M05: STUDENT ────────────────────────────────
+
+/// Student — belongs to one medresa at a time
+model Student {
+  id                 String           @id @default(uuid())
+  full_name          String
+  date_of_birth      DateTime
+  gender             Gender
+  address            String
+  guardian_name      String
+  guardian_phone     String
+  photo_url          String?
+  current_medresa_id String
+  status             StudentStatus    @default(ACTIVE)
+  enrolled_at        DateTime         @default(now())
+  deleted_at         DateTime?
+  current_medresa    Medresa          @relation(fields: [current_medresa_id], references: [id])
+  student_courses    StudentCourse[]
+  transfers          StudentTransfer[]
+  attendance_records AttendanceRecord[]
+  grades             Grade[]
+  fee_payments       FeePayment[]
+  fee_balances       FeeBalance[]
+  created_at         DateTime         @default(now())
+  updated_at         DateTime         @updatedAt
+
+  @@index([current_medresa_id])
+  @@index([status])
+}
+
+model StudentCourse {
+  id                String        @id @default(uuid())
+  student_id        String
+  medresa_course_id String
+  enrolled_at       DateTime      @default(now())
+  deleted_at        DateTime?
+  student           Student       @relation(fields: [student_id], references: [id])
+  medresa_course    MedresaCourse @relation(fields: [medresa_course_id], references: [id])
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+
+  @@unique([student_id, medresa_course_id])
+  @@index([student_id])
+  @@index([medresa_course_id])
+}
+
+/// Full transfer history — never deleted
+model StudentTransfer {
+  id              String   @id @default(uuid())
+  student_id      String
+  from_medresa_id String
+  to_medresa_id   String
+  transfer_date   DateTime
+  reason          String?
+  student         Student  @relation(fields: [student_id], references: [id])
+  created_at      DateTime @default(now())
+
+  @@index([student_id])
+  @@index([from_medresa_id])
+  @@index([to_medresa_id])
+}
+
+// ── M06: ATTENDANCE ─────────────────────────────
+
+/// One attendance session per course per day
+model AttendanceSession {
+  id                String             @id @default(uuid())
+  medresa_course_id String
+  teacher_id        String
+  date              DateTime           @db.Date
+  submitted_at      DateTime?
+  is_locked         Boolean            @default(false)
+  deleted_at        DateTime?
+  medresa_course    MedresaCourse      @relation(fields: [medresa_course_id], references: [id])
+  teacher           Teacher            @relation(fields: [teacher_id], references: [id])
+  records           AttendanceRecord[]
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+
+  @@unique([medresa_course_id, date])
+  @@index([date])
+  @@index([teacher_id])
+  @@index([is_locked])
+}
+
+model AttendanceRecord {
+  id         String            @id @default(uuid())
+  session_id String
+  student_id String
+  status     AttendanceStatus
+  note       String?
+  edited_at  DateTime?
+  deleted_at DateTime?
+  session    AttendanceSession @relation(fields: [session_id], references: [id])
+  student    Student           @relation(fields: [student_id], references: [id])
+  created_at DateTime          @default(now())
+  updated_at DateTime          @updatedAt
+
+  @@unique([session_id, student_id])
+  @@index([student_id])
+  @@index([status])
+}
+
+// ── M07: GRADES ─────────────────────────────────
+
+/// Exam types defined network-wide by Super Admin
+model ExamType {
+  id         String   @id @default(uuid())
+  /// { "en": "Midterm Exam", "am": "...", "ar": "..." }
+  name       Json
+  max_score  Int
+  weight     Int      // percentage, all active weights sum to 100
+  status     Status   @default(ACTIVE)
+  deleted_at DateTime?
+  grades     Grade[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([status])
+}
+
+model Grade {
+  id                String             @id @default(uuid())
+  student_id        String
+  medresa_course_id String
+  exam_type_id      String
+  teacher_id        String
+  numeric_score     Int
+  letter_grade      LetterGrade
+  submitted_at      DateTime           @default(now())
+  deleted_at        DateTime?
+  student           Student            @relation(fields: [student_id], references: [id])
+  medresa_course    MedresaCourse      @relation(fields: [medresa_course_id], references: [id])
+  exam_type         ExamType           @relation(fields: [exam_type_id], references: [id])
+  teacher           Teacher            @relation(fields: [teacher_id], references: [id])
+  edit_requests     GradeEditRequest[]
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+
+  @@unique([student_id, medresa_course_id, exam_type_id])
+  @@index([student_id])
+  @@index([medresa_course_id])
+  @@index([teacher_id])
+}
+
+/// Grade edit request — requires admin approval
+model GradeEditRequest {
+  id               String         @id @default(uuid())
+  grade_id         String
+  requested_by     String
+  current_score    Int
+  requested_score  Int
+  reason           String
+  status           ApprovalStatus @default(PENDING)
+  reviewed_by      String?
+  reviewed_at      DateTime?
+  rejection_reason String?
+  deleted_at       DateTime?
+  grade            Grade          @relation(fields: [grade_id], references: [id])
+  teacher          Teacher        @relation(fields: [requested_by], references: [id])
+  created_at       DateTime       @default(now())
+  updated_at       DateTime       @updatedAt
+
+  @@index([grade_id])
+  @@index([status])
+}
+
+// ── M08: FEE ────────────────────────────────────
+
+/// Network-wide fee structure — versioned, never deleted
+model FeeStructure {
+  id             String       @id @default(uuid())
+  monthly_amount Int          // in Ethiopian cents
+  effective_from DateTime
+  status         Status       @default(ACTIVE)
+  created_by     String
+  deleted_at     DateTime?
+  fee_payments   FeePayment[]
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+
+  @@index([status])
+  @@index([effective_from])
+}
+
+model FeePayment {
+  id               String        @id @default(uuid())
+  student_id       String
+  medresa_id       String
+  fee_structure_id String
+  month            Int
+  year             Int
+  amount_due       Int           // in Ethiopian cents
+  amount_paid      Int           // in Ethiopian cents
+  payment_method   PaymentMethod
+  bank_reference   String?
+  payment_date     DateTime
+  note             String?
+  recorded_by      String
+  deleted_at       DateTime?
+  student          Student       @relation(fields: [student_id], references: [id])
+  medresa          Medresa       @relation(fields: [medresa_id], references: [id])
+  fee_structure    FeeStructure  @relation(fields: [fee_structure_id], references: [id])
+  created_at       DateTime      @default(now())
+  updated_at       DateTime      @updatedAt
+
+  @@index([student_id])
+  @@index([medresa_id])
+  @@index([month, year])
+  @@index([payment_date])
+}
+
+model FeeBalance {
+  id                  String   @id @default(uuid())
+  student_id          String
+  medresa_id          String
+  total_due           Int      // in Ethiopian cents
+  total_paid          Int      // in Ethiopian cents
+  outstanding_balance Int      // in Ethiopian cents
+  student             Student  @relation(fields: [student_id], references: [id])
+  medresa             Medresa  @relation(fields: [medresa_id], references: [id])
+  updated_at          DateTime @updatedAt
+
+  @@unique([student_id, medresa_id])
+  @@index([medresa_id])
+  @@index([outstanding_balance])
+}
+
+// ── M09: SALARY ─────────────────────────────────
+
+/// Salary rank levels — versioned, never deleted
+model SalaryRank {
+  id              String          @id @default(uuid())
+  /// { "en": "Senior Teacher", "am": "...", "ar": "..." }
+  name            Json
+  monthly_amount  Int             // in Ethiopian cents
+  effective_from  DateTime
+  status          Status          @default(ACTIVE)
+  deleted_at      DateTime?
+  teacher_ranks   TeacherRank[]
+  salary_payments SalaryPayment[]
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+
+  @@index([status])
+}
+
+/// Teacher rank assignment — versioned history
+model TeacherRank {
+  id             String     @id @default(uuid())
+  teacher_id     String
+  salary_rank_id String
+  effective_from DateTime
+  deleted_at     DateTime?
+  teacher        Teacher    @relation(fields: [teacher_id], references: [id])
+  salary_rank    SalaryRank @relation(fields: [salary_rank_id], references: [id])
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+
+  @@index([teacher_id])
+  @@index([effective_from])
+}
+
+model SalaryPayment {
+  id                String     @id @default(uuid())
+  teacher_id        String
+  salary_rank_id    String
+  month             Int
+  year              Int
+  amount_paid       Int        // in Ethiopian cents
+  bank_reference    String
+  payment_date      DateTime
+  note              String?
+  is_adjusted       Boolean    @default(false)
+  adjustment_reason String?
+  recorded_by       String
+  deleted_at        DateTime?
+  teacher           Teacher    @relation(fields: [teacher_id], references: [id])
+  salary_rank       SalaryRank @relation(fields: [salary_rank_id], references: [id])
+  created_at        DateTime   @default(now())
+  updated_at        DateTime   @updatedAt
+
+  @@unique([teacher_id, month, year])
+  @@index([teacher_id])
+  @@index([month, year])
+  @@index([payment_date])
+}
+
+// ── AUDIT LOG ───────────────────────────────────
+
+/// Append-only audit trail — written by DB triggers
+/// No UPDATE or DELETE permitted on this table
+model AuditLog {
+  id           String      @id @default(uuid())
+  table_name   String
+  record_id    String
+  action       AuditAction
+  old_values   Json?
+  new_values   Json?
+  performed_by String?
+  ip_address   String?
+  performed_at DateTime    @default(now())
+  user         User?       @relation(fields: [performed_by], references: [id])
+
+  @@index([table_name])
+  @@index([record_id])
+  @@index([performed_by])
+  @@index([performed_at])
+  @@index([action])
+}

@@ -1,0 +1,51 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
+import { env } from './config/env';
+import authRoutes from './modules/m01-auth/auth.routes';
+import userRoutes from './modules/m01-users/user.routes';
+import medresaRoutes from './modules/m02-medresa/medresa.routes';
+
+const app = express();
+const PORT = env.PORT;
+
+app.use(helmet());
+
+app.use(cors({
+  origin: env.FRONTEND_URL,
+  credentials: true,
+}));
+
+const globalLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 100,
+  message: { success: false, error: { code: 'RATE_LIMITED', message: 'Too many requests' } },
+});
+app.use(globalLimiter);
+
+app.use(express.json());
+app.use(cookieParser());
+
+app.get('/health', (_req, res) => {
+  res.json({ success: true, data: { status: 'ok', timestamp: new Date().toISOString() } });
+});
+
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/medresas', medresaRoutes);
+
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error('[ERROR]', err.message);
+  res.status(500).json({
+    success: false,
+    error: { code: 'INTERNAL_ERROR', message: 'An unexpected error occurred' },
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Sefinet Al Neja backend running on port ${PORT}`);
+});
+
+export default app;

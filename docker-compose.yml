@@ -1,0 +1,118 @@
+# Sefinet Al Neja — Development Docker Compose
+# Services: PostgreSQL + PgBouncer + Backend (hot reload) + MailHog
+# Frontend runs separately: cd frontend && npm run dev
+
+name: sefinet-dev
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: sefinet-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sefinet_db}
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:-sefinet_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:-devpassword123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./sql/rls-policies.sql:/docker-entrypoint-initdb.d/02-rls.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_ADMIN_USER:-sefinet_admin} -d ${POSTGRES_DB:-sefinet_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - sefinet-network
+
+  pgbouncer:
+    image: pgbouncer/pgbouncer:latest
+    container_name: sefinet-pgbouncer-dev
+    restart: unless-stopped
+    environment:
+      DATABASES_HOST: postgres
+      DATABASES_PORT: 5432
+      DATABASES_DBNAME: ${POSTGRES_DB:-sefinet_db}
+      PGBOUNCER_POOL_MODE: transaction
+      PGBOUNCER_MAX_CLIENT_CONN: 100
+      PGBOUNCER_DEFAULT_POOL_SIZE: 20
+      PGBOUNCER_AUTH_TYPE: scram-sha-256
+      PGBOUNCER_AUTH_FILE: /etc/pgbouncer/userlist.txt
+      # Pool and client auth both use the app role (avoids auth_query + SCRAM issues in dev)
+      DATABASES_USER: ${POSTGRES_APP_USER:-sefinet_app}
+      DATABASES_PASSWORD: ${POSTGRES_APP_PASSWORD:-apppassword123}
+    volumes:
+      - ./sql/pgbouncer-userlist.txt:/etc/pgbouncer/userlist.txt:ro
+    ports:
+      - "6432:6432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - sefinet-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: sefinet-backend-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_APP_USER:-sefinet_app}:${POSTGRES_APP_PASSWORD:-apppassword123}@pgbouncer:6432/${POSTGRES_DB:-sefinet_db}
+      DATABASE_ADMIN_URL: postgresql://${POSTGRES_ADMIN_USER:-sefinet_admin}:${POSTGRES_ADMIN_PASSWORD:-devpassword123}@postgres:5432/${POSTGRES_DB:-sefinet_db}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-dev-access-secret-change-in-production}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dev-refresh-secret-change-in-production}
+      JWT_ACCESS_EXPIRY: 15m
+      JWT_REFRESH_EXPIRY: 7d
+      SMTP_HOST: ${SMTP_HOST:-mailhog}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-Sefinet Al Neja <noreply@sefinet.et>}
+      FRONTEND_URL: http://localhost:5173
+      RESET_TOKEN_EXPIRY_HOURS: 1
+      UPLOAD_DIR: /app/uploads
+      TZ: Africa/Addis_Ababa
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      - ./backend/prisma.config.ts:/app/prisma.config.ts
+      - uploads_data:/app/uploads
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      pgbouncer:
+        condition: service_started
+    networks:
+      - sefinet-network
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: sefinet-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - sefinet-network
+
+volumes:
+  postgres_data:
+    name: sefinet-postgres-data
+  uploads_data:
+    name: sefinet-uploads-data
+
+networks:
+  sefinet-network:
+    name: sefinet-network
+    driver: bridge

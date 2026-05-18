@@ -1,0 +1,267 @@
+
+<link rel="stylesheet" href="sefinet_responsive_shared.css">
+
+<style>
+.phone { width: 320px; background: #FAF7F2; border-radius: 32px; border: 6px solid #1D1D1D; overflow: hidden; margin: 0 auto; min-height: 580px; display: flex; flex-direction: column; box-shadow: none; }
+.screen-label { font-size: 11px; color: var(--color-text-tertiary); text-align: center; margin: 0 0 6px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+.screens-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; }
+.geo-header { background: #1D9E75; padding: 28px 20px 20px; position: relative; overflow: hidden; }
+.geo-header svg { position: absolute; top: 0; right: 0; opacity: 0.15; }
+.geo-header-content { position: relative; z-index: 1; }
+.lang-bar { display: flex; justify-content: flex-end; gap: 4px; margin-bottom: 16px; }
+.lang-btn { font-size: 11px; padding: 3px 8px; border-radius: 999px; border: none; cursor: pointer; }
+.lang-btn.active { background: rgba(255,255,255,0.25); color: #fff; font-weight: 500; }
+.lang-btn.inactive { background: transparent; color: rgba(255,255,255,0.6); }
+.app-logo { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.app-name { color: #fff; font-size: 18px; font-weight: 500; margin: 0 0 2px; }
+.app-sub { color: rgba(255,255,255,0.7); font-size: 11px; margin: 0; }
+.form-body { padding: 20px; flex: 1; background: #FAF7F2; }
+.field-label { font-size: 11px; font-weight: 500; color: #0F6E56; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+.field-input { width: 100%; box-sizing: border-box; background: #fff; border: 0.5px solid #9FE1CB; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #222; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+.field-input.focused { border-color: #1D9E75; box-shadow: 0 0 0 3px #E1F5EE; }
+.field-placeholder { color: #aaa; font-size: 14px; }
+.field-value { color: #222; font-size: 14px; }
+.forgot-link { font-size: 12px; color: #1D9E75; text-align: right; margin: -8px 0 16px; display: block; }
+.btn-full { width: 100%; background: #1D9E75; color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; }
+.btn-full-ghost { width: 100%; background: transparent; color: #1D9E75; border: 0.5px solid #9FE1CB; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 500; cursor: pointer; box-sizing: border-box; }
+.divider-text { display: flex; align-items: center; gap: 8px; margin: 16px 0; }
+.divider-text span { font-size: 12px; color: #aaa; }
+.divider-text::before, .divider-text::after { content: ''; flex: 1; height: 0.5px; background: #E0DDD6; }
+.bottom-nav { background: #fff; border-top: 0.5px solid #E0DDD6; display: flex; padding: 8px 0 4px; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nav-label { font-size: 9px; font-weight: 500; }
+.nav-active { color: #1D9E75; }
+.nav-inactive { color: #aaa; }
+.success-box { background: #E1F5EE; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0; }
+.back-link { font-size: 13px; color: #1D9E75; display: flex; align-items: center; gap: 4px; margin-bottom: 16px; }
+.section-title { font-size: 18px; font-weight: 500; color: #085041; margin: 0 0 6px; }
+.section-sub { font-size: 13px; color: #888; margin: 0 0 20px; line-height: 1.5; }
+.pw-strength { display: flex; gap: 4px; margin: -8px 0 14px; }
+.pw-bar { height: 3px; flex: 1; border-radius: 999px; background: #E0DDD6; }
+.pw-bar.filled { background: #1D9E75; }
+</style>
+
+<h2 class="sr-only">Sefinet Al Neja login, forgot password, and reset password screen prototypes — mobile and desktop</h2>
+
+<section class="device-section" aria-labelledby="auth-mobile-heading">
+  <h3 id="auth-mobile-heading" class="device-section-title">Mobile</h3>
+  <p class="device-section-sub">390px viewport · stacked header and form</p>
+  <div class="screens-row">
+
+  <div class="phone-wrap">
+    <p class="screen-label">Login</p>
+    <div class="phone">
+      <div class="geo-header">
+        <svg width="130" height="110" viewBox="0 0 130 110">
+          <g stroke="#fff" stroke-width="0.8" fill="none">
+            <polygon points="100,5 120,17 120,41 100,53 80,41 80,17"/>
+            <polygon points="100,15 114,23 114,35 100,43 86,35 86,23"/>
+            <polygon points="60,30 80,42 80,66 60,78 40,66 40,42"/>
+            <polygon points="120,50 140,62 140,86 120,98 100,86 100,62"/>
+            <polygon points="20,55 40,67 40,91 20,103 0,91 0,67"/>
+          </g>
+        </svg>
+        <div class="geo-header-content">
+          <div class="lang-bar">
+            <button class="lang-btn active">EN</button>
+            <button class="lang-btn inactive">አማ</button>
+            <button class="lang-btn inactive">ع</button>
+          </div>
+          <div class="app-logo"><i class="ti ti-building-mosque" style="font-size:24px;color:#fff" aria-hidden="true"></i></div>
+          <p class="app-name">Sefinet Al Neja</p>
+          <p class="app-sub">Harari Medresa Management · مدرسة الحرري</p>
+        </div>
+      </div>
+      <div class="form-body">
+        <p class="field-label">Phone or email</p>
+        <div class="field-input focused">
+          <span class="field-value">ustaz.ahmed@gmail.com</span>
+          <i class="ti ti-mail" style="font-size:16px;color:#9FE1CB" aria-hidden="true"></i>
+        </div>
+        <p class="field-label">Password</p>
+        <div class="field-input">
+          <span class="field-value">••••••••••</span>
+          <i class="ti ti-eye-off" style="font-size:16px;color:#aaa" aria-hidden="true"></i>
+        </div>
+        <span class="forgot-link">Forgot password?</span>
+        <button class="btn-full">
+          <i class="ti ti-login" aria-hidden="true"></i>Sign in
+        </button>
+        <p style="font-size:11px;color:#aaa;text-align:center;margin:16px 0 0">Sefinet Al Neja v1.0 · Harari, Ethiopia</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <p class="screen-label">Forgot password</p>
+    <div class="phone">
+      <div class="geo-header" style="padding:20px 20px 16px">
+        <svg width="130" height="90" viewBox="0 0 130 90">
+          <g stroke="#fff" stroke-width="0.8" fill="none">
+            <polygon points="100,5 120,17 120,41 100,53 80,41 80,17"/>
+            <polygon points="100,15 114,23 114,35 100,43 86,35 86,23"/>
+            <polygon points="20,20 40,32 40,56 20,68 0,56 0,32"/>
+          </g>
+        </svg>
+        <div class="geo-header-content">
+          <div class="lang-bar">
+            <button class="lang-btn active">EN</button>
+            <button class="lang-btn inactive">አማ</button>
+            <button class="lang-btn inactive">ع</button>
+          </div>
+          <p class="app-name" style="font-size:15px">Reset password</p>
+          <p class="app-sub">Enter your email to receive a reset link</p>
+        </div>
+      </div>
+      <div class="form-body">
+        <span class="back-link"><i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i>Back to login</span>
+        <p class="field-label">Email address</p>
+        <div class="field-input">
+          <span class="field-placeholder">your@email.com</span>
+          <i class="ti ti-mail" style="font-size:16px;color:#aaa" aria-hidden="true"></i>
+        </div>
+        <button class="btn-full" style="margin-bottom:16px">
+          <i class="ti ti-send" aria-hidden="true"></i>Send reset link
+        </button>
+        <div class="success-box" style="display:none">
+          <i class="ti ti-mail-check" style="font-size:32px;color:#1D9E75;margin-bottom:8px;display:block" aria-hidden="true"></i>
+          <p style="font-size:14px;font-weight:500;color:#085041;margin:0 0 4px">Check your inbox</p>
+          <p style="font-size:12px;color:#0F6E56;margin:0">If this email is registered, a reset link has been sent. Check your inbox and spam folder.</p>
+        </div>
+        <p style="font-size:12px;color:#aaa;text-align:center;margin:8px 0 0">The link expires in 1 hour.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <p class="screen-label">Set new password</p>
+    <div class="phone">
+      <div class="geo-header" style="padding:20px 20px 16px">
+        <svg width="130" height="90" viewBox="0 0 130 90">
+          <g stroke="#fff" stroke-width="0.8" fill="none">
+            <polygon points="110,5 130,17 130,41 110,53 90,41 90,17"/>
+            <polygon points="30,10 50,22 50,46 30,58 10,46 10,22"/>
+          </g>
+        </svg>
+        <div class="geo-header-content">
+          <div class="lang-bar">
+            <button class="lang-btn active">EN</button>
+            <button class="lang-btn inactive">አማ</button>
+            <button class="lang-btn inactive">ع</button>
+          </div>
+          <p class="app-name" style="font-size:15px">Set new password</p>
+          <p class="app-sub">Choose a strong password</p>
+        </div>
+      </div>
+      <div class="form-body">
+        <p class="field-label">New password</p>
+        <div class="field-input">
+          <span class="field-value">••••••••••</span>
+          <i class="ti ti-eye" style="font-size:16px;color:#aaa" aria-hidden="true"></i>
+        </div>
+        <div class="pw-strength">
+          <div class="pw-bar filled"></div>
+          <div class="pw-bar filled"></div>
+          <div class="pw-bar filled"></div>
+          <div class="pw-bar"></div>
+        </div>
+        <p class="field-label">Confirm password</p>
+        <div class="field-input" style="margin-bottom:20px">
+          <span class="field-value">••••••••••</span>
+          <i class="ti ti-check" style="font-size:16px;color:#1D9E75" aria-hidden="true"></i>
+        </div>
+        <button class="btn-full">
+          <i class="ti ti-lock-check" aria-hidden="true"></i>Set new password
+        </button>
+        <p style="font-size:11px;color:#aaa;text-align:center;margin:12px 0 0">Min 8 characters required</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</section>
+
+<section class="device-section" aria-labelledby="auth-desktop-heading">
+  <h3 id="auth-desktop-heading" class="device-section-title">Desktop</h3>
+  <p class="device-section-sub">≥768px · split layout: branding panel + centered form (max 360px)</p>
+  <div class="screens-row">
+
+  <div class="desktop-wrap" style="width:100%;max-width:920px">
+    <p class="screen-label">Login</p>
+    <div class="auth-desktop-frame">
+      <div class="auth-desktop-brand">
+        <svg width="200" height="160" viewBox="0 0 200 160" aria-hidden="true"><g stroke="#fff" stroke-width="0.8" fill="none"><polygon points="150,10 170,22 170,46 150,58 130,46 130,22"/><polygon points="80,40 100,52 100,76 80,88 60,76 60,52"/></g></svg>
+        <div class="auth-desktop-brand-content">
+          <div class="lang-bar" style="justify-content:flex-start;margin-bottom:24px">
+            <button class="lang-btn active">EN</button>
+            <button class="lang-btn inactive">አማ</button>
+            <button class="lang-btn inactive">ع</button>
+          </div>
+          <div class="app-logo" style="width:56px;height:56px;margin-bottom:16px"><i class="ti ti-building-mosque" style="font-size:32px;color:#fff" aria-hidden="true"></i></div>
+          <p class="app-name" style="font-size:24px">Sefinet Al Neja</p>
+          <p class="app-sub" style="font-size:13px;margin-top:8px">Harari Medresa Management · مدرسة الحرري</p>
+        </div>
+      </div>
+      <div class="auth-desktop-form">
+        <div class="auth-form-inner">
+          <p class="section-title" style="margin-bottom:20px">Sign in</p>
+          <p class="field-label">Phone or email</p>
+          <div class="field-input focused"><span class="field-value">ustaz.ahmed@gmail.com</span><i class="ti ti-mail" style="font-size:16px;color:#9FE1CB" aria-hidden="true"></i></div>
+          <p class="field-label">Password</p>
+          <div class="field-input"><span class="field-value">••••••••••</span><i class="ti ti-eye-off" style="font-size:16px;color:#aaa" aria-hidden="true"></i></div>
+          <span class="forgot-link">Forgot password?</span>
+          <button class="btn-full"><i class="ti ti-login" aria-hidden="true"></i>Sign in</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="desktop-wrap" style="width:100%;max-width:920px">
+    <p class="screen-label">Forgot password</p>
+    <div class="auth-desktop-frame">
+      <div class="auth-desktop-brand" style="width:38%">
+        <div class="auth-desktop-brand-content">
+          <p class="app-name" style="font-size:20px">Reset password</p>
+          <p class="app-sub" style="font-size:13px;margin-top:8px">We'll email you a secure link</p>
+        </div>
+      </div>
+      <div class="auth-desktop-form">
+        <div class="auth-form-inner">
+          <span class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back to login</span>
+          <p class="section-title">Forgot password</p>
+          <p class="section-sub">Enter your email to receive a reset link</p>
+          <p class="field-label">Email address</p>
+          <div class="field-input"><span class="field-placeholder">your@email.com</span><i class="ti ti-mail" style="font-size:16px;color:#aaa" aria-hidden="true"></i></div>
+          <button class="btn-full"><i class="ti ti-send" aria-hidden="true"></i>Send reset link</button>
+          <p style="font-size:12px;color:#aaa;text-align:center;margin-top:16px">The link expires in 1 hour.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="desktop-wrap" style="width:100%;max-width:920px">
+    <p class="screen-label">Set new password</p>
+    <div class="auth-desktop-frame">
+      <div class="auth-desktop-brand" style="width:38%">
+        <div class="auth-desktop-brand-content">
+          <p class="app-name" style="font-size:20px">Set new password</p>
+          <p class="app-sub" style="font-size:13px;margin-top:8px">Choose a strong password</p>
+        </div>
+      </div>
+      <div class="auth-desktop-form">
+        <div class="auth-form-inner">
+          <p class="section-title">New password</p>
+          <p class="field-label">New password</p>
+          <div class="field-input"><span class="field-value">••••••••••</span><i class="ti ti-eye" style="font-size:16px;color:#aaa" aria-hidden="true"></i></div>
+          <div class="pw-strength"><div class="pw-bar filled"></div><div class="pw-bar filled"></div><div class="pw-bar filled"></div><div class="pw-bar"></div></div>
+          <p class="field-label">Confirm password</p>
+          <div class="field-input"><span class="field-value">••••••••••</span><i class="ti ti-check" style="font-size:16px;color:#1D9E75" aria-hidden="true"></i></div>
+          <button class="btn-full"><i class="ti ti-lock-check" aria-hidden="true"></i>Set new password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</section>

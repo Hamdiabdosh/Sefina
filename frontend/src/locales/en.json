@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "appName": "Sefinet Al Neja",
+    "tagline": "Harari Medresa Management",
+    "taglineAr": "مدرسة الحرري",
+    "phoneOrEmail": "Phone or email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign in",
+    "invalidCredentials": "Invalid credentials. Please try again.",
+    "version": "Sefinet Al Neja v1.0 · Harari, Ethiopia",
+    "resetTitle": "Reset password",
+    "resetSubtitle": "Enter your phone or email to receive a reset link",
+    "email": "Email",
+    "sendResetLink": "Send reset link",
+    "resetSentTitle": "Check your email",
+    "resetSentBody": "If an account exists, we sent a reset link.",
+    "backToLogin": "Back to login",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "setPassword": "Set new password",
+    "passwordUpdated": "Password updated. Redirecting to login...",
+    "resetError": "Reset link is invalid or expired.",
+    "missingToken": "This link is missing or invalid. Request a new one below."
+  }
+}

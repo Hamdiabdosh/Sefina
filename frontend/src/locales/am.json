@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "appName": "Sefinet Al Neja",
+    "tagline": "የሐረሪ ማድረሳ አስተዳደር",
+    "taglineAr": "مدرسة الحرري",
+    "phoneOrEmail": "ስልክ ወይም ኢሜይል",
+    "password": "የይለፍ ቃል",
+    "forgotPassword": "የይለፍ ቃል ረሱ?",
+    "signIn": "ግባ",
+    "invalidCredentials": "ትክክል ያልሆነ መረጃ። እንደገና ይሞክሩ።",
+    "version": "Sefinet Al Neja v1.0 · ሐረር፣ ኢትዮጵያ",
+    "resetTitle": "የይለፍ ቃል ዳግም አስጀምር",
+    "resetSubtitle": "ስልክ ወይም ኢሜይልዎን ያስገቡ ሊንክ እንልክልዎታለን",
+    "email": "ኢሜይል",
+    "sendResetLink": "ሊንክ ላክ",
+    "resetSentTitle": "ኢሜይልዎን ይመልከቱ",
+    "resetSentBody": "መለያ ካለ ማስወሻ ላክን።",
+    "backToLogin": "ወደ መግቢያ ተመለስ",
+    "newPassword": "አዲስ የይለፍ ቃል",
+    "confirmPassword": "የይለፍ ቃል አረጋግጥ",
+    "setPassword": "አዲስ የይለፍ ቃል አስቀምጥ",
+    "passwordUpdated": "የይለፍ ቃል ተዘምኗል። ወደ መግቢያ እንመለሳለን...",
+    "resetError": "ሊንኩ ልክ አይደለም ወይም ጊዜው አልፏል።",
+    "missingToken": "ሊንኩ የለም ወይም ልክ አይደለም። አዲስ ሊንክ ይጠይቁ።"
+  }
+}

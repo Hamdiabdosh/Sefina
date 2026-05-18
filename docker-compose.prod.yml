@@ -1,0 +1,57 @@
+# Sefinet Al Neja — Production Docker Compose
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+name: sefinet-prod
+
+services:
+
+  postgres:
+    container_name: sefinet-postgres
+    ports: []
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD}
+    volumes:
+      - /var/sefinet/postgres:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./sql/rls-policies.sql:/docker-entrypoint-initdb.d/02-rls.sql:ro
+    restart: always
+
+  pgbouncer:
+    container_name: sefinet-pgbouncer
+    ports: []
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
+    container_name: sefinet-backend
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_APP_USER}:${POSTGRES_APP_PASSWORD}@pgbouncer:6432/${POSTGRES_DB}
+      DATABASE_ADMIN_URL: postgresql://${POSTGRES_ADMIN_USER}:${POSTGRES_ADMIN_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_ACCESS_EXPIRY: 15m
+      JWT_REFRESH_EXPIRY: 7d
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+      FRONTEND_URL: ${FRONTEND_URL}
+      RESET_TOKEN_EXPIRY_HOURS: 1
+      UPLOAD_DIR: /app/uploads
+      TZ: Africa/Addis_Ababa
+    volumes:
+      - /var/sefinet/uploads:/app/uploads
+    ports:
+      - "127.0.0.1:4000:4000"
+
+  mailhog:
+    profiles: ["dev-only"]

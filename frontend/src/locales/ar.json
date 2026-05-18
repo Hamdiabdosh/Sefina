@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "appName": "Sefinet Al Neja",
+    "tagline": "إدارة مدارس الحراري",
+    "taglineAr": "مدرسة الحرري",
+    "phoneOrEmail": "الهاتف أو البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "signIn": "تسجيل الدخول",
+    "invalidCredentials": "بيانات الدخول غير صحيحة. حاول مرة أخرى.",
+    "version": "Sefinet Al Neja v1.0 · هرر، إثيوبيا",
+    "resetTitle": "إعادة تعيين كلمة المرور",
+    "resetSubtitle": "أدخل هاتفك أو بريدك الإلكتروني لاستلام رابط إعادة التعيين",
+    "email": "البريد الإلكتروني",
+    "sendResetLink": "إرسال الرابط",
+    "resetSentTitle": "تحقق من بريدك",
+    "resetSentBody": "إذا وُجد حساب، أرسلنا رابط إعادة التعيين.",
+    "backToLogin": "العودة لتسجيل الدخول",
+    "newPassword": "كلمة مرور جديدة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "setPassword": "تعيين كلمة مرور جديدة",
+    "passwordUpdated": "تم تحديث كلمة المرور. جارٍ التحويل...",
+    "resetError": "رابط إعادة التعيين غير صالح أو منتهي.",
+    "missingToken": "الرابط مفقود أو غير صالح. اطلب رابطاً جديداً أدناه."
+  }
+}
