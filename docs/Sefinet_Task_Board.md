@@ -13,11 +13,11 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E0.1 Environment + Bootstrap
 
-- [ ] Backend app bootstrapped (`Express + TypeScript + Prisma`)
-- [ ] Frontend app bootstrapped (`React + Vite + TypeScript`)
-- [ ] Shared `.env.example` and env validation in backend
-- [ ] Local PostgreSQL + migration flow working
-- [ ] Health endpoints for backend + DB readiness
+- [x] Backend app bootstrapped (`Express + TypeScript + Prisma`)
+- [x] Frontend app bootstrapped (`React + Vite + TypeScript`)
+- [x] Shared `.env.example` and env validation in backend
+- [x] Local PostgreSQL + migration flow working
+- [x] Health endpoints for backend + DB readiness
 
 ### E0.2 Shared Standards
 
@@ -36,9 +36,9 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E0 DoD
 
-- [ ] Frontend + backend + DB start locally with one command set
+- [x] Frontend + backend + DB start locally with one command set (`make dev-up`)
 - [ ] CI runs lint/test skeleton for both apps
-- [ ] Architecture docs updated in `README`
+- [x] Architecture docs updated in `README`
 
 ---
 

@@ -13,12 +13,14 @@ A centralized, multi-tenant web + PWA platform for 20+ Islamic schools in Harari
 ## Project Structure
 
 ```
-hmms/
+sefina/
 ├── frontend/          # React + Vite frontend (runs locally in dev)
 ├── backend/           # Express + TypeScript API
 ├── sql/               # DB init, RLS policies, PgBouncer userlist
+├── scripts/           # setup-dev.sh, verify-dev.sh
 ├── docs/              # Feature specs and agent guides
 ├── docker-compose.yml # Dev stack: Postgres, PgBouncer, API, MailHog
+├── Makefile           # make dev-up, dev-verify, dev-reset-db
 ├── .env.example       # Environment template (copy to .env)
 └── README.md
 ```
@@ -35,19 +37,32 @@ hmms/
 
 ## Quick Start (recommended)
 
-This is the standard way to run the system locally: **backend in Docker**, **frontend on your machine**.
+**Backend in Docker**, **frontend on your machine**.
 
-### 1. Configure environment
+### One command (backend + DB + migrate + seed + login check)
 
-From the project root:
+From the project root (requires Docker running):
+
+```bash
+make dev-up
+# or: ./scripts/setup-dev.sh
+```
+
+This copies `.env.example` → `.env` if missing, starts Postgres/PgBouncer/API/MailHog, applies the schema, seeds the Super Admin, and verifies login against the API.
+
+Re-check a running stack: `make dev-verify` or `./scripts/verify-dev.sh`.
+
+### Manual steps (if you prefer)
+
+#### 1. Configure environment
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` if you need custom passwords or secrets. Docker Compose falls back to dev defaults when variables are omitted (see [Dev defaults](#dev-defaults)).
+Dev passwords in `.env.example` match `docker-compose.yml` and `sql/*`. Change them for production (see [Dev defaults](#dev-defaults)).
 
-### 2. Install frontend dependencies
+#### 2. Install frontend dependencies
 
 ```bash
 cd frontend
@@ -55,37 +70,30 @@ npm install
 cd ..
 ```
 
-### 3. Start the backend stack
-
-From the project root:
+#### 3. Start the backend stack
 
 ```bash
-docker compose up -d
-```
-
-Wait until all services are up:
-
-```bash
+docker compose up -d --build
 docker compose ps
 ```
 
-You should see **postgres** (healthy), **pgbouncer**, **backend**, and **mailhog** running.
+You should see **postgres** (healthy), **pgbouncer**, **backend** (healthy), and **mailhog** running.
 
-### 4. Apply database schema (first time, or after schema changes)
+#### 4. Apply database schema (first time, or after schema changes)
 
 ```bash
 docker exec sefinet-backend-dev sh /app/scripts/migrate.sh
 ```
 
-Uses `DATABASE_ADMIN_URL` (direct Postgres, bypasses PgBouncer). If `backend/prisma/migrations/` is empty, this runs `prisma db push` to create tables; otherwise `prisma migrate deploy`.
+Uses `DATABASE_ADMIN_URL` (direct Postgres). If `backend/prisma/migrations/` is empty, runs `prisma db push`; otherwise `prisma migrate deploy`.
 
-### 5. Seed the Super Admin account (first time only)
+#### 5. Seed the Super Admin account (first time only)
 
 ```bash
 docker exec sefinet-backend-dev npm run db:seed
 ```
 
-### 6. Start the frontend
+#### 6. Start the frontend
 
 ```bash
 cd frontend
@@ -112,12 +120,15 @@ You can sign in with **email or phone** as the identifier. After login, Super Ad
 **Start everything**
 
 ```bash
-# From project root — backend + database + mail
+# From project root — backend + database + mail (skip migrate/seed if already set up)
 docker compose up -d
+make dev-verify   # optional smoke test
 
 # From frontend/
 npm run dev
 ```
+
+**Full reset** (wipes database volume): `make dev-reset-db`
 
 **Stop everything**
 

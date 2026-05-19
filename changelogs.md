@@ -4,7 +4,14 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 
 ## [Unreleased]
 
+### Added
+- `make dev-up` / `./scripts/setup-dev.sh` — one-command dev stack: compose up, migrate, seed, login smoke test.
+- `make dev-verify` / `./scripts/verify-dev.sh` — health + login check for a running stack.
+- `make dev-reset-db` — wipe Postgres volume and re-run full setup.
+- Backend container healthcheck in `docker-compose.yml`.
+
 ### Changed
+- `.env.example` dev passwords aligned with `docker-compose.yml`, `sql/init.sql`, and PgBouncer userlist.
 - Rebranded application from **HMMS** to **Sefinet Al Neja** across UI, emails, package names, Docker identifiers, and core documentation.
 - Restored `Sefinet-Agent-Rules.md` (rebuilt from project specs; Local History had no snapshot).
 - Renamed docs to `Sefinet-*` / `sefinet_*` with redirect stubs for legacy `HMMS-*` / `hmms_*` paths.
