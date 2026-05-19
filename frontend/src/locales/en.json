@@ -7,6 +7,10 @@
     "password": "Password",
     "forgotPassword": "Forgot password?",
     "signIn": "Sign in",
+    "orContinueWith": "or continue with",
+    "googleSignInFailed": "Google sign-in failed. Please try again.",
+    "googleAccountNotFound": "No account exists for this Google email. Contact your administrator.",
+    "googleNotConfigured": "Google sign-in is not available right now.",
     "invalidCredentials": "Invalid credentials. Please try again.",
     "version": "Sefinet Al Neja v1.0 · Harari, Ethiopia",
     "resetTitle": "Reset password",
@@ -22,5 +26,86 @@
     "passwordUpdated": "Password updated. Redirecting to login...",
     "resetError": "Reset link is invalid or expired.",
     "missingToken": "This link is missing or invalid. Request a new one below."
+  },
+  "roles": {
+    "teacher": "Teacher",
+    "amir": "Amir",
+    "superAdmin": "Super Admin"
+  },
+  "pending": {
+    "assignHint": "Ask your Super Admin to assign you to a medresa as a teacher or Amir. Then sign in again."
+  },
+  "nav": {
+    "medresas": "Medresas",
+    "teachers": "Teachers",
+    "courses": "Courses",
+    "dashboard": "Dashboard",
+    "pending": "Pending setup"
+  },
+  "courses": {
+    "masterTitle": "Courses",
+    "masterSubtitle": "Network · {{count}} active",
+    "medresaTitle": "Courses",
+    "medresaSubtitle": "{{name}} · {{count}} active",
+    "detailTitle": "Course",
+    "loading": "Loading...",
+    "loadError": "Failed to load courses.",
+    "empty": "No courses found.",
+    "medresaEmpty": "No courses activated yet.",
+    "noMedresaAccess": "You do not have medresa admin access.",
+    "noAvailable": "All master courses are already activated.",
+    "createTitle": "Create course",
+    "editTitle": "Edit course",
+    "deactivateTitle": "Deactivate course?",
+    "deactivateBody": "This hides the course from all medresas. Historical data is preserved.",
+    "activateTitle": "Activate course",
+    "activateCourse": "Activate course",
+    "assignTeacherTitle": "Assign teacher",
+    "assignTeacher": "Assign teacher",
+    "changeTeacher": "Change teacher",
+    "selectTeacher": "Select a teacher",
+    "noTeachersInMedresa": "No teachers assigned to this medresa.",
+    "assignedTeacher": "Assigned teacher",
+    "enrolledStudents": "Enrolled students",
+    "noTeacher": "No teacher assigned",
+    "studentCount": "{{count}} students",
+    "usedBy": "Used by {{count}} medresas",
+    "m05Placeholder": "Student enrollment will be available in M05.",
+    "attendancePlaceholder": "Attendance",
+    "gradesPlaceholder": "Grades",
+    "comingM06": "Available when attendance tracking (M06) is built.",
+    "comingM07": "Available when grades (M07) are built.",
+    "backToList": "Back to courses",
+    "medresaPicker": "Medresa",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "deactivate": "Deactivate",
+    "assign": "Assign",
+    "filter": {
+      "allLevels": "All levels",
+      "allStatus": "All status"
+    },
+    "level": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "form": {
+      "nameEn": "Name (English)",
+      "nameAm": "Name (Amharic, optional)",
+      "nameAr": "Name (Arabic, optional)",
+      "descriptionEn": "Description (English)",
+      "descriptionAm": "Description (Amharic, optional)",
+      "descriptionAr": "Description (Arabic, optional)",
+      "level": "Level",
+      "status": "Status",
+      "teacher": "Teacher"
+    }
   }
 }

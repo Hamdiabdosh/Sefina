@@ -1,8 +1,10 @@
 import { Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 
 export const PendingAccessPage = () => {
+  const { t } = useTranslation();
   const { currentUser } = useCurrentUser();
   const { logout } = useAuth();
 
@@ -16,10 +18,7 @@ export const PendingAccessPage = () => {
         <p className="text-sm text-muted-foreground mb-1">
           Hi {currentUser?.fullName}, your account is active but not linked to a medresa yet.
         </p>
-        <p className="text-sm text-muted-foreground mb-6">
-          Ask your Super Admin to assign you to a medresa as a teacher or admin. Then sign in
-          again.
-        </p>
+        <p className="text-sm text-muted-foreground mb-6">{t('pending.assignHint')}</p>
         <button type="button" onClick={() => logout()} className="btn-secondary">
           Sign out
         </button>

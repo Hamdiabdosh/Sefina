@@ -5,12 +5,21 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 ## [Unreleased]
 
 ### Added
+- **M04: Course Management** — master course catalog (Super Admin), per-medresa activation, teacher-to-course assignment, course detail; APIs at `/api/v1/courses` and `/api/v1/medresas/:medresaId/courses`; UI at `/admin/courses` and `/medresa/courses`.
+- **M03: Teacher Management** — teacher CRUD with auto-linked users, medresa assignments (single + bulk), photo upload, `/teachers/me`, Super Admin UI at `/admin/teachers`.
+- Teacher create: optional initial medresa assignment, temporary password / invite email options; Amir i18n labels for `ADMIN` role (en/am/ar).
+- Teacher detail: resend invite and set temporary password (via retained user account endpoints).
+- **M02 close-out:** PATCH deactivate/reactivate medresa endpoints; Medresa detail page (S09); status-only deactivation (inactive medresas remain visible to Super Admin).
+- `backend/src/lib/medresa-scope.ts` — reusable active-medresa query helper for M03+.
 - `make dev-up` / `./scripts/setup-dev.sh` — one-command dev stack: compose up, migrate, seed, login smoke test.
 - `make dev-verify` / `./scripts/verify-dev.sh` — health + login check for a running stack.
 - `make dev-reset-db` — wipe Postgres volume and re-run full setup.
 - Backend container healthcheck in `docker-compose.yml`.
 
 ### Changed
+- Staff onboarding consolidated under **Teachers** only; removed `/admin/users` screen and `GET`/`POST /api/v1/users`.
+- Auth `medresaRoles` now exclude assignments to inactive medresas (login/refresh/`/me`).
+- Medresa API: removed `DELETE /:id`; use `PATCH /:id/deactivate` and `PATCH /:id/reactivate` instead.
 - `.env.example` dev passwords aligned with `docker-compose.yml`, `sql/init.sql`, and PgBouncer userlist.
 - Rebranded application from **HMMS** to **Sefinet Al Neja** across UI, emails, package names, Docker identifiers, and core documentation.
 - Restored `Sefinet-Agent-Rules.md` (rebuilt from project specs; Local History had no snapshot).

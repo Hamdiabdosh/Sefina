@@ -7,6 +7,9 @@ import { env } from './config/env';
 import authRoutes from './modules/m01-auth/auth.routes';
 import userRoutes from './modules/m01-users/user.routes';
 import medresaRoutes from './modules/m02-medresa/medresa.routes';
+import teacherRoutes from './modules/m03-teacher/teacher.routes';
+import courseRoutes from './modules/m04-course/course.routes';
+import medresaCourseRoutes from './modules/m04-course/medresa-course.routes';
 
 const app = express();
 const PORT = env.PORT;
@@ -51,6 +54,9 @@ app.get('/health', (_req, res) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/medresas', medresaRoutes);
+app.use('/api/v1/teachers', teacherRoutes);
+app.use('/api/v1/courses', courseRoutes);
+app.use('/api/v1/medresas/:medresaId/courses', medresaCourseRoutes);
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('[ERROR]', err.message);

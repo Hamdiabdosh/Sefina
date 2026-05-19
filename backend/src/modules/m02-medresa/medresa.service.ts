@@ -1,3 +1,5 @@
+import { AuditAction } from "../../../prisma/generated/prisma/enums";
+import { auditLog } from "../../lib/audit";
 import { prisma } from "../../lib/prisma";
 import { Status } from "../../../prisma/generated/prisma/enums";
 
@@ -7,26 +9,28 @@ type MedresaInput = {
   phone?: string | null;
 };
 
+const medresaListSelect = {
+  id: true,
+  name: true,
+  location: true,
+  phone: true,
+  status: true,
+  created_at: true,
+  updated_at: true,
+  _count: {
+    select: {
+      students: true,
+      teacher_medresas: true,
+    },
+  },
+} as const;
+
 export const getMedresas = async () => {
   return prisma.medresa.findMany({
     where: {
       deleted_at: null,
     },
-    select: {
-      id: true,
-      name: true,
-      location: true,
-      phone: true,
-      status: true,
-      created_at: true,
-      updated_at: true,
-      _count: {
-        select: {
-          students: true,
-          teacher_medresas: true,
-        },
-      },
-    },
+    select: medresaListSelect,
     orderBy: {
       created_at: "desc",
     },
@@ -34,7 +38,7 @@ export const getMedresas = async () => {
 };
 
 export const getMedresaDetail = async (id: string) => {
-  return prisma.medresa.findUnique({
+  return prisma.medresa.findFirst({
     where: {
       id,
       deleted_at: null,
@@ -110,15 +114,56 @@ export const updateMedresa = async (id: string, data: MedresaInput) => {
   });
 };
 
-export const deleteMedresa = async (id: string) => {
-  return prisma.medresa.update({
-    where: {
-      id,
+export const deactivateMedresa = async (id: string, performedBy: string) => {
+  const existing = await prisma.medresa.findFirst({
+    where: { id, deleted_at: null },
+  });
+
+  if (!existing) return null;
+  if (existing.status === Status.INACTIVE) {
+    return existing;
+  }
+
+  const medresa = await prisma.medresa.update({
+    where: { id },
+    data: { status: Status.INACTIVE },
+    select: medresaListSelect,
+  });
+
+  await auditLog({
+    tableName: "Medresa",
+    recordId: id,
+    action: AuditAction.UPDATE,
+    performedBy,
+    newValues: { event: "DEACTIVATE", status: Status.INACTIVE },
+  });
+
+  return medresa;
+};
+
+export const reactivateMedresa = async (id: string, performedBy: string) => {
+  const existing = await prisma.medresa.findFirst({
+    where: { id },
+  });
+
+  if (!existing) return null;
+
+  const medresa = await prisma.medresa.update({
+    where: { id },
+    data: {
+      status: Status.ACTIVE,
       deleted_at: null,
     },
-    data: {
-      status: Status.INACTIVE,
-      deleted_at: new Date(),
-    },
+    select: medresaListSelect,
   });
+
+  await auditLog({
+    tableName: "Medresa",
+    recordId: id,
+    action: AuditAction.UPDATE,
+    performedBy,
+    newValues: { event: "REACTIVATE", status: Status.ACTIVE },
+  });
+
+  return medresa;
 };

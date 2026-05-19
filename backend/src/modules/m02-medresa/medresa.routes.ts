@@ -4,9 +4,10 @@ import { requireRole } from "../../middleware/role";
 import { validateBody } from "../../middleware/validate";
 import {
   createMedresaHandler,
-  deleteMedresaHandler,
+  deactivateMedresaHandler,
   getMedresaDetailHandler,
   getMedresasHandler,
+  reactivateMedresaHandler,
   updateMedresaHandler,
 } from "./medresa.controller";
 import {
@@ -16,46 +17,28 @@ import {
 
 const medresaRoutes = Router();
 
-// Get all medresas (Super Admin only)
-medresaRoutes.get(
-  "/",
-  requireAuth,
-  requireRole(["super_admin"]),
-  getMedresasHandler
-);
+const superAdminOnly = [requireAuth, requireRole(["super_admin"])] as const;
 
-// Get medresa detail by ID (Super Admin only)
-medresaRoutes.get(
-  "/:id",
-  requireAuth,
-  requireRole(["super_admin"]),
-  getMedresaDetailHandler
-);
+medresaRoutes.get("/", ...superAdminOnly, getMedresasHandler);
 
-// Create new medresa (Super Admin only)
+medresaRoutes.get("/:id", ...superAdminOnly, getMedresaDetailHandler);
+
 medresaRoutes.post(
   "/",
-  requireAuth,
-  requireRole(["super_admin"]),
+  ...superAdminOnly,
   validateBody(createMedresaSchema),
   createMedresaHandler
 );
 
-// Update medresa (Super Admin only)
 medresaRoutes.put(
   "/:id",
-  requireAuth,
-  requireRole(["super_admin"]),
+  ...superAdminOnly,
   validateBody(updateMedresaSchema),
   updateMedresaHandler
 );
 
-// Deactivate medresa (Super Admin only)
-medresaRoutes.delete(
-  "/:id",
-  requireAuth,
-  requireRole(["super_admin"]),
-  deleteMedresaHandler
-);
+medresaRoutes.patch("/:id/deactivate", ...superAdminOnly, deactivateMedresaHandler);
+
+medresaRoutes.patch("/:id/reactivate", ...superAdminOnly, reactivateMedresaHandler);
 
 export default medresaRoutes;

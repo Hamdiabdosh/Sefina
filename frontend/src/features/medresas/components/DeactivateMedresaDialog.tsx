@@ -1,28 +1,28 @@
-import type { UserListItem } from '../types/auth.types';
-import type { useUsers } from '../hooks/useUsers';
+import type { MedresaListItem } from '../types';
+import type { useMedresas } from '../hooks/useMedresas';
 
-type DeactivateUserDialogProps = {
-  user: UserListItem | null;
+type DeactivateMedresaDialogProps = {
+  medresa: MedresaListItem | null;
   onClose: () => void;
-  deactivateUser: ReturnType<typeof useUsers>['deactivateUser'];
-  reactivateUser: ReturnType<typeof useUsers>['reactivateUser'];
+  deactivateMedresa: ReturnType<typeof useMedresas>['deactivateMedresa'];
+  reactivateMedresa: ReturnType<typeof useMedresas>['reactivateMedresa'];
 };
 
-export const DeactivateUserDialog = ({
-  user,
+export const DeactivateMedresaDialog = ({
+  medresa,
   onClose,
-  deactivateUser,
-  reactivateUser,
-}: DeactivateUserDialogProps) => {
-  if (!user) return null;
+  deactivateMedresa,
+  reactivateMedresa,
+}: DeactivateMedresaDialogProps) => {
+  if (!medresa) return null;
 
-  const isActive = user.status === 'ACTIVE';
+  const isActive = medresa.status === 'ACTIVE';
 
   const handleConfirm = () => {
     if (isActive) {
-      deactivateUser.mutate(user.id, { onSuccess: () => onClose() });
+      deactivateMedresa.mutate(medresa.id, { onSuccess: () => onClose() });
     } else {
-      reactivateUser.mutate(user.id, { onSuccess: () => onClose() });
+      reactivateMedresa.mutate(medresa.id, { onSuccess: () => onClose() });
     }
   };
 
@@ -30,12 +30,12 @@ export const DeactivateUserDialog = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="bg-white rounded-xl w-full max-w-sm p-6 shadow-xl">
         <h3 className="text-lg font-medium text-teal-800 mb-2">
-          {isActive ? 'Deactivate user' : 'Reactivate user'}
+          {isActive ? 'Deactivate medresa' : 'Reactivate medresa'}
         </h3>
         <p className="text-sm text-muted-foreground mb-6">
           {isActive
-            ? `Deactivate ${user.fullName}? They will lose all system access immediately. Historical data will be preserved.`
-            : `Reactivate ${user.fullName}? They will be able to sign in again.`}
+            ? `Deactivate ${medresa.name}? It will be hidden from the network. All data will be preserved.`
+            : `Reactivate ${medresa.name}? It will appear in the network again.`}
         </p>
         <div className="flex gap-2">
           <button type="button" onClick={onClose} className="btn-secondary flex-1">
@@ -44,7 +44,7 @@ export const DeactivateUserDialog = ({
           <button
             type="button"
             onClick={handleConfirm}
-            disabled={deactivateUser.isPending || reactivateUser.isPending}
+            disabled={deactivateMedresa.isPending || reactivateMedresa.isPending}
             className={`flex-1 rounded-md py-3 px-5 text-sm font-medium text-white ${
               isActive ? 'bg-danger-text hover:opacity-90' : 'bg-teal-400 hover:bg-teal-600'
             }`}

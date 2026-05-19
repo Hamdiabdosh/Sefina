@@ -3,15 +3,15 @@ import { Building2, Plus, MapPin, Users, GraduationCap, ChevronRight } from "luc
 
 interface MedresaListProps {
   medresas: MedresaListItem[];
+  onAddMedresa: () => void;
   onEditMedresa: (medresa: MedresaListItem) => void;
-  onDeleteMedresa: (id: string) => void;
   onViewMedresa: (medresa: MedresaListItem) => void;
 }
 
 export const MedresaList = ({
   medresas,
+  onAddMedresa,
   onEditMedresa,
-  onDeleteMedresa: _onDeleteMedresa,
   onViewMedresa,
 }: MedresaListProps) => {
   if (medresas.length === 0) {
@@ -22,7 +22,7 @@ export const MedresaList = ({
         </div>
         <h3 className="text-lg font-medium text-teal-800 mb-1">No medresas found</h3>
         <p className="text-sm text-muted-foreground mb-6">Enroll the first medresa in the network</p>
-        <button className="btn-primary w-auto px-6">
+        <button type="button" onClick={onAddMedresa} className="btn-primary w-auto px-6">
           <Plus size={18} />
           Add medresa
         </button>

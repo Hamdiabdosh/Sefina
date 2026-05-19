@@ -7,6 +7,10 @@
     "password": "የይለፍ ቃል",
     "forgotPassword": "የይለፍ ቃል ረሱ?",
     "signIn": "ግባ",
+    "orContinueWith": "ወይም በ",
+    "googleSignInFailed": "በጉግል መግቢያ አልተሳካም። እንደገና ይሞክሩ።",
+    "googleAccountNotFound": "ለዚህ ጉግል ኢሜይል መለያ የለም። አስተዳዳሪዎን ያግኙ።",
+    "googleNotConfigured": "በጉግል መግቢያ አሁን አይገኝም።",
     "invalidCredentials": "ትክክል ያልሆነ መረጃ። እንደገና ይሞክሩ።",
     "version": "Sefinet Al Neja v1.0 · ሐረር፣ ኢትዮጵያ",
     "resetTitle": "የይለፍ ቃል ዳግም አስጀምር",
@@ -22,5 +26,86 @@
     "passwordUpdated": "የይለፍ ቃል ተዘምኗል። ወደ መግቢያ እንመለሳለን...",
     "resetError": "ሊንኩ ልክ አይደለም ወይም ጊዜው አልፏል።",
     "missingToken": "ሊንኩ የለም ወይም ልክ አይደለም። አዲስ ሊንክ ይጠይቁ።"
+  },
+  "roles": {
+    "teacher": "መምህር",
+    "amir": "አሚር",
+    "superAdmin": "ዋና አስተዳዳሪ"
+  },
+  "pending": {
+    "assignHint": "ዋና አስተዳዳሪዎ ወደ ማድረሳ እንደ መምህር ወይም አሚር እንዲያስመድርዎት ይጠይቁ። ከዚያ እንደገና ይግቡ።"
+  },
+  "nav": {
+    "medresas": "ማድረሳዎች",
+    "teachers": "መምህራን",
+    "courses": "ኮርሶች",
+    "dashboard": "ዳሽቦርድ",
+    "pending": "በመጠባበቅ ላይ"
+  },
+  "courses": {
+    "masterTitle": "ኮርሶች",
+    "masterSubtitle": "አውታረ መረብ · {{count}} ንቁ",
+    "medresaTitle": "ኮርሶች",
+    "medresaSubtitle": "{{name}} · {{count}} ንቁ",
+    "detailTitle": "ኮርስ",
+    "loading": "በመጫን ላይ...",
+    "loadError": "ኮርሶችን መጫን አልተሳካም።",
+    "empty": "ኮርስ አልተገኘም።",
+    "medresaEmpty": "ገና ኮርስ አልተነቃም።",
+    "noMedresaAccess": "የማድረሳ አስተዳዳሪ መዳረሻ የለዎትም።",
+    "noAvailable": "ሁሉም የመሠረት ኮርሶች ተነቅተዋል።",
+    "createTitle": "ኮርስ ፍጠር",
+    "editTitle": "ኮርስ አርትዕ",
+    "deactivateTitle": "ኮርሱን ያቦዝኑ?",
+    "deactivateBody": "ከሁሉም ማድረሳዎች ይደበቃል። ታሪካዊ መረጃ ይጠበቃል።",
+    "activateTitle": "ኮርስ አንቃ",
+    "activateCourse": "ኮርስ አንቃ",
+    "assignTeacherTitle": "መምህር አስመድር",
+    "assignTeacher": "መምህር አስመድር",
+    "changeTeacher": "መምህር ቀይር",
+    "selectTeacher": "መምህር ይምረጡ",
+    "noTeachersInMedresa": "ለዚህ ማድረሳ መምህር አልተመደበም።",
+    "assignedTeacher": "የተመደበ መምህር",
+    "enrolledStudents": "የተመዘገቡ ተማሪዎች",
+    "noTeacher": "መምህር አልተመደበም",
+    "studentCount": "{{count}} ተማሪዎች",
+    "usedBy": "{{count}} ማድረሳዎች ተጠቅመዋል",
+    "m05Placeholder": "የተማሪ ምዝገባ በ M05 ይገኛል።",
+    "attendancePlaceholder": "ተገኝነት",
+    "gradesPlaceholder": "ውጤቶች",
+    "comingM06": "ተገኝነት (M06) ሲገነባ ይታያል።",
+    "comingM07": "ውጤቶች (M07) ሲገነባ ይታያል።",
+    "backToList": "ወደ ኮርሶች ተመለስ",
+    "medresaPicker": "ማድረሳ",
+    "save": "አስቀምጥ",
+    "saving": "በመቀመጥ ላይ...",
+    "cancel": "ሰርዝ",
+    "edit": "አርትዕ",
+    "deactivate": "አቦዝን",
+    "assign": "አስመድር",
+    "filter": {
+      "allLevels": "ሁሉም ደረጃዎች",
+      "allStatus": "ሁሉም ሁኔታ"
+    },
+    "level": {
+      "beginner": "ጀማሪ",
+      "intermediate": "መካከለኛ",
+      "advanced": "ላቀ"
+    },
+    "status": {
+      "active": "ንቁ",
+      "inactive": "አልንቁ"
+    },
+    "form": {
+      "nameEn": "ስም (እንግሊዝኛ)",
+      "nameAm": "ስም (አማርኛ፣ አማራጭ)",
+      "nameAr": "ስም (ዓረብኛ፣ አማራጭ)",
+      "descriptionEn": "መግለጫ (እንግሊዝኛ)",
+      "descriptionAm": "መግለጫ (አማርኛ፣ አማራጭ)",
+      "descriptionAr": "መግለጫ (ዓረብኛ፣ አማራጭ)",
+      "level": "ደረጃ",
+      "status": "ሁኔታ",
+      "teacher": "መምህር"
+    }
   }
 }

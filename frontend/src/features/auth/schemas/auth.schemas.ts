@@ -29,116 +29,17 @@ export const resetPasswordSchema = z
     path: ['confirmPassword'],
   });
 
-export const createUserSchema = z
+export const setStaffPasswordSchema = z
   .object({
-    fullName: z.string().min(2, 'Full name is required'),
-    phone: z.string().regex(ethiopianPhoneRegex, 'Use Ethiopian format 09XXXXXXXX or +2519XXXXXXXX'),
-    email: z.string().email('Invalid email'),
-    setTemporaryPassword: z.boolean(),
-    temporaryPassword: z.string().optional(),
-    confirmTemporaryPassword: z.string().optional(),
-    sendInviteEmail: z.boolean(),
+    temporaryPassword: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmTemporaryPassword: z.string().min(8),
   })
-  .superRefine((data, ctx) => {
-    if (!data.setTemporaryPassword) return;
-
-    if (!data.temporaryPassword || data.temporaryPassword.length < 8) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['temporaryPassword'],
-        message: 'Password must be at least 8 characters',
-      });
-    }
-
-    if (data.temporaryPassword !== data.confirmTemporaryPassword) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['confirmTemporaryPassword'],
-        message: 'Passwords do not match',
-      });
-    }
-  });
-
-export const editUserSchema = z
-  .object({
-    fullName: z.string().min(2, 'Full name is required').optional(),
-    phone: z
-      .string()
-      .regex(ethiopianPhoneRegex, 'Use Ethiopian format 09XXXXXXXX or +2519XXXXXXXX')
-      .optional(),
-    email: z.string().email('Invalid email').optional(),
-    setTemporaryPassword: z.boolean(),
-    temporaryPassword: z.string().optional(),
-    confirmTemporaryPassword: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.setTemporaryPassword) return;
-
-    if (!data.temporaryPassword || data.temporaryPassword.length < 8) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['temporaryPassword'],
-        message: 'Password must be at least 8 characters',
-      });
-    }
-
-    if (data.temporaryPassword !== data.confirmTemporaryPassword) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['confirmTemporaryPassword'],
-        message: 'Passwords do not match',
-      });
-    }
+  .refine((data) => data.temporaryPassword === data.confirmTemporaryPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmTemporaryPassword'],
   });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
-export type CreateUserFormValues = z.infer<typeof createUserSchema>;
-export type EditUserFormValues = z.infer<typeof editUserSchema>;
-
-export type CreateUserApiPayload = {
-  fullName: string;
-  phone: string;
-  email: string;
-  temporaryPassword?: string;
-  sendInviteEmail?: boolean;
-};
-
-export type UpdateUserApiPayload = {
-  fullName?: string;
-  phone?: string;
-  email?: string;
-  temporaryPassword?: string;
-};
-
-export const toCreateUserPayload = (data: CreateUserFormValues): CreateUserApiPayload => {
-  const payload: CreateUserApiPayload = {
-    fullName: data.fullName,
-    phone: data.phone,
-    email: data.email,
-  };
-
-  if (data.setTemporaryPassword && data.temporaryPassword) {
-    payload.temporaryPassword = data.temporaryPassword;
-    if (data.sendInviteEmail) {
-      payload.sendInviteEmail = true;
-    }
-  }
-
-  return payload;
-};
-
-export const toUpdateUserPayload = (data: EditUserFormValues): UpdateUserApiPayload => {
-  const payload: UpdateUserApiPayload = {};
-
-  if (data.fullName !== undefined) payload.fullName = data.fullName;
-  if (data.phone !== undefined) payload.phone = data.phone;
-  if (data.email !== undefined) payload.email = data.email;
-
-  if (data.setTemporaryPassword && data.temporaryPassword) {
-    payload.temporaryPassword = data.temporaryPassword;
-  }
-
-  return payload;
-};
+export type SetStaffPasswordFormValues = z.infer<typeof setStaffPasswordSchema>;

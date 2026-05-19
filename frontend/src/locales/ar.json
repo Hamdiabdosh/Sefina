@@ -7,6 +7,10 @@
     "password": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
+    "orContinueWith": "أو تابع باستخدام",
+    "googleSignInFailed": "فشل تسجيل الدخول عبر Google. حاول مرة أخرى.",
+    "googleAccountNotFound": "لا يوجد حساب لهذا البريد من Google. تواصل مع المسؤول.",
+    "googleNotConfigured": "تسجيل الدخول عبر Google غير متاح حالياً.",
     "invalidCredentials": "بيانات الدخول غير صحيحة. حاول مرة أخرى.",
     "version": "Sefinet Al Neja v1.0 · هرر، إثيوبيا",
     "resetTitle": "إعادة تعيين كلمة المرور",
@@ -22,5 +26,86 @@
     "passwordUpdated": "تم تحديث كلمة المرور. جارٍ التحويل...",
     "resetError": "رابط إعادة التعيين غير صالح أو منتهي.",
     "missingToken": "الرابط مفقود أو غير صالح. اطلب رابطاً جديداً أدناه."
+  },
+  "roles": {
+    "teacher": "معلم",
+    "amir": "أمير",
+    "superAdmin": "المسؤول العام"
+  },
+  "pending": {
+    "assignHint": "اطلب من المسؤول العام تعيينك في مدرسة كمعلم أو أمير. ثم سجّل الدخول مرة أخرى."
+  },
+  "nav": {
+    "medresas": "المدارس",
+    "teachers": "المعلمون",
+    "courses": "الدورات",
+    "dashboard": "لوحة التحكم",
+    "pending": "قيد الإعداد"
+  },
+  "courses": {
+    "masterTitle": "الدورات",
+    "masterSubtitle": "الشبكة · {{count}} نشطة",
+    "medresaTitle": "الدورات",
+    "medresaSubtitle": "{{name}} · {{count}} نشطة",
+    "detailTitle": "الدورة",
+    "loading": "جارٍ التحميل...",
+    "loadError": "تعذر تحميل الدورات.",
+    "empty": "لا توجد دورات.",
+    "medresaEmpty": "لم يتم تفعيل أي دورة بعد.",
+    "noMedresaAccess": "ليس لديك صلاحية إدارة مدرسة.",
+    "noAvailable": "جميع الدورات الرئيسية مفعّلة بالفعل.",
+    "createTitle": "إنشاء دورة",
+    "editTitle": "تعديل الدورة",
+    "deactivateTitle": "إلغاء تفعيل الدورة؟",
+    "deactivateBody": "سيُخفى من جميع المدارس. تُحفظ البيانات التاريخية.",
+    "activateTitle": "تفعيل دورة",
+    "activateCourse": "تفعيل دورة",
+    "assignTeacherTitle": "تعيين معلم",
+    "assignTeacher": "تعيين معلم",
+    "changeTeacher": "تغيير المعلم",
+    "selectTeacher": "اختر معلماً",
+    "noTeachersInMedresa": "لا يوجد معلمون معيّنون لهذه المدرسة.",
+    "assignedTeacher": "المعلم المعيّن",
+    "enrolledStudents": "الطلاب المسجلون",
+    "noTeacher": "لا يوجد معلم معيّن",
+    "studentCount": "{{count}} طالب",
+    "usedBy": "تُستخدم في {{count}} مدارس",
+    "m05Placeholder": "تسجيل الطلاب سيتوفر في M05.",
+    "attendancePlaceholder": "الحضور",
+    "gradesPlaceholder": "الدرجات",
+    "comingM06": "يُتاح عند بناء نظام الحضور (M06).",
+    "comingM07": "يُتاح عند بناء الدرجات (M07).",
+    "backToList": "العودة إلى الدورات",
+    "medresaPicker": "المدرسة",
+    "save": "حفظ",
+    "saving": "جارٍ الحفظ...",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "deactivate": "إلغاء التفعيل",
+    "assign": "تعيين",
+    "filter": {
+      "allLevels": "كل المستويات",
+      "allStatus": "كل الحالات"
+    },
+    "level": {
+      "beginner": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدم"
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "form": {
+      "nameEn": "الاسم (إنجليزي)",
+      "nameAm": "الاسم (أمهرية، اختياري)",
+      "nameAr": "الاسم (عربي، اختياري)",
+      "descriptionEn": "الوصف (إنجليزي)",
+      "descriptionAm": "الوصف (أمهرية، اختياري)",
+      "descriptionAr": "الوصف (عربي، اختياري)",
+      "level": "المستوى",
+      "status": "الحالة",
+      "teacher": "المعلم"
+    }
   }
 }

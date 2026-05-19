@@ -1,11 +1,13 @@
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
-import { Building2, Clock, LogOut, User, Users } from 'lucide-react';
+import { BookOpen, Building2, Clock, GraduationCap, LogOut, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useAuth } from '../features/auth/hooks/useAuth';
 import { useCurrentUser } from '../features/auth/hooks/useCurrentUser';
 import { ProfileCard } from '../features/auth/components/ProfileCard';
 
 export const AppShell = () => {
+  const { t } = useTranslation();
   const { currentUser } = useCurrentUser();
   const { logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
@@ -15,14 +17,18 @@ export const AppShell = () => {
 
   const navLinks = currentUser.isSuperAdmin
     ? [
-        { to: '/admin/medresas', label: 'Medresas', icon: Building2 },
-        { to: '/admin/users', label: 'Users', icon: Users },
+        { to: '/admin/medresas', label: t('nav.medresas'), icon: Building2 },
+        { to: '/admin/teachers', label: t('nav.teachers'), icon: GraduationCap },
+        { to: '/admin/courses', label: t('nav.courses'), icon: BookOpen },
       ]
     : currentUser.isMedresaAdmin
-      ? [{ to: '/medresa/dashboard', label: 'Dashboard', icon: Building2 }]
+      ? [
+          { to: '/medresa/dashboard', label: t('nav.dashboard'), icon: Building2 },
+          { to: '/medresa/courses', label: t('nav.courses'), icon: BookOpen },
+        ]
       : currentUser.isTeacher
-        ? [{ to: '/teacher/dashboard', label: 'Dashboard', icon: Building2 }]
-        : [{ to: '/account/pending', label: 'Pending setup', icon: Clock }];
+        ? [{ to: '/teacher/dashboard', label: t('nav.dashboard'), icon: Building2 }]
+        : [{ to: '/account/pending', label: t('nav.pending'), icon: Clock }];
 
   return (
     <div className="min-h-screen bg-cream">

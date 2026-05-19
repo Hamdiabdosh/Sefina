@@ -10,8 +10,13 @@ import { AppShell } from './components/AppShell';
 import { LoginPage } from './features/auth/pages/LoginPage';
 import { ForgotPasswordPage } from './features/auth/pages/ForgotPasswordPage';
 import { ResetPasswordPage } from './features/auth/pages/ResetPasswordPage';
-import { UserManagementPage } from './features/auth/pages/UserManagementPage';
 import { MedresasPage } from './features/medresas/pages/MedresasPage';
+import { MedresaDetailPage } from './features/medresas/pages/MedresaDetailPage';
+import { TeachersPage } from './features/teachers/pages/TeachersPage';
+import { TeacherDetailPage } from './features/teachers/pages/TeacherDetailPage';
+import { CoursesPage } from './features/courses/pages/CoursesPage';
+import { MedresaCoursesPage } from './features/courses/pages/MedresaCoursesPage';
+import { MedresaCourseDetailPage } from './features/courses/pages/MedresaCourseDetailPage';
 import { MedresaDashboardPage } from './pages/MedresaDashboardPage';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { PendingAccessPage } from './features/auth/pages/PendingAccessPage';
@@ -94,14 +99,37 @@ const adminMedresasRoute = createRoute({
   component: MedresasPage,
 });
 
-const adminUsersRoute = createRoute({
+const adminMedresaDetailRoute = createRoute({
   getParentRoute: () => protectedRoute,
-  path: '/admin/users',
+  path: '/admin/medresas/$medresaId',
   beforeLoad: ({ context }) => {
     const user = requireAuth(context.queryClient);
     if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
   },
-  component: UserManagementPage,
+  component: MedresaDetailPage,
+});
+
+const adminTeachersRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/admin/teachers',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
+  },
+  component: TeachersPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+});
+
+const adminTeacherDetailRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/admin/teachers/$teacherId',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
+  },
+  component: TeacherDetailPage,
 });
 
 const pendingAccessRoute = createRoute({
@@ -128,6 +156,46 @@ const medresaDashboardRoute = createRoute({
   component: MedresaDashboardPage,
 });
 
+const adminCoursesRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/admin/courses',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
+  },
+  component: CoursesPage,
+});
+
+const medresaCoursesRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/medresa/courses',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isMedresaAdmin && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: MedresaCoursesPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+});
+
+const medresaCourseDetailRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/medresa/courses/$medresaCourseId',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isMedresaAdmin && !user.isTeacher && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: MedresaCourseDetailPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+});
+
 const teacherDashboardRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/teacher/dashboard',
@@ -147,9 +215,14 @@ const routeTree = rootRoute.addChildren([
   resetPasswordRoute,
   protectedRoute.addChildren([
     adminMedresasRoute,
-    adminUsersRoute,
+    adminMedresaDetailRoute,
+    adminTeachersRoute,
+    adminTeacherDetailRoute,
+    adminCoursesRoute,
     pendingAccessRoute,
     medresaDashboardRoute,
+    medresaCoursesRoute,
+    medresaCourseDetailRoute,
     teacherDashboardRoute,
   ]),
 ]);
