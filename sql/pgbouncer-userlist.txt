@@ -1,1 +1,1 @@
-"sefinet_app" "OPwF2rFyGJU5aW7i4Yw6AQ"
+"sefinet_app" "apppassword123"

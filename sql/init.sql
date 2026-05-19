@@ -5,7 +5,7 @@
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'sefinet_app') THEN
-    CREATE ROLE sefinet_app WITH LOGIN PASSWORD 'OPwF2rFyGJU5aW7i4Yw6AQ';
+    CREATE ROLE sefinet_app WITH LOGIN PASSWORD 'apppassword123';
   END IF;
 END
 $$;
