@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 import { GeometricPattern } from '../../../components/GeometricPattern';
 import { LanguageSwitcher } from '../../../components/LanguageSwitcher';
@@ -89,7 +90,11 @@ export const LoginPage = () => {
 
           {loginError && (
             <p className="text-xs text-danger-text bg-danger-bg p-3 rounded-md mb-4">
-              {t('auth.invalidCredentials')}
+              {isAxiosError(loginError) && !loginError.response
+                ? 'Cannot reach API. Is the backend running on port 4000?'
+                : isAxiosError(loginError) && loginError.response?.status === 429
+                  ? 'Too many attempts. Wait a few minutes and try again.'
+                  : t('auth.invalidCredentials')}
             </p>
           )}
 

@@ -71,13 +71,13 @@ docker compose ps
 
 You should see **postgres** (healthy), **pgbouncer**, **backend**, and **mailhog** running.
 
-### 4. Run database migrations (first time, or after schema changes)
+### 4. Apply database schema (first time, or after schema changes)
 
 ```bash
 docker exec sefinet-backend-dev sh /app/scripts/migrate.sh
 ```
 
-Migrations use `DATABASE_ADMIN_URL` (direct Postgres) so they bypass PgBouncer.
+Uses `DATABASE_ADMIN_URL` (direct Postgres, bypasses PgBouncer). If `backend/prisma/migrations/` is empty, this runs `prisma db push` to create tables; otherwise `prisma migrate deploy`.
 
 ### 5. Seed the Super Admin account (first time only)
 
@@ -98,7 +98,7 @@ Open the URL Vite prints (usually **http://localhost:5173**). If that port is bu
 
 | Field    | Value                        |
 |----------|------------------------------|
-| Email    | `superadmin@sefinet.local`   |
+| Email    | `sefinaalnejah@gmail.com`   |
 | Password | `Admin@12345`                |
 
 You can sign in with **email or phone** as the identifier. After login, Super Admins land on the network dashboard.

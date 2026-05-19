@@ -1,17 +1,22 @@
 #!/bin/sh
-# Sefinet Al Neja — Run Prisma migrations
-# Uses DATABASE_ADMIN_URL for full migration rights
+# Sefinet Al Neja — Apply database schema
+# Uses DATABASE_ADMIN_URL (direct Postgres) for full rights
 
 set -e
 
-echo "Running Prisma migrations..."
 if [ -n "$DATABASE_ADMIN_URL" ]; then
-  DATABASE_URL="$DATABASE_ADMIN_URL" npx prisma migrate deploy
-else
+  export DATABASE_URL="$DATABASE_ADMIN_URL"
+fi
+
+if [ -d prisma/migrations ] && [ -n "$(ls -A prisma/migrations 2>/dev/null)" ]; then
+  echo "Running Prisma migrations..."
   npx prisma migrate deploy
+else
+  echo "No migration files found — syncing schema with prisma db push..."
+  npx prisma db push
 fi
 
 echo "Generating Prisma client..."
 npx prisma generate
 
-echo "Migrations complete."
+echo "Database schema ready."

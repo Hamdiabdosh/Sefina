@@ -65,7 +65,9 @@ services:
     environment:
       NODE_ENV: development
       PORT: 4000
-      DATABASE_URL: postgresql://${POSTGRES_APP_USER:-sefinet_app}:${POSTGRES_APP_PASSWORD:-apppassword123}@pgbouncer:6432/${POSTGRES_DB:-sefinet_db}
+      # Dev: connect Prisma directly to Postgres (PgBouncer transaction mode breaks prepared statements).
+      # PgBouncer stays up on :6432 for manual testing; production uses it via docker-compose.prod.yml.
+      DATABASE_URL: postgresql://${POSTGRES_APP_USER:-sefinet_app}:${POSTGRES_APP_PASSWORD:-apppassword123}@postgres:5432/${POSTGRES_DB:-sefinet_db}
       DATABASE_ADMIN_URL: postgresql://${POSTGRES_ADMIN_USER:-sefinet_admin}:${POSTGRES_ADMIN_PASSWORD:-devpassword123}@postgres:5432/${POSTGRES_DB:-sefinet_db}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-dev-access-secret-change-in-production}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dev-refresh-secret-change-in-production}
@@ -85,6 +87,7 @@ services:
     volumes:
       - ./backend/src:/app/src
       - ./backend/prisma:/app/prisma
+      - ./backend/scripts:/app/scripts
       - ./backend/prisma.config.ts:/app/prisma.config.ts
       - uploads_data:/app/uploads
       - /app/node_modules

@@ -13,8 +13,24 @@ const PORT = env.PORT;
 
 app.use(helmet());
 
+const devOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+];
+
 app.use(cors({
-  origin: env.FRONTEND_URL,
+  origin: (origin, callback) => {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    const allowed =
+      origin === env.FRONTEND_URL ||
+      (env.NODE_ENV !== 'production' && devOrigins.includes(origin));
+    callback(allowed ? null : new Error(`CORS blocked origin: ${origin}`), allowed);
+  },
   credentials: true,
 }));
 

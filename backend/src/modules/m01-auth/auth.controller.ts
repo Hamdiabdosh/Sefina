@@ -16,12 +16,25 @@ import {
   revokeRefreshToken,
 } from "./auth.service";
 
+const safeLogAuthEvent = async (
+  event: string,
+  recordId: string,
+  performedBy: string | null,
+  ip?: string
+): Promise<void> => {
+  try {
+    await logAuthEvent(event, recordId, performedBy, ip);
+  } catch (error) {
+    console.error("[auth] audit log failed:", error);
+  }
+};
+
 export const loginHandler = async (req: Request, res: Response): Promise<void> => {
   const ip = getClientIp(req);
   const result = await login(req.body);
 
   if (!result) {
-    await logAuthEvent("LOGIN_FAILED", req.body.identifier ?? "unknown", null, ip);
+    await safeLogAuthEvent("LOGIN_FAILED", req.body.identifier ?? "unknown", null, ip);
     res.status(401).json({
       success: false,
       error: { code: "INVALID_CREDENTIALS", message: "Invalid email/phone or password" },
@@ -30,7 +43,7 @@ export const loginHandler = async (req: Request, res: Response): Promise<void> =
   }
 
   setRefreshTokenCookie(res, result.refreshToken);
-  await logAuthEvent("LOGIN_SUCCESS", result.user.id, result.user.id, ip);
+  await safeLogAuthEvent("LOGIN_SUCCESS", result.user.id, result.user.id, ip);
 
   res.status(200).json({
     success: true,
