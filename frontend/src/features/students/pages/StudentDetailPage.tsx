@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useMedresaCourses } from '../../courses/hooks/useMedresaCourses';
 import { useCurrentUser } from '../../auth/hooks/useCurrentUser';
@@ -11,6 +12,8 @@ import { EditStudentModal } from '../components/EditStudentModal';
 import { RemoveFromCourseDialog } from '../components/RemoveFromCourseDialog';
 import { StudentAvatar } from '../components/StudentAvatar';
 import { TransferStudentModal } from '../components/TransferStudentModal';
+import { StudentGradesSummary } from '../../grades/components/StudentGradesSummary';
+import { StudentFeesSummary } from '../../fees/components/StudentFeesSummary';
 import { useStudent } from '../hooks/useStudent';
 import type { StudentCourseDetail } from '../types';
 
@@ -39,9 +42,11 @@ export const StudentDetailPage = () => {
     transferStudent,
   } = useStudent(studentId);
 
-  const { courses } = useMedresaCourses(student?.currentMedresaId ?? medresaId, {
-    status: 'ACTIVE',
-  });
+  const { courses } = useMedresaCourses(
+    student?.currentMedresaId ?? medresaId,
+    { status: 'ACTIVE' },
+    { withAvailable: false, withTeachers: false }
+  );
 
   const isMedresaAdmin =
     currentUser?.isSuperAdmin ||
@@ -51,16 +56,19 @@ export const StudentDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('students.detailTitle')} subtitle={t('students.loading')} />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('students.detailTitle')} subtitle={t('students.loading')} />
       </div>
     );
   }
 
   if (error || !student) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-danger-text">
-        {t('students.loadError')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('students.detailTitle')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-danger-text">{t('students.loadError')}</p>
+        </PageBody>
       </div>
     );
   }
@@ -68,8 +76,8 @@ export const StudentDetailPage = () => {
   const enrolledIds = student.courses.map((c) => c.medresaCourseId);
 
   return (
-    <div className="min-h-screen bg-cream pb-12">
-      <PageHeader
+    <div className="flex min-h-0 flex-1 flex-col pb-12">
+      <PageTopBar
         title={student.fullName}
         subtitle={student.currentMedresaName}
         onBack={() =>
@@ -79,7 +87,7 @@ export const StudentDetailPage = () => {
           })
         }
       />
-      <div className="p-4 space-y-4">
+      <PageBody>
         <section className="bg-white rounded-xl border border-cream-dark p-6 flex flex-col items-center">
           <StudentAvatar
             studentId={student.id}
@@ -160,12 +168,18 @@ export const StudentDetailPage = () => {
           </section>
         )}
 
-        <section className="bg-white rounded-xl border border-cream-dark p-4 opacity-60">
-          <h2 className="text-xs font-medium uppercase text-muted-foreground mb-1">
-            {t('students.feesPlaceholder')}
-          </h2>
-          <p className="text-xs text-muted-foreground">{t('students.comingM08')}</p>
-        </section>
+        {isMedresaAdmin || currentUser?.isSuperAdmin ? (
+          <section className="bg-white rounded-xl border border-cream-dark p-4">
+            <h2 className="text-xs font-medium uppercase text-muted-foreground mb-2">
+              {t('students.feesPlaceholder')}
+            </h2>
+            <StudentFeesSummary
+              studentId={student.id}
+              medresaId={student.currentMedresaId}
+              feeStatus={student.feeStatus ?? null}
+            />
+          </section>
+        ) : null}
 
         <section className="bg-white rounded-xl border border-cream-dark p-4 opacity-60">
           <h2 className="text-xs font-medium uppercase text-muted-foreground mb-1">
@@ -174,11 +188,26 @@ export const StudentDetailPage = () => {
           <p className="text-xs text-muted-foreground">{t('students.comingM06')}</p>
         </section>
 
-        <section className="bg-white rounded-xl border border-cream-dark p-4 opacity-60">
-          <h2 className="text-xs font-medium uppercase text-muted-foreground mb-1">
+        <section className="bg-white rounded-xl border border-cream-dark p-4">
+          <h2 className="text-xs font-medium uppercase text-muted-foreground mb-2">
             {t('students.gradesPlaceholder')}
           </h2>
-          <p className="text-xs text-muted-foreground">{t('students.comingM07')}</p>
+          {student ? (
+            <StudentGradesSummary
+              studentId={student.id}
+              resultsLinkTo={
+                currentUser?.isTeacher && !isMedresaAdmin
+                  ? '/teacher/students/$studentId/results'
+                  : '/medresa/students/$studentId/results'
+              }
+              resultsParams={{ studentId: student.id }}
+              resultsSearch={
+                currentUser?.isTeacher && !isMedresaAdmin
+                  ? undefined
+                  : { medresaId: student.currentMedresaId }
+              }
+            />
+          ) : null}
         </section>
 
         {isMedresaAdmin && (
@@ -191,7 +220,7 @@ export const StudentDetailPage = () => {
             </button>
           </div>
         )}
-      </div>
+      </PageBody>
 
       {isMedresaAdmin && (
         <>

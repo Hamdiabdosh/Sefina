@@ -10,7 +10,8 @@ import {
   Phone,
   Users,
 } from 'lucide-react';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { DeactivateMedresaDialog } from '../components/DeactivateMedresaDialog';
 import { EditMedresaModal } from '../components/EditMedresaModal';
 import { useMedresaDetail, useMedresas } from '../hooks/useMedresas';
@@ -46,22 +47,25 @@ export const MedresaDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title="Medresa" subtitle="Loading..." />
-        <div className="p-4 space-y-4">
-          <div className="h-32 bg-white rounded-xl animate-pulse border border-cream-dark" />
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title="Medresa" subtitle="Loading..." />
+        <PageBody>
+          <div className="h-32 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+        </PageBody>
       </div>
     );
   }
 
   if (error || !medresa) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center">
-        <p className="text-danger-text mb-4">Medresa not found.</p>
-        <Link to="/admin/medresas" className="text-teal-600 hover:underline text-sm">
-          Back to medresas
-        </Link>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title="Medresa" subtitle="" />
+        <PageBody>
+          <p className="mb-4 text-center text-danger-text">Medresa not found.</p>
+          <Link to="/admin/medresas" className="block text-center text-sm text-teal-600 hover:underline">
+            Back to medresas
+          </Link>
+        </PageBody>
       </div>
     );
   }
@@ -73,34 +77,33 @@ export const MedresaDetailPage = () => {
   const listItem = toListItem(medresa);
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
-      <div className="px-4 pt-4">
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
+      <div className="shrink-0 px-4 pt-3 md:px-6">
         <Link
           to="/admin/medresas"
-          className="inline-flex items-center gap-1.5 text-sm text-teal-600 hover:underline mb-2"
+          className="inline-flex items-center gap-1.5 text-sm text-teal-600 hover:underline"
         >
           <ArrowLeft size={16} />
           Back
         </Link>
       </div>
-      <PageHeader title={medresa.name} subtitle={medresa.location} />
-
-      <div className="p-4 space-y-6">
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white rounded-xl border border-cream-dark p-4 text-center">
-            <Users className="mx-auto text-teal-400 mb-2" size={20} />
-            <p className="text-2xl font-medium text-teal-800">{studentCount}</p>
-            <p className="text-xs text-muted-foreground">Students</p>
+      <PageTopBar title={medresa.name} subtitle={medresa.location} />
+      <PageBody>
+        <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-xl border border-cream-dark bg-surface p-3 text-center sm:p-4">
+            <Users className="mx-auto mb-1.5 text-teal-400 sm:mb-2" size={20} />
+            <p className="text-xl font-medium text-teal-800 sm:text-2xl">{studentCount}</p>
+            <p className="text-[10px] text-muted-foreground sm:text-xs">Students</p>
           </div>
-          <div className="bg-white rounded-xl border border-cream-dark p-4 text-center">
-            <GraduationCap className="mx-auto text-teal-400 mb-2" size={20} />
-            <p className="text-2xl font-medium text-teal-800">{teacherCount}</p>
-            <p className="text-xs text-muted-foreground">Teachers</p>
+          <div className="rounded-xl border border-cream-dark bg-surface p-3 text-center sm:p-4">
+            <GraduationCap className="mx-auto mb-1.5 text-teal-400 sm:mb-2" size={20} />
+            <p className="text-xl font-medium text-teal-800 sm:text-2xl">{teacherCount}</p>
+            <p className="text-[10px] text-muted-foreground sm:text-xs">Teachers</p>
           </div>
-          <div className="bg-white rounded-xl border border-cream-dark p-4 text-center">
-            <BookOpen className="mx-auto text-teal-400 mb-2" size={20} />
-            <p className="text-2xl font-medium text-teal-800">{courseCount}</p>
-            <p className="text-xs text-muted-foreground">Courses</p>
+          <div className="rounded-xl border border-cream-dark bg-surface p-3 text-center sm:p-4">
+            <BookOpen className="mx-auto mb-1.5 text-teal-400 sm:mb-2" size={20} />
+            <p className="text-xl font-medium text-teal-800 sm:text-2xl">{courseCount}</p>
+            <p className="text-[10px] text-muted-foreground sm:text-xs">Courses</p>
           </div>
         </div>
 
@@ -175,7 +178,7 @@ export const MedresaDetailPage = () => {
             {medresa.status === 'ACTIVE' ? 'Deactivate' : 'Reactivate'}
           </button>
         </div>
-      </div>
+      </PageBody>
 
       <EditMedresaModal
         medresa={showEdit ? listItem : null}

@@ -41,6 +41,19 @@
   --color-input: #ffffff;
   --color-ring: var(--color-teal-400);
 
+  /* App shell — sidebar + main column (see docs/ui-conventions.md) */
+  --color-sidebar: #0f3d2e;
+  --color-sidebar-foreground: #ffffff;
+  --color-sidebar-muted: rgba(255, 255, 255, 0.45);
+  --color-sidebar-border: rgba(255, 255, 255, 0.08);
+  --color-sidebar-hover: rgba(255, 255, 255, 0.05);
+  --color-sidebar-active: rgba(255, 255, 255, 0.1);
+  --color-surface: #ffffff;
+  --color-surface-muted: var(--color-cream);
+  /* Main scroll area uses cream (canvas); cards use surface / white */
+  --color-canvas: var(--color-cream);
+  --color-topbar-border: var(--color-cream-dark);
+
   --font-sans: system-ui, -apple-system, sans-serif;
   --font-arabic: "Noto Naskh Arabic", serif;
 
@@ -79,5 +92,13 @@
 
   .btn-secondary {
     @apply w-full bg-teal-50 text-teal-600 border border-teal-100 rounded-md py-3 px-5 text-sm font-medium hover:bg-teal-100 transition-colors flex items-center justify-center gap-2 cursor-pointer;
+  }
+
+  .btn-primary-inline {
+    @apply inline-flex items-center justify-center gap-1.5 bg-teal-600 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-teal-800 transition-colors border-0 cursor-pointer shrink-0;
+  }
+
+  .btn-ghost-inline {
+    @apply inline-flex items-center justify-center rounded-md px-2 py-1.5 text-sm text-sidebar-foreground/60 hover:bg-sidebar-hover hover:text-sidebar-foreground transition-colors;
   }
 }

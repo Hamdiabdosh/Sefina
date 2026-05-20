@@ -262,11 +262,12 @@ See `docs/Sefinet-Docker-Setup.md` for VPS deployment, secrets, and firewall not
 | 2 | M05 — Student Management | M01–M04 |
 | 3 | M06 — Attendance Tracking | M01–M05 |
 | 3 | M07 — Grades & Results | M01–M05 |
-| 3 | M08 — Fee Management | M01–M05 |
-| 3 | M09 — Salary Management | M01–M03 |
-| 4 | M10 — Reporting & Dashboard | M01–M09 |
+| 3 | M08 — Fee Management | M01–M05 | Done |
+| 3 | M09 — Salary Management | M01–M03 | Done |
+| 4 | M10 — Reporting & Dashboard | M01–M09 | **Next** |
 
-Feature details: `docs/features.md`. Agent prompts: `docs/HMMS-Agent-Prompt-Cards.md`.
+Module docs: `docs/07-grades.md`, `docs/08-fees.md`, `docs/09-salary.md` (M09 plan).  
+Feature details: `docs/features.md`. Agent prompts: `docs/Sefinet-Agent-Prompt-Cards.md`.
 
 ---
 

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { useMedresas } from '../../medresas/hooks/useMedresas';
 import { useNetworkAttendanceOverview } from '../hooks/useAttendance';
 
@@ -25,9 +26,9 @@ export const AdminAttendanceNetworkPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-cream pb-12">
-      <PageHeader title={t('attendance.networkOverview')} subtitle={t('attendance.networkSubtitle')} />
-      <div className="p-4 space-y-4">
+    <div className="flex min-h-0 flex-1 flex-col pb-12">
+      <PageTopBar title={t('attendance.networkOverview')} subtitle={t('attendance.networkSubtitle')} />
+      <PageBody fullWidth className="max-w-none">
         <div className="flex flex-wrap gap-3 items-end">
           <label className="flex flex-col gap-1 text-sm">
             {t('attendance.rangeFrom')}
@@ -99,7 +100,7 @@ export const AdminAttendanceNetworkPage = () => {
             </table>
           </div>
         )}
-      </div>
+      </PageBody>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { useAuth } from '../hooks/useAuth';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 
@@ -9,20 +11,23 @@ export const PendingAccessPage = () => {
   const { logout } = useAuth();
 
   return (
-    <div className="max-w-lg mx-auto p-8">
-      <div className="bg-white rounded-xl border border-cream-dark p-8 text-center shadow-sm">
-        <div className="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center mx-auto mb-4 text-teal-500">
-          <Clock size={28} />
+    <div className="flex min-h-0 flex-1 flex-col">
+      <PageTopBar title="Account pending setup" subtitle={t('pending.assignHint')} />
+      <PageBody>
+        <div className="mx-auto max-w-lg">
+          <div className="rounded-xl border border-cream-dark bg-surface p-8 text-center shadow-sm">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-50 text-teal-500">
+              <Clock size={28} />
+            </div>
+            <p className="mb-6 text-sm text-muted-foreground">
+              Hi {currentUser?.fullName}, your account is active but not linked to a medresa yet.
+            </p>
+            <button type="button" onClick={() => logout()} className="btn-secondary">
+              Sign out
+            </button>
+          </div>
         </div>
-        <h2 className="text-lg font-medium text-teal-800 mb-2">Account pending setup</h2>
-        <p className="text-sm text-muted-foreground mb-1">
-          Hi {currentUser?.fullName}, your account is active but not linked to a medresa yet.
-        </p>
-        <p className="text-sm text-muted-foreground mb-6">{t('pending.assignHint')}</p>
-        <button type="button" onClick={() => logout()} className="btn-secondary">
-          Sign out
-        </button>
-      </div>
+      </PageBody>
     </div>
   );
 };

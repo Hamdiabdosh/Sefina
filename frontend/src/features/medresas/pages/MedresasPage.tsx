@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { Plus, Search } from 'lucide-react';
-import { PageHeader } from '../../../components/PageHeader';
+import { BookOpen, Building2, GraduationCap, Plus, Search, Users } from 'lucide-react';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { StatCard } from '../../../components/ui/StatCard';
 import { useMedresas } from '../hooks/useMedresas';
 import { MedresaList } from '../components/MedresaList';
 import { CreateMedresaModal } from '../components/CreateMedresaModal';
@@ -32,65 +35,117 @@ export const MedresasPage = () => {
   }, [medresas, searchQuery, statusFilter]);
 
   const activeCount = medresas.filter((m) => m.status === 'ACTIVE').length;
+  const inactiveCount = medresas.filter((m) => m.status === 'INACTIVE').length;
+
+  const { totalStudents, totalTeacherSlots } = useMemo(() => {
+    let students = 0;
+    let slots = 0;
+    for (const m of medresas) {
+      students += m._count?.students ?? 0;
+      slots += m._count?.teacher_medresas ?? 0;
+    }
+    return { totalStudents: students, totalTeacherSlots: slots };
+  }, [medresas]);
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title="Medresas" subtitle="Loading network data..." />
-        <div className="p-4 space-y-4">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-32 bg-white rounded-xl animate-pulse border border-cream-dark" />
-          ))}
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title="Medresas" subtitle="Loading network data..." />
+        <PageBody>
+          <div className="space-y-4">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="h-32 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+            ))}
+          </div>
+        </PageBody>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title="Medresas" subtitle="Error loading data" />
-        <div className="p-8 text-center text-danger-text">
-          Failed to load medresas. Please check your connection.
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title="Medresas" subtitle="Error loading data" />
+        <PageBody>
+          <p className="text-center text-danger-text">Failed to load medresas. Please check your connection.</p>
+        </PageBody>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
-      <PageHeader title="Medresas" subtitle={`Network · ${activeCount} active`} />
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
+      <PageTopBar
+        title="Medresas"
+        subtitle={`Network · ${activeCount} active`}
+        actions={
+          <>
+            <div className="relative hidden min-w-[140px] sm:block sm:min-w-[180px]">
+              <input
+                type="text"
+                placeholder="Search medresas..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="field-input h-10 py-2 pl-9 text-sm"
+              />
+              <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
+            </div>
+            <button type="button" className="btn-primary-inline" onClick={() => setShowCreate(true)}>
+              <Plus size={16} />
+              Add medresa
+            </button>
+          </>
+        }
+      />
 
-      <div className="p-4 pt-6">
-        <div className="relative mb-6">
-          <input
-            type="text"
-            placeholder="Search medresas..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="field-input pl-10 h-12"
+      <PageBody>
+        <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <StatCard icon={Building2} value={activeCount} label="Active medresas" tone="green" />
+          <StatCard
+            icon={Users}
+            value={totalStudents}
+            label="Students (reported)"
+            hint={<span className="text-teal-600">Across network</span>}
+            tone="teal"
           />
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-teal-100"
-            size={18}
+          <StatCard
+            icon={GraduationCap}
+            value={totalTeacherSlots}
+            label="Teacher assignments"
+            tone="amber"
+          />
+          <StatCard
+            icon={BookOpen}
+            value={inactiveCount}
+            label="Inactive sites"
+            tone="blue"
           />
         </div>
 
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar">
-          {(['ALL', 'ACTIVE', 'INACTIVE'] as const).map((filter) => (
-            <button
-              key={filter}
-              type="button"
-              onClick={() => setStatusFilter(filter)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap ${
-                statusFilter === filter
-                  ? 'bg-teal-50 text-teal-600 border-teal-100'
-                  : 'text-muted-foreground border-transparent'
-              }`}
-            >
-              {filter === 'ALL' ? 'All' : filter === 'ACTIVE' ? 'Active' : 'Inactive'}
-            </button>
-          ))}
+        <div className="mb-4 sm:hidden">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search medresas..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="field-input h-12 pl-10"
+            />
+            <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
+          </div>
+        </div>
+
+        <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-sm font-medium text-foreground">All institutions</h2>
+          <FilterTabs
+            value={statusFilter}
+            onChange={setStatusFilter}
+            tabs={[
+              { value: 'ALL', label: 'All' },
+              { value: 'ACTIVE', label: 'Active' },
+              { value: 'INACTIVE', label: 'Inactive' },
+            ]}
+          />
         </div>
 
         <MedresaList
@@ -104,12 +159,12 @@ export const MedresasPage = () => {
             })
           }
         />
-      </div>
+      </PageBody>
 
       <button
         type="button"
         onClick={() => setShowCreate(true)}
-        className="fixed bottom-8 right-6 w-14 h-14 bg-teal-400 rounded-full shadow-lg flex items-center justify-center text-white active:scale-90 transition-transform z-20"
+        className="fixed bottom-8 right-6 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-teal-400 text-white shadow-lg transition-transform active:scale-90"
         aria-label="Add medresa"
       >
         <Plus size={28} />

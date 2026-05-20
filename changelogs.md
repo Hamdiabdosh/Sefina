@@ -6,6 +6,36 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 
 ### Added
 
+- **M10: Reporting & Dashboard** — `backend/src/modules/m10-reports/`, `frontend/src/features/reports/`.
+  - **Dashboards:** `GET /api/v1/dashboard/teacher|medresa|super-admin` with KPIs and chart data.
+  - **Reports (R01–R05):** JSON preview endpoints under `/api/v1/reports/*`; client PDF/Excel export.
+  - **UI:** `/teacher/dashboard`, `/medresa/dashboard`, `/admin/dashboard`, role-scoped `/…/reports`.
+  - **Docs:** `docs/10-reporting.md`, `docs/m10-reports-api-tests.md`.
+  - **Verify:** `./scripts/verify-m10-reports-api.sh` or `make dev-verify-m10`.
+- **M09: Salary Management** — `backend/src/modules/m09-salaries/`, `frontend/src/features/salaries/`.
+  - **Super Admin only:** salary ranks (versioned amounts), teacher rank assignment, monthly payments (bank reference required), payment list (PAID/UNPAID), teacher history, network overview.
+  - **Cron:** monthly unpaid-teacher log (1st of month, 06:00 Addis Ababa).
+  - **UI:** `/admin/salaries`, `/admin/salary-ranks`, record payment, teacher salary history; nav **Salary** for Super Admin only.
+  - **Docs:** `docs/09-salary.md`, `docs/m09-salaries-api-tests.md`.
+  - **Verify:** `./scripts/verify-m09-salaries-api.sh` or `make dev-verify-m09`.
+- **M08 finalized** — Epic E8 complete on task board. Deferred: fee PDF export, dashboard KPI widgets, payment void UI (API exists). Full cross-module API regression deferred.
+- **M08: Fee Management** — `backend/src/modules/m08-fees/`, `frontend/src/features/fees/`.
+  - **Fee structure (Super Admin):** versioned network monthly fee (`POST/GET /api/v1/fee-structures`).
+  - **Collection (Amir):** `GET /medresas/:id/fees/collection`, `POST /fee-payments`, student history, medresa/network overviews.
+  - **Rules:** Ethiopian month/year billing, partial payments, carryover balances, teachers blocked (403), Amir cross-medresa denied.
+  - **UI:** `/admin/fee-structure`, `/admin/fees`, `/medresa/fees`, record payment, student fee history; student detail `feeStatus`.
+  - **Docs:** `docs/08-fees.md`, `docs/m08-fees-api-tests.md`.
+  - **Verify:** `./scripts/verify-m08-fees-api.sh` or `make dev-verify-m08`.
+- **M07 finalized** — core + gap closure complete; Epic E7 done on task board. Deferred to M10: results PDF, teacher dashboard grade widgets, approve/reject notifications, academic year/term on grades.
+- **M07 gap closure** — teacher grade edit request UI (S35), student results page with filters (S37), exam type edit (trilingual), medresa/network results tables with teacher column and `useMedresaContext`, class results exam-type filter, expanded `verify-m07-grades-api.sh` (400/403/422), `gradesSummary` on student detail, docs/locale cleanup (`comingM07` removed).
+- **M07: Grades & Results** — `backend/src/modules/m07-grades/`, `frontend/src/features/grades/`.
+  - **Exam types (Super Admin):** `GET/POST/PATCH /api/v1/exam-types`; active weights must sum to 100%.
+  - **Grade entry (Teacher):** `POST /api/v1/grades`, `POST /api/v1/grades/batch`, roster helper; letter grades auto-calculated.
+  - **Edit approval:** `POST /api/v1/grades/:gradeId/edit-requests`, `GET/PATCH /api/v1/grade-edit-requests`.
+  - **Results:** student, course, medresa overview, network overview read APIs.
+  - **UI:** `/admin/exam-types`, `/teacher/grades`, grade entry, edit approval, results overviews; nav + i18n.
+  - **Docs:** `docs/07-grades.md`, `docs/m07-grades-api-tests.md`.
+  - **Verify:** `./scripts/verify-m07-grades-api.sh` or `make dev-verify-m07`.
 - **Frontend: unified app shell** — dark sidebar with sectioned nav, mobile drawer, calm `PageTopBar` / `PageBody` replacing the teal hero header; shared `StatCard`, `FilterTabs`, and `ContentCard`; Super Admin sidebar counts for medresas/teachers. See `docs/ui-conventions.md`.
 - **Frontend: list-page redesigns** — Teachers (grid/list toggle, KPI strip, `TeacherListCard`), Medresas, Students, Courses, dashboards, and attendance screens migrated to the new shell; extended i18n (`en` / `am` / `ar`).
 - **Dev seed dataset** — `npm run db:seed:dev` seeds 5 medresas, 10 teachers (5 medresa admins + 5 ustaz), 3 master courses, 100 students (20 per medresa) with course enrollments; idempotent. Wired into `make dev-up` / `setup-dev.sh`. Verify: `./scripts/verify-seed-dev.sh` or `make dev-verify-seed`. Credentials: `docs/seed-dev-credentials.md`.

@@ -13,11 +13,21 @@ const medresaCoursesKey = (medresaId: string, filters?: Record<string, string>) 
 const medresaCourseDetailKey = (medresaId: string, medresaCourseId: string) =>
   ['medresaCourse', medresaId, medresaCourseId] as const;
 
+export type UseMedresaCoursesOptions = {
+  /** When false, skips GET .../courses/available (admin catalog). Default true. */
+  withAvailable?: boolean;
+  /** When false, skips GET .../courses/teachers. Default true. */
+  withTeachers?: boolean;
+};
+
 export const useMedresaCourses = (
   medresaId: string,
-  filters?: { level?: string; status?: string; teacherId?: string }
+  filters?: { level?: string; status?: string; teacherId?: string },
+  options?: UseMedresaCoursesOptions
 ) => {
   const queryClient = useQueryClient();
+  const withAvailable = options?.withAvailable !== false;
+  const withTeachers = options?.withTeachers !== false;
 
   const listQuery = useQuery<{ items: MedresaCourseListItem[] }>({
     queryKey: medresaCoursesKey(medresaId, filters),
@@ -38,7 +48,7 @@ export const useMedresaCourses = (
       );
       return response.data.data;
     },
-    enabled: Boolean(medresaId),
+    enabled: Boolean(medresaId) && withAvailable,
   });
 
   const teachersQuery = useQuery<{ items: MedresaTeacherOption[] }>({
@@ -49,7 +59,7 @@ export const useMedresaCourses = (
       );
       return response.data.data;
     },
-    enabled: Boolean(medresaId),
+    enabled: Boolean(medresaId) && withTeachers,
   });
 
   const activateCourse = useMutation({

@@ -15,7 +15,24 @@ import studentRoutes from './modules/m05-student/student.routes';
 import teacherStudentRoutes from './modules/m05-student/teacher-student.routes';
 import attendanceRoutes from './modules/m06-attendance/attendance.routes';
 import medresaAttendanceRoutes from './modules/m06-attendance/medresa-attendance.routes';
+import examTypeRoutes from './modules/m07-grades/exam-type.routes';
+import gradeRoutes from './modules/m07-grades/grade.routes';
+import gradeEditRequestRoutes from './modules/m07-grades/grade-edit-request.routes';
+import medresaGradeRoutes from './modules/m07-grades/medresa-grade.routes';
+import medresaCourseGradeRoutes from './modules/m07-grades/medresa-course-grade.routes';
+import resultsRoutes from './modules/m07-grades/results.routes';
+import feeStructureRoutes from './modules/m08-fees/fee-structure.routes';
+import feePaymentRoutes from './modules/m08-fees/fee-payment.routes';
+import medresaFeeRoutes from './modules/m08-fees/medresa-fee.routes';
+import feesOverviewRoutes from './modules/m08-fees/fees-overview.routes';
+import salaryRankRoutes from './modules/m09-salaries/salary-rank.routes';
+import salaryPaymentRoutes from './modules/m09-salaries/salary-payment.routes';
+import salaryTeacherRoutes from './modules/m09-salaries/salary-teacher.routes';
+import salariesOverviewRoutes from './modules/m09-salaries/salaries-overview.routes';
+import dashboardRoutes from './modules/m10-reports/dashboard.routes';
+import reportRoutes from './modules/m10-reports/report.routes';
 import { scheduleAttendanceCron } from './schedulers/attendance-cron';
+import { scheduleSalaryCron } from './schedulers/salary-cron';
 
 const app = express();
 const PORT = env.PORT;
@@ -60,6 +77,7 @@ app.get('/health', (_req, res) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/medresas', medresaRoutes);
+app.use('/api/v1/teachers', salaryTeacherRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
 app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/medresas/:medresaId/courses', medresaCourseRoutes);
@@ -68,6 +86,21 @@ app.use('/api/v1/students', studentRoutes);
 app.use('/api/v1/teacher/students', teacherStudentRoutes);
 app.use('/api/v1/attendance', attendanceRoutes);
 app.use('/api/v1/medresas/:medresaId/attendance', medresaAttendanceRoutes);
+app.use('/api/v1/exam-types', examTypeRoutes);
+app.use('/api/v1/grades', gradeRoutes);
+app.use('/api/v1/grade-edit-requests', gradeEditRequestRoutes);
+app.use('/api/v1/medresas/:medresaId/results', medresaGradeRoutes);
+app.use('/api/v1/medresa-courses', medresaCourseGradeRoutes);
+app.use('/api/v1/results', resultsRoutes);
+app.use('/api/v1/fee-structures', feeStructureRoutes);
+app.use('/api/v1/fee-payments', feePaymentRoutes);
+app.use('/api/v1/medresas/:medresaId/fees', medresaFeeRoutes);
+app.use('/api/v1/fees', feesOverviewRoutes);
+app.use('/api/v1/salary-ranks', salaryRankRoutes);
+app.use('/api/v1/salary-payments', salaryPaymentRoutes);
+app.use('/api/v1/salaries', salariesOverviewRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes);
+app.use('/api/v1/reports', reportRoutes);
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('[ERROR]', err.message);
@@ -80,6 +113,7 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 app.listen(PORT, () => {
   console.log(`Sefinet Al Neja backend running on port ${PORT}`);
   scheduleAttendanceCron();
+  scheduleSalaryCron();
 });
 
 export default app;

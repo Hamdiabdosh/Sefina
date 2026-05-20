@@ -73,7 +73,7 @@ curl -sf "${API_URL}/health" | grep -q '"status":"ok"' || {
 }
 
 echo ""
-echo "1. ustaz06 + Quran course on assigned medresa"
+echo "1. ustaz06 + medresa daily roll"
 
 u6=$(login "ustaz06@sefinet.dev")
 t6=$(json_get "$u6" "d['data']['accessToken']")
@@ -86,43 +86,13 @@ print(row["medresaId"])
 PY
 <<<"$u6")
 
-tid=$(curl -sf "${BASE}/teachers/me" -H "Authorization: Bearer ${t6}" |
-  python3 -c "import json,sys; print(json.load(sys.stdin)['data']['id'])")
-
-courses_json=$(curl -sf "${BASE}/medresas/${medresa_id}/courses?status=ACTIVE&teacherId=${tid}" \
+roster_json=$(curl -sf "${BASE}/attendance/roster?medresaId=${medresa_id}" \
   -H "Authorization: Bearer ${t6}")
+student_id=$(python3 -c "import json,sys; d=json.load(sys.stdin)['data']['items']; assert d; print(d[0]['id'])" <<<"$roster_json")
 
-MC_ID=$(MC_JSON="$courses_json" python3 - <<'PY'
-import json, os
-items = json.loads(os.environ["MC_JSON"])["data"]["items"]
-for c in items:
-    name = c.get("name") or {}
-    en = name.get("en") if isinstance(name, dict) else ""
-    if "Quran Recitation" in str(en):
-        print(c["medresaCourseId"])
-        break
-else:
-    raise SystemExit("no Quran course")
-PY
-)
+echo "   medresa=${medresa_id} student=${student_id:0:8}…"
 
-students_json=$(curl -sf "${BASE}/teacher/students" -H "Authorization: Bearer ${t6}")
-student_id=$(STU_JSON="$students_json" MC_ID="$MC_ID" python3 - <<'PY'
-import json, os
-items = json.loads(os.environ["STU_JSON"])["data"]["items"]
-mc = os.environ["MC_ID"]
-for row in items:
-    for ec in row.get("enrolledCourses") or []:
-        if ec.get("medresaCourseId") == mc:
-            print(row["id"])
-            raise SystemExit(0)
-raise SystemExit("no enrolled student")
-PY
-)
-
-echo "   medresa=$medresa_id course=$MC_ID student=${student_id:0:8}…"
-
-today_json=$(curl -sf "${BASE}/attendance/sessions/today-session?medresaCourseId=${MC_ID}" \
+today_json=$(curl -sf "${BASE}/attendance/sessions/today-session?medresaId=${medresa_id}" \
   -H "Authorization: Bearer ${t6}")
 had=$(python3 -c "import json,sys; print('1' if json.load(sys.stdin)['data']['session'] else '0')" <<<"$today_json")
 
@@ -132,7 +102,7 @@ if [[ "$had" == "0" ]]; then
   body=$(python3 - <<PY
 import json
 print(json.dumps({
-  "medresaCourseId": "$MC_ID",
+  "medresaId": "$medresa_id",
   "date": "$DAY",
   "records": [{"studentId": "$student_id", "status": "PRESENT", "note": "verify-m06"}],
 }))
@@ -153,30 +123,41 @@ else
 fi
 
 echo ""
-echo "3. PATCH session"
+echo "3. PATCH session (teacher)"
 patch_body=$(python3 - <<PY
 import json
-print(json.dumps({"records": [{"studentId": "$student_id", "status": "LATE", "note": "patched"}]}))
+print(json.dumps({"records": [{"studentId": "$student_id", "status": "LATE", "note": "patched-teacher"}]}))
 PY
 )
 code=$(curl -s -o /tmp/m06-patch.json -w "%{http_code}" -X PATCH "${BASE}/attendance/sessions/${sid}" \
   -H "Authorization: Bearer ${t6}" -H "Content-Type: application/json" -d "$patch_body")
-expect_http "$code" "200" "PATCH"
+expect_http "$code" "200" "PATCH teacher"
 
 echo ""
-echo "4. Teacher forbidden on medresa overview"
+echo "4. PATCH session (Amir)"
 a1tok=$(json_get "$(login "admin01@sefinet.dev")" "d['data']['accessToken']")
+patch_amir=$(python3 - <<PY
+import json
+print(json.dumps({"records": [{"studentId": "$student_id", "status": "EXCUSED", "note": "patched-amir"}]}))
+PY
+)
+code=$(curl -s -o /tmp/m06-patch-amir.json -w "%{http_code}" -X PATCH "${BASE}/attendance/sessions/${sid}" \
+  -H "Authorization: Bearer ${a1tok}" -H "Content-Type: application/json" -d "$patch_amir")
+expect_http "$code" "200" "PATCH amir"
+
+echo ""
+echo "5. Teacher forbidden on medresa overview"
 code=$(curl -s -o /tmp/m06-ov403.json -w "%{http_code}" \
   "${BASE}/medresas/${medresa_id}/attendance/overview?date=${DAY}" \
   -H "Authorization: Bearer ${t6}")
 expect_http "$code" "403" "overview as teacher"
 
 echo ""
-echo "5. Future date"
+echo "6. Future date"
 tm=$(tomorrow_et)
 fut_body=$(python3 - <<PY
 import json
-print(json.dumps({"medresaCourseId": "$MC_ID", "date": "$tm", "records": []}))
+print(json.dumps({"medresaId": "$medresa_id", "date": "$tm", "records": []}))
 PY
 )
 code=$(curl -s -o /tmp/m06-fut.json -w "%{http_code}" -X POST "${BASE}/attendance/sessions" \
@@ -185,17 +166,17 @@ expect_http "$code" "400" "future"
 expect_body_code "$(cat /tmp/m06-fut.json)" "ATTENDANCE_FUTURE_DATE" "future code"
 
 echo ""
-echo "6. GET student attendance"
+echo "7. GET student attendance"
 curl -sf "${BASE}/attendance/students/${student_id}" \
   -H "Authorization: Bearer ${t6}" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['success']"
 
 echo ""
-echo "7. Admin medresa overview"
+echo "8. Admin medresa overview"
 curl -sf "${BASE}/medresas/${medresa_id}/attendance/overview?date=${DAY}" \
   -H "Authorization: Bearer ${a1tok}" | grep -q '"success":true'
 
 echo ""
-echo "8. Super Admin network overview"
+echo "9. Super Admin network overview"
 sa=$(login "$SUPER_ADMIN_EMAIL" "$SUPER_ADMIN_PASSWORD")
 st=$(json_get "$sa" "d['data']['accessToken']")
 curl -sf "${BASE}/attendance/network-overview?from=${DAY}&to=${DAY}" \

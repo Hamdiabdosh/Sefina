@@ -6,12 +6,26 @@ import type {
   SessionListItemDTO,
 } from '../types';
 
-export const useTodayAttendanceSession = (medresaCourseId: string, enabled: boolean) =>
+export const attendanceRosterKey = (medresaId: string) => ['attendanceRoster', medresaId] as const;
+
+export const useAttendanceRoster = (medresaId: string, enabled: boolean) =>
+  useQuery<{ items: { id: string; fullName: string }[] }>({
+    queryKey: attendanceRosterKey(medresaId),
+    queryFn: async () => {
+      const res = await axiosInstance.get('/api/v1/attendance/roster', {
+        params: { medresaId },
+      });
+      return res.data.data;
+    },
+    enabled,
+  });
+
+export const useTodayAttendanceSession = (medresaId: string, enabled: boolean) =>
   useQuery<{ session: AttendanceSessionDTO | null }>({
-    queryKey: ['attendanceTodaySession', medresaCourseId],
+    queryKey: ['attendanceTodaySession', medresaId],
     queryFn: async () => {
       const res = await axiosInstance.get('/api/v1/attendance/sessions/today-session', {
-        params: { medresaCourseId },
+        params: { medresaId },
       });
       return res.data.data;
     },
@@ -19,7 +33,7 @@ export const useTodayAttendanceSession = (medresaCourseId: string, enabled: bool
   });
 
 export type CreateSessionBody = {
-  medresaCourseId: string;
+  medresaId: string;
   date: string;
   records: Array<{ studentId: string; status?: AttendanceStatus; note?: string }>;
 };
@@ -32,7 +46,8 @@ export const useCreateAttendanceSession = () => {
       return res.data.data.session as AttendanceSessionDTO;
     },
     onSuccess: (_data, vars) => {
-      void qc.invalidateQueries({ queryKey: ['attendanceTodaySession', vars.medresaCourseId] });
+      void qc.invalidateQueries({ queryKey: ['attendanceTodaySession', vars.medresaId] });
+      void qc.invalidateQueries({ queryKey: attendanceRosterKey(vars.medresaId) });
       void qc.invalidateQueries({ queryKey: ['teacherAttendanceSessions'] });
     },
   });
@@ -40,7 +55,7 @@ export const useCreateAttendanceSession = () => {
 
 export type PatchSessionBody = {
   sessionId: string;
-  medresaCourseId: string;
+  medresaId: string;
   records: Array<{ studentId: string; status?: AttendanceStatus; note?: string | null }>;
 };
 
@@ -54,14 +69,15 @@ export const usePatchAttendanceSession = () => {
       return res.data.data.session as AttendanceSessionDTO;
     },
     onSuccess: (_data, vars) => {
-      void qc.invalidateQueries({ queryKey: ['attendanceTodaySession', vars.medresaCourseId] });
+      void qc.invalidateQueries({ queryKey: ['attendanceTodaySession', vars.medresaId] });
+      void qc.invalidateQueries({ queryKey: attendanceRosterKey(vars.medresaId) });
       void qc.invalidateQueries({ queryKey: ['teacherAttendanceSessions'] });
     },
   });
 };
 
-export const useTeacherAttendanceSessions = (params: {
-  medresaCourseId?: string;
+export const useWriterAttendanceSessions = (params: {
+  medresaId?: string;
   from?: string;
   to?: string;
   enabled?: boolean;
@@ -89,10 +105,9 @@ export const useMedresaAttendanceOverview = (
       return res.data.data as {
         items: Array<{
           sessionId: string;
-          medresaCourseId: string;
-          courseNameEn: string;
-          teacherId: string;
-          teacherName: string;
+          medresaId: string;
+          teacherMarkedAt: string | null;
+          adminMarkedAt: string | null;
           present: number;
           absent: number;
           late: number;

@@ -3,7 +3,7 @@ import { axiosInstance } from '../../../lib/axios';
 import type { MedresaApiPayload } from '../schemas/medresa.schemas';
 import type { MedresaDetail, MedresaListItem } from '../types';
 
-const medresasKey = ['medresas'] as const;
+export const medresasQueryKey = ['medresas'] as const;
 const medresaDetailKey = (id: string) => ['medresa', id] as const;
 
 type UseMedresasOptions = {
@@ -16,7 +16,7 @@ export const useMedresas = (options?: UseMedresasOptions) => {
   const enabled = options?.enabled ?? true;
 
   const { data: medresas = [], isLoading, error } = useQuery<MedresaListItem[]>({
-    queryKey: medresasKey,
+    queryKey: medresasQueryKey,
     queryFn: async () => {
       const response = await axiosInstance.get('/api/v1/medresas');
       return response.data.data;
@@ -30,7 +30,7 @@ export const useMedresas = (options?: UseMedresasOptions) => {
       return response.data.data;
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: medresasKey });
+      void queryClient.invalidateQueries({ queryKey: medresasQueryKey });
     },
   });
 
@@ -40,7 +40,7 @@ export const useMedresas = (options?: UseMedresasOptions) => {
       return response.data.data;
     },
     onSuccess: (_data, { id }) => {
-      void queryClient.invalidateQueries({ queryKey: medresasKey });
+      void queryClient.invalidateQueries({ queryKey: medresasQueryKey });
       void queryClient.invalidateQueries({ queryKey: medresaDetailKey(id) });
     },
   });
@@ -51,7 +51,7 @@ export const useMedresas = (options?: UseMedresasOptions) => {
       return response.data.data;
     },
     onSuccess: (_data, id) => {
-      void queryClient.invalidateQueries({ queryKey: medresasKey });
+      void queryClient.invalidateQueries({ queryKey: medresasQueryKey });
       void queryClient.invalidateQueries({ queryKey: medresaDetailKey(id) });
     },
   });
@@ -62,7 +62,7 @@ export const useMedresas = (options?: UseMedresasOptions) => {
       return response.data.data;
     },
     onSuccess: (_data, id) => {
-      void queryClient.invalidateQueries({ queryKey: medresasKey });
+      void queryClient.invalidateQueries({ queryKey: medresasQueryKey });
       void queryClient.invalidateQueries({ queryKey: medresaDetailKey(id) });
     },
   });

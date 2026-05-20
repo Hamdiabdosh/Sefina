@@ -11,11 +11,13 @@ make dev-verify-m06
 
 Uses:
 
-- **ustaz06@sefinet.dev** — Quran Recitation assignments (password `Teacher@12345`).
-- **admin01@sefinet.dev** — Amir overview smoke.
+- **ustaz06@sefinet.dev** — TEACHER medresa role (password `Teacher@12345`).
+- **admin01@sefinet.dev** — ADMIN (Amir) for PATCH + overview smoke.
 - Super Admin from env **`SUPER_ADMIN_EMAIL`** / **`SUPER_ADMIN_PASSWORD`** (defaults: `seedSuperAdmin.ts` values).
 
 **Auth limits:** reuse existing rate-limit posture; stagger logins like M05 verification if CI hits thresholds.
+
+Apply DB changes: from `backend/` run `npm run prisma:migrate` (or `npx prisma migrate deploy`) after pulling — the migration clears existing attendance rows and restructures `AttendanceSession` to `@@unique([medresa_id, date])`.
 
 ---
 
@@ -24,8 +26,8 @@ Uses:
 | # | Assertion |
 |---|-----------|
 | 1 | Ethiopia “today”: future `POST /attendance/sessions` → `400 ATTENDANCE_FUTURE_DATE` |
-| 2 | First submission `201`; repeat same course+day → `409 ATTENDANCE_DUPLICATE_SESSION` |
-| 3 | `PATCH` accepts same-day tweaks; increments `edited_at` per changed record server-side |
+| 2 | First submission `201` for `(medresaId, date)`; repeat → `409 ATTENDANCE_DUPLICATE_SESSION` |
+| 3 | `PATCH` accepts same-day tweaks from teacher and from Amir; `teacher_marked_at` / `admin_marked_at` updated |
 | 4 | `GET /attendance/students/:id` aggregates counts + chronological entries |
 | 5 | `GET …/medresas/:mid/attendance/overview` Amir → `200` |
 | 6 | `GET …/medresas/:mid/attendance/overview` ustaz JWT → `403 FORBIDDEN` |

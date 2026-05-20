@@ -3,10 +3,11 @@ import type { AttendanceRecord } from "../../../prisma/generated/prisma/client";
 
 export type SessionListItemDTO = {
   id: string;
-  medresaCourseId: string;
   medresaId: string;
   date: string;
   submittedAt: string | null;
+  teacherMarkedAt: string | null;
+  adminMarkedAt: string | null;
   isLocked: boolean;
   counts: Record<AttendanceStatus, number>;
   totalStudents: number;
@@ -31,10 +32,11 @@ export type AttendanceRecordDTO = {
 
 export type AttendanceSessionDetailDTO = {
   id: string;
-  medresaCourseId: string;
   medresaId: string;
   date: string;
   submittedAt: string | null;
+  teacherMarkedAt: string | null;
+  adminMarkedAt: string | null;
   isLocked: boolean;
   records: AttendanceRecordDTO[];
 };
@@ -59,8 +61,8 @@ export type StudentAttendanceSummaryDTO = {
   attendanceRatePct: number;
   entries: {
     date: string;
-    medresaCourseId: string;
-    courseNameEn: string;
+    medresaId: string;
+    medresaName: string;
     status: AttendanceStatus;
     note: string | null;
   }[];

@@ -3,7 +3,8 @@ import { Link, useParams } from '@tanstack/react-router';
 import { ArrowLeft, Mail, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getMedresaRoleLabel } from '../../auth/utils/medresaRoleLabel';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { AssignMedresaModal } from '../components/AssignMedresaModal';
 import { DeactivateTeacherDialog } from '../components/DeactivateTeacherDialog';
 import { EditTeacherModal } from '../components/EditTeacherModal';
@@ -52,19 +53,22 @@ export const TeacherDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title="Teacher" subtitle="Loading..." />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title="Teacher" subtitle="Loading..." />
       </div>
     );
   }
 
   if (error || !teacher) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center">
-        <p className="text-danger-text mb-4">Teacher not found.</p>
-        <Link to="/admin/teachers" search={{ medresaId: undefined }}>
-          Back
-        </Link>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title="Teacher" subtitle="" />
+        <PageBody>
+          <p className="mb-4 text-center text-danger-text">Teacher not found.</p>
+          <Link to="/admin/teachers" search={{ medresaId: undefined }} className="text-center text-teal-600 hover:underline text-sm block">
+            Back
+          </Link>
+        </PageBody>
       </div>
     );
   }
@@ -73,19 +77,19 @@ export const TeacherDetailPage = () => {
   const existingMedresaIds = teacher.medresaAssignments.map((a) => a.medresaId);
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
       <Link
         to="/admin/teachers"
         search={{ medresaId: undefined }}
-        className="inline-flex items-center gap-1.5 text-sm text-teal-600 px-4 pt-4"
+        className="inline-flex items-center gap-1.5 px-4 pt-4 text-sm text-teal-600 md:hidden"
       >
         <ArrowLeft size={16} /> Back
       </Link>
-      <PageHeader
+      <PageTopBar
         title={teacher.fullName}
         subtitle={`${getLocalizedValue(teacher.specialization)} · Since ${formatDate(teacher.dateJoined)}`}
       />
-      <div className="p-4 space-y-6 flex flex-col items-center">
+      <PageBody className="flex flex-col items-center space-y-6">
         <TeacherAvatar
           teacherId={teacher.id}
           name={teacher.fullName}
@@ -186,7 +190,7 @@ export const TeacherDetailPage = () => {
             {teacher.status === 'ACTIVE' ? 'Deactivate' : 'Reactivate'}
           </button>
         </div>
-      </div>
+      </PageBody>
 
       <EditTeacherModal
         teacher={showEdit ? listItem : null}

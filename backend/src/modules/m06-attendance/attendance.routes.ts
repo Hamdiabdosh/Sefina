@@ -1,17 +1,20 @@
 import { Router } from "express";
 import { requireAuth } from "../../middleware/auth";
 import { requireRole } from "../../middleware/role";
+import { requireAttendanceWriter } from "../../middleware/attendance-writer";
 import { validateBody } from "../../middleware/validate";
 import { validateQuery } from "../../middleware/validate-query";
 import {
   createAttendanceSessionHandler,
   getNetworkAttendanceOverviewHandler,
-  getTeacherStudentAttendanceHandler,
-  getTodaySessionForCourseHandler,
-  listTeacherAttendanceSessionsHandler,
+  getViewerStudentAttendanceHandler,
+  getTodaySessionForMedresaHandler,
+  listWriterAttendanceSessionsHandler,
   patchAttendanceSessionHandler,
+  listAttendanceRosterHandler,
 } from "./attendance.controller";
 import {
+  attendanceRosterQuerySchema,
   createAttendanceSessionSchema,
   listAttendanceSessionsQuerySchema,
   networkAttendanceOverviewQuerySchema,
@@ -20,45 +23,42 @@ import {
 
 const attendanceRoutes = Router();
 
-const teacherAttendance = [
-  requireAuth,
-  requireRole(["teacher"]),
-] as const;
+const writerChain = [requireAuth, requireAttendanceWriter] as const;
 
-const superAdminAttendance = [
-  requireAuth,
-  requireRole(["super_admin"]),
-] as const;
+const superAdminAttendance = [requireAuth, requireRole(["super_admin"])] as const;
 
 attendanceRoutes.get(
-  "/students/:studentId",
-  ...teacherAttendance,
-  getTeacherStudentAttendanceHandler
+  "/roster",
+  ...writerChain,
+  validateQuery(attendanceRosterQuerySchema),
+  listAttendanceRosterHandler
 );
+
+attendanceRoutes.get("/students/:studentId", requireAuth, getViewerStudentAttendanceHandler);
 
 attendanceRoutes.get(
   "/sessions/today-session",
-  ...teacherAttendance,
-  getTodaySessionForCourseHandler
+  ...writerChain,
+  getTodaySessionForMedresaHandler
 );
 
 attendanceRoutes.get(
   "/sessions",
-  ...teacherAttendance,
+  ...writerChain,
   validateQuery(listAttendanceSessionsQuerySchema),
-  listTeacherAttendanceSessionsHandler
+  listWriterAttendanceSessionsHandler
 );
 
 attendanceRoutes.post(
   "/sessions",
-  ...teacherAttendance,
+  ...writerChain,
   validateBody(createAttendanceSessionSchema),
   createAttendanceSessionHandler
 );
 
 attendanceRoutes.patch(
   "/sessions/:sessionId",
-  ...teacherAttendance,
+  ...writerChain,
   validateBody(patchAttendanceSessionSchema),
   patchAttendanceSessionHandler
 );

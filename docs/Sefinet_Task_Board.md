@@ -9,6 +9,16 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 - `[x]` Done
 - `[!]` Blocked
 
+## Current focus
+
+| Sprint | Module | Doc |
+|--------|--------|-----|
+| 8 (done) | M08 Fee Management | `docs/08-fees.md` |
+| 9 (done) | M09 Salary Management | `docs/09-salary.md` |
+| **10 (done)** | **M10 Reporting & Dashboard** | `docs/10-reporting.md` |
+
+Project-wide manual API regression (all modules) is scheduled later; use per-module `make dev-verify-m0N` scripts until then.
+
 ## Epic E0: Platform Foundation (Sprint 1)
 
 ### E0.1 Environment + Bootstrap
@@ -190,7 +200,7 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 ### E6.1 Attendance Core
 
 - [x] Attendance schema + migration (Prisma models were pre-provisioned; production DB applied via team migration flow)
-- [x] Mark daily attendance by teacher/course/student
+- [x] Mark daily attendance by medresa/student (single roll per calendar day; ustaz and Amir can both save)
 - [x] Status support (present/absent/late/excused)
 - [x] Duplicate daily entry prevention
 
@@ -216,26 +226,30 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E7.1 Assessments + Grades
 
-- [ ] Grade schema + migration
-- [ ] Assessment type support (quiz/exam/assignment/etc.)
-- [ ] Grade create/update workflow
-- [ ] Grade range + validation rules
+- [x] Grade schema + migration (pre-provisioned; `ExamType`, `Grade`, `GradeEditRequest`)
+- [x] Assessment type support (network `ExamType` catalog)
+- [x] Grade create workflow (teacher batch entry + edit-request approval)
+- [x] Grade range + validation rules (`max_score`, letter auto-calc)
 
 ### E7.2 Aggregation
 
-- [ ] Term/course summary computations
-- [ ] Student result view generation
+- [x] Course summary computations (weighted % per course)
+- [x] Student result view generation (GPA v1 + per-course breakdown)
 
 ### E7.3 UI Delivery
 
-- [ ] Teacher grade entry interface
-- [ ] Gradebook by course/term
-- [ ] Student result view (role-scoped)
+- [x] Teacher grade entry interface (`/teacher/grades`, entry page; exam-type-first flow)
+- [x] Grade edit request UI (S35) + Amir/Super Admin approval queues
+- [x] Gradebook by course (class results + exam-type filter)
+- [x] Student results page (S37) with course/exam filters; summary on student detail
+- [x] Exam type edit (trilingual); medresa/network results tables with teacher column
+- [x] `useMedresaContext` on medresa results; expanded API verify (400/403/422)
 
 ### E7 DoD
 
-- [ ] Only assigned teacher can write grades
-- [ ] Grade summary outputs verified by tests
+- [x] Only assigned teacher can write grades; roster = enrolled students only
+- [x] Grade summary outputs verified by tests (`make dev-verify-m07`)
+- [x] **M07 complete** (gap closure done; PDF/dashboard grade widgets/notifications → M10)
 
 ---
 
@@ -243,53 +257,64 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E8.1 Fee Setup + Tracking
 
-- [ ] Fee schema + migration
-- [ ] Fee obligations generated per student
-- [ ] Payment recording (partial/full)
-- [ ] Outstanding balance calculation
+- [x] Fee schema + migration (pre-provisioned; `FeeStructure`, `FeePayment`, `FeeBalance`)
+- [x] Fee obligations generated per student (enrollment → current Ethiopian month)
+- [x] Payment recording (partial/full)
+- [x] Outstanding balance calculation (`FeeBalance` + carryover on collection)
 
 ### E8.2 Operational Controls
 
-- [ ] Payment method and receipt metadata capture
-- [ ] Reversal/adjustment policy with audit reasons
+- [x] Payment method and receipt metadata capture
+- [x] Reversal/adjustment policy with audit reasons (Super Admin void)
 
 ### E8.3 UI Delivery
 
-- [ ] Fee ledger by student
-- [ ] Payment entry form
-- [ ] Medresa fee status dashboard
+- [x] Fee ledger by student (`/medresa/students/:id/fees`)
+- [x] Payment entry form (`/medresa/fees/record`)
+- [x] Medresa fee collection + network overview dashboards
 
 ### E8 DoD
 
-- [ ] Fee data inaccessible to Teacher role
-- [ ] Cross-medresa fee access denied and tested
+- [x] Fee data inaccessible to Teacher role
+- [x] Cross-medresa fee access denied and tested (`make dev-verify-m08`)
+- [x] Module reference doc: `docs/08-fees.md`, `docs/m08-fees-api-tests.md`
 
 ---
 
 ## Epic E9: M09 Salary Management (Sprint 9)
 
+> **Spec:** `docs/09-salary.md` · **Verify:** `make dev-verify-m09`
+
 ### E9.1 Salary Domain
 
-- [ ] Salary schema + migration
-- [ ] Salary scale configuration
-- [ ] Payroll run record model
-- [ ] Payment history per teacher/medresa
+- [x] Prisma models wired (`SalaryRank`, `TeacherRank`, `SalaryPayment`)
+- [x] Salary rank CRUD + versioned amount (`POST/PATCH /salary-ranks`)
+- [x] Assign rank to teacher (`POST /teachers/:id/rank`, `GET rank-history`)
+- [x] Payment list with PAID/UNPAID for Ethiopian month (`GET /salary-payments`)
+- [x] Record payment (`POST /salary-payments`, unique per teacher/month/year)
+- [x] Teacher salary history + network overview APIs
+- [x] Monthly unpaid-teacher cron (`Africa/Addis_Ababa`)
 
 ### E9.2 Security Hardening
 
-- [ ] Super Admin-only API enforcement
-- [ ] Salary endpoints excluded from non-Super Admin menus/routes
-- [ ] Sensitive actions require elevated confirmation flow
+- [x] `requireSuperAdmin` on every M09 route (403 for Amir + Teacher)
+- [x] Salary endpoints excluded from non–Super Admin menus/routes
+- [x] AuditLog on rank create, rank assign, payment record
+- [x] No salary fields leaked in teacher/student/medresa DTOs
 
 ### E9.3 UI Delivery
 
-- [ ] Salary configuration and payroll screens
-- [ ] Salary history and payment logs
+- [x] S43 Salary rank management (`/admin/salary-ranks`)
+- [x] S44 Assign rank (modal on payment list)
+- [x] S45 Salary payment list (`/admin/salaries`)
+- [x] S46 Record payment (`/admin/salaries/record`)
+- [x] Teacher salary history (`/admin/teachers/$teacherId/salary`)
+- [x] `make dev-verify-m09` + `docs/m09-salaries-api-tests.md`
 
 ### E9 DoD
 
-- [ ] Zero salary visibility to Medresa Admin/Teacher (API + UI)
-- [ ] Salary audit trails complete and queryable
+- [x] Zero salary visibility to Medresa Admin/Teacher (API + UI)
+- [x] Salary audit trails complete and queryable
 
 ---
 
@@ -297,26 +322,26 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E10.1 Dashboards
 
-- [ ] Super Admin network-wide KPI dashboard
-- [ ] Medresa Admin medresa-only dashboard
-- [ ] Teacher class-level dashboard
+- [x] Super Admin network-wide KPI dashboard
+- [x] Medresa Admin medresa-only dashboard
+- [x] Teacher class-level dashboard
 
 ### E10.2 Reporting
 
-- [ ] Enrollment reports
-- [ ] Attendance reports
-- [ ] Grades/performance reports
-- [ ] Fees/salary reports by role permissions
+- [x] Enrollment reports
+- [x] Attendance reports
+- [x] Grades/performance reports
+- [x] Fees/salary reports by role permissions
 
 ### E10.3 Exports
 
-- [ ] PDF export pipeline
-- [ ] Spreadsheet export pipeline
+- [x] PDF export pipeline (client-side jsPDF)
+- [x] Spreadsheet export pipeline (client-side SheetJS)
 
 ### E10 DoD
 
-- [ ] Reports read from existing M01-M09 tables (no new core tables)
-- [ ] Role-scoped report visibility validated
+- [x] Reports read from existing M01-M09 tables (no new core tables)
+- [x] Role-scoped report visibility validated (`make dev-verify-m10`)
 
 ---
 

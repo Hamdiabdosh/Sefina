@@ -1,97 +1,104 @@
-import { Link, Outlet, useRouterState } from '@tanstack/react-router';
-import { BookOpen, Building2, CalendarDays, Clock, GraduationCap, Library, LogOut, User, Users } from 'lucide-react';
+import { Outlet } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import { useAuth } from '../features/auth/hooks/useAuth';
 import { useCurrentUser } from '../features/auth/hooks/useCurrentUser';
 import { ProfileCard } from '../features/auth/components/ProfileCard';
+import { useMedresas } from '../features/medresas/hooks/useMedresas';
+import { useTeachers } from '../features/teachers/hooks/useTeachers';
+import { buildNavSections } from './layout/navConfig';
+import { MobileShellBar, SidebarNavContent, useActivePath } from './layout/SidebarNav';
 
 export const AppShell = () => {
   const { t } = useTranslation();
   const { currentUser } = useCurrentUser();
   const { logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = useActivePath();
+
+  const showAdminData = Boolean(currentUser?.isSuperAdmin);
+
+  const { medresas } = useMedresas({ enabled: showAdminData });
+  const { pagination: teacherPagination } = useTeachers(
+    {},
+    { enabled: showAdminData }
+  );
+
+  const badges = useMemo(
+    () => ({
+      medresas: medresas.length,
+      teachers: teacherPagination?.total ?? 0,
+    }),
+    [medresas.length, teacherPagination?.total]
+  );
 
   if (!currentUser) return null;
 
-  const navLinks = currentUser.isSuperAdmin
-    ? [
-        { to: '/admin/medresas', label: t('nav.medresas'), icon: Building2 },
-        { to: '/admin/teachers', label: t('nav.teachers'), icon: GraduationCap },
-        { to: '/admin/courses', label: t('nav.courseCatalog'), icon: Library },
-        { to: '/admin/attendance', label: t('nav.attendance'), icon: CalendarDays },
-        { to: '/medresa/courses', label: t('nav.medresaCourses'), icon: BookOpen },
-        { to: '/medresa/students', label: t('nav.students'), icon: Users },
-      ]
-    : currentUser.isMedresaAdmin
-      ? [
-          { to: '/medresa/dashboard', label: t('nav.dashboard'), icon: Building2 },
-          { to: '/medresa/courses', label: t('nav.courses'), icon: BookOpen },
-          { to: '/medresa/students', label: t('nav.students'), icon: Users },
-          { to: '/medresa/attendance', label: t('nav.attendance'), icon: CalendarDays },
-        ]
-      : currentUser.isTeacher
-        ? [
-            { to: '/teacher/dashboard', label: t('nav.dashboard'), icon: Building2 },
-            { to: '/teacher/attendance', label: t('nav.attendance'), icon: CalendarDays },
-            { to: '/teacher/students', label: t('nav.students'), icon: Users },
-          ]
-        : [{ to: '/account/pending', label: t('nav.pending'), icon: Clock }];
+  const sections = buildNavSections(currentUser);
+
+  const brandSubtitle = currentUser.isSuperAdmin
+    ? t('nav.brandSuperAdmin')
+    : undefined;
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="bg-white border-b border-cream-dark px-4 py-3 flex items-center justify-between sticky top-0 z-20">
-        <div className="flex items-center gap-4">
-          <span className="font-medium text-teal-800">Sefinet Al Neja</span>
-          <nav className="flex gap-2">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              const active = pathname.startsWith(link.to);
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm ${
-                    active ? 'bg-teal-50 text-teal-600' : 'text-muted-foreground hover:bg-cream-dark'
-                  }`}
-                >
-                  <Icon size={16} />
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-        <div className="flex items-center gap-2">
+    <div className="min-h-dvh bg-canvas">
+      {/* Fixed to viewport on md+ so it does not scroll with the main column */}
+      <aside
+        className="fixed inset-y-0 left-0 z-20 hidden h-dvh w-[220px] shrink-0 flex-col border-r border-sidebar-border md:flex md:flex-col"
+        aria-label="Main navigation"
+      >
+        <SidebarNavContent
+          user={currentUser}
+          sections={sections}
+          badges={badges}
+          pathname={pathname}
+          onOpenProfile={() => setShowProfile(true)}
+          onLogout={logout}
+          brandSubtitle={brandSubtitle}
+        />
+      </aside>
+
+      {mobileOpen ? (
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
           <button
             type="button"
-            onClick={() => setShowProfile((v) => !v)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm hover:bg-cream-dark"
-          >
-            <User size={16} />
-            {currentUser.fullName}
-          </button>
-          <button
-            type="button"
-            onClick={() => logout()}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-md text-sm text-danger-text hover:bg-danger-bg"
-          >
-            <LogOut size={16} />
-            Logout
-          </button>
+            className="absolute inset-0 bg-black/45"
+            aria-label="Close menu"
+            onClick={() => setMobileOpen(false)}
+          />
+          <div className="absolute left-0 top-0 h-full w-[min(280px,85vw)] shadow-xl">
+            <SidebarNavContent
+              user={currentUser}
+              sections={sections}
+              badges={badges}
+              pathname={pathname}
+              onNavigate={() => setMobileOpen(false)}
+              onOpenProfile={() => {
+                setMobileOpen(false);
+                setShowProfile(true);
+              }}
+              onLogout={logout}
+              brandSubtitle={brandSubtitle}
+            />
+          </div>
         </div>
-      </header>
+      ) : null}
+
+      <div className="flex min-h-dvh min-w-0 flex-1 flex-col md:pl-[220px]">
+        <MobileShellBar onOpenMenu={() => setMobileOpen(true)} />
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <Outlet />
+        </div>
+      </div>
 
       {showProfile && (
-        <div className="max-w-lg mx-auto p-4">
-          <ProfileCard user={currentUser} onClose={() => setShowProfile(false)} />
+        <div className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-black/40 p-4 pt-16">
+          <div className="w-full max-w-lg">
+            <ProfileCard user={currentUser} onClose={() => setShowProfile(false)} />
+          </div>
         </div>
       )}
-
-      <main>
-        <Outlet />
-      </main>
     </div>
   );
 };

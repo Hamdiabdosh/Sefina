@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model AttendanceSession
- * One attendance session per course per day
+ * One attendance roll per medresa per Gregorian day (Africa/Addis_Ababa calendar date)
  */
 export type AttendanceSessionModel = runtime.Types.Result.DefaultSelection<Prisma.$AttendanceSessionPayload>
 
@@ -26,10 +26,12 @@ export type AggregateAttendanceSession = {
 
 export type AttendanceSessionMinAggregateOutputType = {
   id: string | null
-  medresa_course_id: string | null
+  medresa_id: string | null
   teacher_id: string | null
   date: Date | null
   submitted_at: Date | null
+  teacher_marked_at: Date | null
+  admin_marked_at: Date | null
   is_locked: boolean | null
   deleted_at: Date | null
   created_at: Date | null
@@ -38,10 +40,12 @@ export type AttendanceSessionMinAggregateOutputType = {
 
 export type AttendanceSessionMaxAggregateOutputType = {
   id: string | null
-  medresa_course_id: string | null
+  medresa_id: string | null
   teacher_id: string | null
   date: Date | null
   submitted_at: Date | null
+  teacher_marked_at: Date | null
+  admin_marked_at: Date | null
   is_locked: boolean | null
   deleted_at: Date | null
   created_at: Date | null
@@ -50,10 +54,12 @@ export type AttendanceSessionMaxAggregateOutputType = {
 
 export type AttendanceSessionCountAggregateOutputType = {
   id: number
-  medresa_course_id: number
+  medresa_id: number
   teacher_id: number
   date: number
   submitted_at: number
+  teacher_marked_at: number
+  admin_marked_at: number
   is_locked: number
   deleted_at: number
   created_at: number
@@ -64,10 +70,12 @@ export type AttendanceSessionCountAggregateOutputType = {
 
 export type AttendanceSessionMinAggregateInputType = {
   id?: true
-  medresa_course_id?: true
+  medresa_id?: true
   teacher_id?: true
   date?: true
   submitted_at?: true
+  teacher_marked_at?: true
+  admin_marked_at?: true
   is_locked?: true
   deleted_at?: true
   created_at?: true
@@ -76,10 +84,12 @@ export type AttendanceSessionMinAggregateInputType = {
 
 export type AttendanceSessionMaxAggregateInputType = {
   id?: true
-  medresa_course_id?: true
+  medresa_id?: true
   teacher_id?: true
   date?: true
   submitted_at?: true
+  teacher_marked_at?: true
+  admin_marked_at?: true
   is_locked?: true
   deleted_at?: true
   created_at?: true
@@ -88,10 +98,12 @@ export type AttendanceSessionMaxAggregateInputType = {
 
 export type AttendanceSessionCountAggregateInputType = {
   id?: true
-  medresa_course_id?: true
+  medresa_id?: true
   teacher_id?: true
   date?: true
   submitted_at?: true
+  teacher_marked_at?: true
+  admin_marked_at?: true
   is_locked?: true
   deleted_at?: true
   created_at?: true
@@ -173,10 +185,12 @@ export type AttendanceSessionGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type AttendanceSessionGroupByOutputType = {
   id: string
-  medresa_course_id: string
-  teacher_id: string
+  medresa_id: string
+  teacher_id: string | null
   date: Date
   submitted_at: Date | null
+  teacher_marked_at: Date | null
+  admin_marked_at: Date | null
   is_locked: boolean
   deleted_at: Date | null
   created_at: Date
@@ -206,59 +220,67 @@ export type AttendanceSessionWhereInput = {
   OR?: Prisma.AttendanceSessionWhereInput[]
   NOT?: Prisma.AttendanceSessionWhereInput | Prisma.AttendanceSessionWhereInput[]
   id?: Prisma.StringFilter<"AttendanceSession"> | string
-  medresa_course_id?: Prisma.StringFilter<"AttendanceSession"> | string
-  teacher_id?: Prisma.StringFilter<"AttendanceSession"> | string
+  medresa_id?: Prisma.StringFilter<"AttendanceSession"> | string
+  teacher_id?: Prisma.StringNullableFilter<"AttendanceSession"> | string | null
   date?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
   submitted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  teacher_marked_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  admin_marked_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
   is_locked?: Prisma.BoolFilter<"AttendanceSession"> | boolean
   deleted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
-  medresa_course?: Prisma.XOR<Prisma.MedresaCourseScalarRelationFilter, Prisma.MedresaCourseWhereInput>
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
+  medresa?: Prisma.XOR<Prisma.MedresaScalarRelationFilter, Prisma.MedresaWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
   records?: Prisma.AttendanceRecordListRelationFilter
 }
 
 export type AttendanceSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  medresa_course_id?: Prisma.SortOrder
-  teacher_id?: Prisma.SortOrder
+  medresa_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   submitted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  teacher_marked_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  admin_marked_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_locked?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  medresa_course?: Prisma.MedresaCourseOrderByWithRelationInput
+  medresa?: Prisma.MedresaOrderByWithRelationInput
   teacher?: Prisma.TeacherOrderByWithRelationInput
   records?: Prisma.AttendanceRecordOrderByRelationAggregateInput
 }
 
 export type AttendanceSessionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  medresa_course_id_date?: Prisma.AttendanceSessionMedresa_course_idDateCompoundUniqueInput
+  medresa_id_date?: Prisma.AttendanceSessionMedresa_idDateCompoundUniqueInput
   AND?: Prisma.AttendanceSessionWhereInput | Prisma.AttendanceSessionWhereInput[]
   OR?: Prisma.AttendanceSessionWhereInput[]
   NOT?: Prisma.AttendanceSessionWhereInput | Prisma.AttendanceSessionWhereInput[]
-  medresa_course_id?: Prisma.StringFilter<"AttendanceSession"> | string
-  teacher_id?: Prisma.StringFilter<"AttendanceSession"> | string
+  medresa_id?: Prisma.StringFilter<"AttendanceSession"> | string
+  teacher_id?: Prisma.StringNullableFilter<"AttendanceSession"> | string | null
   date?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
   submitted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  teacher_marked_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  admin_marked_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
   is_locked?: Prisma.BoolFilter<"AttendanceSession"> | boolean
   deleted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
-  medresa_course?: Prisma.XOR<Prisma.MedresaCourseScalarRelationFilter, Prisma.MedresaCourseWhereInput>
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
+  medresa?: Prisma.XOR<Prisma.MedresaScalarRelationFilter, Prisma.MedresaWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
   records?: Prisma.AttendanceRecordListRelationFilter
-}, "id" | "medresa_course_id_date">
+}, "id" | "medresa_id_date">
 
 export type AttendanceSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  medresa_course_id?: Prisma.SortOrder
-  teacher_id?: Prisma.SortOrder
+  medresa_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   submitted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  teacher_marked_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  admin_marked_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_locked?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -273,10 +295,12 @@ export type AttendanceSessionScalarWhereWithAggregatesInput = {
   OR?: Prisma.AttendanceSessionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AttendanceSessionScalarWhereWithAggregatesInput | Prisma.AttendanceSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"AttendanceSession"> | string
-  medresa_course_id?: Prisma.StringWithAggregatesFilter<"AttendanceSession"> | string
-  teacher_id?: Prisma.StringWithAggregatesFilter<"AttendanceSession"> | string
+  medresa_id?: Prisma.StringWithAggregatesFilter<"AttendanceSession"> | string
+  teacher_id?: Prisma.StringNullableWithAggregatesFilter<"AttendanceSession"> | string | null
   date?: Prisma.DateTimeWithAggregatesFilter<"AttendanceSession"> | Date | string
   submitted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AttendanceSession"> | Date | string | null
+  teacher_marked_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AttendanceSession"> | Date | string | null
+  admin_marked_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AttendanceSession"> | Date | string | null
   is_locked?: Prisma.BoolWithAggregatesFilter<"AttendanceSession"> | boolean
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AttendanceSession"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"AttendanceSession"> | Date | string
@@ -287,21 +311,25 @@ export type AttendanceSessionCreateInput = {
   id?: string
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  medresa_course: Prisma.MedresaCourseCreateNestedOneWithoutAttendance_sessionsInput
-  teacher: Prisma.TeacherCreateNestedOneWithoutAttendance_sessionsInput
+  medresa: Prisma.MedresaCreateNestedOneWithoutAttendance_sessionsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutAttendance_sessionsInput
   records?: Prisma.AttendanceRecordCreateNestedManyWithoutSessionInput
 }
 
 export type AttendanceSessionUncheckedCreateInput = {
   id?: string
-  medresa_course_id: string
-  teacher_id: string
+  medresa_id: string
+  teacher_id?: string | null
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -313,21 +341,25 @@ export type AttendanceSessionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  medresa_course?: Prisma.MedresaCourseUpdateOneRequiredWithoutAttendance_sessionsNestedInput
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutAttendance_sessionsNestedInput
+  medresa?: Prisma.MedresaUpdateOneRequiredWithoutAttendance_sessionsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutAttendance_sessionsNestedInput
   records?: Prisma.AttendanceRecordUpdateManyWithoutSessionNestedInput
 }
 
 export type AttendanceSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  medresa_course_id?: Prisma.StringFieldUpdateOperationsInput | string
-  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
+  medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -337,10 +369,12 @@ export type AttendanceSessionUncheckedUpdateInput = {
 
 export type AttendanceSessionCreateManyInput = {
   id?: string
-  medresa_course_id: string
-  teacher_id: string
+  medresa_id: string
+  teacher_id?: string | null
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -351,6 +385,8 @@ export type AttendanceSessionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -359,10 +395,12 @@ export type AttendanceSessionUpdateManyMutationInput = {
 
 export type AttendanceSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  medresa_course_id?: Prisma.StringFieldUpdateOperationsInput | string
-  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
+  medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -379,17 +417,19 @@ export type AttendanceSessionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type AttendanceSessionMedresa_course_idDateCompoundUniqueInput = {
-  medresa_course_id: string
+export type AttendanceSessionMedresa_idDateCompoundUniqueInput = {
+  medresa_id: string
   date: Date | string
 }
 
 export type AttendanceSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  medresa_course_id?: Prisma.SortOrder
+  medresa_id?: Prisma.SortOrder
   teacher_id?: Prisma.SortOrder
   date?: Prisma.SortOrder
   submitted_at?: Prisma.SortOrder
+  teacher_marked_at?: Prisma.SortOrder
+  admin_marked_at?: Prisma.SortOrder
   is_locked?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -398,10 +438,12 @@ export type AttendanceSessionCountOrderByAggregateInput = {
 
 export type AttendanceSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  medresa_course_id?: Prisma.SortOrder
+  medresa_id?: Prisma.SortOrder
   teacher_id?: Prisma.SortOrder
   date?: Prisma.SortOrder
   submitted_at?: Prisma.SortOrder
+  teacher_marked_at?: Prisma.SortOrder
+  admin_marked_at?: Prisma.SortOrder
   is_locked?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -410,10 +452,12 @@ export type AttendanceSessionMaxOrderByAggregateInput = {
 
 export type AttendanceSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  medresa_course_id?: Prisma.SortOrder
+  medresa_id?: Prisma.SortOrder
   teacher_id?: Prisma.SortOrder
   date?: Prisma.SortOrder
   submitted_at?: Prisma.SortOrder
+  teacher_marked_at?: Prisma.SortOrder
+  admin_marked_at?: Prisma.SortOrder
   is_locked?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -423,6 +467,48 @@ export type AttendanceSessionMinOrderByAggregateInput = {
 export type AttendanceSessionScalarRelationFilter = {
   is?: Prisma.AttendanceSessionWhereInput
   isNot?: Prisma.AttendanceSessionWhereInput
+}
+
+export type AttendanceSessionCreateNestedManyWithoutMedresaInput = {
+  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput> | Prisma.AttendanceSessionCreateWithoutMedresaInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput[]
+  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput[]
+  createMany?: Prisma.AttendanceSessionCreateManyMedresaInputEnvelope
+  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+}
+
+export type AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput = {
+  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput> | Prisma.AttendanceSessionCreateWithoutMedresaInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput[]
+  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput[]
+  createMany?: Prisma.AttendanceSessionCreateManyMedresaInputEnvelope
+  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+}
+
+export type AttendanceSessionUpdateManyWithoutMedresaNestedInput = {
+  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput> | Prisma.AttendanceSessionCreateWithoutMedresaInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput[]
+  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput[]
+  upsert?: Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresaInput | Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresaInput[]
+  createMany?: Prisma.AttendanceSessionCreateManyMedresaInputEnvelope
+  set?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  disconnect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  delete?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  update?: Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresaInput | Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresaInput[]
+  updateMany?: Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresaInput | Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresaInput[]
+  deleteMany?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
+}
+
+export type AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput = {
+  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput> | Prisma.AttendanceSessionCreateWithoutMedresaInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput[]
+  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresaInput[]
+  upsert?: Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresaInput | Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresaInput[]
+  createMany?: Prisma.AttendanceSessionCreateManyMedresaInputEnvelope
+  set?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  disconnect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  delete?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
+  update?: Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresaInput | Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresaInput[]
+  updateMany?: Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresaInput | Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresaInput[]
+  deleteMany?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
 }
 
 export type AttendanceSessionCreateNestedManyWithoutTeacherInput = {
@@ -467,48 +553,6 @@ export type AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput = {
   deleteMany?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
 }
 
-export type AttendanceSessionCreateNestedManyWithoutMedresa_courseInput = {
-  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput> | Prisma.AttendanceSessionCreateWithoutMedresa_courseInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput[]
-  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput[]
-  createMany?: Prisma.AttendanceSessionCreateManyMedresa_courseInputEnvelope
-  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-}
-
-export type AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput = {
-  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput> | Prisma.AttendanceSessionCreateWithoutMedresa_courseInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput[]
-  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput[]
-  createMany?: Prisma.AttendanceSessionCreateManyMedresa_courseInputEnvelope
-  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-}
-
-export type AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput = {
-  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput> | Prisma.AttendanceSessionCreateWithoutMedresa_courseInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput[]
-  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput[]
-  upsert?: Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresa_courseInput | Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresa_courseInput[]
-  createMany?: Prisma.AttendanceSessionCreateManyMedresa_courseInputEnvelope
-  set?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  disconnect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  delete?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  update?: Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresa_courseInput | Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresa_courseInput[]
-  updateMany?: Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresa_courseInput | Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresa_courseInput[]
-  deleteMany?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
-}
-
-export type AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput = {
-  create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput> | Prisma.AttendanceSessionCreateWithoutMedresa_courseInput[] | Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput[]
-  connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput | Prisma.AttendanceSessionCreateOrConnectWithoutMedresa_courseInput[]
-  upsert?: Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresa_courseInput | Prisma.AttendanceSessionUpsertWithWhereUniqueWithoutMedresa_courseInput[]
-  createMany?: Prisma.AttendanceSessionCreateManyMedresa_courseInputEnvelope
-  set?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  disconnect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  delete?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  connect?: Prisma.AttendanceSessionWhereUniqueInput | Prisma.AttendanceSessionWhereUniqueInput[]
-  update?: Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresa_courseInput | Prisma.AttendanceSessionUpdateWithWhereUniqueWithoutMedresa_courseInput[]
-  updateMany?: Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresa_courseInput | Prisma.AttendanceSessionUpdateManyWithWhereWithoutMedresa_courseInput[]
-  deleteMany?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
-}
-
 export type AttendanceSessionCreateNestedOneWithoutRecordsInput = {
   create?: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutRecordsInput, Prisma.AttendanceSessionUncheckedCreateWithoutRecordsInput>
   connectOrCreate?: Prisma.AttendanceSessionCreateOrConnectWithoutRecordsInput
@@ -523,23 +567,98 @@ export type AttendanceSessionUpdateOneRequiredWithoutRecordsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AttendanceSessionUpdateToOneWithWhereWithoutRecordsInput, Prisma.AttendanceSessionUpdateWithoutRecordsInput>, Prisma.AttendanceSessionUncheckedUpdateWithoutRecordsInput>
 }
 
-export type AttendanceSessionCreateWithoutTeacherInput = {
+export type AttendanceSessionCreateWithoutMedresaInput = {
   id?: string
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  medresa_course: Prisma.MedresaCourseCreateNestedOneWithoutAttendance_sessionsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutAttendance_sessionsInput
+  records?: Prisma.AttendanceRecordCreateNestedManyWithoutSessionInput
+}
+
+export type AttendanceSessionUncheckedCreateWithoutMedresaInput = {
+  id?: string
+  teacher_id?: string | null
+  date: Date | string
+  submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
+  is_locked?: boolean
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutSessionInput
+}
+
+export type AttendanceSessionCreateOrConnectWithoutMedresaInput = {
+  where: Prisma.AttendanceSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput>
+}
+
+export type AttendanceSessionCreateManyMedresaInputEnvelope = {
+  data: Prisma.AttendanceSessionCreateManyMedresaInput | Prisma.AttendanceSessionCreateManyMedresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type AttendanceSessionUpsertWithWhereUniqueWithoutMedresaInput = {
+  where: Prisma.AttendanceSessionWhereUniqueInput
+  update: Prisma.XOR<Prisma.AttendanceSessionUpdateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedUpdateWithoutMedresaInput>
+  create: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresaInput>
+}
+
+export type AttendanceSessionUpdateWithWhereUniqueWithoutMedresaInput = {
+  where: Prisma.AttendanceSessionWhereUniqueInput
+  data: Prisma.XOR<Prisma.AttendanceSessionUpdateWithoutMedresaInput, Prisma.AttendanceSessionUncheckedUpdateWithoutMedresaInput>
+}
+
+export type AttendanceSessionUpdateManyWithWhereWithoutMedresaInput = {
+  where: Prisma.AttendanceSessionScalarWhereInput
+  data: Prisma.XOR<Prisma.AttendanceSessionUpdateManyMutationInput, Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaInput>
+}
+
+export type AttendanceSessionScalarWhereInput = {
+  AND?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
+  OR?: Prisma.AttendanceSessionScalarWhereInput[]
+  NOT?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
+  id?: Prisma.StringFilter<"AttendanceSession"> | string
+  medresa_id?: Prisma.StringFilter<"AttendanceSession"> | string
+  teacher_id?: Prisma.StringNullableFilter<"AttendanceSession"> | string | null
+  date?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
+  submitted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  teacher_marked_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  admin_marked_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  is_locked?: Prisma.BoolFilter<"AttendanceSession"> | boolean
+  deleted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
+}
+
+export type AttendanceSessionCreateWithoutTeacherInput = {
+  id?: string
+  date: Date | string
+  submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
+  is_locked?: boolean
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  medresa: Prisma.MedresaCreateNestedOneWithoutAttendance_sessionsInput
   records?: Prisma.AttendanceRecordCreateNestedManyWithoutSessionInput
 }
 
 export type AttendanceSessionUncheckedCreateWithoutTeacherInput = {
   id?: string
-  medresa_course_id: string
+  medresa_id: string
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -573,89 +692,28 @@ export type AttendanceSessionUpdateManyWithWhereWithoutTeacherInput = {
   data: Prisma.XOR<Prisma.AttendanceSessionUpdateManyMutationInput, Prisma.AttendanceSessionUncheckedUpdateManyWithoutTeacherInput>
 }
 
-export type AttendanceSessionScalarWhereInput = {
-  AND?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
-  OR?: Prisma.AttendanceSessionScalarWhereInput[]
-  NOT?: Prisma.AttendanceSessionScalarWhereInput | Prisma.AttendanceSessionScalarWhereInput[]
-  id?: Prisma.StringFilter<"AttendanceSession"> | string
-  medresa_course_id?: Prisma.StringFilter<"AttendanceSession"> | string
-  teacher_id?: Prisma.StringFilter<"AttendanceSession"> | string
-  date?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
-  submitted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
-  is_locked?: Prisma.BoolFilter<"AttendanceSession"> | boolean
-  deleted_at?: Prisma.DateTimeNullableFilter<"AttendanceSession"> | Date | string | null
-  created_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"AttendanceSession"> | Date | string
-}
-
-export type AttendanceSessionCreateWithoutMedresa_courseInput = {
-  id?: string
-  date: Date | string
-  submitted_at?: Date | string | null
-  is_locked?: boolean
-  deleted_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  teacher: Prisma.TeacherCreateNestedOneWithoutAttendance_sessionsInput
-  records?: Prisma.AttendanceRecordCreateNestedManyWithoutSessionInput
-}
-
-export type AttendanceSessionUncheckedCreateWithoutMedresa_courseInput = {
-  id?: string
-  teacher_id: string
-  date: Date | string
-  submitted_at?: Date | string | null
-  is_locked?: boolean
-  deleted_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutSessionInput
-}
-
-export type AttendanceSessionCreateOrConnectWithoutMedresa_courseInput = {
-  where: Prisma.AttendanceSessionWhereUniqueInput
-  create: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput>
-}
-
-export type AttendanceSessionCreateManyMedresa_courseInputEnvelope = {
-  data: Prisma.AttendanceSessionCreateManyMedresa_courseInput | Prisma.AttendanceSessionCreateManyMedresa_courseInput[]
-  skipDuplicates?: boolean
-}
-
-export type AttendanceSessionUpsertWithWhereUniqueWithoutMedresa_courseInput = {
-  where: Prisma.AttendanceSessionWhereUniqueInput
-  update: Prisma.XOR<Prisma.AttendanceSessionUpdateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedUpdateWithoutMedresa_courseInput>
-  create: Prisma.XOR<Prisma.AttendanceSessionCreateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedCreateWithoutMedresa_courseInput>
-}
-
-export type AttendanceSessionUpdateWithWhereUniqueWithoutMedresa_courseInput = {
-  where: Prisma.AttendanceSessionWhereUniqueInput
-  data: Prisma.XOR<Prisma.AttendanceSessionUpdateWithoutMedresa_courseInput, Prisma.AttendanceSessionUncheckedUpdateWithoutMedresa_courseInput>
-}
-
-export type AttendanceSessionUpdateManyWithWhereWithoutMedresa_courseInput = {
-  where: Prisma.AttendanceSessionScalarWhereInput
-  data: Prisma.XOR<Prisma.AttendanceSessionUpdateManyMutationInput, Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseInput>
-}
-
 export type AttendanceSessionCreateWithoutRecordsInput = {
   id?: string
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  medresa_course: Prisma.MedresaCourseCreateNestedOneWithoutAttendance_sessionsInput
-  teacher: Prisma.TeacherCreateNestedOneWithoutAttendance_sessionsInput
+  medresa: Prisma.MedresaCreateNestedOneWithoutAttendance_sessionsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutAttendance_sessionsInput
 }
 
 export type AttendanceSessionUncheckedCreateWithoutRecordsInput = {
   id?: string
-  medresa_course_id: string
-  teacher_id: string
+  medresa_id: string
+  teacher_id?: string | null
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -682,20 +740,78 @@ export type AttendanceSessionUpdateWithoutRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  medresa_course?: Prisma.MedresaCourseUpdateOneRequiredWithoutAttendance_sessionsNestedInput
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutAttendance_sessionsNestedInput
+  medresa?: Prisma.MedresaUpdateOneRequiredWithoutAttendance_sessionsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutAttendance_sessionsNestedInput
 }
 
 export type AttendanceSessionUncheckedUpdateWithoutRecordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  medresa_course_id?: Prisma.StringFieldUpdateOperationsInput | string
-  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
+  medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AttendanceSessionCreateManyMedresaInput = {
+  id?: string
+  teacher_id?: string | null
+  date: Date | string
+  submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
+  is_locked?: boolean
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+}
+
+export type AttendanceSessionUpdateWithoutMedresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.TeacherUpdateOneWithoutAttendance_sessionsNestedInput
+  records?: Prisma.AttendanceRecordUpdateManyWithoutSessionNestedInput
+}
+
+export type AttendanceSessionUncheckedUpdateWithoutMedresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutSessionNestedInput
+}
+
+export type AttendanceSessionUncheckedUpdateManyWithoutMedresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -704,9 +820,11 @@ export type AttendanceSessionUncheckedUpdateWithoutRecordsInput = {
 
 export type AttendanceSessionCreateManyTeacherInput = {
   id?: string
-  medresa_course_id: string
+  medresa_id: string
   date: Date | string
   submitted_at?: Date | string | null
+  teacher_marked_at?: Date | string | null
+  admin_marked_at?: Date | string | null
   is_locked?: boolean
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -717,19 +835,23 @@ export type AttendanceSessionUpdateWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  medresa_course?: Prisma.MedresaCourseUpdateOneRequiredWithoutAttendance_sessionsNestedInput
+  medresa?: Prisma.MedresaUpdateOneRequiredWithoutAttendance_sessionsNestedInput
   records?: Prisma.AttendanceRecordUpdateManyWithoutSessionNestedInput
 }
 
 export type AttendanceSessionUncheckedUpdateWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  medresa_course_id?: Prisma.StringFieldUpdateOperationsInput | string
+  medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -739,55 +861,11 @@ export type AttendanceSessionUncheckedUpdateWithoutTeacherInput = {
 
 export type AttendanceSessionUncheckedUpdateManyWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  medresa_course_id?: Prisma.StringFieldUpdateOperationsInput | string
+  medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type AttendanceSessionCreateManyMedresa_courseInput = {
-  id?: string
-  teacher_id: string
-  date: Date | string
-  submitted_at?: Date | string | null
-  is_locked?: boolean
-  deleted_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-}
-
-export type AttendanceSessionUpdateWithoutMedresa_courseInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutAttendance_sessionsNestedInput
-  records?: Prisma.AttendanceRecordUpdateManyWithoutSessionNestedInput
-}
-
-export type AttendanceSessionUncheckedUpdateWithoutMedresa_courseInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutSessionNestedInput
-}
-
-export type AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  teacher_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin_marked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -827,89 +905,108 @@ export type AttendanceSessionCountOutputTypeCountRecordsArgs<ExtArgs extends run
 
 export type AttendanceSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  medresa_course_id?: boolean
+  medresa_id?: boolean
   teacher_id?: boolean
   date?: boolean
   submitted_at?: boolean
+  teacher_marked_at?: boolean
+  admin_marked_at?: boolean
   is_locked?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  medresa_course?: boolean | Prisma.MedresaCourseDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.AttendanceSession$teacherArgs<ExtArgs>
   records?: boolean | Prisma.AttendanceSession$recordsArgs<ExtArgs>
   _count?: boolean | Prisma.AttendanceSessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attendanceSession"]>
 
 export type AttendanceSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  medresa_course_id?: boolean
+  medresa_id?: boolean
   teacher_id?: boolean
   date?: boolean
   submitted_at?: boolean
+  teacher_marked_at?: boolean
+  admin_marked_at?: boolean
   is_locked?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  medresa_course?: boolean | Prisma.MedresaCourseDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.AttendanceSession$teacherArgs<ExtArgs>
 }, ExtArgs["result"]["attendanceSession"]>
 
 export type AttendanceSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  medresa_course_id?: boolean
+  medresa_id?: boolean
   teacher_id?: boolean
   date?: boolean
   submitted_at?: boolean
+  teacher_marked_at?: boolean
+  admin_marked_at?: boolean
   is_locked?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  medresa_course?: boolean | Prisma.MedresaCourseDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.AttendanceSession$teacherArgs<ExtArgs>
 }, ExtArgs["result"]["attendanceSession"]>
 
 export type AttendanceSessionSelectScalar = {
   id?: boolean
-  medresa_course_id?: boolean
+  medresa_id?: boolean
   teacher_id?: boolean
   date?: boolean
   submitted_at?: boolean
+  teacher_marked_at?: boolean
+  admin_marked_at?: boolean
   is_locked?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type AttendanceSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "medresa_course_id" | "teacher_id" | "date" | "submitted_at" | "is_locked" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["attendanceSession"]>
+export type AttendanceSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "medresa_id" | "teacher_id" | "date" | "submitted_at" | "teacher_marked_at" | "admin_marked_at" | "is_locked" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["attendanceSession"]>
 export type AttendanceSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  medresa_course?: boolean | Prisma.MedresaCourseDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.AttendanceSession$teacherArgs<ExtArgs>
   records?: boolean | Prisma.AttendanceSession$recordsArgs<ExtArgs>
   _count?: boolean | Prisma.AttendanceSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AttendanceSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  medresa_course?: boolean | Prisma.MedresaCourseDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.AttendanceSession$teacherArgs<ExtArgs>
 }
 export type AttendanceSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  medresa_course?: boolean | Prisma.MedresaCourseDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.AttendanceSession$teacherArgs<ExtArgs>
 }
 
 export type $AttendanceSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AttendanceSession"
   objects: {
-    medresa_course: Prisma.$MedresaCoursePayload<ExtArgs>
-    teacher: Prisma.$TeacherPayload<ExtArgs>
+    medresa: Prisma.$MedresaPayload<ExtArgs>
+    teacher: Prisma.$TeacherPayload<ExtArgs> | null
     records: Prisma.$AttendanceRecordPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    medresa_course_id: string
-    teacher_id: string
+    medresa_id: string
+    /**
+     * Original submitter when a teacher created the session (null if Amir created first)
+     */
+    teacher_id: string | null
     date: Date
     submitted_at: Date | null
+    /**
+     * Last save by a user with TEACHER role for this medresa
+     */
+    teacher_marked_at: Date | null
+    /**
+     * Last save by a medresa ADMIN (Amir) for this medresa
+     */
+    admin_marked_at: Date | null
     is_locked: boolean
     deleted_at: Date | null
     created_at: Date
@@ -1308,8 +1405,8 @@ readonly fields: AttendanceSessionFieldRefs;
  */
 export interface Prisma__AttendanceSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  medresa_course<T extends Prisma.MedresaCourseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaCourseDefaultArgs<ExtArgs>>): Prisma.Prisma__MedresaCourseClient<runtime.Types.Result.GetResult<Prisma.$MedresaCoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  medresa<T extends Prisma.MedresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaDefaultArgs<ExtArgs>>): Prisma.Prisma__MedresaClient<runtime.Types.Result.GetResult<Prisma.$MedresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  teacher<T extends Prisma.AttendanceSession$teacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AttendanceSession$teacherArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   records<T extends Prisma.AttendanceSession$recordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AttendanceSession$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1341,10 +1438,12 @@ export interface Prisma__AttendanceSessionClient<T, Null = never, ExtArgs extend
  */
 export interface AttendanceSessionFieldRefs {
   readonly id: Prisma.FieldRef<"AttendanceSession", 'String'>
-  readonly medresa_course_id: Prisma.FieldRef<"AttendanceSession", 'String'>
+  readonly medresa_id: Prisma.FieldRef<"AttendanceSession", 'String'>
   readonly teacher_id: Prisma.FieldRef<"AttendanceSession", 'String'>
   readonly date: Prisma.FieldRef<"AttendanceSession", 'DateTime'>
   readonly submitted_at: Prisma.FieldRef<"AttendanceSession", 'DateTime'>
+  readonly teacher_marked_at: Prisma.FieldRef<"AttendanceSession", 'DateTime'>
+  readonly admin_marked_at: Prisma.FieldRef<"AttendanceSession", 'DateTime'>
   readonly is_locked: Prisma.FieldRef<"AttendanceSession", 'Boolean'>
   readonly deleted_at: Prisma.FieldRef<"AttendanceSession", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"AttendanceSession", 'DateTime'>
@@ -1747,6 +1846,25 @@ export type AttendanceSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many AttendanceSessions to delete.
    */
   limit?: number
+}
+
+/**
+ * AttendanceSession.teacher
+ */
+export type AttendanceSession$teacherArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Teacher
+   */
+  select?: Prisma.TeacherSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Teacher
+   */
+  omit?: Prisma.TeacherOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeacherInclude<ExtArgs> | null
+  where?: Prisma.TeacherWhereInput
 }
 
 /**

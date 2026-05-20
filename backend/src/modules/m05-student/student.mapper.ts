@@ -54,6 +54,11 @@ export const mapStudentListItem = (row: StudentListRow) => ({
   })),
 });
 
+export type GradesSummaryDto = {
+  overallGpaPercent: number | null;
+  courseCount: number;
+} | null;
+
 export const mapStudentDetail = (
   row: StudentListRow & {
     date_of_birth: Date;
@@ -66,7 +71,14 @@ export const mapStudentDetail = (
         to_medresa?: { name: string };
       }
     >;
-  }
+  },
+  gradesSummary: GradesSummaryDto = null,
+  feeStatus: {
+    status: string;
+    outstandingBalanceEtb: number;
+    month: number;
+    year: number;
+  } | null = null
 ) => ({
   id: row.id,
   fullName: row.full_name,
@@ -92,8 +104,8 @@ export const mapStudentDetail = (
     createdAt: t.created_at,
   })),
   attendanceSummary: null as { label: string } | null,
-  gradesSummary: null as { label: string } | null,
-  feeStatus: null as { label: string } | null,
+  gradesSummary,
+  feeStatus,
 });
 
 export const mapTeacherStudentListItem = (row: {

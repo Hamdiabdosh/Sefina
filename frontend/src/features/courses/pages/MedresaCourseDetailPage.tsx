@@ -1,14 +1,14 @@
 import { Link, useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import { Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { AssignTeacherModal } from '../components/AssignTeacherModal';
 import { useMedresaContext } from '../hooks/useMedresaContext';
 import { useMedresaCourseDetail, useMedresaCourses } from '../hooks/useMedresaCourses';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useState } from 'react';
 import { useCurrentUser } from '../../auth/hooks/useCurrentUser';
-import { useTeacherMe } from '../../teachers/hooks/useTeachers';
 import { getTodayCalendarEt } from '../../attendance/utils/ethiopiaDate';
 
 export const MedresaCourseDetailPage = () => {
@@ -22,47 +22,54 @@ export const MedresaCourseDetailPage = () => {
   const medresaId = search.medresaId ?? contextMedresaId ?? teacherMedresaId ?? '';
   const [showAssign, setShowAssign] = useState(false);
 
-  const { data: course, isLoading, error } = useMedresaCourseDetail(medresaId, medresaCourseId);
-  const { teachers, assignTeacher } = useMedresaCourses(medresaId);
-  const { data: teacherMe } = useTeacherMe(Boolean(currentUser?.isTeacher));
-  const todayEt = getTodayCalendarEt();
-
   const isMedresaAdmin =
     currentUser?.isSuperAdmin ||
     adminMedresas.some((m) => m.medresaId === medresaId);
 
+  const { data: course, isLoading, error } = useMedresaCourseDetail(medresaId, medresaCourseId);
+  const { teachers, assignTeacher } = useMedresaCourses(medresaId, undefined, {
+    withAvailable: isMedresaAdmin,
+    withTeachers: isMedresaAdmin,
+  });
+  const todayEt = getTodayCalendarEt();
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('courses.detailTitle')} subtitle={t('courses.loading')} />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.detailTitle')} subtitle={t('courses.loading')} />
       </div>
     );
   }
 
   if (error || !course) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-danger-text">
-        {t('courses.loadError')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.detailTitle')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-danger-text">{t('courses.loadError')}</p>
+        </PageBody>
       </div>
     );
   }
 
-  const canTakeAttendance =
+  const teacherAtMedresa =
     Boolean(currentUser?.isTeacher) &&
-    Boolean(teacherMe?.id) &&
-    course.assignedTeacher?.id === teacherMe?.id &&
-    course.status === 'ACTIVE';
+    (currentUser?.medresaRoles.some(
+      (r) => r.role === 'TEACHER' && r.medresaId === medresaId
+    ) ?? false);
+
+  const canTakeAttendance = teacherAtMedresa && course.status === 'ACTIVE';
 
   return (
-    <div className="min-h-screen bg-cream pb-12">
-      <PageHeader
+    <div className="flex min-h-0 flex-1 flex-col pb-12">
+      <PageTopBar
         title={getLocalizedValue(course.name)}
         subtitle={course.medresaName}
         onBack={() =>
           void navigate({ to: '/medresa/courses', search: { medresaId } })
         }
       />
-      <div className="p-4 space-y-4">
+      <PageBody>
         <section className="bg-white rounded-xl border border-cream-dark p-4">
           <p className="text-sm text-muted-foreground">{getLocalizedValue(course.description)}</p>
           <p className="text-sm text-teal-600 mt-2">
@@ -117,12 +124,20 @@ export const MedresaCourseDetailPage = () => {
           <div className="flex flex-col gap-2 text-sm">
             {canTakeAttendance ? (
               <Link
-                to="/teacher/attendance/$medresaCourseId"
-                params={{ medresaCourseId: course.medresaCourseId }}
+                to="/teacher/attendance/take"
                 search={{ medresaId }}
                 className="text-teal-600 underline"
               >
                 {t('attendance.openTakeAttendance')}
+              </Link>
+            ) : null}
+            {isMedresaAdmin ? (
+              <Link
+                to="/medresa/attendance/take"
+                search={{ medresaId }}
+                className="text-teal-600 underline"
+              >
+                {t('attendance.openTakeAttendanceAmir')}
               </Link>
             ) : null}
             {isMedresaAdmin ? (
@@ -140,11 +155,17 @@ export const MedresaCourseDetailPage = () => {
           </div>
         </section>
 
-        <section className="bg-white rounded-xl border border-cream-dark p-4 opacity-60">
-          <h2 className="text-xs font-medium uppercase text-muted-foreground mb-1">
+        <section className="bg-white rounded-xl border border-cream-dark p-4">
+          <h2 className="text-xs font-medium uppercase text-muted-foreground mb-2">
             {t('courses.gradesPlaceholder')}
           </h2>
-          <p className="text-xs text-muted-foreground">{t('courses.comingM07')}</p>
+          <Link
+            to="/teacher/courses/results"
+            search={{ medresaCourseId: course.medresaCourseId }}
+            className="text-sm text-teal-700 underline"
+          >
+            {t('grades.viewClassResults')}
+          </Link>
         </section>
 
         <Link
@@ -154,7 +175,7 @@ export const MedresaCourseDetailPage = () => {
         >
           {t('courses.backToList')}
         </Link>
-      </div>
+      </PageBody>
 
       {isMedresaAdmin && (
         <AssignTeacherModal

@@ -17,6 +17,7 @@ import {
   reactivateCourse,
   updateCourse,
 } from "./course.service";
+import { getTeacherByUserId } from "../m03-teacher/teacher.service";
 import {
   activateCourseInMedresa,
   deactivateMedresaCourse,
@@ -140,10 +141,31 @@ export const listMedresaTeachersHandler = async (req: Request, res: Response): P
 };
 
 export const listMedresaCoursesHandler = async (req: Request, res: Response): Promise<void> => {
-  const result = await listMedresaCourses(
-    getMedresaIdParam(req),
-    req.validatedQuery as ListMedresaCoursesQuery
-  );
+  const medresaId = getMedresaIdParam(req);
+  let query: ListMedresaCoursesQuery = {
+    ...(req.validatedQuery as ListMedresaCoursesQuery),
+  };
+
+  if (!hasMedresaAdminRole(req, medresaId)) {
+    const teacher = await getTeacherByUserId(req.user!.userId);
+    if (!teacher) {
+      res.status(403).json({
+        success: false,
+        error: { code: "FORBIDDEN", message: "Teacher profile required" },
+      });
+      return;
+    }
+    if (query.teacherId && query.teacherId !== teacher.id) {
+      res.status(403).json({
+        success: false,
+        error: { code: "FORBIDDEN", message: "Cannot list courses for another teacher" },
+      });
+      return;
+    }
+    query = { ...query, teacherId: teacher.id };
+  }
+
+  const result = await listMedresaCourses(medresaId, query);
   if ("error" in result) {
     res.status(400).json({
       success: false,

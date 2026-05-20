@@ -1,11 +1,16 @@
 import type { Request } from "express";
-import { AuditAction, AttendanceStatus, Status, StudentStatus } from "../../../prisma/generated/prisma/enums";
+import { AuditAction, AttendanceStatus, StudentStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { auditLog, getClientIp } from "../../lib/audit";
 import { assertMedresaActive } from "../../lib/medresa-scope";
-import { teacherCanAccessMedresaCourse } from "../m04-course/course-assignment.service";
-import { teacherCanAccessStudent } from "../../lib/student-scope";
-import { getActiveTeacherIdForUser } from "../../lib/attendance-scope";
+import { canReadStudent } from "../../lib/student-scope";
+import {
+  getActiveTeacherIdForUser,
+  resolveAttendanceWriterKind,
+  userCanWriteAttendanceForMedresa,
+  listMedresaIdsForAttendanceWriter,
+  loadActiveStudentIdsForMedresa,
+} from "../../lib/attendance-scope";
 import {
   dateToCalendarEt,
   getCalendarDateEt,
@@ -30,34 +35,61 @@ const sessionInclude = {
     where: { deleted_at: null },
     orderBy: { student_id: "asc" as const },
   },
-  medresa_course: {
-    select: {
-      id: true,
-      medresa_id: true,
-      course: { select: { name: true } },
-    },
+  medresa: {
+    select: { id: true },
   },
 } as const;
 
 function mapSessionDetail(
   session: {
     id: string;
-    medresa_course_id: string;
+    medresa_id: string;
     date: Date;
     submitted_at: Date | null;
     is_locked: boolean;
+    teacher_marked_at: Date | null;
+    admin_marked_at: Date | null;
   },
-  medresaId: string,
   records: ReturnType<typeof mapRecord>[]
 ): AttendanceSessionDetailDTO {
   return {
     id: session.id,
-    medresaCourseId: session.medresa_course_id,
-    medresaId,
+    medresaId: session.medresa_id,
     date: dateToCalendarEt(session.date),
     submittedAt: session.submitted_at ? session.submitted_at.toISOString() : null,
+    teacherMarkedAt: session.teacher_marked_at ? session.teacher_marked_at.toISOString() : null,
+    adminMarkedAt: session.admin_marked_at ? session.admin_marked_at.toISOString() : null,
     isLocked: session.is_locked,
     records,
+  };
+}
+
+export async function listAttendanceRoster(
+  userId: string,
+  medresaId: string
+): Promise<
+  | { error: "FORBIDDEN" }
+  | { error: "MEDRESA_INACTIVE" }
+  | { items: { id: string; fullName: string }[] }
+> {
+  const ok = await userCanWriteAttendanceForMedresa(userId, medresaId);
+  if (!ok) return { error: "FORBIDDEN" as const };
+
+  const active = await assertMedresaActive(medresaId);
+  if (!active) return { error: "MEDRESA_INACTIVE" as const };
+
+  const students = await prisma.student.findMany({
+    where: {
+      current_medresa_id: medresaId,
+      deleted_at: null,
+      status: StudentStatus.ACTIVE,
+    },
+    select: { id: true, full_name: true },
+    orderBy: { full_name: "asc" },
+  });
+
+  return {
+    items: students.map((s) => ({ id: s.id, fullName: s.full_name })),
   };
 }
 
@@ -69,24 +101,11 @@ export async function createAttendanceSession(
   const date = parseCalendarYmd(input.date);
   if (!date) return { error: "ATTENDANCE_INVALID_DATE" as const };
 
-  const teacherId = await getActiveTeacherIdForUser(userId);
-  if (!teacherId) return { error: "FORBIDDEN" as const };
+  const writerKind = await resolveAttendanceWriterKind(userId, input.medresaId);
+  if (!writerKind) return { error: "FORBIDDEN" as const };
 
-  const mc = await prisma.medresaCourse.findFirst({
-    where: {
-      id: input.medresaCourseId,
-      deleted_at: null,
-      status: Status.ACTIVE,
-    },
-    select: { id: true, medresa_id: true },
-  });
-  if (!mc) return { error: "MEDRESA_COURSE_NOT_FOUND" as const };
-
-  const active = await assertMedresaActive(mc.medresa_id);
+  const active = await assertMedresaActive(input.medresaId);
   if (!active) return { error: "MEDRESA_INACTIVE" as const };
-
-  const okAccess = await teacherCanAccessMedresaCourse(userId, mc.id, mc.medresa_id);
-  if (!okAccess) return { error: "FORBIDDEN" as const };
 
   const todayEt = getCalendarDateEt();
   if (date > todayEt) return { error: "ATTENDANCE_FUTURE_DATE" as const };
@@ -95,7 +114,7 @@ export async function createAttendanceSession(
 
   const existing = await prisma.attendanceSession.findFirst({
     where: {
-      medresa_course_id: mc.id,
+      medresa_id: input.medresaId,
       date: prismaDate,
       deleted_at: null,
     },
@@ -103,18 +122,9 @@ export async function createAttendanceSession(
   });
   if (existing) return { error: "ATTENDANCE_DUPLICATE_SESSION" as const };
 
-  const roster = await prisma.studentCourse.findMany({
-    where: {
-      medresa_course_id: mc.id,
-      deleted_at: null,
-      student: { deleted_at: null, status: StudentStatus.ACTIVE },
-    },
-    select: { student_id: true },
-    orderBy: { student_id: "asc" },
-  });
-  if (roster.length === 0) return { error: "ATTENDANCE_NO_ROSTER" as const };
-
-  const rosterSet = new Set(roster.map((r) => r.student_id));
+  const rosterIds = await loadActiveStudentIdsForMedresa(input.medresaId);
+  const rosterSet = new Set(rosterIds);
+  if (rosterIds.length === 0) return { error: "ATTENDANCE_NO_ROSTER" as const };
 
   const seenInPayload = new Set<string>();
   for (const r of input.records) {
@@ -125,7 +135,7 @@ export async function createAttendanceSession(
     if (!rosterSet.has(r.studentId)) return { error: "ATTENDANCE_INVALID_STUDENT" as const };
   }
 
-  const combined = roster.map(({ student_id: sid }) => {
+  const combined = rosterIds.map((sid) => {
     const fromPayload = input.records.find((rec) => rec.studentId === sid);
     return {
       student_id: sid,
@@ -134,13 +144,24 @@ export async function createAttendanceSession(
     };
   });
 
+  const teacherId =
+    writerKind === "TEACHER" ? await getActiveTeacherIdForUser(userId) : null;
+  if (writerKind === "TEACHER" && !teacherId) return { error: "FORBIDDEN" as const };
+  const now = new Date();
   const session = await prisma.$transaction(async (tx) => {
     return tx.attendanceSession.create({
       data: {
-        medresa_course_id: mc.id,
-        teacher_id: teacherId,
+        medresa_id: input.medresaId,
         date: prismaDate,
-        submitted_at: new Date(),
+        submitted_at: now,
+        ...(writerKind === "TEACHER"
+          ? {
+              teacher_id: teacherId!,
+              teacher_marked_at: now,
+            }
+          : {
+              admin_marked_at: now,
+            }),
         records: {
           create: combined.map((c) => ({
             student_id: c.student_id,
@@ -158,14 +179,18 @@ export async function createAttendanceSession(
     recordId: session.id,
     action: AuditAction.INSERT,
     performedBy: userId,
-    newValues: { medresaCourseId: mc.id, date, teacherId },
+    newValues: {
+      medresaId: input.medresaId,
+      date,
+      writerKind,
+      teacherId: teacherId ?? null,
+    },
     ip: req ? getClientIp(req) : null,
   });
 
   return {
     session: mapSessionDetail(
       session,
-      session.medresa_course.medresa_id,
       session.records.map(mapRecord)
     ),
   };
@@ -177,16 +202,15 @@ export async function patchAttendanceSession(
   input: PatchAttendanceSessionInput,
   req?: Request
 ) {
-  const teacherId = await getActiveTeacherIdForUser(userId);
-  if (!teacherId) return { error: "FORBIDDEN" as const };
-
   const session = await prisma.attendanceSession.findFirst({
     where: { id: sessionId, deleted_at: null },
     include: sessionInclude,
   });
 
   if (!session) return { error: "NOT_FOUND" as const };
-  if (session.teacher_id !== teacherId) return { error: "FORBIDDEN" as const };
+
+  const writerKind = await resolveAttendanceWriterKind(userId, session.medresa_id);
+  if (!writerKind) return { error: "FORBIDDEN" as const };
 
   const sessionCal = dateToCalendarEt(session.date);
   const today = getCalendarDateEt();
@@ -206,6 +230,8 @@ export async function patchAttendanceSession(
     if (!byStudent.has(r.studentId)) return { error: "ATTENDANCE_INVALID_STUDENT" as const };
   }
 
+  let anyUpdated = false;
+
   for (const r of input.records) {
     const rec = byStudent.get(r.studentId)!;
     const nextStatus = r.status ?? rec.status;
@@ -214,6 +240,8 @@ export async function patchAttendanceSession(
     const statusChanged = nextStatus !== rec.status;
     const noteChanged = (nextNote ?? null) !== (rec.note ?? null);
     if (!statusChanged && !noteChanged) continue;
+
+    anyUpdated = true;
 
     await prisma.attendanceRecord.update({
       where: { id: rec.id },
@@ -235,6 +263,18 @@ export async function patchAttendanceSession(
     });
   }
 
+  const stamp = new Date();
+  if (anyUpdated) {
+    await prisma.attendanceSession.update({
+      where: { id: sessionId },
+      data: {
+        ...(writerKind === "TEACHER"
+          ? { teacher_marked_at: stamp }
+          : { admin_marked_at: stamp }),
+      },
+    });
+  }
+
   const fresh = await prisma.attendanceSession.findFirstOrThrow({
     where: { id: sessionId, deleted_at: null },
     include: sessionInclude,
@@ -243,18 +283,17 @@ export async function patchAttendanceSession(
   return {
     session: mapSessionDetail(
       fresh,
-      fresh.medresa_course.medresa_id,
       fresh.records.map(mapRecord)
     ),
   };
 }
 
-export async function listTeacherAttendanceSessions(
+export async function listWriterAttendanceSessions(
   userId: string,
   query: ListAttendanceSessionsQuery
 ): Promise<{ error: "FORBIDDEN" } | { items: SessionListItemDTO[] }> {
-  const teacherId = await getActiveTeacherIdForUser(userId);
-  if (!teacherId) return { error: "FORBIDDEN" as const };
+  const allowed = await listMedresaIdsForAttendanceWriter(userId);
+  if (allowed.length === 0) return { error: "FORBIDDEN" as const };
 
   const fromParsed = query.from ? parseCalendarYmd(query.from) : undefined;
   const toParsed = query.to ? parseCalendarYmd(query.to) : undefined;
@@ -267,17 +306,21 @@ export async function listTeacherAttendanceSessions(
   const dateFilter =
     from && to ? { gte: from, lte: to } : from ? { gte: from } : to ? { lte: to } : undefined;
 
+  let medresaFilter = allowed;
+  if (query.medresaId) {
+    if (!allowed.includes(query.medresaId)) return { error: "FORBIDDEN" as const };
+    medresaFilter = [query.medresaId];
+  }
+
   const rows = await prisma.attendanceSession.findMany({
     where: {
-      teacher_id: teacherId,
       deleted_at: null,
-      ...(query.medresaCourseId ? { medresa_course_id: query.medresaCourseId } : {}),
+      medresa_id: { in: medresaFilter },
       ...(dateFilter ? { date: dateFilter } : {}),
     },
     orderBy: [{ date: "desc" }, { id: "desc" }],
     include: {
       records: { where: { deleted_at: null } },
-      medresa_course: { select: { medresa_id: true } },
     },
   });
 
@@ -285,10 +328,11 @@ export async function listTeacherAttendanceSessions(
     const statuses = s.records.map((rec) => rec.status);
     return {
       id: s.id,
-      medresaCourseId: s.medresa_course_id,
-      medresaId: s.medresa_course.medresa_id,
+      medresaId: s.medresa_id,
       date: dateToCalendarEt(s.date),
       submittedAt: s.submitted_at ? s.submitted_at.toISOString() : null,
+      teacherMarkedAt: s.teacher_marked_at ? s.teacher_marked_at.toISOString() : null,
+      adminMarkedAt: s.admin_marked_at ? s.admin_marked_at.toISOString() : null,
       isLocked: s.is_locked,
       counts: countStatuses(statuses),
       totalStudents: s.records.length,
@@ -298,23 +342,20 @@ export async function listTeacherAttendanceSessions(
   return { items };
 }
 
-export async function getTeacherStudentAttendance(
-  userId: string,
+export async function getViewerStudentAttendance(
+  req: Request,
   studentId: string
 ): Promise<
   { error: "FORBIDDEN" } | { error: "NOT_FOUND" } | { data: StudentAttendanceSummaryDTO }
 > {
-  const ok = await teacherCanAccessStudent(userId, studentId);
-  if (!ok) return { error: "FORBIDDEN" as const };
-
-  const teacherId = await getActiveTeacherIdForUser(userId);
-  if (!teacherId) return { error: "FORBIDDEN" as const };
-
   const student = await prisma.student.findFirst({
     where: { id: studentId, deleted_at: null },
-    select: { id: true },
+    select: { id: true, current_medresa_id: true },
   });
   if (!student) return { error: "NOT_FOUND" as const };
+
+  const canRead = await canReadStudent(req, student);
+  if (!canRead) return { error: "FORBIDDEN" as const };
 
   const rows = await prisma.attendanceRecord.findMany({
     where: {
@@ -322,7 +363,6 @@ export async function getTeacherStudentAttendance(
       deleted_at: null,
       session: {
         deleted_at: null,
-        teacher_id: teacherId,
       },
     },
     orderBy: { session: { date: "desc" } },
@@ -330,27 +370,20 @@ export async function getTeacherStudentAttendance(
       session: {
         select: {
           date: true,
-          medresa_course_id: true,
-          medresa_course: {
-            select: {
-              course: { select: { name: true } },
-            },
-          },
+          medresa_id: true,
+          medresa: { select: { name: true } },
         },
       },
     },
   });
 
-  const entries = rows.map((r) => {
-    const nameJson = r.session.medresa_course.course.name as { en?: string };
-    return {
-      date: dateToCalendarEt(r.session.date),
-      medresaCourseId: r.session.medresa_course_id,
-      courseNameEn: nameJson?.en ?? "",
-      status: r.status,
-      note: r.note,
-    };
-  });
+  const entries = rows.map((r) => ({
+    date: dateToCalendarEt(r.session.date),
+    medresaId: r.session.medresa_id,
+    medresaName: r.session.medresa.name,
+    status: r.status,
+    note: r.note,
+  }));
 
   const totalSessions = rows.length;
   let countedAsPresent = 0;

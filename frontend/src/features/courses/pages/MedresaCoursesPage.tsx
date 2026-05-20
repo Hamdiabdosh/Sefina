@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { BookOpen, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { ActivateCourseModal } from '../components/ActivateCourseModal';
 import { AssignTeacherModal } from '../components/AssignTeacherModal';
 import { MedresaPicker } from '../components/MedresaPicker';
@@ -33,49 +34,55 @@ export const MedresaCoursesPage = () => {
 
   if (medresaScopeLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
-        <div className="p-4">
-          <div className="h-24 bg-white rounded-xl animate-pulse border border-cream-dark" />
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
+        <PageBody>
+          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+        </PageBody>
       </div>
     );
   }
 
   if (!medresaId) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-muted-foreground">
-        {t('courses.noMedresaAccess')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.medresaTitle')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-muted-foreground">{t('courses.noMedresaAccess')}</p>
+        </PageBody>
       </div>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
-        <div className="p-4">
-          <div className="h-24 bg-white rounded-xl animate-pulse border border-cream-dark" />
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
+        <PageBody>
+          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+        </PageBody>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-danger-text">
-        {t('courses.loadError')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.medresaTitle')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-danger-text">{t('courses.loadError')}</p>
+        </PageBody>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
-      <PageHeader
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
+      <PageTopBar
         title={t('courses.medresaTitle')}
         subtitle={t('courses.medresaSubtitle', { name: medresaName, count: activeCount })}
       />
-      <div className="p-4 pt-6 space-y-4">
+      <PageBody>
         {hasMultipleMedresas && (
           <MedresaPicker medresas={adminMedresas} selectedId={medresaId} />
         )}
@@ -142,7 +149,7 @@ export const MedresaCoursesPage = () => {
             ))}
           </div>
         )}
-      </div>
+      </PageBody>
       <ActivateCourseModal
         open={showActivate}
         onClose={() => setShowActivate(false)}

@@ -134,11 +134,12 @@ model Medresa {
   phone            String?
   status           Status           @default(ACTIVE)
   deleted_at       DateTime?
-  teacher_medresas TeacherMedresa[]
-  students         Student[]
-  medresa_courses  MedresaCourse[]
-  fee_payments     FeePayment[]
-  fee_balances     FeeBalance[]
+  teacher_medresas     TeacherMedresa[]
+  students             Student[]
+  medresa_courses      MedresaCourse[]
+  attendance_sessions  AttendanceSession[]
+  fee_payments         FeePayment[]
+  fee_balances         FeeBalance[]
   created_at       DateTime         @default(now())
   updated_at       DateTime         @updatedAt
 
@@ -225,7 +226,6 @@ model MedresaCourse {
   course              Course              @relation(fields: [course_id], references: [id])
   assignments         CourseAssignment[]
   student_courses     StudentCourse[]
-  attendance_sessions AttendanceSession[]
   grades              Grade[]
   created_at          DateTime            @default(now())
   updated_at          DateTime            @updatedAt
@@ -316,24 +316,30 @@ model StudentTransfer {
 
 // ── M06: ATTENDANCE ─────────────────────────────
 
-/// One attendance session per course per day
+/// One attendance roll per medresa per Gregorian day (Africa/Addis_Ababa calendar date)
 model AttendanceSession {
-  id                String             @id @default(uuid())
-  medresa_course_id String
-  teacher_id        String
-  date              DateTime           @db.Date
-  submitted_at      DateTime?
-  is_locked         Boolean            @default(false)
-  deleted_at        DateTime?
-  medresa_course    MedresaCourse      @relation(fields: [medresa_course_id], references: [id])
-  teacher           Teacher            @relation(fields: [teacher_id], references: [id])
-  records           AttendanceRecord[]
-  created_at        DateTime           @default(now())
-  updated_at        DateTime           @updatedAt
+  id               String    @id @default(uuid())
+  medresa_id       String
+  /// Original submitter when a teacher created the session (null if Amir created first)
+  teacher_id       String?
+  date             DateTime  @db.Date
+  submitted_at     DateTime?
+  /// Last save by a user with TEACHER role for this medresa
+  teacher_marked_at DateTime?
+  /// Last save by a medresa ADMIN (Amir) for this medresa
+  admin_marked_at   DateTime?
+  is_locked        Boolean   @default(false)
+  deleted_at       DateTime?
+  medresa          Medresa   @relation(fields: [medresa_id], references: [id])
+  teacher          Teacher?  @relation(fields: [teacher_id], references: [id])
+  records          AttendanceRecord[]
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
 
-  @@unique([medresa_course_id, date])
+  @@unique([medresa_id, date])
   @@index([date])
   @@index([teacher_id])
+  @@index([medresa_id])
   @@index([is_locked])
 }
 

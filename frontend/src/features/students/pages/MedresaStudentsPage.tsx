@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { ChevronRight, Plus, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { MedresaPicker } from '../../courses/components/MedresaPicker';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useMedresaCourses } from '../../courses/hooks/useMedresaCourses';
@@ -37,7 +39,10 @@ export const MedresaStudentsPage = () => {
   };
 
   const { students, isLoading, error, createStudent } = useStudents(medresaId, filters);
-  const { courses } = useMedresaCourses(medresaId, { status: 'ACTIVE' });
+  const { courses } = useMedresaCourses(medresaId, { status: 'ACTIVE' }, {
+    withAvailable: false,
+    withTeachers: false,
+  });
 
   const activeCount = useMemo(
     () => students.filter((s) => s.status === 'ACTIVE').length,
@@ -46,79 +51,106 @@ export const MedresaStudentsPage = () => {
 
   if (medresaScopeLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('students.title')} subtitle={t('students.loading')} />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('students.title')} subtitle={t('students.loading')} />
       </div>
     );
   }
 
   if (!medresaId) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-muted-foreground">
-        {t('students.noMedresaAccess')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('students.title')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-muted-foreground">{t('students.noMedresaAccess')}</p>
+        </PageBody>
       </div>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('students.title')} subtitle={t('students.loading')} />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('students.title')} subtitle={t('students.loading')} />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-danger-text">
-        {t('students.loadError')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('students.title')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-danger-text">{t('students.loadError')}</p>
+        </PageBody>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
-      <PageHeader
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
+      <PageTopBar
         title={t('students.title')}
         subtitle={t('students.subtitle', { name: medresaName, count: activeCount })}
-      />
-      <div className="p-4 pt-6 space-y-4">
-        {hasMultiple && (
-          <MedresaPicker medresas={pickerMedresas} selectedId={medresaId} />
-        )}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder={t('students.searchPlaceholder')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="field-input pl-10 h-12"
-          />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-teal-100" size={18} />
-        </div>
-        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-          {(['ALL', 'ACTIVE', 'TRANSFERRED'] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setStatusFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap ${
-                statusFilter === f
-                  ? 'bg-teal-50 text-teal-600 border-teal-100'
-                  : 'text-muted-foreground border-transparent'
-              }`}
-            >
-              {f === 'ALL' ? t('students.filter.all') : t(`students.status.${f.toLowerCase()}`)}
+        actions={
+          <>
+            <div className="relative hidden min-w-[120px] sm:block sm:min-w-[160px]">
+              <input
+                type="text"
+                placeholder={t('students.searchPlaceholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="field-input h-10 py-2 pl-9 text-sm"
+              />
+              <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
+            </div>
+            <button type="button" className="btn-primary-inline hidden sm:inline-flex" onClick={() => setShowEnroll(true)}>
+              <Plus size={16} />
+              {t('students.enroll')}
             </button>
-          ))}
+          </>
+        }
+      />
+
+      <PageBody>
+        {hasMultiple && (
+          <div className="mb-4">
+            <MedresaPicker medresas={pickerMedresas} selectedId={medresaId} />
+          </div>
+        )}
+
+        <div className="mb-4 sm:hidden">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder={t('students.searchPlaceholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="field-input h-12 pl-10"
+            />
+            <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
+          </div>
         </div>
+
+        <div className="mb-4">
+          <FilterTabs
+            value={statusFilter}
+            onChange={setStatusFilter}
+            tabs={[
+              { value: 'ALL', label: t('students.filter.all') },
+              { value: 'ACTIVE', label: t('students.status.active') },
+              { value: 'TRANSFERRED', label: t('students.status.transferred') },
+            ]}
+          />
+        </div>
+
         {courses.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+          <div className="mb-4 flex flex-wrap gap-2 overflow-x-auto pb-2">
             <button
               type="button"
               onClick={() => setCourseFilter('')}
-              className={`px-3 py-1 rounded-full text-xs border whitespace-nowrap ${
-                !courseFilter ? 'bg-teal-50 text-teal-600 border-teal-100' : 'text-muted-foreground'
+              className={`whitespace-nowrap rounded-full border px-3 py-1 text-xs ${
+                !courseFilter ? 'border-teal-100 bg-teal-50 text-teal-600' : 'text-muted-foreground'
               }`}
             >
               {t('students.filter.allCourses')}
@@ -128,9 +160,9 @@ export const MedresaStudentsPage = () => {
                 key={c.medresaCourseId}
                 type="button"
                 onClick={() => setCourseFilter(c.medresaCourseId)}
-                className={`px-3 py-1 rounded-full text-xs border whitespace-nowrap ${
+                className={`whitespace-nowrap rounded-full border px-3 py-1 text-xs ${
                   courseFilter === c.medresaCourseId
-                    ? 'bg-teal-50 text-teal-600 border-teal-100'
+                    ? 'border-teal-100 bg-teal-50 text-teal-600'
                     : 'text-muted-foreground'
                 }`}
               >
@@ -139,8 +171,9 @@ export const MedresaStudentsPage = () => {
             ))}
           </div>
         )}
+
         {students.length === 0 ? (
-          <p className="text-center text-muted-foreground py-12">{t('students.empty')}</p>
+          <p className="py-12 text-center text-muted-foreground">{t('students.empty')}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {students.map((student) => (
@@ -154,7 +187,7 @@ export const MedresaStudentsPage = () => {
                     search: { medresaId },
                   })
                 }
-                className="bg-white rounded-xl border border-cream-dark p-4 flex items-center gap-3 text-left w-full"
+                className="flex w-full items-center gap-3 rounded-xl border border-cream-dark bg-surface p-4 text-left"
               >
                 <StudentAvatar
                   studentId={student.id}
@@ -162,9 +195,9 @@ export const MedresaStudentsPage = () => {
                   photoUrl={student.photoUrl}
                   size="sm"
                 />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-teal-800 truncate">{student.fullName}</p>
-                  <p className="text-xs text-muted-foreground truncate">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium text-teal-800">{student.fullName}</p>
+                  <p className="truncate text-xs text-muted-foreground">
                     {student.enrolledCourses
                       .map((c) => getLocalizedValue(c.courseName))
                       .join(', ') || t('students.noCourses')}
@@ -172,7 +205,7 @@ export const MedresaStudentsPage = () => {
                   <p className="text-xs text-muted-foreground">{student.guardianName}</p>
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${
+                  className={`rounded-full px-2 py-0.5 text-xs ${
                     student.status === 'ACTIVE'
                       ? 'bg-teal-50 text-teal-600'
                       : 'bg-cream-dark text-muted-foreground'
@@ -180,16 +213,17 @@ export const MedresaStudentsPage = () => {
                 >
                   {t(`students.status.${student.status.toLowerCase()}`)}
                 </span>
-                <ChevronRight className="text-muted-foreground shrink-0" size={18} />
+                <ChevronRight className="shrink-0 text-muted-foreground" size={18} />
               </button>
             ))}
           </div>
         )}
-      </div>
+      </PageBody>
+
       <button
         type="button"
         onClick={() => setShowEnroll(true)}
-        className="fixed bottom-6 right-6 flex items-center gap-2 bg-teal-600 text-white px-5 py-3 rounded-full shadow-lg"
+        className="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full bg-teal-600 px-5 py-3 text-white shadow-lg sm:hidden"
       >
         <Plus size={20} />
         {t('students.enroll')}

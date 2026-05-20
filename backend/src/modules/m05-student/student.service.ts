@@ -14,6 +14,9 @@ import {
   courseEligibleForEnrollment,
   loadStudentForAccess,
 } from "../../lib/student-scope";
+import { buildStudentResultsPayload } from "../m07-grades/grade-results.service";
+import { getStudentFeeStatusSummary } from "../m08-fees/fee-ledger.service";
+import { isTeacherOnly } from "../../lib/fee-scope";
 import {
   mapStudentDetail,
   mapStudentListItem,
@@ -60,7 +63,8 @@ const studentDetailInclude = {
 } as const;
 
 const enrichStudentDetail = async (
-  student: Prisma.StudentGetPayload<{ include: typeof studentDetailInclude }>
+  student: Prisma.StudentGetPayload<{ include: typeof studentDetailInclude }>,
+  req?: Request
 ) => {
   const medresaIds = [
     ...new Set(student.transfers.flatMap((t) => [t.from_medresa_id, t.to_medresa_id])),
@@ -74,14 +78,31 @@ const enrichStudentDetail = async (
       : [];
   const nameById = new Map(medresas.map((m) => [m.id, m.name]));
 
-  return mapStudentDetail({
-    ...student,
-    transfers: student.transfers.map((t) => ({
-      ...t,
-      from_medresa: { name: nameById.get(t.from_medresa_id) ?? "" },
-      to_medresa: { name: nameById.get(t.to_medresa_id) ?? "" },
-    })),
-  });
+  const results = await buildStudentResultsPayload(student.id);
+  const gradesSummary = results
+    ? {
+        overallGpaPercent: results.overallGpaPercent,
+        courseCount: results.courses.length,
+      }
+    : null;
+
+  let feeStatus = null;
+  if (req && !isTeacherOnly(req)) {
+    feeStatus = await getStudentFeeStatusSummary(student.id, student.current_medresa_id);
+  }
+
+  return mapStudentDetail(
+    {
+      ...student,
+      transfers: student.transfers.map((t) => ({
+        ...t,
+        from_medresa: { name: nameById.get(t.from_medresa_id) ?? "" },
+        to_medresa: { name: nameById.get(t.to_medresa_id) ?? "" },
+      })),
+    },
+    gradesSummary,
+    feeStatus
+  );
 };
 
 export const listStudentsByMedresa = async (
@@ -193,7 +214,7 @@ export const getStudentDetail = async (req: Request, studentId: string) => {
 
   if (!student) return { error: "STUDENT_NOT_FOUND" as const };
 
-  return { student: await enrichStudentDetail(student) };
+  return { student: await enrichStudentDetail(student, req) };
 };
 
 export const updateStudent = async (

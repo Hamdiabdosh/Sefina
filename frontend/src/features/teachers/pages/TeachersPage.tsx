@@ -1,18 +1,23 @@
 import { useMemo, useState } from 'react';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { Plus, Search } from 'lucide-react';
-import { PageHeader } from '../../../components/PageHeader';
+import { useSearch } from '@tanstack/react-router';
+import { LayoutGrid, List, Plus, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { cn } from '../../../lib/utils';
+import { TeacherListCard } from '../components/TeacherListCard';
 import { CreateTeacherModal } from '../components/CreateTeacherModal';
-import { TeacherAvatar } from '../components/TeacherAvatar';
 import { useTeachers } from '../hooks/useTeachers';
 import { getLocalizedValue } from '../utils/localizedJson';
 
 export const TeachersPage = () => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const search = useSearch({ strict: false }) as { medresaId?: string };
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL');
   const [showCreate, setShowCreate] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   const filters = {
     search: searchQuery || undefined,
@@ -20,113 +25,173 @@ export const TeachersPage = () => {
     medresaId: search.medresaId,
   };
 
-  const { teachers, isLoading, error, createTeacher, uploadPhoto } = useTeachers(filters);
+  const { teachers, pagination, isLoading, error, createTeacher, uploadPhoto } =
+    useTeachers(filters);
 
   const activeCount = useMemo(
-    () => teachers.filter((t) => t.status === 'ACTIVE').length,
+    () => teachers.filter((x) => x.status === 'ACTIVE').length,
     [teachers]
   );
 
+  const stats = useMemo(() => {
+    const total = pagination?.total ?? teachers.length;
+    const specLabels = teachers.map((x) => getLocalizedValue(x.specialization)).filter(Boolean);
+    const uniqueSubjects = new Set(specLabels).size;
+    const medresaIds = new Set<string>();
+    teachers.forEach((x) => x.medresaAssignments.forEach((a) => medresaIds.add(a.medresaId)));
+    const sumAssign = teachers.reduce((s, x) => s + x.medresaAssignments.length, 0);
+    const avg = teachers.length ? Math.round((sumAssign / teachers.length) * 10) / 10 : 0;
+    return {
+      total,
+      subjects: uniqueSubjects,
+      medresas: medresaIds.size,
+      avg,
+    };
+  }, [teachers, pagination?.total]);
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title="Teachers" subtitle="Loading..." />
-        <div className="p-4">
-          <div className="h-24 bg-white rounded-xl animate-pulse border border-cream-dark" />
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('nav.teachers')} subtitle={t('courses.loading')} />
+        <PageBody>
+          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+        </PageBody>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-danger-text">
-        Failed to load teachers.
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('nav.teachers')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-danger-text">Failed to load teachers.</p>
+        </PageBody>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
-      <PageHeader title="Teachers" subtitle={`Network · ${activeCount} active`} />
-      <div className="p-4 pt-6 space-y-4">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search teachers..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="field-input pl-10 h-12"
-          />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-teal-100" size={18} />
-        </div>
-        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-          {(['ALL', 'ACTIVE', 'INACTIVE'] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setStatusFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap ${
-                statusFilter === f
-                  ? 'bg-teal-50 text-teal-600 border-teal-100'
-                  : 'text-muted-foreground border-transparent'
-              }`}
-            >
-              {f === 'ALL' ? 'All' : f === 'ACTIVE' ? 'Active' : 'Inactive'}
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
+      <PageTopBar
+        title={t('nav.teachers')}
+        subtitle={t('teacherDirectory.subtitle', { count: activeCount })}
+        actions={
+          <>
+            <div className="relative hidden min-w-[140px] sm:block sm:min-w-[180px]">
+              <input
+                type="text"
+                placeholder={t('teacherDirectory.searchPlaceholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="field-input h-10 py-2 pl-9 text-sm"
+              />
+              <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
+            </div>
+            <button type="button" className="btn-primary-inline" onClick={() => setShowCreate(true)}>
+              <Plus size={16} />
+              {t('teacherDirectory.addTeacher')}
             </button>
-          ))}
+          </>
+        }
+      />
+
+      <div className="grid shrink-0 grid-cols-2 gap-2 border-b border-cream-dark bg-surface px-4 py-3.5 lg:grid-cols-4 lg:px-6">
+        <div className="rounded-md bg-cream px-3 py-2.5">
+          <p className="text-xl font-medium leading-none text-foreground">{stats.total}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">{t('teacherDirectory.statsTotal')}</p>
         </div>
+        <div className="rounded-md bg-cream px-3 py-2.5">
+          <p className="text-xl font-medium leading-none text-foreground">{stats.subjects}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">{t('teacherDirectory.statsSubjects')}</p>
+        </div>
+        <div className="rounded-md bg-cream px-3 py-2.5">
+          <p className="text-xl font-medium leading-none text-foreground">{stats.medresas}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">{t('teacherDirectory.statsMedresas')}</p>
+        </div>
+        <div className="col-span-2 rounded-md bg-cream px-3 py-2.5 lg:col-span-1">
+          <p className="text-xl font-medium leading-none text-foreground">{stats.avg}</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">{t('teacherDirectory.statsAvg')}</p>
+        </div>
+      </div>
+
+      <PageBody>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <FilterTabs
+            value={statusFilter}
+            onChange={setStatusFilter}
+            tabs={[
+              { value: 'ALL', label: t('teacherDirectory.filterAll') },
+              { value: 'ACTIVE', label: t('teacherDirectory.filterActive') },
+              { value: 'INACTIVE', label: t('teacherDirectory.filterInactive') },
+            ]}
+          />
+          <div
+            className="flex gap-1 rounded-md border border-cream-dark bg-surface p-0.5"
+            role="group"
+            aria-label={t('teacherDirectory.viewList')}
+          >
+            <button
+              type="button"
+              className={cn(
+                'flex h-7 w-7 items-center justify-center rounded transition-colors',
+                viewMode === 'list' ? 'bg-cream text-foreground' : 'text-muted-foreground'
+              )}
+              aria-pressed={viewMode === 'list'}
+              aria-label={t('teacherDirectory.viewList')}
+              onClick={() => setViewMode('list')}
+            >
+              <List size={16} />
+            </button>
+            <button
+              type="button"
+              className={cn(
+                'flex h-7 w-7 items-center justify-center rounded transition-colors',
+                viewMode === 'grid' ? 'bg-cream text-foreground' : 'text-muted-foreground'
+              )}
+              aria-pressed={viewMode === 'grid'}
+              aria-label={t('teacherDirectory.viewGrid')}
+              onClick={() => setViewMode('grid')}
+            >
+              <LayoutGrid size={16} />
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-4 sm:hidden">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder={t('teacherDirectory.searchPlaceholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="field-input h-12 pl-10"
+            />
+            <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
+          </div>
+        </div>
+
         {teachers.length === 0 ? (
-          <p className="text-center text-muted-foreground py-12">No teachers found.</p>
+          <p className="py-12 text-center text-muted-foreground">{t('teacherDirectory.empty')}</p>
         ) : (
-          <div className="flex flex-col gap-3">
-            {teachers.map((teacher) => (
-              <button
-                key={teacher.id}
-                type="button"
-                onClick={() =>
-                  void navigate({
-                    to: '/admin/teachers/$teacherId',
-                    params: { teacherId: teacher.id },
-                  })
-                }
-                className="bg-white rounded-xl border border-cream-dark p-4 shadow-sm text-left active:scale-[0.98] transition-all w-full"
-              >
-                <div className="flex gap-4">
-                  <TeacherAvatar
-                    teacherId={teacher.id}
-                    name={teacher.fullName}
-                    photoUrl={teacher.photoUrl}
-                    size="sm"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-teal-800">{teacher.fullName}</h3>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {getLocalizedValue(teacher.specialization)}
-                    </p>
-                    <p className="text-xs text-teal-600 mt-1 truncate">
-                      {teacher.medresaAssignments.map((a) => a.medresaName).join(' · ') ||
-                        'No medresa assignments'}
-                    </p>
-                  </div>
-                  <span
-                    className={`text-[11px] font-medium uppercase h-fit ${
-                      teacher.status === 'ACTIVE' ? 'text-success-text' : 'text-danger-text'
-                    }`}
-                  >
-                    {teacher.status}
-                  </span>
-                </div>
-              </button>
+          <div
+            className={cn(
+              'gap-2',
+              viewMode === 'list' ? 'flex flex-col' : 'grid grid-cols-1 md:grid-cols-2'
+            )}
+          >
+            {teachers.map((teacher, index) => (
+              <TeacherListCard key={teacher.id} teacher={teacher} index={index} />
             ))}
           </div>
         )}
-      </div>
+      </PageBody>
+
       <button
         type="button"
         onClick={() => setShowCreate(true)}
-        className="fixed bottom-8 right-6 w-14 h-14 bg-teal-400 rounded-full shadow-lg flex items-center justify-center text-white z-20"
-        aria-label="Add teacher"
+        className="fixed bottom-8 right-6 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-teal-400 text-white shadow-lg md:right-8"
+        aria-label={t('teacherDirectory.addTeacher')}
       >
         <Plus size={28} />
       </button>

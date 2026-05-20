@@ -2417,10 +2417,12 @@ export type StudentTransferScalarFieldEnum = (typeof StudentTransferScalarFieldE
 
 export const AttendanceSessionScalarFieldEnum = {
   id: 'id',
-  medresa_course_id: 'medresa_course_id',
+  medresa_id: 'medresa_id',
   teacher_id: 'teacher_id',
   date: 'date',
   submitted_at: 'submitted_at',
+  teacher_marked_at: 'teacher_marked_at',
+  admin_marked_at: 'admin_marked_at',
   is_locked: 'is_locked',
   deleted_at: 'deleted_at',
   created_at: 'created_at',

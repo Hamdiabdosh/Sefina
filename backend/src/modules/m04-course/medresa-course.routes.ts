@@ -32,7 +32,7 @@ const medresaScopedRead = [
 
 medresaCourseRoutes.get(
   "/",
-  ...medresaScoped,
+  ...medresaScopedRead,
   validateQuery(listMedresaCoursesQuerySchema),
   listMedresaCoursesHandler
 );

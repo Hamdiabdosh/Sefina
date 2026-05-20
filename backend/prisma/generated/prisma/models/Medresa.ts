@@ -209,6 +209,7 @@ export type MedresaWhereInput = {
   teacher_medresas?: Prisma.TeacherMedresaListRelationFilter
   students?: Prisma.StudentListRelationFilter
   medresa_courses?: Prisma.MedresaCourseListRelationFilter
+  attendance_sessions?: Prisma.AttendanceSessionListRelationFilter
   fee_payments?: Prisma.FeePaymentListRelationFilter
   fee_balances?: Prisma.FeeBalanceListRelationFilter
 }
@@ -225,6 +226,7 @@ export type MedresaOrderByWithRelationInput = {
   teacher_medresas?: Prisma.TeacherMedresaOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
   medresa_courses?: Prisma.MedresaCourseOrderByRelationAggregateInput
+  attendance_sessions?: Prisma.AttendanceSessionOrderByRelationAggregateInput
   fee_payments?: Prisma.FeePaymentOrderByRelationAggregateInput
   fee_balances?: Prisma.FeeBalanceOrderByRelationAggregateInput
 }
@@ -244,6 +246,7 @@ export type MedresaWhereUniqueInput = Prisma.AtLeast<{
   teacher_medresas?: Prisma.TeacherMedresaListRelationFilter
   students?: Prisma.StudentListRelationFilter
   medresa_courses?: Prisma.MedresaCourseListRelationFilter
+  attendance_sessions?: Prisma.AttendanceSessionListRelationFilter
   fee_payments?: Prisma.FeePaymentListRelationFilter
   fee_balances?: Prisma.FeeBalanceListRelationFilter
 }, "id" | "name">
@@ -288,6 +291,7 @@ export type MedresaCreateInput = {
   teacher_medresas?: Prisma.TeacherMedresaCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutMedresaInput
 }
@@ -304,6 +308,7 @@ export type MedresaUncheckedCreateInput = {
   teacher_medresas?: Prisma.TeacherMedresaUncheckedCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseUncheckedCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutMedresaInput
 }
@@ -320,6 +325,7 @@ export type MedresaUpdateInput = {
   teacher_medresas?: Prisma.TeacherMedresaUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutMedresaNestedInput
 }
@@ -336,6 +342,7 @@ export type MedresaUncheckedUpdateInput = {
   teacher_medresas?: Prisma.TeacherMedresaUncheckedUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUncheckedUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutMedresaNestedInput
 }
@@ -461,6 +468,20 @@ export type MedresaUpdateOneRequiredWithoutStudentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MedresaUpdateToOneWithWhereWithoutStudentsInput, Prisma.MedresaUpdateWithoutStudentsInput>, Prisma.MedresaUncheckedUpdateWithoutStudentsInput>
 }
 
+export type MedresaCreateNestedOneWithoutAttendance_sessionsInput = {
+  create?: Prisma.XOR<Prisma.MedresaCreateWithoutAttendance_sessionsInput, Prisma.MedresaUncheckedCreateWithoutAttendance_sessionsInput>
+  connectOrCreate?: Prisma.MedresaCreateOrConnectWithoutAttendance_sessionsInput
+  connect?: Prisma.MedresaWhereUniqueInput
+}
+
+export type MedresaUpdateOneRequiredWithoutAttendance_sessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.MedresaCreateWithoutAttendance_sessionsInput, Prisma.MedresaUncheckedCreateWithoutAttendance_sessionsInput>
+  connectOrCreate?: Prisma.MedresaCreateOrConnectWithoutAttendance_sessionsInput
+  upsert?: Prisma.MedresaUpsertWithoutAttendance_sessionsInput
+  connect?: Prisma.MedresaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MedresaUpdateToOneWithWhereWithoutAttendance_sessionsInput, Prisma.MedresaUpdateWithoutAttendance_sessionsInput>, Prisma.MedresaUncheckedUpdateWithoutAttendance_sessionsInput>
+}
+
 export type MedresaCreateNestedOneWithoutFee_paymentsInput = {
   create?: Prisma.XOR<Prisma.MedresaCreateWithoutFee_paymentsInput, Prisma.MedresaUncheckedCreateWithoutFee_paymentsInput>
   connectOrCreate?: Prisma.MedresaCreateOrConnectWithoutFee_paymentsInput
@@ -500,6 +521,7 @@ export type MedresaCreateWithoutTeacher_medresasInput = {
   updated_at?: Date | string
   students?: Prisma.StudentCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutMedresaInput
 }
@@ -515,6 +537,7 @@ export type MedresaUncheckedCreateWithoutTeacher_medresasInput = {
   updated_at?: Date | string
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseUncheckedCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutMedresaInput
 }
@@ -546,6 +569,7 @@ export type MedresaUpdateWithoutTeacher_medresasInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   students?: Prisma.StudentUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutMedresaNestedInput
 }
@@ -561,6 +585,7 @@ export type MedresaUncheckedUpdateWithoutTeacher_medresasInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   students?: Prisma.StudentUncheckedUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUncheckedUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutMedresaNestedInput
 }
@@ -576,6 +601,7 @@ export type MedresaCreateWithoutMedresa_coursesInput = {
   updated_at?: Date | string
   teacher_medresas?: Prisma.TeacherMedresaCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentCreateNestedManyWithoutCurrent_medresaInput
+  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutMedresaInput
 }
@@ -591,6 +617,7 @@ export type MedresaUncheckedCreateWithoutMedresa_coursesInput = {
   updated_at?: Date | string
   teacher_medresas?: Prisma.TeacherMedresaUncheckedCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCurrent_medresaInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutMedresaInput
 }
@@ -622,6 +649,7 @@ export type MedresaUpdateWithoutMedresa_coursesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher_medresas?: Prisma.TeacherMedresaUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUpdateManyWithoutCurrent_medresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutMedresaNestedInput
 }
@@ -637,6 +665,7 @@ export type MedresaUncheckedUpdateWithoutMedresa_coursesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher_medresas?: Prisma.TeacherMedresaUncheckedUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutCurrent_medresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutMedresaNestedInput
 }
@@ -652,6 +681,7 @@ export type MedresaCreateWithoutStudentsInput = {
   updated_at?: Date | string
   teacher_medresas?: Prisma.TeacherMedresaCreateNestedManyWithoutMedresaInput
   medresa_courses?: Prisma.MedresaCourseCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutMedresaInput
 }
@@ -667,6 +697,7 @@ export type MedresaUncheckedCreateWithoutStudentsInput = {
   updated_at?: Date | string
   teacher_medresas?: Prisma.TeacherMedresaUncheckedCreateNestedManyWithoutMedresaInput
   medresa_courses?: Prisma.MedresaCourseUncheckedCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutMedresaInput
 }
@@ -698,6 +729,7 @@ export type MedresaUpdateWithoutStudentsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher_medresas?: Prisma.TeacherMedresaUpdateManyWithoutMedresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutMedresaNestedInput
 }
@@ -712,6 +744,87 @@ export type MedresaUncheckedUpdateWithoutStudentsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher_medresas?: Prisma.TeacherMedresaUncheckedUpdateManyWithoutMedresaNestedInput
+  medresa_courses?: Prisma.MedresaCourseUncheckedUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput
+  fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutMedresaNestedInput
+  fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutMedresaNestedInput
+}
+
+export type MedresaCreateWithoutAttendance_sessionsInput = {
+  id?: string
+  name: string
+  location: string
+  phone?: string | null
+  status?: $Enums.Status
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  teacher_medresas?: Prisma.TeacherMedresaCreateNestedManyWithoutMedresaInput
+  students?: Prisma.StudentCreateNestedManyWithoutCurrent_medresaInput
+  medresa_courses?: Prisma.MedresaCourseCreateNestedManyWithoutMedresaInput
+  fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutMedresaInput
+  fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutMedresaInput
+}
+
+export type MedresaUncheckedCreateWithoutAttendance_sessionsInput = {
+  id?: string
+  name: string
+  location: string
+  phone?: string | null
+  status?: $Enums.Status
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  teacher_medresas?: Prisma.TeacherMedresaUncheckedCreateNestedManyWithoutMedresaInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutCurrent_medresaInput
+  medresa_courses?: Prisma.MedresaCourseUncheckedCreateNestedManyWithoutMedresaInput
+  fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutMedresaInput
+  fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutMedresaInput
+}
+
+export type MedresaCreateOrConnectWithoutAttendance_sessionsInput = {
+  where: Prisma.MedresaWhereUniqueInput
+  create: Prisma.XOR<Prisma.MedresaCreateWithoutAttendance_sessionsInput, Prisma.MedresaUncheckedCreateWithoutAttendance_sessionsInput>
+}
+
+export type MedresaUpsertWithoutAttendance_sessionsInput = {
+  update: Prisma.XOR<Prisma.MedresaUpdateWithoutAttendance_sessionsInput, Prisma.MedresaUncheckedUpdateWithoutAttendance_sessionsInput>
+  create: Prisma.XOR<Prisma.MedresaCreateWithoutAttendance_sessionsInput, Prisma.MedresaUncheckedCreateWithoutAttendance_sessionsInput>
+  where?: Prisma.MedresaWhereInput
+}
+
+export type MedresaUpdateToOneWithWhereWithoutAttendance_sessionsInput = {
+  where?: Prisma.MedresaWhereInput
+  data: Prisma.XOR<Prisma.MedresaUpdateWithoutAttendance_sessionsInput, Prisma.MedresaUncheckedUpdateWithoutAttendance_sessionsInput>
+}
+
+export type MedresaUpdateWithoutAttendance_sessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher_medresas?: Prisma.TeacherMedresaUpdateManyWithoutMedresaNestedInput
+  students?: Prisma.StudentUpdateManyWithoutCurrent_medresaNestedInput
+  medresa_courses?: Prisma.MedresaCourseUpdateManyWithoutMedresaNestedInput
+  fee_payments?: Prisma.FeePaymentUpdateManyWithoutMedresaNestedInput
+  fee_balances?: Prisma.FeeBalanceUpdateManyWithoutMedresaNestedInput
+}
+
+export type MedresaUncheckedUpdateWithoutAttendance_sessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher_medresas?: Prisma.TeacherMedresaUncheckedUpdateManyWithoutMedresaNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUncheckedUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutMedresaNestedInput
@@ -729,6 +842,7 @@ export type MedresaCreateWithoutFee_paymentsInput = {
   teacher_medresas?: Prisma.TeacherMedresaCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutMedresaInput
 }
 
@@ -744,6 +858,7 @@ export type MedresaUncheckedCreateWithoutFee_paymentsInput = {
   teacher_medresas?: Prisma.TeacherMedresaUncheckedCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseUncheckedCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutMedresaInput
 }
 
@@ -775,6 +890,7 @@ export type MedresaUpdateWithoutFee_paymentsInput = {
   teacher_medresas?: Prisma.TeacherMedresaUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutMedresaNestedInput
 }
 
@@ -790,6 +906,7 @@ export type MedresaUncheckedUpdateWithoutFee_paymentsInput = {
   teacher_medresas?: Prisma.TeacherMedresaUncheckedUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUncheckedUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutMedresaNestedInput
 }
 
@@ -805,6 +922,7 @@ export type MedresaCreateWithoutFee_balancesInput = {
   teacher_medresas?: Prisma.TeacherMedresaCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutMedresaInput
 }
 
@@ -820,6 +938,7 @@ export type MedresaUncheckedCreateWithoutFee_balancesInput = {
   teacher_medresas?: Prisma.TeacherMedresaUncheckedCreateNestedManyWithoutMedresaInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutCurrent_medresaInput
   medresa_courses?: Prisma.MedresaCourseUncheckedCreateNestedManyWithoutMedresaInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresaInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutMedresaInput
 }
 
@@ -851,6 +970,7 @@ export type MedresaUpdateWithoutFee_balancesInput = {
   teacher_medresas?: Prisma.TeacherMedresaUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutMedresaNestedInput
 }
 
@@ -866,6 +986,7 @@ export type MedresaUncheckedUpdateWithoutFee_balancesInput = {
   teacher_medresas?: Prisma.TeacherMedresaUncheckedUpdateManyWithoutMedresaNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutCurrent_medresaNestedInput
   medresa_courses?: Prisma.MedresaCourseUncheckedUpdateManyWithoutMedresaNestedInput
+  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresaNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutMedresaNestedInput
 }
 
@@ -878,6 +999,7 @@ export type MedresaCountOutputType = {
   teacher_medresas: number
   students: number
   medresa_courses: number
+  attendance_sessions: number
   fee_payments: number
   fee_balances: number
 }
@@ -886,6 +1008,7 @@ export type MedresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   teacher_medresas?: boolean | MedresaCountOutputTypeCountTeacher_medresasArgs
   students?: boolean | MedresaCountOutputTypeCountStudentsArgs
   medresa_courses?: boolean | MedresaCountOutputTypeCountMedresa_coursesArgs
+  attendance_sessions?: boolean | MedresaCountOutputTypeCountAttendance_sessionsArgs
   fee_payments?: boolean | MedresaCountOutputTypeCountFee_paymentsArgs
   fee_balances?: boolean | MedresaCountOutputTypeCountFee_balancesArgs
 }
@@ -924,6 +1047,13 @@ export type MedresaCountOutputTypeCountMedresa_coursesArgs<ExtArgs extends runti
 /**
  * MedresaCountOutputType without action
  */
+export type MedresaCountOutputTypeCountAttendance_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceSessionWhereInput
+}
+
+/**
+ * MedresaCountOutputType without action
+ */
 export type MedresaCountOutputTypeCountFee_paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FeePaymentWhereInput
 }
@@ -948,6 +1078,7 @@ export type MedresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   teacher_medresas?: boolean | Prisma.Medresa$teacher_medresasArgs<ExtArgs>
   students?: boolean | Prisma.Medresa$studentsArgs<ExtArgs>
   medresa_courses?: boolean | Prisma.Medresa$medresa_coursesArgs<ExtArgs>
+  attendance_sessions?: boolean | Prisma.Medresa$attendance_sessionsArgs<ExtArgs>
   fee_payments?: boolean | Prisma.Medresa$fee_paymentsArgs<ExtArgs>
   fee_balances?: boolean | Prisma.Medresa$fee_balancesArgs<ExtArgs>
   _count?: boolean | Prisma.MedresaCountOutputTypeDefaultArgs<ExtArgs>
@@ -991,6 +1122,7 @@ export type MedresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   teacher_medresas?: boolean | Prisma.Medresa$teacher_medresasArgs<ExtArgs>
   students?: boolean | Prisma.Medresa$studentsArgs<ExtArgs>
   medresa_courses?: boolean | Prisma.Medresa$medresa_coursesArgs<ExtArgs>
+  attendance_sessions?: boolean | Prisma.Medresa$attendance_sessionsArgs<ExtArgs>
   fee_payments?: boolean | Prisma.Medresa$fee_paymentsArgs<ExtArgs>
   fee_balances?: boolean | Prisma.Medresa$fee_balancesArgs<ExtArgs>
   _count?: boolean | Prisma.MedresaCountOutputTypeDefaultArgs<ExtArgs>
@@ -1004,6 +1136,7 @@ export type $MedresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     teacher_medresas: Prisma.$TeacherMedresaPayload<ExtArgs>[]
     students: Prisma.$StudentPayload<ExtArgs>[]
     medresa_courses: Prisma.$MedresaCoursePayload<ExtArgs>[]
+    attendance_sessions: Prisma.$AttendanceSessionPayload<ExtArgs>[]
     fee_payments: Prisma.$FeePaymentPayload<ExtArgs>[]
     fee_balances: Prisma.$FeeBalancePayload<ExtArgs>[]
   }
@@ -1413,6 +1546,7 @@ export interface Prisma__MedresaClient<T, Null = never, ExtArgs extends runtime.
   teacher_medresas<T extends Prisma.Medresa$teacher_medresasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medresa$teacher_medresasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherMedresaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.Medresa$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medresa$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   medresa_courses<T extends Prisma.Medresa$medresa_coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medresa$medresa_coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MedresaCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendance_sessions<T extends Prisma.Medresa$attendance_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medresa$attendance_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fee_payments<T extends Prisma.Medresa$fee_paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medresa$fee_paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeePaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fee_balances<T extends Prisma.Medresa$fee_balancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Medresa$fee_balancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeeBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1914,6 +2048,30 @@ export type Medresa$medresa_coursesArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.MedresaCourseScalarFieldEnum | Prisma.MedresaCourseScalarFieldEnum[]
+}
+
+/**
+ * Medresa.attendance_sessions
+ */
+export type Medresa$attendance_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AttendanceSession
+   */
+  select?: Prisma.AttendanceSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AttendanceSession
+   */
+  omit?: Prisma.AttendanceSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceSessionInclude<ExtArgs> | null
+  where?: Prisma.AttendanceSessionWhereInput
+  orderBy?: Prisma.AttendanceSessionOrderByWithRelationInput | Prisma.AttendanceSessionOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceSessionScalarFieldEnum | Prisma.AttendanceSessionScalarFieldEnum[]
 }
 
 /**

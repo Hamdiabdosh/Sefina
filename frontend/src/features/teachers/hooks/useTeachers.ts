@@ -12,18 +12,23 @@ export type TeacherListFilters = {
   limit?: number;
 };
 
-const teachersKey = (filters: TeacherListFilters) => ['teachers', filters] as const;
+export const teachersQueryKey = (filters: TeacherListFilters) => ['teachers', filters] as const;
 const teacherDetailKey = (id: string) => ['teacher', id] as const;
 
-export const useTeachers = (filters: TeacherListFilters = {}) => {
+export const useTeachers = (
+  filters: TeacherListFilters = {},
+  options?: { enabled?: boolean }
+) => {
   const queryClient = useQueryClient();
+  const enabled = options?.enabled ?? true;
 
   const query = useQuery<TeachersListResponse>({
-    queryKey: teachersKey(filters),
+    queryKey: teachersQueryKey(filters),
     queryFn: async () => {
       const response = await axiosInstance.get('/api/v1/teachers', { params: filters });
       return response.data.data;
     },
+    enabled,
   });
 
   const createTeacher = useMutation({

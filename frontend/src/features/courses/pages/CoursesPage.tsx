@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 import { BookOpen, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PageHeader } from '../../../components/PageHeader';
+import { PageBody } from '../../../components/layout/PageBody';
+import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { CreateCourseModal } from '../components/CreateCourseModal';
 import { DeactivateCourseDialog } from '../components/DeactivateCourseDialog';
 import { EditCourseModal } from '../components/EditCourseModal';
@@ -35,102 +37,94 @@ export const CoursesPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-cream">
-        <PageHeader title={t('courses.masterTitle')} subtitle={t('courses.loading')} />
-        <div className="p-4">
-          <div className="h-24 bg-white rounded-xl animate-pulse border border-cream-dark" />
-        </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.masterTitle')} subtitle={t('courses.loading')} />
+        <PageBody>
+          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+        </PageBody>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-cream p-8 text-center text-danger-text">
-        {t('courses.loadError')}
+      <div className="flex min-h-0 flex-1 flex-col">
+        <PageTopBar title={t('courses.masterTitle')} subtitle="" />
+        <PageBody>
+          <p className="text-center text-danger-text">{t('courses.loadError')}</p>
+        </PageBody>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream pb-24">
-      <PageHeader
+    <div className="flex min-h-0 flex-1 flex-col pb-24">
+      <PageTopBar
         title={t('courses.masterTitle')}
         subtitle={t('courses.masterSubtitle', { count: activeCount })}
       />
-      <div className="p-4 pt-6 space-y-4">
-        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-          {(['ALL', 'BEGINNER', 'INTERMEDIATE', 'ADVANCED'] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setLevelFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap ${
-                levelFilter === f
-                  ? 'bg-teal-50 text-teal-600 border-teal-100'
-                  : 'text-muted-foreground border-transparent'
-              }`}
-            >
-              {f === 'ALL' ? t('courses.filter.allLevels') : t(`courses.level.${f.toLowerCase()}`)}
-            </button>
-          ))}
+
+      <PageBody>
+        <div className="mb-3">
+          <FilterTabs
+            value={levelFilter}
+            onChange={setLevelFilter}
+            tabs={[
+              { value: 'ALL', label: t('courses.filter.allLevels') },
+              { value: 'BEGINNER', label: t('courses.level.beginner') },
+              { value: 'INTERMEDIATE', label: t('courses.level.intermediate') },
+              { value: 'ADVANCED', label: t('courses.level.advanced') },
+            ]}
+          />
         </div>
-        <div className="flex gap-2">
-          {(['ALL', 'ACTIVE', 'INACTIVE'] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setStatusFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium border ${
-                statusFilter === f
-                  ? 'bg-teal-50 text-teal-600 border-teal-100'
-                  : 'text-muted-foreground border-transparent'
-              }`}
-            >
-              {f === 'ALL'
-                ? t('courses.filter.allStatus')
-                : t(`courses.status.${f.toLowerCase()}`)}
-            </button>
-          ))}
+        <div className="mb-6">
+          <FilterTabs
+            value={statusFilter}
+            onChange={setStatusFilter}
+            tabs={[
+              { value: 'ALL', label: t('courses.filter.allStatus') },
+              { value: 'ACTIVE', label: t('courses.status.active') },
+              { value: 'INACTIVE', label: t('courses.status.inactive') },
+            ]}
+          />
         </div>
+
         {courses.length === 0 ? (
-          <p className="text-center text-muted-foreground py-12">{t('courses.empty')}</p>
+          <p className="py-12 text-center text-muted-foreground">{t('courses.empty')}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {courses.map((course) => (
               <div
                 key={course.id}
-                className="bg-white rounded-xl border border-cream-dark p-4 shadow-sm"
+                className="rounded-xl border border-cream-dark bg-surface p-4 shadow-sm"
               >
                 <div className="flex gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-teal-600">
                     <BookOpen size={20} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-teal-800">
-                      {getLocalizedValue(course.name)}
-                    </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-medium text-teal-800">{getLocalizedValue(course.name)}</h3>
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
                       {getLocalizedValue(course.description)}
                     </p>
-                    <p className="text-xs text-teal-600 mt-1">
+                    <p className="mt-1 text-xs text-teal-600">
                       {t(`courses.level.${course.level.toLowerCase()}`)} ·{' '}
                       {t('courses.usedBy', { count: course.usedByCount })}
                     </p>
                   </div>
                   <span
-                    className={`text-[11px] font-medium uppercase h-fit ${
+                    className={`h-fit text-[11px] font-medium uppercase ${
                       course.status === 'ACTIVE' ? 'text-success-text' : 'text-danger-text'
                     }`}
                   >
                     {t(`courses.status.${course.status.toLowerCase()}`)}
                   </span>
                 </div>
-                <div className="flex gap-2 mt-3">
+                <div className="mt-3 flex gap-2">
                   <button
                     type="button"
                     onClick={() => setEditCourse(course)}
-                    className="btn-secondary text-sm flex-1"
+                    className="btn-secondary flex-1 text-sm"
                   >
                     {t('courses.edit')}
                   </button>
@@ -138,7 +132,7 @@ export const CoursesPage = () => {
                     <button
                       type="button"
                       onClick={() => setDeactivateTarget(course)}
-                      className="flex-1 text-sm text-white rounded-md py-2 bg-danger-text hover:opacity-90 font-medium"
+                      className="hover:opacity-90 flex-1 rounded-md bg-danger-text py-2 text-sm font-medium text-white"
                     >
                       {t('courses.deactivate')}
                     </button>
@@ -148,11 +142,12 @@ export const CoursesPage = () => {
             ))}
           </div>
         )}
-      </div>
+      </PageBody>
+
       <button
         type="button"
         onClick={() => setShowCreate(true)}
-        className="fixed bottom-8 right-6 w-14 h-14 bg-teal-400 rounded-full shadow-lg flex items-center justify-center text-white z-20"
+        className="fixed bottom-8 right-6 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-teal-400 text-white shadow-lg"
         aria-label={t('courses.createTitle')}
       >
         <Plus size={28} />

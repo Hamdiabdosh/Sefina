@@ -13,6 +13,7 @@ import {
   updateStudentHandler,
   uploadStudentPhotoHandler,
 } from "./student.controller";
+import { getStudentResultsHandler } from "../m07-grades/grade.controller";
 import {
   assignStudentCourseSchema,
   transferStudentSchema,
@@ -28,6 +29,8 @@ studentRoutes.get(
   requireRole(["super_admin", "medresa_admin"]),
   listTransferDestinationsHandler
 );
+
+studentRoutes.get("/:id/results", requireAuth, getStudentResultsHandler);
 
 studentRoutes.get("/:id/photo", requireAuth, getStudentPhotoHandler);
 

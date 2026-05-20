@@ -580,10 +580,12 @@ export type TeacherCreateNestedOneWithoutAttendance_sessionsInput = {
   connect?: Prisma.TeacherWhereUniqueInput
 }
 
-export type TeacherUpdateOneRequiredWithoutAttendance_sessionsNestedInput = {
+export type TeacherUpdateOneWithoutAttendance_sessionsNestedInput = {
   create?: Prisma.XOR<Prisma.TeacherCreateWithoutAttendance_sessionsInput, Prisma.TeacherUncheckedCreateWithoutAttendance_sessionsInput>
   connectOrCreate?: Prisma.TeacherCreateOrConnectWithoutAttendance_sessionsInput
   upsert?: Prisma.TeacherUpsertWithoutAttendance_sessionsInput
+  disconnect?: Prisma.TeacherWhereInput | boolean
+  delete?: Prisma.TeacherWhereInput | boolean
   connect?: Prisma.TeacherWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeacherUpdateToOneWithWhereWithoutAttendance_sessionsInput, Prisma.TeacherUpdateWithoutAttendance_sessionsInput>, Prisma.TeacherUncheckedUpdateWithoutAttendance_sessionsInput>
 }

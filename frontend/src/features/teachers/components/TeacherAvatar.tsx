@@ -7,10 +7,12 @@ type TeacherAvatarProps = {
   name: string;
   photoUrl: string | null;
   size?: 'sm' | 'md' | 'lg';
+  /** Square tiles (e.g. directory cards) vs circular */
+  square?: boolean;
 };
 
 const sizeClasses = {
-  sm: 'w-10 h-10 text-sm',
+  sm: 'w-10 h-10 text-[13px]',
   md: 'w-14 h-14 text-lg',
   lg: 'w-16 h-16 text-xl',
 };
@@ -27,6 +29,7 @@ export const TeacherAvatar = ({
   name,
   photoUrl,
   size = 'md',
+  square = false,
 }: TeacherAvatarProps) => {
   const [src, setSrc] = useState<string | null>(null);
 
@@ -56,7 +59,8 @@ export const TeacherAvatar = ({
     };
   }, [teacherId, photoUrl]);
 
-  const className = `${sizeClasses[size]} rounded-full flex items-center justify-center font-medium shrink-0 overflow-hidden bg-teal-50 text-teal-600`;
+  const rounded = square ? 'rounded-[10px]' : 'rounded-full';
+  const className = `${sizeClasses[size]} ${rounded} flex items-center justify-center font-medium shrink-0 overflow-hidden bg-teal-50 text-teal-600`;
 
   if (src) {
     return <img src={src} alt="" className={`${className} object-cover`} />;

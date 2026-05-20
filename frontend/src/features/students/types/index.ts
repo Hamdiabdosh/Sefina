@@ -52,6 +52,13 @@ export type StudentDetail = {
   currentMedresaName: string;
   courses: StudentCourseDetail[];
   transferHistory: StudentTransferHistory[];
+  gradesSummary?: { overallGpaPercent: number | null; courseCount: number } | null;
+  feeStatus?: {
+    status: string;
+    outstandingBalanceEtb: number;
+    month: number;
+    year: number;
+  } | null;
 };
 
 export type StudentsListResponse = {

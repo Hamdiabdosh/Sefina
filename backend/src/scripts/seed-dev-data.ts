@@ -2,7 +2,7 @@
  * Dev-only dataset: 5 medresas, 10 teachers, 3 master courses, 100 students (20/medresa).
  * Idempotent — safe to re-run (upserts by fixed names/emails).
  */
-import "dotenv/config";
+import "./load-dotenv";
 import bcrypt from "bcrypt";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../../prisma/generated/prisma/client";
@@ -10,10 +10,13 @@ import {
   CourseLevel,
   Gender,
   MedresaRole,
+  PaymentMethod,
   Status,
   StudentStatus,
   UserStatus,
 } from "../../prisma/generated/prisma/enums";
+import { getEthiopianToday } from "../lib/ethiopian-calendar";
+import { prismaDateFromCalendarYmd } from "../lib/ethiopia-time";
 
 const DEV_PASSWORD = "Teacher@12345";
 const STUDENTS_PER_MEDRESA = 20;
@@ -444,6 +447,183 @@ const run = async (): Promise<void> => {
     await upsertCourseAssignment(secondaryMc.id, secondaryTeacher.id);
 
     await upsertStudentsForMedresa(medresa.id, i, primaryMc.id);
+  }
+
+  const EXAM_TYPES = [
+    { nameEn: "Midterm Exam", maxScore: 100, weight: 40 },
+    { nameEn: "Final Exam", maxScore: 100, weight: 40 },
+    { nameEn: "Quiz", maxScore: 50, weight: 20 },
+  ] as const;
+
+  const superAdmin = await requireSuperAdmin();
+  const etToday = getEthiopianToday();
+  const monthlyCents = 50_000; // 500 ETB
+
+  const existingFee = await prisma.feeStructure.findFirst({
+    where: { deleted_at: null, status: Status.ACTIVE },
+  });
+  let feeStructureId = existingFee?.id;
+  if (!existingFee) {
+    const fs = await prisma.feeStructure.create({
+      data: {
+        monthly_amount: monthlyCents,
+        effective_from: prismaDateFromCalendarYmd("2020-01-01"),
+        status: Status.ACTIVE,
+        created_by: superAdmin.id,
+      },
+    });
+    feeStructureId = fs.id;
+  }
+
+  const firstMedresa = medresas[0];
+  if (feeStructureId && firstMedresa) {
+    const sampleStudent = await prisma.student.findFirst({
+      where: {
+        current_medresa_id: firstMedresa.id,
+        deleted_at: null,
+        status: StudentStatus.ACTIVE,
+      },
+      orderBy: { full_name: "asc" },
+    });
+    if (sampleStudent) {
+      const existingPay = await prisma.feePayment.findFirst({
+        where: {
+          student_id: sampleStudent.id,
+          month: etToday.month,
+          year: etToday.year,
+          deleted_at: null,
+        },
+      });
+      if (!existingPay) {
+        await prisma.feePayment.create({
+          data: {
+            student_id: sampleStudent.id,
+            medresa_id: firstMedresa.id,
+            fee_structure_id: feeStructureId,
+            month: etToday.month,
+            year: etToday.year,
+            amount_due: monthlyCents,
+            amount_paid: Math.floor(monthlyCents / 2),
+            payment_method: PaymentMethod.CASH,
+            payment_date: prismaDateFromCalendarYmd("2026-05-01"),
+            recorded_by: superAdmin.id,
+            note: "Dev seed partial payment",
+          },
+        });
+      }
+    }
+  }
+
+  const SALARY_RANKS = [
+    { nameEn: "Dev Rank — Junior", monthlyCents: 250_000 },
+    { nameEn: "Dev Rank — Mid", monthlyCents: 350_000 },
+    { nameEn: "Dev Rank — Senior", monthlyCents: 450_000 },
+  ] as const;
+
+  const salaryRankIds: string[] = [];
+  for (const sr of SALARY_RANKS) {
+    const allRanks = await prisma.salaryRank.findMany({ where: { deleted_at: null } });
+    const existing = allRanks.find((row) => {
+      const name = row.name as { en?: string };
+      return name?.en === sr.nameEn;
+    });
+    if (existing) {
+      salaryRankIds.push(existing.id);
+    } else {
+      const row = await prisma.salaryRank.create({
+        data: {
+          name: localized(sr.nameEn),
+          monthly_amount: sr.monthlyCents,
+          effective_from: prismaDateFromCalendarYmd("2020-01-01"),
+          status: Status.ACTIVE,
+        },
+      });
+      salaryRankIds.push(row.id);
+    }
+  }
+
+  const rankJunior = salaryRankIds[0];
+  const rankMid = salaryRankIds[1];
+  if (rankJunior && ustaz06) {
+    const hasRank = await prisma.teacherRank.findFirst({
+      where: { teacher_id: ustaz06.id, salary_rank_id: rankJunior, deleted_at: null },
+    });
+    if (!hasRank) {
+      await prisma.teacherRank.create({
+        data: {
+          teacher_id: ustaz06.id,
+          salary_rank_id: rankJunior,
+          effective_from: prismaDateFromCalendarYmd("2020-01-01"),
+        },
+      });
+    }
+  }
+  if (rankMid && ustaz07) {
+    const hasRank = await prisma.teacherRank.findFirst({
+      where: { teacher_id: ustaz07.id, salary_rank_id: rankMid, deleted_at: null },
+    });
+    if (!hasRank) {
+      await prisma.teacherRank.create({
+        data: {
+          teacher_id: ustaz07.id,
+          salary_rank_id: rankMid,
+          effective_from: prismaDateFromCalendarYmd("2020-01-01"),
+        },
+      });
+    }
+  }
+
+  if (rankJunior && ustaz06) {
+    const existingSalaryPay = await prisma.salaryPayment.findFirst({
+      where: {
+        teacher_id: ustaz06.id,
+        month: etToday.month,
+        year: etToday.year,
+        deleted_at: null,
+      },
+    });
+    if (!existingSalaryPay) {
+      await prisma.salaryPayment.create({
+        data: {
+          teacher_id: ustaz06.id,
+          salary_rank_id: rankJunior,
+          month: etToday.month,
+          year: etToday.year,
+          amount_paid: 250_000,
+          bank_reference: "DEV-SEED-001",
+          payment_date: prismaDateFromCalendarYmd("2026-05-01"),
+          recorded_by: superAdmin.id,
+          note: "Dev seed salary payment",
+        },
+      });
+    }
+  }
+
+  for (const et of EXAM_TYPES) {
+    const allTypes = await prisma.examType.findMany({ where: { deleted_at: null } });
+    const existing = allTypes.find((row) => {
+      const name = row.name as { en?: string };
+      return name?.en === et.nameEn;
+    });
+    if (existing) {
+      await prisma.examType.update({
+        where: { id: existing.id },
+        data: {
+          max_score: et.maxScore,
+          weight: et.weight,
+          status: Status.ACTIVE,
+        },
+      });
+    } else {
+      await prisma.examType.create({
+        data: {
+          name: localized(et.nameEn),
+          max_score: et.maxScore,
+          weight: et.weight,
+          status: Status.ACTIVE,
+        },
+      });
+    }
   }
 
   const totalStudents = await prisma.student.count({

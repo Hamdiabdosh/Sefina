@@ -10,20 +10,22 @@ export type AttendanceRecordDTO = {
 
 export type AttendanceSessionDTO = {
   id: string;
-  medresaCourseId: string;
   medresaId: string;
   date: string;
   submittedAt: string | null;
+  teacherMarkedAt: string | null;
+  adminMarkedAt: string | null;
   isLocked: boolean;
   records: AttendanceRecordDTO[];
 };
 
 export type SessionListItemDTO = {
   id: string;
-  medresaCourseId: string;
   medresaId: string;
   date: string;
   submittedAt: string | null;
+  teacherMarkedAt: string | null;
+  adminMarkedAt: string | null;
   isLocked: boolean;
   counts: Record<AttendanceStatus, number>;
   totalStudents: number;

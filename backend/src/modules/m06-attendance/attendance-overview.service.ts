@@ -20,54 +20,38 @@ export async function getMedresaAttendanceOverview(
 
   const prismaDate = prismaDateFromCalendarYmd(date);
 
-  const rows = await prisma.attendanceSession.findMany({
+  const session = await prisma.attendanceSession.findFirst({
     where: {
       deleted_at: null,
       date: prismaDate,
-      medresa_course: {
-        medresa_id: medresaId,
-        deleted_at: null,
-        ...(query.medresaCourseId ? { id: query.medresaCourseId } : {}),
-        ...(query.teacherId
-          ? {
-              assignments: {
-                some: { teacher_id: query.teacherId, deleted_at: null },
-              },
-            }
-          : {}),
-      },
+      medresa_id: medresaId,
     },
     include: {
       records: { where: { deleted_at: null } },
-      teacher: { select: { id: true, full_name: true } },
-      medresa_course: {
-        select: {
-          id: true,
-          course: { select: { name: true } },
-        },
-      },
     },
-    orderBy: [{ medresa_course_id: "asc" }],
   });
 
-  const items = rows.map((s) => {
-    const counts = countStatuses(s.records.map((r) => r.status));
-    const nameJson = s.medresa_course.course.name as { en?: string };
-    return {
-      sessionId: s.id,
-      medresaCourseId: s.medresa_course_id,
-      courseNameEn: nameJson?.en ?? "",
-      teacherId: s.teacher_id,
-      teacherName: s.teacher.full_name,
-      present: counts.PRESENT,
-      absent: counts.ABSENT,
-      late: counts.LATE,
-      excused: counts.EXCUSED,
-      totalStudents: s.records.length,
-    };
-  });
+  if (!session) {
+    return { items: [] as const };
+  }
 
-  return { items };
+  const c = countStatuses(session.records.map((r) => r.status));
+
+  return {
+    items: [
+      {
+        sessionId: session.id,
+        medresaId: session.medresa_id,
+        teacherMarkedAt: session.teacher_marked_at ? session.teacher_marked_at.toISOString() : null,
+        adminMarkedAt: session.admin_marked_at ? session.admin_marked_at.toISOString() : null,
+        present: c.PRESENT,
+        absent: c.ABSENT,
+        late: c.LATE,
+        excused: c.EXCUSED,
+        totalStudents: session.records.length,
+      },
+    ],
+  };
 }
 
 export async function getNetworkAttendanceOverview(query: NetworkAttendanceOverviewQuery) {
@@ -83,21 +67,19 @@ export async function getNetworkAttendanceOverview(query: NetworkAttendanceOverv
     where: {
       deleted_at: null,
       date: { gte: fromD, lte: toD },
-      medresa_course: {
-        deleted_at: null,
-        ...(query.medresaId ? { medresa_id: query.medresaId } : {}),
-      },
+      ...(query.medresaId ? { medresa_id: query.medresaId } : {}),
+      medresa: { deleted_at: null },
     },
     include: {
       records: { where: { deleted_at: null } },
-      medresa_course: {
+      medresa: {
         select: {
-          medresa_id: true,
-          medresa: { select: { id: true, name: true } },
+          id: true,
+          name: true,
         },
       },
     },
-    orderBy: [{ date: "asc" }, { medresa_course: { medresa_id: "asc" } }],
+    orderBy: [{ date: "asc" }, { medresa_id: "asc" }],
   });
 
   type Group = {
@@ -115,7 +97,7 @@ export async function getNetworkAttendanceOverview(query: NetworkAttendanceOverv
 
   for (const s of rows) {
     const d = dateToCalendarEt(s.date);
-    const mid = s.medresa_course.medresa_id;
+    const mid = s.medresa.id;
     const key = `${d}|${mid}`;
     const existing = groups.get(key);
     const c = countStatuses(s.records.map((r) => r.status));
@@ -124,7 +106,7 @@ export async function getNetworkAttendanceOverview(query: NetworkAttendanceOverv
       groups.set(key, {
         date: d,
         medresaId: mid,
-        medresaName: s.medresa_course.medresa.name,
+        medresaName: s.medresa.name,
         present: c.PRESENT,
         absent: c.ABSENT,
         late: c.LATE,

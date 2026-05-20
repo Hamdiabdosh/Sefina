@@ -210,7 +210,6 @@ export type MedresaCourseWhereInput = {
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   assignments?: Prisma.CourseAssignmentListRelationFilter
   student_courses?: Prisma.StudentCourseListRelationFilter
-  attendance_sessions?: Prisma.AttendanceSessionListRelationFilter
   grades?: Prisma.GradeListRelationFilter
 }
 
@@ -227,7 +226,6 @@ export type MedresaCourseOrderByWithRelationInput = {
   course?: Prisma.CourseOrderByWithRelationInput
   assignments?: Prisma.CourseAssignmentOrderByRelationAggregateInput
   student_courses?: Prisma.StudentCourseOrderByRelationAggregateInput
-  attendance_sessions?: Prisma.AttendanceSessionOrderByRelationAggregateInput
   grades?: Prisma.GradeOrderByRelationAggregateInput
 }
 
@@ -248,7 +246,6 @@ export type MedresaCourseWhereUniqueInput = Prisma.AtLeast<{
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   assignments?: Prisma.CourseAssignmentListRelationFilter
   student_courses?: Prisma.StudentCourseListRelationFilter
-  attendance_sessions?: Prisma.AttendanceSessionListRelationFilter
   grades?: Prisma.GradeListRelationFilter
 }, "id" | "medresa_id_course_id">
 
@@ -291,7 +288,6 @@ export type MedresaCourseCreateInput = {
   course: Prisma.CourseCreateNestedOneWithoutMedresa_coursesInput
   assignments?: Prisma.CourseAssignmentCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -306,7 +302,6 @@ export type MedresaCourseUncheckedCreateInput = {
   updated_at?: Date | string
   assignments?: Prisma.CourseAssignmentUncheckedCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -321,7 +316,6 @@ export type MedresaCourseUpdateInput = {
   course?: Prisma.CourseUpdateOneRequiredWithoutMedresa_coursesNestedInput
   assignments?: Prisma.CourseAssignmentUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -336,7 +330,6 @@ export type MedresaCourseUncheckedUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.CourseAssignmentUncheckedUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -536,20 +529,6 @@ export type MedresaCourseUpdateOneRequiredWithoutStudent_coursesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MedresaCourseUpdateToOneWithWhereWithoutStudent_coursesInput, Prisma.MedresaCourseUpdateWithoutStudent_coursesInput>, Prisma.MedresaCourseUncheckedUpdateWithoutStudent_coursesInput>
 }
 
-export type MedresaCourseCreateNestedOneWithoutAttendance_sessionsInput = {
-  create?: Prisma.XOR<Prisma.MedresaCourseCreateWithoutAttendance_sessionsInput, Prisma.MedresaCourseUncheckedCreateWithoutAttendance_sessionsInput>
-  connectOrCreate?: Prisma.MedresaCourseCreateOrConnectWithoutAttendance_sessionsInput
-  connect?: Prisma.MedresaCourseWhereUniqueInput
-}
-
-export type MedresaCourseUpdateOneRequiredWithoutAttendance_sessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.MedresaCourseCreateWithoutAttendance_sessionsInput, Prisma.MedresaCourseUncheckedCreateWithoutAttendance_sessionsInput>
-  connectOrCreate?: Prisma.MedresaCourseCreateOrConnectWithoutAttendance_sessionsInput
-  upsert?: Prisma.MedresaCourseUpsertWithoutAttendance_sessionsInput
-  connect?: Prisma.MedresaCourseWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MedresaCourseUpdateToOneWithWhereWithoutAttendance_sessionsInput, Prisma.MedresaCourseUpdateWithoutAttendance_sessionsInput>, Prisma.MedresaCourseUncheckedUpdateWithoutAttendance_sessionsInput>
-}
-
 export type MedresaCourseCreateNestedOneWithoutGradesInput = {
   create?: Prisma.XOR<Prisma.MedresaCourseCreateWithoutGradesInput, Prisma.MedresaCourseUncheckedCreateWithoutGradesInput>
   connectOrCreate?: Prisma.MedresaCourseCreateOrConnectWithoutGradesInput
@@ -574,7 +553,6 @@ export type MedresaCourseCreateWithoutMedresaInput = {
   course: Prisma.CourseCreateNestedOneWithoutMedresa_coursesInput
   assignments?: Prisma.CourseAssignmentCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -588,7 +566,6 @@ export type MedresaCourseUncheckedCreateWithoutMedresaInput = {
   updated_at?: Date | string
   assignments?: Prisma.CourseAssignmentUncheckedCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -642,7 +619,6 @@ export type MedresaCourseCreateWithoutCourseInput = {
   medresa: Prisma.MedresaCreateNestedOneWithoutMedresa_coursesInput
   assignments?: Prisma.CourseAssignmentCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -656,7 +632,6 @@ export type MedresaCourseUncheckedCreateWithoutCourseInput = {
   updated_at?: Date | string
   assignments?: Prisma.CourseAssignmentUncheckedCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -696,7 +671,6 @@ export type MedresaCourseCreateWithoutAssignmentsInput = {
   medresa: Prisma.MedresaCreateNestedOneWithoutMedresa_coursesInput
   course: Prisma.CourseCreateNestedOneWithoutMedresa_coursesInput
   student_courses?: Prisma.StudentCourseCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -710,7 +684,6 @@ export type MedresaCourseUncheckedCreateWithoutAssignmentsInput = {
   created_at?: Date | string
   updated_at?: Date | string
   student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -740,7 +713,6 @@ export type MedresaCourseUpdateWithoutAssignmentsInput = {
   medresa?: Prisma.MedresaUpdateOneRequiredWithoutMedresa_coursesNestedInput
   course?: Prisma.CourseUpdateOneRequiredWithoutMedresa_coursesNestedInput
   student_courses?: Prisma.StudentCourseUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -754,7 +726,6 @@ export type MedresaCourseUncheckedUpdateWithoutAssignmentsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -768,7 +739,6 @@ export type MedresaCourseCreateWithoutStudent_coursesInput = {
   medresa: Prisma.MedresaCreateNestedOneWithoutMedresa_coursesInput
   course: Prisma.CourseCreateNestedOneWithoutMedresa_coursesInput
   assignments?: Prisma.CourseAssignmentCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -782,7 +752,6 @@ export type MedresaCourseUncheckedCreateWithoutStudent_coursesInput = {
   created_at?: Date | string
   updated_at?: Date | string
   assignments?: Prisma.CourseAssignmentUncheckedCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutMedresa_courseInput
 }
 
@@ -812,7 +781,6 @@ export type MedresaCourseUpdateWithoutStudent_coursesInput = {
   medresa?: Prisma.MedresaUpdateOneRequiredWithoutMedresa_coursesNestedInput
   course?: Prisma.CourseUpdateOneRequiredWithoutMedresa_coursesNestedInput
   assignments?: Prisma.CourseAssignmentUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -826,79 +794,6 @@ export type MedresaCourseUncheckedUpdateWithoutStudent_coursesInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.CourseAssignmentUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutMedresa_courseNestedInput
-}
-
-export type MedresaCourseCreateWithoutAttendance_sessionsInput = {
-  id?: string
-  status?: $Enums.Status
-  activated_at?: Date | string
-  deleted_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  medresa: Prisma.MedresaCreateNestedOneWithoutMedresa_coursesInput
-  course: Prisma.CourseCreateNestedOneWithoutMedresa_coursesInput
-  assignments?: Prisma.CourseAssignmentCreateNestedManyWithoutMedresa_courseInput
-  student_courses?: Prisma.StudentCourseCreateNestedManyWithoutMedresa_courseInput
-  grades?: Prisma.GradeCreateNestedManyWithoutMedresa_courseInput
-}
-
-export type MedresaCourseUncheckedCreateWithoutAttendance_sessionsInput = {
-  id?: string
-  medresa_id: string
-  course_id: string
-  status?: $Enums.Status
-  activated_at?: Date | string
-  deleted_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  assignments?: Prisma.CourseAssignmentUncheckedCreateNestedManyWithoutMedresa_courseInput
-  student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutMedresa_courseInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutMedresa_courseInput
-}
-
-export type MedresaCourseCreateOrConnectWithoutAttendance_sessionsInput = {
-  where: Prisma.MedresaCourseWhereUniqueInput
-  create: Prisma.XOR<Prisma.MedresaCourseCreateWithoutAttendance_sessionsInput, Prisma.MedresaCourseUncheckedCreateWithoutAttendance_sessionsInput>
-}
-
-export type MedresaCourseUpsertWithoutAttendance_sessionsInput = {
-  update: Prisma.XOR<Prisma.MedresaCourseUpdateWithoutAttendance_sessionsInput, Prisma.MedresaCourseUncheckedUpdateWithoutAttendance_sessionsInput>
-  create: Prisma.XOR<Prisma.MedresaCourseCreateWithoutAttendance_sessionsInput, Prisma.MedresaCourseUncheckedCreateWithoutAttendance_sessionsInput>
-  where?: Prisma.MedresaCourseWhereInput
-}
-
-export type MedresaCourseUpdateToOneWithWhereWithoutAttendance_sessionsInput = {
-  where?: Prisma.MedresaCourseWhereInput
-  data: Prisma.XOR<Prisma.MedresaCourseUpdateWithoutAttendance_sessionsInput, Prisma.MedresaCourseUncheckedUpdateWithoutAttendance_sessionsInput>
-}
-
-export type MedresaCourseUpdateWithoutAttendance_sessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  activated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  medresa?: Prisma.MedresaUpdateOneRequiredWithoutMedresa_coursesNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutMedresa_coursesNestedInput
-  assignments?: Prisma.CourseAssignmentUpdateManyWithoutMedresa_courseNestedInput
-  student_courses?: Prisma.StudentCourseUpdateManyWithoutMedresa_courseNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutMedresa_courseNestedInput
-}
-
-export type MedresaCourseUncheckedUpdateWithoutAttendance_sessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
-  course_id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  activated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assignments?: Prisma.CourseAssignmentUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -913,7 +808,6 @@ export type MedresaCourseCreateWithoutGradesInput = {
   course: Prisma.CourseCreateNestedOneWithoutMedresa_coursesInput
   assignments?: Prisma.CourseAssignmentCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionCreateNestedManyWithoutMedresa_courseInput
 }
 
 export type MedresaCourseUncheckedCreateWithoutGradesInput = {
@@ -927,7 +821,6 @@ export type MedresaCourseUncheckedCreateWithoutGradesInput = {
   updated_at?: Date | string
   assignments?: Prisma.CourseAssignmentUncheckedCreateNestedManyWithoutMedresa_courseInput
   student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutMedresa_courseInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedCreateNestedManyWithoutMedresa_courseInput
 }
 
 export type MedresaCourseCreateOrConnectWithoutGradesInput = {
@@ -957,7 +850,6 @@ export type MedresaCourseUpdateWithoutGradesInput = {
   course?: Prisma.CourseUpdateOneRequiredWithoutMedresa_coursesNestedInput
   assignments?: Prisma.CourseAssignmentUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput
 }
 
 export type MedresaCourseUncheckedUpdateWithoutGradesInput = {
@@ -971,7 +863,6 @@ export type MedresaCourseUncheckedUpdateWithoutGradesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.CourseAssignmentUncheckedUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput
 }
 
 export type MedresaCourseCreateManyMedresaInput = {
@@ -994,7 +885,6 @@ export type MedresaCourseUpdateWithoutMedresaInput = {
   course?: Prisma.CourseUpdateOneRequiredWithoutMedresa_coursesNestedInput
   assignments?: Prisma.CourseAssignmentUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -1008,7 +898,6 @@ export type MedresaCourseUncheckedUpdateWithoutMedresaInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.CourseAssignmentUncheckedUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -1042,7 +931,6 @@ export type MedresaCourseUpdateWithoutCourseInput = {
   medresa?: Prisma.MedresaUpdateOneRequiredWithoutMedresa_coursesNestedInput
   assignments?: Prisma.CourseAssignmentUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -1056,7 +944,6 @@ export type MedresaCourseUncheckedUpdateWithoutCourseInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.CourseAssignmentUncheckedUpdateManyWithoutMedresa_courseNestedInput
   student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutMedresa_courseNestedInput
-  attendance_sessions?: Prisma.AttendanceSessionUncheckedUpdateManyWithoutMedresa_courseNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutMedresa_courseNestedInput
 }
 
@@ -1078,14 +965,12 @@ export type MedresaCourseUncheckedUpdateManyWithoutCourseInput = {
 export type MedresaCourseCountOutputType = {
   assignments: number
   student_courses: number
-  attendance_sessions: number
   grades: number
 }
 
 export type MedresaCourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignments?: boolean | MedresaCourseCountOutputTypeCountAssignmentsArgs
   student_courses?: boolean | MedresaCourseCountOutputTypeCountStudent_coursesArgs
-  attendance_sessions?: boolean | MedresaCourseCountOutputTypeCountAttendance_sessionsArgs
   grades?: boolean | MedresaCourseCountOutputTypeCountGradesArgs
 }
 
@@ -1116,13 +1001,6 @@ export type MedresaCourseCountOutputTypeCountStudent_coursesArgs<ExtArgs extends
 /**
  * MedresaCourseCountOutputType without action
  */
-export type MedresaCourseCountOutputTypeCountAttendance_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AttendanceSessionWhereInput
-}
-
-/**
- * MedresaCourseCountOutputType without action
- */
 export type MedresaCourseCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.GradeWhereInput
 }
@@ -1141,7 +1019,6 @@ export type MedresaCourseSelect<ExtArgs extends runtime.Types.Extensions.Interna
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   assignments?: boolean | Prisma.MedresaCourse$assignmentsArgs<ExtArgs>
   student_courses?: boolean | Prisma.MedresaCourse$student_coursesArgs<ExtArgs>
-  attendance_sessions?: boolean | Prisma.MedresaCourse$attendance_sessionsArgs<ExtArgs>
   grades?: boolean | Prisma.MedresaCourse$gradesArgs<ExtArgs>
   _count?: boolean | Prisma.MedresaCourseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["medresaCourse"]>
@@ -1189,7 +1066,6 @@ export type MedresaCourseInclude<ExtArgs extends runtime.Types.Extensions.Intern
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   assignments?: boolean | Prisma.MedresaCourse$assignmentsArgs<ExtArgs>
   student_courses?: boolean | Prisma.MedresaCourse$student_coursesArgs<ExtArgs>
-  attendance_sessions?: boolean | Prisma.MedresaCourse$attendance_sessionsArgs<ExtArgs>
   grades?: boolean | Prisma.MedresaCourse$gradesArgs<ExtArgs>
   _count?: boolean | Prisma.MedresaCourseCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1209,7 +1085,6 @@ export type $MedresaCoursePayload<ExtArgs extends runtime.Types.Extensions.Inter
     course: Prisma.$CoursePayload<ExtArgs>
     assignments: Prisma.$CourseAssignmentPayload<ExtArgs>[]
     student_courses: Prisma.$StudentCoursePayload<ExtArgs>[]
-    attendance_sessions: Prisma.$AttendanceSessionPayload<ExtArgs>[]
     grades: Prisma.$GradePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1619,7 +1494,6 @@ export interface Prisma__MedresaCourseClient<T, Null = never, ExtArgs extends ru
   course<T extends Prisma.CourseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   assignments<T extends Prisma.MedresaCourse$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaCourse$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourseAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   student_courses<T extends Prisma.MedresaCourse$student_coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaCourse$student_coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  attendance_sessions<T extends Prisma.MedresaCourse$attendance_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaCourse$attendance_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   grades<T extends Prisma.MedresaCourse$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaCourse$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2104,30 +1978,6 @@ export type MedresaCourse$student_coursesArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.StudentCourseScalarFieldEnum | Prisma.StudentCourseScalarFieldEnum[]
-}
-
-/**
- * MedresaCourse.attendance_sessions
- */
-export type MedresaCourse$attendance_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AttendanceSession
-   */
-  select?: Prisma.AttendanceSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AttendanceSession
-   */
-  omit?: Prisma.AttendanceSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AttendanceSessionInclude<ExtArgs> | null
-  where?: Prisma.AttendanceSessionWhereInput
-  orderBy?: Prisma.AttendanceSessionOrderByWithRelationInput | Prisma.AttendanceSessionOrderByWithRelationInput[]
-  cursor?: Prisma.AttendanceSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AttendanceSessionScalarFieldEnum | Prisma.AttendanceSessionScalarFieldEnum[]
 }
 
 /**

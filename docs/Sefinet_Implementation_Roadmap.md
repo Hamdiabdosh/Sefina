@@ -92,21 +92,23 @@ This roadmap turns `docs/features.md` and `docs/prompt.md` into an execution seq
 
 **Exit criteria:** Grade data can only be written by authorized teachers for assigned students/courses.
 
-### Priority 8: M08 Fee Management
+### Priority 8: M08 Fee Management — **Done (Sprint 8)**
 
 - Medresa Admin manages student fee tracking and payment records.
 - Support fee due, partial/full payment, arrears status.
 - Generate medresa-level fee reports and export-ready data.
 
-**Exit criteria:** Fee data is isolated per medresa, and no Teacher or cross-medresa access exists.
+**Exit criteria:** Fee data is isolated per medresa, and no Teacher or cross-medresa access exists.  
+**Shipped:** `backend/src/modules/m08-fees/`, `frontend/src/features/fees/`, `docs/08-fees.md`, `make dev-verify-m08`.
 
-### Priority 9: M09 Salary Management
+### Priority 9: M09 Salary Management — **Done (Sprint 9)**
 
 - Super Admin only: salary scales, payroll records, payment history.
 - Salary computation support by teacher and medresa context.
 - Security hardening for salary endpoints and UI visibility.
 
-**Exit criteria:** Salary module inaccessible to non-Super Admin roles at API and UI levels.
+**Exit criteria:** Salary module inaccessible to non-Super Admin roles at API and UI levels.  
+**Shipped:** `backend/src/modules/m09-salaries/`, `frontend/src/features/salaries/`, `docs/09-salary.md`, `make dev-verify-m09`.
 
 ## Phase 4 (Week 8): Tier 4 Insights Module
 
@@ -168,7 +170,6 @@ This roadmap turns `docs/features.md` and `docs/prompt.md` into an execution seq
 
 ## Immediate Next Implementation Tasks
 
-1. Finalize `M01` database schema and auth contract.
-2. Implement role/scope middleware once and reuse in all modules.
-3. Add a basic policy test matrix (`role x module x action`) before building `M02+`.
-4. Define shared list/filter/pagination standards for all CRUD modules.
+1. **M10 Reporting & Dashboard** — role-scoped KPIs and exports (see `docs/features.md` M10 section).
+2. Consume M01–M09 tables only (no new core transactional tables).
+3. Deferred from M09/M08: salary/fee PDF exports, dashboard KPI widgets.

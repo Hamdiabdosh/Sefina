@@ -5,7 +5,7 @@ const attendanceStatusZ = z.enum(["PRESENT", "ABSENT", "LATE", "EXCUSED"]);
 
 export const createAttendanceSessionSchema = z
   .object({
-    medresaCourseId: z.uuid(),
+    medresaId: z.uuid(),
     date: z.string().min(10).max(10),
     records: z.array(
       z.object({
@@ -35,7 +35,7 @@ export const patchAttendanceSessionSchema = z.object({
 
 export const listAttendanceSessionsQuerySchema = z
   .object({
-    medresaCourseId: z.uuid().optional(),
+    medresaId: z.uuid().optional(),
     from: z.string().optional(),
     to: z.string().optional(),
   })
@@ -48,11 +48,13 @@ export const listAttendanceSessionsQuerySchema = z
     }
   });
 
+export const attendanceRosterQuerySchema = z.object({
+  medresaId: z.uuid(),
+});
+
 export const medresaAttendanceOverviewQuerySchema = z
   .object({
     date: z.string().min(10).max(10),
-    medresaCourseId: z.uuid().optional(),
-    teacherId: z.uuid().optional(),
   })
   .superRefine((q, ctx) => {
     if (!parseCalendarYmd(q.date)) {
