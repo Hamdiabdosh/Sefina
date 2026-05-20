@@ -5,10 +5,15 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 ## [Unreleased]
 
 ### Added
+
+- **Frontend: unified app shell** — dark sidebar with sectioned nav, mobile drawer, calm `PageTopBar` / `PageBody` replacing the teal hero header; shared `StatCard`, `FilterTabs`, and `ContentCard`; Super Admin sidebar counts for medresas/teachers. See `docs/ui-conventions.md`.
+- **Frontend: list-page redesigns** — Teachers (grid/list toggle, KPI strip, `TeacherListCard`), Medresas, Students, Courses, dashboards, and attendance screens migrated to the new shell; extended i18n (`en` / `am` / `ar`).
 - **Dev seed dataset** — `npm run db:seed:dev` seeds 5 medresas, 10 teachers (5 medresa admins + 5 ustaz), 3 master courses, 100 students (20 per medresa) with course enrollments; idempotent. Wired into `make dev-up` / `setup-dev.sh`. Verify: `./scripts/verify-seed-dev.sh` or `make dev-verify-seed`. Credentials: `docs/seed-dev-credentials.md`.
-- **M06: Attendance tracking** — `backend/src/modules/m06-attendance/`, Ethiopia (`Africa/Addis_Ababa`) calendar semantics, cron + stale lock bootstrap, Amir/Super Admin read-only rollups.
-  - Teacher `POST/PATCH /api/v1/attendance/sessions`, `GET` history + `/sessions/today-session`, `GET /attendance/students/:id`; Amir `GET /medresas/:medresaId/attendance/overview`; Super Admin `GET /attendance/network-overview`.
-  - **UI:** `/teacher/attendance`, `/teacher/attendance/$medresaCourseId`, `/medresa/attendance`, `/admin/attendance`; shell **Attendance** entry; course detail shortcuts.
+- **M06: Attendance tracking** — `backend/src/modules/m06-attendance/`, Ethiopia (`Africa/Addis_Ababa`) calendar semantics, cron + stale lock bootstrap.
+  - **Model:** one roll per **medresa per day** (`AttendanceSession.medresa_id`); roster = all active students at that medresa; `teacher_marked_at` / `admin_marked_at` audit who last saved.
+  - **Writers:** `requireAttendanceWriter` — TEACHER or Amir (ADMIN) at the medresa; Super Admin read-only on writes.
+  - **API:** `GET /attendance/roster`, `POST/PATCH /attendance/sessions`, `GET /sessions` + `/sessions/today-session`, `GET /attendance/students/:id`; Amir `GET /medresas/:medresaId/attendance/overview`; Super Admin `GET /attendance/network-overview`.
+  - **UI:** shared `DailyAttendanceTakePage` at `/teacher/attendance/take` and `/medresa/attendance/take` (`?medresaId=`); hubs at `/teacher/attendance`, `/medresa/attendance`, `/admin/attendance`; shell **Attendance** nav entry.
   - **Docs:** `docs/06-attendance.md`, `docs/m06-attendance-api-tests.md`.
   - **Verify:** `./scripts/verify-m06-attendance-api.sh` or `make dev-verify-m06`.
 - **M05: Student Management** — student module in `backend/src/modules/m05-student/` and `frontend/src/features/students/`.
@@ -37,6 +42,8 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 - Backend container healthcheck in `docker-compose.yml`.
 
 ### Changed
+- **M06 attendance** — redesigned from per-course sessions (`medresa_course_id`) to per-medresa daily rolls; Amir can create and patch same-day attendance alongside teachers; `teacher_id` optional on session; student history open to any viewer with student read access (not teacher-only).
+- **M04 medresa courses list** — teachers calling `GET /medresas/:medresaId/courses` are scoped to their own assignments automatically; Amir retains full medresa list.
 - **Super Admin** medresa picker: `useMedresaContext()` loads active medresas from `GET /api/v1/medresas` (only when `isSuperAdmin`) so Students and Medresa courses pages resolve `medresaId` and `?medresaId=` even when the JWT has no medresa roles. App shell adds separate **Course catalog** and **Medresa courses** nav entries.
 - Course detail links to student list filtered by course (`courses.viewStudents`).
 - App shell navigation labels moved to i18n keys (`nav.medresas`, `nav.teachers`, `nav.courses`, etc.).
@@ -48,6 +55,10 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 - Restored `Sefinet-Agent-Rules.md` (rebuilt from project specs; Local History had no snapshot).
 - Docker dev backend: **`/app/node_modules` uses a named volume** (`sefinet-backend-node-modules`) so `make dev-backend-deps` (`docker compose run … npm ci`) updates the same tree the running container uses; avoids crash loops when `package-lock.json` gains packages (e.g. M06 `date-fns-tz`).
 - Renamed docs to `Sefinet-*` / `sefinet_*` with redirect stubs for legacy `HMMS-*` / `hmms_*` paths.
+
+### Removed
+- **`PageHeader`** — teal hero header; use `PageTopBar` + `PageBody` instead.
+- **`TeacherCourseAttendancePage`** — per-course take route `/teacher/attendance/$medresaCourseId`; replaced by medresa daily take flow.
 
 ## [1.0.0] - 2026-05-10
 
