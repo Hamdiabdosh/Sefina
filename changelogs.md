@@ -5,7 +5,27 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 ## [Unreleased]
 
 ### Added
-- **M04: Course Management** — master course catalog (Super Admin), per-medresa activation, teacher-to-course assignment, course detail; APIs at `/api/v1/courses` and `/api/v1/medresas/:medresaId/courses`; UI at `/admin/courses` and `/medresa/courses`.
+- **Dev seed dataset** — `npm run db:seed:dev` seeds 5 medresas, 10 teachers (5 medresa admins + 5 ustaz), 3 master courses, 100 students (20 per medresa) with course enrollments; idempotent. Wired into `make dev-up` / `setup-dev.sh`. Verify: `./scripts/verify-seed-dev.sh` or `make dev-verify-seed`. Credentials: `docs/seed-dev-credentials.md`.
+- **M06: Attendance tracking** — `backend/src/modules/m06-attendance/`, Ethiopia (`Africa/Addis_Ababa`) calendar semantics, cron + stale lock bootstrap, Amir/Super Admin read-only rollups.
+  - Teacher `POST/PATCH /api/v1/attendance/sessions`, `GET` history + `/sessions/today-session`, `GET /attendance/students/:id`; Amir `GET /medresas/:medresaId/attendance/overview`; Super Admin `GET /attendance/network-overview`.
+  - **UI:** `/teacher/attendance`, `/teacher/attendance/$medresaCourseId`, `/medresa/attendance`, `/admin/attendance`; shell **Attendance** entry; course detail shortcuts.
+  - **Docs:** `docs/06-attendance.md`, `docs/m06-attendance-api-tests.md`.
+  - **Verify:** `./scripts/verify-m06-attendance-api.sh` or `make dev-verify-m06`.
+- **M05: Student Management** — student module in `backend/src/modules/m05-student/` and `frontend/src/features/students/`.
+  - **Per-medresa (Medresa Admin):** enroll, edit, list (search/status/course filters), assign/remove course, transfer between medresas; optional photo upload.
+  - **Course rules:** assignment only to active medresa courses with an assigned teacher; soft-delete enrollments.
+  - **Teacher roster:** read-only list and detail for students in assigned courses.
+  - **APIs:** `/api/v1/medresas/:medresaId/students`, `/api/v1/students/*`, `/api/v1/teacher/students`.
+  - **UI routes:** `/medresa/students`, `/medresa/students/$studentId`, `/teacher/students`; **Students** nav for Medresa Admin, Teacher, and Super Admin.
+  - **Docs:** `docs/05-student.md`, `docs/m05-student-api-tests.md`.
+  - **M05 close-out:** `./scripts/verify-m05-student-api.sh` (or `make dev-verify-m05`) automates the student API checklist against the dev seed; four logins (avoids common auth rate-limit hit from Super Admin `/medresas` probing).
+- **M04: Course Management** — full course module in `backend/src/modules/m04-course/` and `frontend/src/features/courses/`.
+  - **Master catalog (Super Admin):** create, edit, deactivate, and reactivate network-wide courses with trilingual `name`/`description` JSON (`en` required), `BEGINNER`/`INTERMEDIATE`/`ADVANCED` levels, and network-unique English names; list includes medresa activation count.
+  - **Per-medresa (Medresa Admin):** activate courses from the master list, deactivate within own medresa only, assign one teacher per course (teacher must already be on the medresa via M03), list with assigned teacher and student count.
+  - **Course detail (S19):** Medresa Admin and assigned Teacher; **attendance** wired to M06 modules; grades section reserved for M07.
+  - **APIs:** `/api/v1/courses` and `/api/v1/medresas/:medresaId/courses` (plus `/available` and `/teachers` helpers for activation and assignment UI).
+  - **UI routes:** `/admin/courses`, `/medresa/courses`, `/medresa/courses/$medresaCourseId`; **Courses** added to Super Admin and Medresa Admin nav; medresa picker when user is admin of multiple medresas.
+  - **Docs:** `docs/04-course.md`, manual test matrix in `docs/m04-course-api-tests.md`.
 - **M03: Teacher Management** — teacher CRUD with auto-linked users, medresa assignments (single + bulk), photo upload, `/teachers/me`, Super Admin UI at `/admin/teachers`.
 - Teacher create: optional initial medresa assignment, temporary password / invite email options; Amir i18n labels for `ADMIN` role (en/am/ar).
 - Teacher detail: resend invite and set temporary password (via retained user account endpoints).
@@ -17,12 +37,16 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 - Backend container healthcheck in `docker-compose.yml`.
 
 ### Changed
+- **Super Admin** medresa picker: `useMedresaContext()` loads active medresas from `GET /api/v1/medresas` (only when `isSuperAdmin`) so Students and Medresa courses pages resolve `medresaId` and `?medresaId=` even when the JWT has no medresa roles. App shell adds separate **Course catalog** and **Medresa courses** nav entries.
+- Course detail links to student list filtered by course (`courses.viewStudents`).
+- App shell navigation labels moved to i18n keys (`nav.medresas`, `nav.teachers`, `nav.courses`, etc.).
 - Staff onboarding consolidated under **Teachers** only; removed `/admin/users` screen and `GET`/`POST /api/v1/users`.
 - Auth `medresaRoles` now exclude assignments to inactive medresas (login/refresh/`/me`).
 - Medresa API: removed `DELETE /:id`; use `PATCH /:id/deactivate` and `PATCH /:id/reactivate` instead.
 - `.env.example` dev passwords aligned with `docker-compose.yml`, `sql/init.sql`, and PgBouncer userlist.
 - Rebranded application from **HMMS** to **Sefinet Al Neja** across UI, emails, package names, Docker identifiers, and core documentation.
 - Restored `Sefinet-Agent-Rules.md` (rebuilt from project specs; Local History had no snapshot).
+- Docker dev backend: **`/app/node_modules` uses a named volume** (`sefinet-backend-node-modules`) so `make dev-backend-deps` (`docker compose run … npm ci`) updates the same tree the running container uses; avoids crash loops when `package-lock.json` gains packages (e.g. M06 `date-fns-tz`).
 - Renamed docs to `Sefinet-*` / `sefinet_*` with redirect stubs for legacy `HMMS-*` / `hmms_*` paths.
 
 ## [1.0.0] - 2026-05-10

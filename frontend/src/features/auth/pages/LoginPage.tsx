@@ -7,13 +7,26 @@ import { LanguageSwitcher } from '../../../components/LanguageSwitcher';
 import { Building2, Eye, EyeOff, LogIn, Mail } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
+import { isGoogleSignInEnabled } from '../../../config/env';
+import { GoogleSignInButton } from '../components/GoogleSignInButton';
 import { useAuth } from '../hooks/useAuth';
 import { loginSchema, type LoginFormValues } from '../schemas/auth.schemas';
+import { getGoogleLoginErrorMessage } from '../utils/googleAuthErrors';
 
 export const LoginPage = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoggingIn, loginError } = useAuth();
+  const {
+    login,
+    loginWithGoogle,
+    isLoggingIn,
+    isGoogleLoggingIn,
+    loginError,
+    googleLoginError,
+  } = useAuth();
+
+  const isSubmitting = isLoggingIn || isGoogleLoggingIn;
+  const showGoogle = isGoogleSignInEnabled();
 
   const {
     register,
@@ -98,7 +111,7 @@ export const LoginPage = () => {
             </p>
           )}
 
-          <button type="submit" disabled={isLoggingIn} className="btn-primary">
+          <button type="submit" disabled={isSubmitting} className="btn-primary">
             {isLoggingIn ? (
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
@@ -108,6 +121,26 @@ export const LoginPage = () => {
               </>
             )}
           </button>
+
+          {showGoogle && (
+            <>
+              <div className="relative my-6">
+                <div className="border-t border-cream-dark" aria-hidden />
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-cream px-2 text-[11px] text-muted-foreground">
+                  {t('auth.orContinueWith')}
+                </span>
+              </div>
+              {googleLoginError && (
+                <p className="text-xs text-danger-text bg-danger-bg p-3 rounded-md mb-4">
+                  {getGoogleLoginErrorMessage(googleLoginError, t)}
+                </p>
+              )}
+              <GoogleSignInButton
+                onCredential={loginWithGoogle}
+                disabled={isSubmitting}
+              />
+            </>
+          )}
 
           <p className="text-[11px] text-muted-foreground text-center mt-6">{t('auth.version')}</p>
         </form>

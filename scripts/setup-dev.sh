@@ -77,6 +77,9 @@ docker exec sefinet-backend-dev sh /app/scripts/migrate.sh
 echo "Seeding Super Admin..."
 docker exec sefinet-backend-dev npm run db:seed
 
+echo "Seeding dev dataset (medresas, teachers, students)..."
+docker exec sefinet-backend-dev npm run db:seed:dev
+
 echo "Verifying login..."
 login_body=$(printf '{"identifier":"%s","password":"%s"}' "$DEV_LOGIN_EMAIL" "$DEV_LOGIN_PASSWORD")
 login_response=$(curl -sf -X POST "${API_URL}/api/v1/auth/login" \

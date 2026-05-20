@@ -18,3 +18,7 @@ export const passwordResetConfirmSchema = z.object({
   token: z.string().min(10, "token is required"),
   newPassword: z.string().min(8, "newPassword must be at least 8 characters"),
 });
+
+export const googleLoginSchema = z.object({
+  credential: z.string().min(10, "credential is required"),
+});

@@ -77,27 +77,27 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E2.1 Medresa CRUD
 
-- [ ] Medresa schema + migration
-- [ ] Create/edit/list/detail medresa endpoints
-- [ ] Activate/deactivate medresa workflow
-- [ ] Duplicate medresa validation rules
+- [x] Medresa schema + migration
+- [x] Create/edit/list/detail medresa endpoints
+- [x] Activate/deactivate medresa workflow
+- [x] Duplicate medresa validation rules
 
 ### E2.2 Access + Isolation
 
-- [ ] Super Admin-only write access for medresa CRUD
-- [ ] Deactivated medresa operational restrictions
-- [ ] Tenant scoping helper introduced for reuse
+- [x] Super Admin-only write access for medresa CRUD
+- [x] Deactivated medresa operational restrictions
+- [x] Tenant scoping helper introduced for reuse
 
 ### E2.3 UI Delivery
 
-- [ ] Super Admin medresa list page
-- [ ] Medresa create/edit form
-- [ ] Status controls (active/inactive)
+- [x] Super Admin medresa list page
+- [x] Medresa create/edit form
+- [x] Status controls (active/inactive)
 
 ### E2 DoD
 
 - [ ] CRUD and status transitions pass integration tests
-- [ ] Non-Super Admin cannot mutate medresa data
+- [x] Non-Super Admin cannot mutate medresa data
 
 ---
 
@@ -105,27 +105,27 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E3.1 Teacher Domain
 
-- [ ] Teacher schema + migration (network-level entity)
-- [ ] Teacher creation auto-links a user account
-- [ ] Teacher profile CRUD (with active/inactive)
+- [x] Teacher schema + migration (network-level entity)
+- [x] Teacher creation auto-links a user account
+- [x] Teacher profile CRUD (with active/inactive)
 
 ### E3.2 Teacher-Medresa Assignment
 
-- [ ] `teacher_medresa` join model + migration
-- [ ] Assign/unassign teacher to medresa endpoint
-- [ ] Per-medresa role flag (teacher/admin) supported
-- [ ] Prevent duplicate active assignment
+- [x] `teacher_medresa` join model + migration
+- [x] Assign/unassign teacher to medresa endpoint
+- [x] Per-medresa role flag (teacher/admin) supported
+- [x] Prevent duplicate active assignment
 
 ### E3.3 UI Delivery
 
-- [ ] Teacher management list/detail pages
-- [ ] Assignment UI by medresa
-- [ ] Per-medresa role elevation controls
+- [x] Teacher management list/detail pages
+- [x] Assignment UI by medresa
+- [x] Per-medresa role elevation controls
 
 ### E3 DoD
 
-- [ ] Same teacher can hold different roles across medresas
-- [ ] Assignment history appears in audit logs
+- [x] Same teacher can hold different roles across medresas
+- [x] Assignment history appears in audit logs
 
 ---
 
@@ -133,26 +133,26 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E4.1 Course Catalog
 
-- [ ] Course schema + migration
-- [ ] Super Admin can create/edit global course definitions
-- [ ] Course status lifecycle supported
+- [x] Course schema + migration
+- [x] Super Admin can create/edit global course definitions
+- [x] Course status lifecycle supported
 
 ### E4.2 Medresa Activation + Teacher Assignment
 
-- [ ] Medresa-level course activation relation
-- [ ] Assign only teachers already assigned to that medresa
-- [ ] Assignment conflict checks + validation errors
+- [x] Medresa-level course activation relation
+- [x] Assign only teachers already assigned to that medresa
+- [x] Assignment conflict checks + validation errors
 
 ### E4.3 UI Delivery
 
-- [ ] Global course catalog screen (Super Admin)
-- [ ] Medresa course activation screen (Medresa Admin)
-- [ ] Teacher assignment panel per course
+- [x] Global course catalog screen (Super Admin)
+- [x] Medresa course activation screen (Medresa Admin)
+- [x] Teacher assignment panel per course
 
 ### E4 DoD
 
-- [ ] Invalid cross-medresa assignment blocked at API and UI
-- [ ] Course flows covered with integration tests
+- [x] Invalid cross-medresa assignment blocked at API and UI
+- [x] Course flows covered with integration tests
 
 ---
 
@@ -160,27 +160,28 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E5.1 Student Records
 
-- [ ] Student schema + migration
-- [ ] Student CRUD within medresa scope
-- [ ] Enrollment number uniqueness policy per medresa
-- [ ] Student status lifecycle (active/transferred/inactive)
+- [x] Student schema + migration
+- [x] Student CRUD within medresa scope
+- [ ] Enrollment number uniqueness policy per medresa (deferred — not in master spec)
+- [x] Student status lifecycle (active/transferred/inactive)
 
 ### E5.2 Enrollment Flows
 
-- [ ] Student-medresa relationship enforced
-- [ ] Student-course enrollment with rule checks
-- [ ] Enrollment constraints: active course + assigned teacher
+- [x] Student-medresa relationship enforced
+- [x] Student-course enrollment with rule checks
+- [x] Enrollment constraints: active course + assigned teacher
 
 ### E5.3 UI Delivery
 
-- [ ] Student registry (filter/search)
-- [ ] Student create/edit screens
-- [ ] Enrollment management section
+- [x] Student registry (filter/search)
+- [x] Student create/edit screens
+- [x] Enrollment management section
 
 ### E5 DoD
 
-- [ ] Medresa Admin only accesses own medresa students
-- [ ] Enrollment integrity checks pass automatically
+- [x] Medresa Admin only accesses own medresa students
+- [x] Enrollment integrity checks pass automatically
+- [x] Repeatable student API checklist (`make dev-verify-m05` → `scripts/verify-m05-student-api.sh`)
 
 ---
 
@@ -188,26 +189,26 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 
 ### E6.1 Attendance Core
 
-- [ ] Attendance schema + migration
-- [ ] Mark daily attendance by teacher/course/student
-- [ ] Status support (present/absent/late/excused)
-- [ ] Duplicate daily entry prevention
+- [x] Attendance schema + migration (Prisma models were pre-provisioned; production DB applied via team migration flow)
+- [x] Mark daily attendance by teacher/course/student
+- [x] Status support (present/absent/late/excused)
+- [x] Duplicate daily entry prevention
 
 ### E6.2 Corrections + Audit
 
-- [ ] Attendance correction flow (with reason)
-- [ ] Full attendance change audit trail
+- [x] Attendance correction flow (same Ethiopian day; optional `note` / `edited_at`; structured “reason” field deferred)
+- [x] Full attendance change audit trail (`auditLog` on session create + per-record PATCH; DB trigger model remains for other tables)
 
 ### E6.3 UI Delivery
 
-- [ ] Teacher attendance entry screen
-- [ ] Date/course/class filters
-- [ ] Attendance summary view
+- [x] Teacher attendance entry screen
+- [x] Date/course/class filters (medresa course list + overview date pickers; session list query params)
+- [x] Attendance summary view (teacher student drill-down + Amir daily table + Super Admin network table)
 
 ### E6 DoD
 
-- [ ] Teacher can only mark for assigned classes/students
-- [ ] Daily attendance reliability test coverage exists
+- [x] Teacher can only mark for assigned classes/students
+- [x] Daily attendance reliability test coverage exists (`make dev-verify-m06`)
 
 ---
 

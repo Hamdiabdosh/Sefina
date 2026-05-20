@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { AuditAction, UserStatus } from "../../../prisma/generated/prisma/enums";
-import { env } from "../../config/env";
+import { AuditAction, Status, UserStatus } from "../../../prisma/generated/prisma/enums";
+import { env, isGoogleOAuthConfigured } from "../../config/env";
 import { auditLog } from "../../lib/audit";
+import { verifyGoogleIdToken } from "../../lib/google-oauth";
 import { sendPasswordResetEmail, sendWelcomeEmail } from "../../lib/mailer";
 import { prisma } from "../../lib/prisma";
 
@@ -100,17 +101,23 @@ const mapMedresaRoles = async (
   if (rows.length === 0) return [];
 
   const medresas = await prisma.medresa.findMany({
-    where: { id: { in: rows.map((r) => r.medresa_id) } },
+    where: {
+      id: { in: rows.map((r) => r.medresa_id) },
+      status: Status.ACTIVE,
+      deleted_at: null,
+    },
     select: { id: true, name: true },
   });
 
-  const nameById = new Map(medresas.map((m) => [m.id, m.name]));
+  const activeById = new Map(medresas.map((m) => [m.id, m.name]));
 
-  return rows.map((row) => ({
-    medresaId: row.medresa_id,
-    medresaName: nameById.get(row.medresa_id) ?? "Unknown",
-    role: row.role,
-  }));
+  return rows
+    .filter((row) => activeById.has(row.medresa_id))
+    .map((row) => ({
+      medresaId: row.medresa_id,
+      medresaName: activeById.get(row.medresa_id)!,
+      role: row.role,
+    }));
 };
 
 const buildUserAuthPayload = async (userId: string) => {
@@ -176,6 +183,16 @@ const issueRefreshToken = async (userId: string) => {
   return refreshToken;
 };
 
+const createAuthSession = async (userId: string) => {
+  const authPayload = await buildUserAuthPayload(userId);
+  if (!authPayload) return null;
+  const refreshToken = await issueRefreshToken(userId);
+  return {
+    ...authPayload,
+    refreshToken,
+  };
+};
+
 export const login = async (input: LoginInput) => {
   const user = await prisma.user.findFirst({
     where: {
@@ -190,14 +207,41 @@ export const login = async (input: LoginInput) => {
   const passwordOk = await bcrypt.compare(input.password, user.password_hash);
   if (!passwordOk) return null;
 
-  const authPayload = await buildUserAuthPayload(user.id);
-  if (!authPayload) return null;
-  const refreshToken = await issueRefreshToken(user.id);
+  return createAuthSession(user.id);
+};
 
-  return {
-    ...authPayload,
-    refreshToken,
-  };
+export type GoogleLoginResult =
+  | { ok: true; session: NonNullable<Awaited<ReturnType<typeof createAuthSession>>> }
+  | { ok: false; reason: "NOT_CONFIGURED" | "INVALID_TOKEN" | "ACCOUNT_NOT_FOUND" };
+
+export const loginWithGoogle = async (credential: string): Promise<GoogleLoginResult> => {
+  if (!isGoogleOAuthConfigured()) {
+    return { ok: false, reason: "NOT_CONFIGURED" };
+  }
+
+  const googleUser = await verifyGoogleIdToken(credential);
+  if (!googleUser) {
+    return { ok: false, reason: "INVALID_TOKEN" };
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      email: { equals: googleUser.email, mode: "insensitive" },
+      deleted_at: null,
+      status: UserStatus.ACTIVE,
+    },
+  });
+
+  if (!user) {
+    return { ok: false, reason: "ACCOUNT_NOT_FOUND" };
+  }
+
+  const session = await createAuthSession(user.id);
+  if (!session) {
+    return { ok: false, reason: "ACCOUNT_NOT_FOUND" };
+  }
+
+  return { ok: true, session };
 };
 
 export const refreshSession = async (input: RefreshInput) => {

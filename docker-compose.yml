@@ -78,7 +78,10 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
       SMTP_FROM: ${SMTP_FROM:-Sefinet Al Neja <noreply@sefinet.et>}
-      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-http://localhost:4000/api/v1/auth/google/callback}
       RESET_TOKEN_EXPIRY_HOURS: 1
       UPLOAD_DIR: /app/uploads
       TZ: Africa/Addis_Ababa
@@ -90,7 +93,8 @@ services:
       - ./backend/scripts:/app/scripts
       - ./backend/prisma.config.ts:/app/prisma.config.ts
       - uploads_data:/app/uploads
-      - /app/node_modules
+      # Named volume so `docker compose run --rm backend npm ci` refreshes the same deps the dev container uses.
+      - backend_node_modules:/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -124,6 +128,8 @@ volumes:
     name: sefinet-postgres-data
   uploads_data:
     name: sefinet-uploads-data
+  backend_node_modules:
+    name: sefinet-backend-node-modules
 
 networks:
   sefinet-network:

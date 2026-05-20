@@ -10,6 +10,12 @@ import medresaRoutes from './modules/m02-medresa/medresa.routes';
 import teacherRoutes from './modules/m03-teacher/teacher.routes';
 import courseRoutes from './modules/m04-course/course.routes';
 import medresaCourseRoutes from './modules/m04-course/medresa-course.routes';
+import medresaStudentRoutes from './modules/m05-student/medresa-student.routes';
+import studentRoutes from './modules/m05-student/student.routes';
+import teacherStudentRoutes from './modules/m05-student/teacher-student.routes';
+import attendanceRoutes from './modules/m06-attendance/attendance.routes';
+import medresaAttendanceRoutes from './modules/m06-attendance/medresa-attendance.routes';
+import { scheduleAttendanceCron } from './schedulers/attendance-cron';
 
 const app = express();
 const PORT = env.PORT;
@@ -57,6 +63,11 @@ app.use('/api/v1/medresas', medresaRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
 app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/medresas/:medresaId/courses', medresaCourseRoutes);
+app.use('/api/v1/medresas/:medresaId/students', medresaStudentRoutes);
+app.use('/api/v1/students', studentRoutes);
+app.use('/api/v1/teacher/students', teacherStudentRoutes);
+app.use('/api/v1/attendance', attendanceRoutes);
+app.use('/api/v1/medresas/:medresaId/attendance', medresaAttendanceRoutes);
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('[ERROR]', err.message);
@@ -68,6 +79,7 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 
 app.listen(PORT, () => {
   console.log(`Sefinet Al Neja backend running on port ${PORT}`);
+  scheduleAttendanceCron();
 });
 
 export default app;

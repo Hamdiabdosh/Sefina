@@ -11,6 +11,7 @@ import {
   getMyProfile,
   logAuthEvent,
   login,
+  loginWithGoogle,
   refreshSession,
   requestPasswordReset,
   revokeRefreshToken,
@@ -50,6 +51,50 @@ export const loginHandler = async (req: Request, res: Response): Promise<void> =
     data: {
       user: result.user,
       accessToken: result.accessToken,
+    },
+  });
+};
+
+export const googleLoginHandler = async (req: Request, res: Response): Promise<void> => {
+  const ip = getClientIp(req);
+  const result = await loginWithGoogle(req.body.credential);
+
+  if (!result.ok) {
+    const errorByReason = {
+      NOT_CONFIGURED: {
+        status: 503,
+        code: "GOOGLE_NOT_CONFIGURED",
+        message: "Google sign-in is not configured",
+      },
+      INVALID_TOKEN: {
+        status: 401,
+        code: "INVALID_GOOGLE_TOKEN",
+        message: "Google sign-in failed. Try again.",
+      },
+      ACCOUNT_NOT_FOUND: {
+        status: 404,
+        code: "GOOGLE_ACCOUNT_NOT_FOUND",
+        message: "No account exists for this Google email. Contact your administrator.",
+      },
+    } as const;
+
+    const error = errorByReason[result.reason];
+    await safeLogAuthEvent("GOOGLE_LOGIN_FAILED", result.reason, null, ip);
+    res.status(error.status).json({
+      success: false,
+      error: { code: error.code, message: error.message },
+    });
+    return;
+  }
+
+  setRefreshTokenCookie(res, result.session.refreshToken);
+  await safeLogAuthEvent("GOOGLE_LOGIN_SUCCESS", result.session.user.id, result.session.user.id, ip);
+
+  res.status(200).json({
+    success: true,
+    data: {
+      user: result.session.user,
+      accessToken: result.session.accessToken,
     },
   });
 };

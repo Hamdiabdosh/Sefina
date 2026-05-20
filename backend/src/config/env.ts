@@ -5,6 +5,9 @@ import { z } from "zod";
 dotenv.config();
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
+const emptyToUndefined = (value: unknown): unknown =>
+  typeof value === "string" && value.trim() === "" ? undefined : value;
+
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(4000),
@@ -18,8 +21,19 @@ const envSchema = z.object({
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().min(1).default("Sefinet Al Neja <noreply@sefinet.et>"),
   RESET_TOKEN_EXPIRY_HOURS: z.coerce.number().int().positive().default(1),
+  GOOGLE_CLIENT_ID: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
+  GOOGLE_CLIENT_SECRET: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
+  GOOGLE_REDIRECT_URI: z.preprocess(
+    emptyToUndefined,
+    z.string().url().optional()
+  ),
+  UPLOAD_DIR: z.string().min(1).default("uploads"),
 });
 
 export const env = envSchema.parse(process.env);
 
 export const isSmtpConfigured = (): boolean => Boolean(env.SMTP_HOST);
+
+/** True when backend Google OAuth credentials are set (for token verify / redirect flow). */
+export const isGoogleOAuthConfigured = (): boolean =>
+  Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);

@@ -14,7 +14,8 @@ import type { MedresaCourseListItem } from '../types';
 export const MedresaCoursesPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { medresaId, medresaName, adminMedresas, hasMultipleMedresas } = useMedresaContext();
+  const { medresaId, medresaName, adminMedresas, hasMultipleMedresas, medresaScopeLoading } =
+    useMedresaContext();
   const [showActivate, setShowActivate] = useState(false);
   const [assignCourse, setAssignCourse] = useState<MedresaCourseListItem | null>(null);
 
@@ -29,6 +30,17 @@ export const MedresaCoursesPage = () => {
   } = useMedresaCourses(medresaId);
 
   const activeCount = courses.filter((c) => c.status === 'ACTIVE').length;
+
+  if (medresaScopeLoading) {
+    return (
+      <div className="min-h-screen bg-cream">
+        <PageHeader title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
+        <div className="p-4">
+          <div className="h-24 bg-white rounded-xl animate-pulse border border-cream-dark" />
+        </div>
+      </div>
+    );
+  }
 
   if (!medresaId) {
     return (

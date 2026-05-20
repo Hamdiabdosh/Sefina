@@ -17,9 +17,16 @@ import { TeacherDetailPage } from './features/teachers/pages/TeacherDetailPage';
 import { CoursesPage } from './features/courses/pages/CoursesPage';
 import { MedresaCoursesPage } from './features/courses/pages/MedresaCoursesPage';
 import { MedresaCourseDetailPage } from './features/courses/pages/MedresaCourseDetailPage';
+import { MedresaStudentsPage } from './features/students/pages/MedresaStudentsPage';
+import { StudentDetailPage } from './features/students/pages/StudentDetailPage';
+import { TeacherStudentsPage } from './features/students/pages/TeacherStudentsPage';
 import { MedresaDashboardPage } from './pages/MedresaDashboardPage';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { PendingAccessPage } from './features/auth/pages/PendingAccessPage';
+import { TeacherAttendanceHubPage } from './features/attendance/pages/TeacherAttendanceHubPage';
+import { TeacherCourseAttendancePage } from './features/attendance/pages/TeacherCourseAttendancePage';
+import { MedresaAttendanceOverviewPage } from './features/attendance/pages/MedresaAttendanceOverviewPage';
+import { AdminAttendanceNetworkPage } from './features/attendance/pages/AdminAttendanceNetworkPage';
 import type { CurrentUser } from './features/auth/types/auth.types';
 import { enrichCurrentUser, getHomeRouteForUser } from './features/auth/utils/roleRedirect';
 
@@ -156,6 +163,22 @@ const medresaDashboardRoute = createRoute({
   component: MedresaDashboardPage,
 });
 
+const medresaAttendanceRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/medresa/attendance',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isMedresaAdmin && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: MedresaAttendanceOverviewPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+    date: (search.date as string) || undefined,
+  }),
+});
+
 const adminCoursesRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/admin/courses',
@@ -164,6 +187,16 @@ const adminCoursesRoute = createRoute({
     if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
   },
   component: CoursesPage,
+});
+
+const adminAttendanceNetworkRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/admin/attendance',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
+  },
+  component: AdminAttendanceNetworkPage,
 });
 
 const medresaCoursesRoute = createRoute({
@@ -196,6 +229,49 @@ const medresaCourseDetailRoute = createRoute({
   }),
 });
 
+const medresaStudentsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/medresa/students',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isMedresaAdmin && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: MedresaStudentsPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+    medresaCourseId: (search.medresaCourseId as string) || undefined,
+  }),
+});
+
+const medresaStudentDetailRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/medresa/students/$studentId',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isMedresaAdmin && !user.isTeacher && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: StudentDetailPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+});
+
+const teacherStudentsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/teacher/students',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isTeacher && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: TeacherStudentsPage,
+});
+
 const teacherDashboardRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/teacher/dashboard',
@@ -206,6 +282,36 @@ const teacherDashboardRoute = createRoute({
     }
   },
   component: TeacherDashboardPage,
+});
+
+const teacherAttendanceHubRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/teacher/attendance',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isTeacher && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: TeacherAttendanceHubPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+});
+
+const teacherCourseAttendanceRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/teacher/attendance/$medresaCourseId',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isTeacher && !user.isSuperAdmin) {
+      throw redirect({ to: getHomeRouteForUser(user) });
+    }
+  },
+  component: TeacherCourseAttendancePage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
 });
 
 const routeTree = rootRoute.addChildren([
@@ -219,11 +325,18 @@ const routeTree = rootRoute.addChildren([
     adminTeachersRoute,
     adminTeacherDetailRoute,
     adminCoursesRoute,
+    adminAttendanceNetworkRoute,
     pendingAccessRoute,
     medresaDashboardRoute,
+    medresaAttendanceRoute,
     medresaCoursesRoute,
     medresaCourseDetailRoute,
+    medresaStudentsRoute,
+    medresaStudentDetailRoute,
+    teacherStudentsRoute,
     teacherDashboardRoute,
+    teacherAttendanceHubRoute,
+    teacherCourseAttendanceRoute,
   ]),
 ]);
 

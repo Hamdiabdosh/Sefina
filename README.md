@@ -87,11 +87,22 @@ docker exec sefinet-backend-dev sh /app/scripts/migrate.sh
 
 Uses `DATABASE_ADMIN_URL` (direct Postgres). If `backend/prisma/migrations/` is empty, runs `prisma db push`; otherwise `prisma migrate deploy`.
 
-#### 5. Seed the Super Admin account (first time only)
+#### 5. Seed data
+
+Super Admin (required):
 
 ```bash
 docker exec sefinet-backend-dev npm run db:seed
 ```
+
+Dev dataset — 5 medresas, 10 teachers, 100 students (optional; also runs on `make dev-up`):
+
+```bash
+docker exec sefinet-backend-dev npm run db:seed:dev
+./scripts/verify-seed-dev.sh   # or: make dev-verify-seed
+```
+
+Credentials: [`docs/seed-dev-credentials.md`](docs/seed-dev-credentials.md). All dev teacher accounts use password `Teacher@12345`.
 
 #### 6. Start the frontend
 
@@ -129,6 +140,8 @@ npm run dev
 ```
 
 **Full reset** (wipes database volume): `make dev-reset-db`
+
+**Re-seed dev data** (stack already up): `make dev-seed` then `make dev-verify-seed`
 
 **Stop everything**
 

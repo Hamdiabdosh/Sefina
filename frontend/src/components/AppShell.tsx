@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
-import { BookOpen, Building2, Clock, GraduationCap, LogOut, User } from 'lucide-react';
+import { BookOpen, Building2, CalendarDays, Clock, GraduationCap, Library, LogOut, User, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useAuth } from '../features/auth/hooks/useAuth';
@@ -19,15 +19,24 @@ export const AppShell = () => {
     ? [
         { to: '/admin/medresas', label: t('nav.medresas'), icon: Building2 },
         { to: '/admin/teachers', label: t('nav.teachers'), icon: GraduationCap },
-        { to: '/admin/courses', label: t('nav.courses'), icon: BookOpen },
+        { to: '/admin/courses', label: t('nav.courseCatalog'), icon: Library },
+        { to: '/admin/attendance', label: t('nav.attendance'), icon: CalendarDays },
+        { to: '/medresa/courses', label: t('nav.medresaCourses'), icon: BookOpen },
+        { to: '/medresa/students', label: t('nav.students'), icon: Users },
       ]
     : currentUser.isMedresaAdmin
       ? [
           { to: '/medresa/dashboard', label: t('nav.dashboard'), icon: Building2 },
           { to: '/medresa/courses', label: t('nav.courses'), icon: BookOpen },
+          { to: '/medresa/students', label: t('nav.students'), icon: Users },
+          { to: '/medresa/attendance', label: t('nav.attendance'), icon: CalendarDays },
         ]
       : currentUser.isTeacher
-        ? [{ to: '/teacher/dashboard', label: t('nav.dashboard'), icon: Building2 }]
+        ? [
+            { to: '/teacher/dashboard', label: t('nav.dashboard'), icon: Building2 },
+            { to: '/teacher/attendance', label: t('nav.attendance'), icon: CalendarDays },
+            { to: '/teacher/students', label: t('nav.students'), icon: Users },
+          ]
         : [{ to: '/account/pending', label: t('nav.pending'), icon: Clock }];
 
   return (

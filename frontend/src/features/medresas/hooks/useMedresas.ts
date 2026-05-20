@@ -6,8 +6,14 @@ import type { MedresaDetail, MedresaListItem } from '../types';
 const medresasKey = ['medresas'] as const;
 const medresaDetailKey = (id: string) => ['medresa', id] as const;
 
-export const useMedresas = () => {
+type UseMedresasOptions = {
+  /** When false, does not call GET /medresas (Super Admin only). Default true. */
+  enabled?: boolean;
+};
+
+export const useMedresas = (options?: UseMedresasOptions) => {
   const queryClient = useQueryClient();
+  const enabled = options?.enabled ?? true;
 
   const { data: medresas = [], isLoading, error } = useQuery<MedresaListItem[]>({
     queryKey: medresasKey,
@@ -15,6 +21,7 @@ export const useMedresas = () => {
       const response = await axiosInstance.get('/api/v1/medresas');
       return response.data.data;
     },
+    enabled,
   });
 
   const createMedresa = useMutation({
