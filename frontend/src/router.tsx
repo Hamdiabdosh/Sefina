@@ -8,6 +8,7 @@ import {
 import type { QueryClient } from '@tanstack/react-query';
 import { AppShell } from './components/AppShell';
 import { LoginPage } from './features/auth/pages/LoginPage';
+import { MarketingPage } from './features/marketing/pages/MarketingPage';
 import { ForgotPasswordPage } from './features/auth/pages/ForgotPasswordPage';
 import { ResetPasswordPage } from './features/auth/pages/ResetPasswordPage';
 import { MedresasPage } from './features/medresas/pages/MedresasPage';
@@ -85,9 +86,9 @@ const indexRoute = createRoute({
   path: '/',
   beforeLoad: ({ context }) => {
     const user = getCurrentUser(context.queryClient);
-    if (!user) throw redirect({ to: '/login' });
-    throw redirect({ to: getHomeRouteForUser(user) });
+    if (user) throw redirect({ to: getHomeRouteForUser(user) });
   },
+  component: MarketingPage,
 });
 
 const loginRoute = createRoute({

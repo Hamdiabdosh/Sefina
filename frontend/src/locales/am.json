@@ -1,4 +1,73 @@
 {
+  "shortcuts": {
+    "title": "የቁልፍ ሰሌዳ አቋራጮች",
+    "close": "ዝጋ",
+    "general": "አጠቃላይ",
+    "navigation": "ወደ",
+    "chordHint": "G ን በመጫን ከዚያ የተመረጠውን ፊደል (በ1 ሰከንድ ውስጥ)።",
+    "footerHint": "? በማንኛውም ጊዜ ይጫኑ ይህን ፓነል ለመክፈት።",
+    "sidebarHint": "? ለአቋራጮች",
+    "showHelp": "የአቋራጮች እገዛ",
+    "focusSearch": "ፍለጋ ያተኩሩ",
+    "openProfile": "መገለጫ ክፈት",
+    "closePanel": "ፓነሎችን / ምናሌ ዝጋ",
+    "goDashboard": "ዳሽቦርድ",
+    "goReports": "ሪፖርቶች",
+    "goMedresas": "ማድረሳዎች",
+    "goTeachers": "መምህራን",
+    "goStudents": "ተማሪዎች",
+    "goAttendance": "ቅጥያ",
+    "goCourses": "ኮርሶች",
+    "goFees": "ክፍያ",
+    "goSalaries": "ደመወዝ",
+    "goGrades": "ደረጃ",
+    "goHome": "መነሻ"
+  },
+  "common": {
+    "blessingQuote": "በአላህ የተደገፈ ሰው አላህ በቂ ነው።",
+    "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+    "blessingReference": "ቁርኣን ፬፭፥፫ — ሱራት አት-ጠላቅ"
+  },
+  "marketing": {
+    "heroTitleAr": "سفينة النجاح",
+    "heroSubtitle": "የሐረሪ ማድረሳ ኔትወርክ — ተማሪዎች፣ ቅጥያ፣ ደረጃ፣ ክፍያ እና ደመወዝ በአንድ ቦታ።",
+    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "blessingLine": "አላህ በትምህርት ጥረታችሁ ይባርክ።",
+    "signIn": "ግባ",
+    "featuresTitle": "ኔትወርክዎ የሚፈልገው ሁሉ",
+    "features": {
+      "medresas": {
+        "title": "ማድረሳዎች",
+        "titleAr": "المدارس",
+        "description": "ሁሉንም ማድረሳ ከአንድ ዳሽቦርድ ያስተዳድሩ።"
+      },
+      "students": {
+        "title": "ተማሪዎች",
+        "titleAr": "الطلاب",
+        "description": "ምዝገባ፣ ወላጆች፣ ፎቶ እና ተማሪ መዝገቦች።"
+      },
+      "attendance": {
+        "title": "ቅጥያ",
+        "titleAr": "الحضور",
+        "description": "ዕለታዊ ክፍለ ጊዜ፣ መምህር ቁጥር እና ታሪክ።"
+      },
+      "grades": {
+        "title": "ደረጃ እና ውጤት",
+        "titleAr": "الدرجات",
+        "description": "ፈተና አይነቶች፣ ደረጃ መግቢያ እና ውጤቶች።"
+      },
+      "fees": {
+        "title": "ክፍያ",
+        "titleAr": "الرسوم",
+        "description": "የክፍያ መዋቅር፣ መሰብሰብ እና አጠቃላይ እይታ።"
+      },
+      "salaries": {
+        "title": "ደመወዝ",
+        "titleAr": "الرواتب",
+        "description": "ደረጃ፣ ወራዊ ክፍያ እና የመምህር ታሪክ።"
+      }
+    }
+  },
   "auth": {
     "appName": "Sefinet Al Neja",
     "tagline": "የሐረሪ ማድረሳ አስተዳደር",

@@ -1,4 +1,73 @@
 {
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "close": "Close",
+    "general": "General",
+    "navigation": "Go to",
+    "chordHint": "Press G, then the letter shown (within about 1 second).",
+    "footerHint": "Press ? anytime to open this panel.",
+    "sidebarHint": "Press ? for keyboard shortcuts",
+    "showHelp": "Keyboard shortcuts help",
+    "focusSearch": "Focus search on this page",
+    "openProfile": "Open profile",
+    "closePanel": "Close panels / menu",
+    "goDashboard": "Dashboard",
+    "goReports": "Reports",
+    "goMedresas": "Medresas",
+    "goTeachers": "Teachers",
+    "goStudents": "Students",
+    "goAttendance": "Attendance",
+    "goCourses": "Courses",
+    "goFees": "Fees",
+    "goSalaries": "Salaries",
+    "goGrades": "Grades",
+    "goHome": "Home"
+  },
+  "common": {
+    "blessingQuote": "And whoever relies upon Allah - then He is sufficient for him.",
+    "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+    "blessingReference": "Quran 65:3 — Surah At-Talaq"
+  },
+  "marketing": {
+    "heroTitleAr": "سفينة النجاح",
+    "heroSubtitle": "Harari medresa network — students, attendance, grades, fees, and salaries in one place.",
+    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "blessingLine": "May Allah bless your efforts in education.",
+    "signIn": "Sign in",
+    "featuresTitle": "Everything your network needs",
+    "features": {
+      "medresas": {
+        "title": "Medresas",
+        "titleAr": "المدارس",
+        "description": "Manage every medresa in the Harari network from one dashboard."
+      },
+      "students": {
+        "title": "Students",
+        "titleAr": "الطلاب",
+        "description": "Enrollment, guardians, photos, and per-medresa student records."
+      },
+      "attendance": {
+        "title": "Attendance",
+        "titleAr": "الحضور",
+        "description": "Daily sessions, teacher roll call, and locked attendance history."
+      },
+      "grades": {
+        "title": "Grades & results",
+        "titleAr": "الدرجات",
+        "description": "Exam types, grade entry, class results, and edit approvals."
+      },
+      "fees": {
+        "title": "Fees",
+        "titleAr": "الرسوم",
+        "description": "Fee structures, collections, and network-wide fee overview."
+      },
+      "salaries": {
+        "title": "Salaries",
+        "titleAr": "الرواتب",
+        "description": "Salary ranks, monthly payments, and teacher salary history."
+      }
+    }
+  },
   "auth": {
     "appName": "Sefinet Al Neja",
     "tagline": "Harari Medresa Management",

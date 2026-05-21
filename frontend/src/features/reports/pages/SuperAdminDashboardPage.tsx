@@ -12,8 +12,8 @@ import {
   YAxis,
 } from 'recharts';
 import { Building2, Coins, GraduationCap, Users, Wallet } from 'lucide-react';
+import { MarketingHero, OrnateCard } from '../../../components/islamic';
 import { PageBody } from '../../../components/layout/PageBody';
-import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { StatCard } from '../../../components/ui/StatCard';
 import { formatEthiopianMonthYear } from '../../../lib/ethiopian';
 import { ChartCard } from '../components/ChartCard';
@@ -37,13 +37,19 @@ export const SuperAdminDashboardPage = () => {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col pb-12">
-      <PageTopBar title={t('dashboard.title')} subtitle={t('dashboard.networkSubtitle')} />
-      <PageBody fullWidth className="max-w-none space-y-4">
+      <PageBody fullWidth className="max-w-none space-y-4 pt-4">
+        <MarketingHero
+          variant="compact"
+          title={t('dashboard.title')}
+          subtitle={t('dashboard.networkSubtitle')}
+          showBlessing={false}
+        />
         {isLoading ? (
           <p className="text-sm text-muted-foreground">{t('dashboard.loading')}</p>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
+            <OrnateCard className="!border-cream-dark !shadow-sm">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
               <StatCard
                 icon={Building2}
                 value={data?.activeMedresas ?? 0}
@@ -74,7 +80,8 @@ export const SuperAdminDashboardPage = () => {
                 label={t('dashboard.unpaidTeachers')}
                 tone="amber"
               />
-            </div>
+              </div>
+            </OrnateCard>
 
             <div className="grid gap-4 lg:grid-cols-2">
               <ChartCard title={t('dashboard.networkFees')}>

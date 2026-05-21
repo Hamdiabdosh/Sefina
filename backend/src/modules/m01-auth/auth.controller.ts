@@ -72,13 +72,16 @@ export const googleLoginHandler = async (req: Request, res: Response): Promise<v
         message: "Google sign-in failed. Try again.",
       },
       ACCOUNT_NOT_FOUND: {
-        status: 404,
-        code: "GOOGLE_ACCOUNT_NOT_FOUND",
-        message: "No account exists for this Google email. Contact your administrator.",
+        status: 401,
+        code: "AUTHENTICATION_FAILED",
+        message: "Authentication failed",
       },
     } as const;
 
     const error = errorByReason[result.reason];
+    if (result.reason === "ACCOUNT_NOT_FOUND") {
+      console.error("[auth] Google login failed:", result.reason);
+    }
     await safeLogAuthEvent("GOOGLE_LOGIN_FAILED", result.reason, null, ip);
     res.status(error.status).json({
       success: false,

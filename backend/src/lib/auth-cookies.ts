@@ -30,10 +30,5 @@ export const getRefreshTokenFromRequest = (req: Request): string | null => {
     return cookieToken;
   }
 
-  const bodyToken = req.body?.refreshToken;
-  if (typeof bodyToken === "string" && bodyToken.length > 0 && env.NODE_ENV !== "production") {
-    return bodyToken;
-  }
-
   return null;
 };

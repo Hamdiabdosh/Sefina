@@ -162,7 +162,7 @@ export const uploadTeacherPhotoHandler = async (
     return;
   }
 
-  const validationError = validateTeacherPhoto(file);
+  const validationError = await validateTeacherPhoto(file);
   if (validationError) {
     res.status(400).json({
       success: false,
@@ -205,7 +205,16 @@ export const getTeacherPhotoHandler = async (req: Request, res: Response): Promi
     return;
   }
 
-  const absolutePath = resolveTeacherPhotoPath(record.photo_url);
+  let absolutePath: string;
+  try {
+    absolutePath = resolveTeacherPhotoPath(record.photo_url);
+  } catch {
+    res.status(404).json({
+      success: false,
+      error: { code: "NOT_FOUND", message: "Photo not found" },
+    });
+    return;
+  }
   res.sendFile(absolutePath, (err) => {
     if (err && !res.headersSent) {
       res.status(404).json({

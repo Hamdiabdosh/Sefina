@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { useFocusSearchShortcut } from '../../../hooks/useFocusSearchShortcut';
 import { useSearch } from '@tanstack/react-router';
 import { LayoutGrid, List, Plus, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,8 @@ export const TeachersPage = () => {
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL');
   const [showCreate, setShowCreate] = useState(false);
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  useFocusSearchShortcut(searchInputRef);
 
   const filters = {
     search: searchQuery || undefined,
@@ -80,11 +83,13 @@ export const TeachersPage = () => {
           <>
             <div className="relative hidden min-w-[140px] sm:block sm:min-w-[180px]">
               <input
-                type="text"
+                ref={searchInputRef}
+                type="search"
                 placeholder={t('teacherDirectory.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="field-input h-10 py-2 pl-9 text-sm"
+                aria-label={t('teacherDirectory.searchPlaceholder')}
               />
               <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
             </div>
@@ -161,11 +166,13 @@ export const TeachersPage = () => {
         <div className="mb-4 sm:hidden">
           <div className="relative">
             <input
-              type="text"
+              ref={searchInputRef}
+              type="search"
               placeholder={t('teacherDirectory.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="field-input h-12 pl-10"
+              aria-label={t('teacherDirectory.searchPlaceholder')}
             />
             <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
           </div>

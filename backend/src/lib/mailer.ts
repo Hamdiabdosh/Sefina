@@ -60,9 +60,8 @@ const sendEmail = async (to: string, subject: string, html: string): Promise<voi
   const transporter = getTransporter();
 
   if (!transporter) {
-    console.log(`[mailer] SMTP not configured — would send to ${to}`);
-    console.log(`[mailer] Subject: ${subject}`);
-    console.log(`[mailer] Body:\n${html}`);
+    // SECURITY: never log email bodies — they contain one-time tokens
+    console.log({ to, subject, event: "email_skipped_no_smtp" });
     return;
   }
 

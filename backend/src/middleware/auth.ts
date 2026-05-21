@@ -29,7 +29,9 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction): vo
   }
 
   try {
-    const payload = jwt.verify(token, env.JWT_ACCESS_SECRET) as AuthJwtPayload;
+    const payload = jwt.verify(token, env.JWT_ACCESS_SECRET, {
+      algorithms: ["HS256"],
+    }) as AuthJwtPayload;
 
     req.user = {
       userId: payload.sub,

@@ -56,6 +56,17 @@
 
   --font-sans: system-ui, -apple-system, sans-serif;
   --font-arabic: "Noto Naskh Arabic", serif;
+  --font-display-ar: "Amiri", "Noto Naskh Arabic", serif;
+  --font-heading-ar: "Cairo", "Noto Sans Arabic", sans-serif;
+  --font-body-ar: "Tajawal", "Noto Sans Arabic", sans-serif;
+
+  /* Islamic design system (ported from landing_page_frontend) */
+  --color-islamic-navy: #0f1419;
+  --color-islamic-azure: #1e3a5f;
+  --color-islamic-gold: #b8860b;
+  --color-islamic-gold-hover: #daa520;
+  --color-islamic-sand: #f5f5dc;
+  --color-islamic-taupe: #d2b48c;
 
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -100,5 +111,22 @@
 
   .btn-ghost-inline {
     @apply inline-flex items-center justify-center rounded-md px-2 py-1.5 text-sm text-sidebar-foreground/60 hover:bg-sidebar-hover hover:text-sidebar-foreground transition-colors;
+  }
+
+  .font-display-ar {
+    font-family: var(--font-display-ar);
+  }
+
+  .font-heading-ar {
+    font-family: var(--font-heading-ar);
+  }
+
+  .font-body-ar {
+    font-family: var(--font-body-ar);
+  }
+
+  .islamic-geometric-bg {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23B8860B' stroke-width='1' opacity='0.12'%3E%3Cpath d='M30 10c10 0 20 10 20 20s-10 20-20 20-20-10-20-20 10-20 20-20'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 30px 30px;
   }
 }

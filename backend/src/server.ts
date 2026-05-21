@@ -33,8 +33,10 @@ import dashboardRoutes from './modules/m10-reports/dashboard.routes';
 import reportRoutes from './modules/m10-reports/report.routes';
 import { scheduleAttendanceCron } from './schedulers/attendance-cron';
 import { scheduleSalaryCron } from './schedulers/salary-cron';
+import { handleControllerError } from './lib/errors';
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = env.PORT;
 
 app.use(helmet());
@@ -67,7 +69,7 @@ const globalLimiter = rateLimit({
 });
 app.use(globalLimiter);
 
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
 
 app.get('/health', (_req, res) => {
@@ -102,12 +104,8 @@ app.use('/api/v1/salaries', salariesOverviewRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/reports', reportRoutes);
 
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error('[ERROR]', err.message);
-  res.status(500).json({
-    success: false,
-    error: { code: 'INTERNAL_ERROR', message: 'An unexpected error occurred' },
-  });
+app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  handleControllerError(err, res);
 });
 
 app.listen(PORT, () => {

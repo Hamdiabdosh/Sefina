@@ -1,17 +1,27 @@
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
+import { fileTypeFromBuffer } from "file-type";
 import { env } from "../config/env";
 
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png"]);
 const MAX_BYTES = 2 * 1024 * 1024;
 
-export const validateTeacherPhoto = (file: Express.Multer.File): string | null => {
+export const validateTeacherPhoto = async (
+  file: Express.Multer.File
+): Promise<string | null> => {
   if (!ALLOWED_MIME.has(file.mimetype)) {
     return "Photo must be JPEG or PNG";
   }
   if (file.size > MAX_BYTES) {
     return "Photo must be 2MB or smaller";
+  }
+  const detected = await fileTypeFromBuffer(file.buffer);
+  if (!detected || !ALLOWED_MIME.has(detected.mime)) {
+    return "Photo must be JPEG or PNG";
+  }
+  if (detected.mime !== file.mimetype) {
+    return "Photo must be JPEG or PNG";
   }
   return null;
 };
@@ -35,13 +45,19 @@ export const saveTeacherPhoto = async (
 
 export const deleteTeacherPhotoFile = async (photoUrl: string | null): Promise<void> => {
   if (!photoUrl) return;
-  const absolutePath = path.join(env.UPLOAD_DIR, photoUrl);
   try {
+    const absolutePath = resolveTeacherPhotoPath(photoUrl);
     await fs.unlink(absolutePath);
   } catch {
-    // ignore missing files
+    // ignore invalid paths and missing files
   }
 };
 
-export const resolveTeacherPhotoPath = (photoUrl: string): string =>
-  path.join(env.UPLOAD_DIR, photoUrl);
+export const resolveTeacherPhotoPath = (photoUrl: string): string => {
+  const base = path.resolve(env.UPLOAD_DIR);
+  const resolved = path.resolve(base, photoUrl);
+  if (resolved !== base && !resolved.startsWith(`${base}${path.sep}`)) {
+    throw new Error("Invalid photo path");
+  }
+  return resolved;
+};

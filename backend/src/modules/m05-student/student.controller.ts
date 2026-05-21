@@ -57,7 +57,7 @@ export const listMedresaStudentsHandler = async (
 export const createStudentHandler = async (req: Request, res: Response): Promise<void> => {
   const file = req.file;
   if (file) {
-    const photoError = validateStudentPhoto(file);
+    const photoError = await validateStudentPhoto(file);
     if (photoError) {
       res.status(400).json({
         success: false,
@@ -121,7 +121,7 @@ export const getStudentHandler = async (req: Request, res: Response): Promise<vo
 export const updateStudentHandler = async (req: Request, res: Response): Promise<void> => {
   const file = req.file;
   if (file) {
-    const photoError = validateStudentPhoto(file);
+    const photoError = await validateStudentPhoto(file);
     if (photoError) {
       res.status(400).json({
         success: false,
@@ -169,7 +169,16 @@ export const getStudentPhotoHandler = async (req: Request, res: Response): Promi
     return;
   }
 
-  const absolutePath = resolveStudentPhotoPath(access.photoUrl);
+  let absolutePath: string;
+  try {
+    absolutePath = resolveStudentPhotoPath(access.photoUrl);
+  } catch {
+    res.status(404).json({
+      success: false,
+      error: { code: "NOT_FOUND", message: "Photo not found" },
+    });
+    return;
+  }
   res.sendFile(absolutePath, (err) => {
     if (err && !res.headersSent) {
       res.status(404).json({
@@ -193,7 +202,7 @@ export const uploadStudentPhotoHandler = async (
     return;
   }
 
-  const photoError = validateStudentPhoto(file);
+  const photoError = await validateStudentPhoto(file);
   if (photoError) {
     res.status(400).json({
       success: false,

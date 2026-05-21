@@ -248,7 +248,9 @@ export const refreshSession = async (input: RefreshInput) => {
   let tokenPayload: { sub: string; type?: string; exp?: number };
 
   try {
-    tokenPayload = jwt.verify(input.refreshToken, env.JWT_REFRESH_SECRET) as {
+    tokenPayload = jwt.verify(input.refreshToken, env.JWT_REFRESH_SECRET, {
+      algorithms: ["HS256"],
+    }) as {
       sub: string;
       type?: string;
       exp?: number;

@@ -30,7 +30,26 @@ const envSchema = z.object({
   UPLOAD_DIR: z.string().min(1).default("uploads"),
 });
 
-export const env = envSchema.parse(process.env);
+const parsed = envSchema.parse(process.env);
+
+const DEV_JWT_SECRETS = new Set([
+  "dev-access-secret-change-in-production",
+  "dev-refresh-secret-change-in-production",
+]);
+
+if (parsed.NODE_ENV === "production") {
+  const unsafe = [parsed.JWT_ACCESS_SECRET, parsed.JWT_REFRESH_SECRET].filter((secret) =>
+    DEV_JWT_SECRETS.has(secret)
+  );
+  if (unsafe.length > 0) {
+    console.error(
+      "[env] FATAL: JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must not use dev defaults in production"
+    );
+    process.exit(1);
+  }
+}
+
+export const env = parsed;
 
 export const isSmtpConfigured = (): boolean => Boolean(env.SMTP_HOST);
 

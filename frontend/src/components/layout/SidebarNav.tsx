@@ -1,6 +1,7 @@
 import { Link, useRouterState } from '@tanstack/react-router';
 import { LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { AppLogo } from '../AppLogo';
 import type { CurrentUser } from '../../features/auth/types/auth.types';
 import { cn } from '../../lib/utils';
 import type { NavBadgeKey, NavSectionConfig } from './navConfig';
@@ -45,11 +46,16 @@ export const SidebarNavContent = ({
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-sidebar text-sidebar-foreground">
-      <div className="border-b border-sidebar-border px-5 py-5">
-        <p className="text-[15px] font-medium leading-tight">{t('auth.appName')}</p>
-        <p className="mt-0.5 text-[11px] text-sidebar-muted">
-          {brandSubtitle ?? roleLabel(user, t) ?? ''}
-        </p>
+      <div className="border-b border-sidebar-border px-4 py-4">
+        <div className="flex items-center gap-3">
+          <AppLogo size="sm" tone="light" />
+          <div className="min-w-0">
+            <p className="truncate text-[15px] font-medium leading-tight">{t('auth.appName')}</p>
+            <p className="mt-0.5 truncate text-[11px] text-sidebar-muted">
+              {brandSubtitle ?? roleLabel(user, t) ?? ''}
+            </p>
+          </div>
+        </div>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-2">
@@ -98,6 +104,8 @@ export const SidebarNavContent = ({
           </div>
         ))}
       </nav>
+
+      <p className="px-4 pb-2 text-[10px] text-sidebar-muted">{t('shortcuts.sidebarHint')}</p>
 
       <div className="border-t border-sidebar-border p-3">
         <div className="flex items-center gap-2.5">
@@ -148,6 +156,7 @@ export const MobileShellBar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+      <AppLogo size="sm" tone="dark" className="h-8 w-8" />
       <span className="text-sm font-medium text-teal-800">{t('auth.appName')}</span>
     </header>
   );

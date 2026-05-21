@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { AppLogo } from '../../../components/AppLogo';
 import { GeometricPattern } from '../../../components/GeometricPattern';
 import { LanguageSwitcher } from '../../../components/LanguageSwitcher';
 import { ArrowLeft, Mail, Send, MailCheck } from 'lucide-react';
@@ -41,6 +42,7 @@ export const ForgotPasswordPage = () => {
           <GeometricPattern />
           <div className="relative z-10">
             <LanguageSwitcher />
+            <AppLogo size="md" tone="light" className="mb-3 h-12 w-12 drop-shadow-sm" />
             <h1 className="text-[15px] font-medium mb-0.5">{t('auth.resetTitle')}</h1>
             <p className="text-[11px] text-white/70">{t('auth.resetSubtitle')}</p>
           </div>

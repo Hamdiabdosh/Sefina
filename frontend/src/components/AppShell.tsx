@@ -1,5 +1,7 @@
-import { Outlet } from '@tanstack/react-router';
+import { Outlet, useNavigate } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
+import { KeyboardShortcutsHelp } from './KeyboardShortcutsHelp';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../features/auth/hooks/useAuth';
 import { useCurrentUser } from '../features/auth/hooks/useCurrentUser';
@@ -11,11 +13,24 @@ import { MobileShellBar, SidebarNavContent, useActivePath } from './layout/Sideb
 
 export const AppShell = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { currentUser } = useCurrentUser();
   const { logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = useActivePath();
+
+  useKeyboardShortcuts(currentUser, {
+    onNavigate: (to) => void navigate({ to }),
+    onOpenProfile: () => setShowProfile(true),
+    onShowHelp: () => setShowShortcutsHelp(true),
+    onCloseOverlays: () => {
+      setShowProfile(false);
+      setShowShortcutsHelp(false);
+      setMobileOpen(false);
+    },
+  });
 
   const showAdminData = Boolean(currentUser?.isSuperAdmin);
 
@@ -99,6 +114,10 @@ export const AppShell = () => {
           </div>
         </div>
       )}
+
+      {showShortcutsHelp ? (
+        <KeyboardShortcutsHelp user={currentUser} onClose={() => setShowShortcutsHelp(false)} />
+      ) : null}
     </div>
   );
 };

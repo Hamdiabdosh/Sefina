@@ -2,9 +2,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
+import { AppLogo } from '../../../components/AppLogo';
+import { BlessingFooter, MarketingHero } from '../../../components/islamic';
 import { GeometricPattern } from '../../../components/GeometricPattern';
 import { LanguageSwitcher } from '../../../components/LanguageSwitcher';
-import { Building2, Eye, EyeOff, LogIn, Mail } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Mail } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { isGoogleSignInEnabled } from '../../../config/env';
@@ -39,17 +41,12 @@ export const LoginPage = () => {
   return (
     <div className="min-h-screen bg-cream flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-[360px] bg-white rounded-[32px] border-[6px] border-black/5 overflow-hidden shadow-xl">
-        <div className="bg-teal-400 p-8 pt-10 relative overflow-hidden text-white">
+        <div className="bg-teal-400 p-6 pt-8 relative overflow-hidden text-white">
           <GeometricPattern />
           <div className="relative z-10">
             <LanguageSwitcher />
-            <div className="w-11 h-11 bg-white/20 rounded-xl flex items-center justify-center mb-4">
-              <Building2 size={24} />
-            </div>
-            <h1 className="text-lg font-medium mb-0.5">{t('auth.appName')}</h1>
-            <p className="text-[11px] text-white/70">
-              {t('auth.tagline')} · {t('auth.taglineAr')}
-            </p>
+            <AppLogo size="lg" tone="light" className="mb-3 h-14 w-14 drop-shadow-sm" />
+            <MarketingHero variant="auth" tone="light" showBlessing={false} />
           </div>
         </div>
 
@@ -145,6 +142,7 @@ export const LoginPage = () => {
           <p className="text-[11px] text-muted-foreground text-center mt-6">{t('auth.version')}</p>
         </form>
       </div>
+      <BlessingFooter compact className="mt-6 max-w-[360px]" />
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { useFocusSearchShortcut } from '../../../hooks/useFocusSearchShortcut';
 import { useNavigate } from '@tanstack/react-router';
 import { BookOpen, Building2, GraduationCap, Plus, Search, Users } from 'lucide-react';
 import { PageBody } from '../../../components/layout/PageBody';
@@ -21,6 +22,8 @@ export const MedresasPage = () => {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [showCreate, setShowCreate] = useState(false);
   const [editMedresa, setEditMedresa] = useState<MedresaListItem | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  useFocusSearchShortcut(searchInputRef);
 
   const filteredMedresas = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -82,11 +85,13 @@ export const MedresasPage = () => {
           <>
             <div className="relative hidden min-w-[140px] sm:block sm:min-w-[180px]">
               <input
-                type="text"
+                ref={searchInputRef}
+                type="search"
                 placeholder="Search medresas..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="field-input h-10 py-2 pl-9 text-sm"
+                aria-label="Search medresas"
               />
               <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
             </div>
@@ -125,11 +130,13 @@ export const MedresasPage = () => {
         <div className="mb-4 sm:hidden">
           <div className="relative">
             <input
-              type="text"
+              ref={searchInputRef}
+              type="search"
               placeholder="Search medresas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="field-input h-12 pl-10"
+              aria-label="Search medresas"
             />
             <Search className="absolute left-3 top-1/2 size-[18px] -translate-y-1/2 text-teal-200" />
           </div>
