@@ -43,7 +43,7 @@ sefinet/
 ├── backend/
 │   └── Dockerfile              ← Backend container definition
 └── docs/
-    └── docker-setup.md         ← This prompt becomes the live doc
+    └── Sefinet-Docker-Setup.md   ← Docker and deployment guide (this file)
 ```
 
 Do NOT create a Dockerfile for the frontend — it runs outside Docker.

@@ -34,4 +34,21 @@ Sidebar and shell colors live under `@theme` in [`frontend/src/index.css`](front
 
 ## Auth / marketing pages
 
-Login, forgot password, and reset flows keep their own full-page branding (e.g. `GeometricPattern`) and do **not** use `AppShell`.
+- **`/` (logged out):** public marketing page ([`MarketingPage`](../frontend/src/features/marketing/pages/MarketingPage.tsx)) — hero, feature cards, sign-in CTA. Logged-in users redirect to their role home.
+- **Shared Islamic UI:** [`frontend/src/components/islamic/`](../frontend/src/components/islamic/) — `OrnateCard`, `MarketingHero`, `BlessingFooter`, `GeometricDivider`; tokens in [`frontend/src/index.css`](../frontend/src/index.css).
+- Login, forgot password, and reset flows keep their own full-page branding (e.g. `GeometricPattern`, `MarketingHero` auth variant) and do **not** use `AppShell`.
+- The former standalone CRA landing app was removed in repo cleanup; marketing UI lives in `frontend/src/features/marketing/`.
+
+## Keyboard shortcuts (authenticated app)
+
+Global bindings are active inside `AppShell` (see [`keyboardShortcuts.ts`](../frontend/src/config/keyboardShortcuts.ts)):
+
+| Keys | Action |
+|------|--------|
+| `?` | Open shortcuts help |
+| `/` or `Ctrl+K` | Focus list search (medresas, teachers, students pages) |
+| `P` | Open profile |
+| `Esc` | Close profile, mobile menu, or help panel |
+| `G` then letter | Navigate (role-specific; e.g. `G` `D` → dashboard) |
+
+Sidebar shows a reminder: “Press ? for keyboard shortcuts”.

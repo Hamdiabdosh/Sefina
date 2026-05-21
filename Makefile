@@ -1,4 +1,8 @@
-.PHONY: dev-up dev-down dev-verify dev-verify-seed dev-verify-m05 dev-verify-m06 dev-verify-m07 dev-verify-m08 dev-verify-m09 dev-verify-m10 dev-logs dev-reset-db dev-seed dev-backend-deps
+.PHONY: dev-up dev-down dev-verify dev-verify-seed dev-verify-m05 dev-verify-m06 dev-verify-m07 dev-verify-m08 dev-verify-m09 dev-verify-m10 dev-logs dev-reset-db dev-seed dev-backend-deps clean
+
+# Remove dist, tsbuildinfo, deprecated CRA app, logs (not node_modules or .env)
+clean:
+	./scripts/clean-dev.sh
 
 # One-command local backend: Postgres + PgBouncer + API + MailHog, migrate, seed, login test
 dev-up:

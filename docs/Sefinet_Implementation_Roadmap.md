@@ -1,6 +1,6 @@
 # Sefinet Al Neja — Prioritized Implementation Roadmap
 
-This roadmap turns `docs/features.md` and `docs/prompt.md` into an execution sequence for building **Sefinet Al Neja** safely, with strict module boundaries and dependency order.
+This roadmap defines the execution sequence for **Sefinet Al Neja** using [`Sefinet-Master-Project-Spec.md`](./Sefinet-Master-Project-Spec.md), module docs (`03-teacher.md` … `10-reporting.md`), and [`Sefinet_Task_Board.md`](./Sefinet_Task_Board.md). Legacy AI scaffolds live in `docs/archive/` (local, gitignored).
 
 > **Note:** Project rebranded from HMMS to **Sefinet Al Neja**.
 
@@ -170,6 +170,6 @@ This roadmap turns `docs/features.md` and `docs/prompt.md` into an execution seq
 
 ## Immediate Next Implementation Tasks
 
-1. **M10 Reporting & Dashboard** — role-scoped KPIs and exports (see `docs/features.md` M10 section).
+1. **M10 Reporting & Dashboard** — role-scoped KPIs and exports (see [`10-reporting.md`](./10-reporting.md)).
 2. Consume M01–M09 tables only (no new core transactional tables).
 3. Deferred from M09/M08: salary/fee PDF exports, dashboard KPI widgets.

@@ -6,6 +6,13 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 
 ### Added
 
+- **`make clean`** / `scripts/clean-dev.sh` — remove `dist`, `tsbuildinfo`, deprecated CRA path, and log files (not `node_modules` or `.env`).
+- **`docs/README.md`** — canonical documentation index.
+
+### Changed
+
+- **Repo cleanup** — removed `frontend/landing_page_frontend/` (CRA; UI ported to main Vite app); archived legacy `features.md` and `prompt.md` under `docs/archive/` with thin pointers at original paths; moved HTML mockups to `docs/design-archive/`; deleted HMMS redirect stubs and `hmms_*.html`; updated agent doc reading list to existing files.
+
 - **M10: Reporting & Dashboard** — `backend/src/modules/m10-reports/`, `frontend/src/features/reports/`.
   - **Dashboards:** `GET /api/v1/dashboard/teacher|medresa|super-admin` with KPIs and chart data.
   - **Reports (R01–R05):** JSON preview endpoints under `/api/v1/reports/*`; client PDF/Excel export.
@@ -84,7 +91,7 @@ All notable changes to **Sefinet Al Neja** (Harari Medresa Management System) wi
 - Rebranded application from **HMMS** to **Sefinet Al Neja** across UI, emails, package names, Docker identifiers, and core documentation.
 - Restored `Sefinet-Agent-Rules.md` (rebuilt from project specs; Local History had no snapshot).
 - Docker dev backend: **`/app/node_modules` uses a named volume** (`sefinet-backend-node-modules`) so `make dev-backend-deps` (`docker compose run … npm ci`) updates the same tree the running container uses; avoids crash loops when `package-lock.json` gains packages (e.g. M06 `date-fns-tz`).
-- Renamed docs to `Sefinet-*` / `sefinet_*` with redirect stubs for legacy `HMMS-*` / `hmms_*` paths.
+- Renamed docs to `Sefinet-*` / `sefinet_*` with redirect stubs for legacy `HMMS-*` / `hmms_*` paths (HMMS redirect stubs and `hmms_*.html` removed in later cleanup; see `docs/README.md`).
 
 ### Removed
 - **`PageHeader`** — teal hero header; use `PageTopBar` + `PageBody` instead.

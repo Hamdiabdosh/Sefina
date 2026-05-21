@@ -17,11 +17,9 @@ MANDATORY READING BEFORE ANY CODE:
 Read all of the following files in the project:
 1. Sefinet-Agent-Rules.md         ← your operating law
 2. Sefinet-Master-Project-Spec.md ← full system specification
-3. prisma/schema.prisma        ← complete database schema
-4. docs/architecture.md        ← system architecture
-5. docs/security.md            ← all 4 security layers
-6. docs/api-standards.md       ← response format & error codes
-7. docs/database.md            ← schema conventions
+3. prisma/schema.prisma           ← complete database schema
+4. docs/ui-conventions.md         ← frontend layout and API response shape in use
+5. docs/README.md                 ← doc index; read the module doc for your assignment (e.g. 06-attendance.md)
 
 TECH STACK:
 Frontend:  React + Vite + TypeScript, TanStack Router,

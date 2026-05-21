@@ -44,5 +44,11 @@ backend/prisma/migrations/
 # Testing
 coverage/
 
-# Vite
+# Vite / TypeScript build info
 frontend/vite.config.ts.timestamp*
+*.tsbuildinfo
+
+# Local archives (legacy docs and design mockups)
+docs/archive/
+docs/design-archive/
+photo_*.png

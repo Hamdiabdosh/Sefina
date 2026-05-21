@@ -20,7 +20,7 @@ sefina/
 ├── scripts/           # setup-dev.sh, verify-dev.sh
 ├── docs/              # Feature specs and agent guides
 ├── docker-compose.yml # Dev stack: Postgres, PgBouncer, API, MailHog
-├── Makefile           # make dev-up, dev-verify, dev-reset-db
+├── Makefile           # make dev-up, dev-verify, dev-reset-db, make clean
 ├── .env.example       # Environment template (copy to .env)
 └── README.md
 ```
@@ -267,7 +267,7 @@ See `docs/Sefinet-Docker-Setup.md` for VPS deployment, secrets, and firewall not
 | 4 | M10 — Reporting & Dashboard | M01–M09 | **Next** |
 
 Module docs: `docs/07-grades.md`, `docs/08-fees.md`, `docs/09-salary.md` (M09 plan).  
-Feature details: `docs/features.md`. Agent prompts: `docs/Sefinet-Agent-Prompt-Cards.md`.
+Documentation index: [`docs/README.md`](docs/README.md). System spec: [`docs/Sefinet-Master-Project-Spec.md`](docs/Sefinet-Master-Project-Spec.md). Agent prompts: [`docs/Sefinet-Agent-Prompt-Cards.md`](docs/Sefinet-Agent-Prompt-Cards.md).
 
 ---
 
