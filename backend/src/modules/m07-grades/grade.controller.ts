@@ -3,6 +3,7 @@ import {
   approveGradeEditRequest,
   createGradeEditRequest,
   listGradeEditRequests,
+  listTeacherGradeEditRequests,
   rejectGradeEditRequest,
 } from "./grade-edit.service";
 import {
@@ -117,6 +118,18 @@ export const batchGradesHandler = async (req: Request, res: Response): Promise<v
     return;
   }
   res.status(201).json({ success: true, data: result });
+};
+
+export const listTeacherGradeEditRequestsHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const result = await listTeacherGradeEditRequests(req.user!.userId);
+  if ("error" in result) {
+    err(res, 403, result.error ?? "FORBIDDEN", "Forbidden");
+    return;
+  }
+  res.status(200).json({ success: true, data: result });
 };
 
 export const listTeacherCoursesHandler = async (req: Request, res: Response): Promise<void> => {

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { ContentCard } from '../../../components/ui/ContentCard';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import {
   useApproveGradeEdit,
@@ -30,7 +31,7 @@ export const GradeEditApprovalPage = ({ variant: _variant }: Props) => {
       />
       <PageBody>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonTable rows={4} />
         ) : items.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t('grades.noPendingEdits')}</p>
         ) : (

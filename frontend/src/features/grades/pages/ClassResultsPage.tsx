@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useMedresaCourseResults } from '../hooks/useGrades';
 import type { LetterGrade } from '../types';
@@ -66,7 +67,7 @@ export const ClassResultsPage = () => {
       />
       <PageBody fullWidth>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : !results ? null : (
           <>
             <div className="mb-4">

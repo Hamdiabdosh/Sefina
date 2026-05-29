@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { TeacherAvatar } from '../../teachers/components/TeacherAvatar';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { AssignRankModal } from '../components/AssignRankModal';
@@ -116,7 +117,7 @@ export const SalaryPaymentListPage = () => {
         </div>
 
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('salaries.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : (
           <ul className="space-y-2">
             {(data?.items ?? []).map((row) => (

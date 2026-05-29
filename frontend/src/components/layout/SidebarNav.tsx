@@ -3,6 +3,7 @@ import { LogOut } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { AppLogo } from '../AppLogo';
 import type { CurrentUser } from '../../features/auth/types/auth.types';
+import { NotificationBell } from '../../features/notifications/NotificationBell';
 import { cn } from '../../lib/utils';
 import type { NavBadgeKey, NavSectionConfig } from './navConfig';
 
@@ -15,6 +16,8 @@ type SidebarContentProps = {
   onOpenProfile: () => void;
   onLogout: () => void;
   brandSubtitle?: string;
+  notifCount?: number;
+  onNotificationClick?: () => void;
 };
 
 function initials(name: string) {
@@ -41,6 +44,8 @@ export const SidebarNavContent = ({
   onOpenProfile,
   onLogout,
   brandSubtitle,
+  notifCount = 0,
+  onNotificationClick,
 }: SidebarContentProps) => {
   const { t } = useTranslation();
 
@@ -49,12 +54,15 @@ export const SidebarNavContent = ({
       <div className="border-b border-sidebar-border px-4 py-4">
         <div className="flex items-center gap-3">
           <AppLogo size="sm" tone="light" />
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="truncate text-[15px] font-medium leading-tight">{t('auth.appName')}</p>
             <p className="mt-0.5 truncate text-[11px] text-sidebar-muted">
               {brandSubtitle ?? roleLabel(user, t) ?? ''}
             </p>
           </div>
+          {notifCount > 0 && onNotificationClick ? (
+            <NotificationBell count={notifCount} onClick={onNotificationClick} />
+          ) : null}
         </div>
       </div>
 

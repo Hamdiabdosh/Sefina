@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams, useSearch } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useStudentFeeHistory } from '../hooks/useFees';
 import { formatEtb } from '../utils/money';
@@ -26,7 +27,7 @@ export const StudentFeeHistoryPage = () => {
       />
       <PageBody>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('fees.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : !data ? null : (
           <>
             <div className="mb-4 grid grid-cols-3 gap-2 text-sm">

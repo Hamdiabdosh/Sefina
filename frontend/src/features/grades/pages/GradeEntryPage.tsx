@@ -1,9 +1,10 @@
 import { Link, useNavigate, useSearch } from '@tanstack/react-router';
-import { Send } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { cn } from '../../../lib/utils';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import {
@@ -49,6 +50,34 @@ const scoreToLetter = (n: number): LetterGrade => {
   return 'F';
 };
 
+const CardSkeleton = ({ count }: { count: number }) => (
+  <ul className="space-y-3">
+    {Array.from({ length: count }, (_, i) => (
+      <li key={i} className="h-20 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+    ))}
+  </ul>
+);
+
+type SelectableCardProps = {
+  title: string;
+  subtitle?: string;
+  onClick: () => void;
+};
+
+const SelectableCard = ({ title, subtitle, onClick }: SelectableCardProps) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-cream-dark bg-surface p-4 text-left hover:bg-cream"
+  >
+    <div className="min-w-0">
+      <p className="font-medium text-foreground">{title}</p>
+      {subtitle ? <p className="text-xs text-muted-foreground">{subtitle}</p> : null}
+    </div>
+    <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+  </button>
+);
+
 export const GradeEntryPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -59,8 +88,9 @@ export const GradeEntryPage = () => {
   const medresaCourseId = search.medresaCourseId ?? '';
   const examTypeId = search.examTypeId ?? '';
 
-  const coursesQuery = useTeacherGradeCourses(Boolean(medresaCourseId && !examTypeId));
-  const examTypesQuery = useExamTypes(true);
+  const needsCourseList = !medresaCourseId || (!examTypeId && Boolean(medresaCourseId));
+  const coursesQuery = useTeacherGradeCourses(needsCourseList);
+  const examTypesQuery = useExamTypes(Boolean(medresaCourseId && !examTypeId));
   const activeExamTypes = (examTypesQuery.data?.items ?? []).filter((e) => e.status === 'ACTIVE');
   const examType = activeExamTypes.find((e) => e.id === examTypeId);
   const rosterQuery = useGradeRoster(
@@ -72,10 +102,10 @@ export const GradeEntryPage = () => {
 
   const [rows, setRows] = useState<RowState[]>([]);
 
-  const courseLabel = useMemo(() => {
-    const c = coursesQuery.data?.items.find((x) => x.medresaCourseId === medresaCourseId);
-    return c?.courseName ?? '';
-  }, [coursesQuery.data?.items, medresaCourseId]);
+  const selectedCourse = useMemo(
+    () => coursesQuery.data?.items.find((x) => x.medresaCourseId === medresaCourseId),
+    [coursesQuery.data?.items, medresaCourseId]
+  );
 
   useEffect(() => {
     const items = rosterQuery.data?.items ?? [];
@@ -113,49 +143,84 @@ export const GradeEntryPage = () => {
   }, [rows, medresaCourseId, examTypeId, batchSubmit, navigate, maxScore]);
 
   if (!medresaCourseId) {
+    const courses = coursesQuery.data?.items ?? [];
+
     return (
-      <div className="flex min-h-0 flex-1 flex-col">
-        <PageTopBar title={t('grades.entryTitle')} />
+      <div className="flex min-h-0 flex-1 flex-col pb-12">
+        <PageTopBar
+          title={t('grades.enterGrades')}
+          subtitle={t('grades.selectCoursePrompt')}
+          onBack={() => void navigate({ to: '/teacher/grades' })}
+        />
         <PageBody>
-          <Link to="/teacher/grades" className="text-sm text-teal-700 underline">
-            {t('grades.backToHub')}
-          </Link>
+          {coursesQuery.isLoading ? (
+            <CardSkeleton count={3} />
+          ) : courses.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t('grades.noAssignedCourses')}</p>
+          ) : (
+            <ul className="space-y-3">
+              {courses.map((c) => (
+                <li key={c.medresaCourseId}>
+                  <SelectableCard
+                    title={c.courseName}
+                    subtitle={c.medresaName}
+                    onClick={() =>
+                      void navigate({
+                        to: '/teacher/grades/entry',
+                        search: { medresaCourseId: c.medresaCourseId, examTypeId: undefined },
+                      })
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </PageBody>
       </div>
     );
   }
 
   if (!examTypeId) {
+    const courseTitle = selectedCourse?.courseName ?? t('grades.enterGrades');
+
     return (
       <div className="flex min-h-0 flex-1 flex-col pb-12">
-        <PageTopBar
-          title={t('grades.selectExamType')}
-          subtitle={courseLabel}
-          onBack={() => void navigate({ to: '/teacher/grades' })}
-        />
+        <PageTopBar title={courseTitle} subtitle={t('grades.selectExamTypePrompt')} />
         <PageBody>
-          <ul className="space-y-2">
-            {activeExamTypes.map((et) => (
-              <li key={et.id}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    void navigate({
-                      to: '/teacher/grades/entry',
-                      search: { medresaCourseId, examTypeId: et.id },
-                    })
-                  }
-                  className="w-full rounded-lg border border-cream-dark bg-surface p-4 text-left hover:border-teal-300 hover:bg-teal-50"
-                >
-                  <p className="font-medium">{getLocalizedValue(et.name)}</p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {t('grades.maxScore', { max: et.maxScore })} ·{' '}
-                    {t('grades.weight', { w: et.weight })}
-                  </p>
-                </button>
-              </li>
-            ))}
-          </ul>
+          <button
+            type="button"
+            className="mb-4 flex items-center gap-1 text-sm text-teal-700 hover:underline"
+            onClick={() =>
+              void navigate({
+                to: '/teacher/grades/entry',
+                search: { medresaCourseId: undefined, examTypeId: undefined },
+              })
+            }
+          >
+            <ChevronLeft className="h-4 w-4" aria-hidden />
+            {t('grades.backSelectCourse')}
+          </button>
+          {examTypesQuery.isLoading ? (
+            <CardSkeleton count={2} />
+          ) : activeExamTypes.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t('grades.noExamTypes')}</p>
+          ) : (
+            <ul className="space-y-3">
+              {activeExamTypes.map((et) => (
+                <li key={et.id}>
+                  <SelectableCard
+                    title={getLocalizedValue(et.name)}
+                    onClick={() =>
+                      void navigate({
+                        to: '/teacher/grades/entry',
+                        search: { medresaCourseId, examTypeId: et.id },
+                      })
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </PageBody>
       </div>
     );
@@ -188,7 +253,7 @@ export const GradeEntryPage = () => {
       />
       <PageBody>
         {rosterQuery.isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonTable rows={6} />
         ) : (
           <div className="overflow-x-auto rounded-lg border border-cream-dark bg-surface">
             <table className="w-full text-[13px]">

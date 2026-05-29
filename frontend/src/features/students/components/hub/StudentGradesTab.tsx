@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FilterTabs } from '../../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../../teachers/utils/localizedJson';
 import { useStudentResults } from '../../../grades/hooks/useGrades';
 
@@ -64,7 +65,7 @@ export const StudentGradesTab = ({ studentId }: Props) => {
   );
 
   if (isLoading) {
-    return <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>;
+    return <SkeletonTable rows={4} />;
   }
 
   if (!data || courses.length === 0) {

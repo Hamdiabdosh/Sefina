@@ -42,19 +42,19 @@ export const listStudentsQuerySchema = z.object({
   medresaCourseId: z.string().uuid().optional(),
 });
 
-export const createStudentSchema = secondaryGuardianRefine(
-  z.object({
-    fullName: z.string().min(1, "Full name is required"),
-    dateOfBirth: z.coerce.date(),
-    gender: z.enum(["MALE", "FEMALE"]),
-    address: z.string().min(1, "Address is required"),
-    guardianName: z.string().min(1, "Guardian name is required"),
-    guardianPhone: ethiopianPhoneSchema,
-    ...optionalStudentExtras,
-  })
-);
+const studentBodySchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  dateOfBirth: z.coerce.date(),
+  gender: z.enum(["MALE", "FEMALE"]),
+  address: z.string().min(1, "Address is required"),
+  guardianName: z.string().min(1, "Guardian name is required"),
+  guardianPhone: ethiopianPhoneSchema,
+  ...optionalStudentExtras,
+});
 
-export const updateStudentSchema = secondaryGuardianRefine(createStudentSchema.partial());
+export const createStudentSchema = secondaryGuardianRefine(studentBodySchema);
+
+export const updateStudentSchema = secondaryGuardianRefine(studentBodySchema.partial());
 
 export const assignStudentCourseSchema = z.object({
   medresaCourseId: z.string().uuid(),

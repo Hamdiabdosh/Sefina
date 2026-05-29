@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { ContentCard } from '../../../components/ui/ContentCard';
+import { SkeletonList } from '../../../components/ui/Skeleton';
 import {
   useActiveFeeStructure,
   useCreateFeeStructure,
@@ -83,7 +84,7 @@ export const FeeStructurePage = () => {
 
         <h3 className="text-sm font-medium mb-2">{t('fees.historyTitle')}</h3>
         {history.isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('fees.loading')}</p>
+          <SkeletonList rows={3} />
         ) : (
           <ul className="space-y-2">
             {(history.data?.items ?? []).map((row) => (

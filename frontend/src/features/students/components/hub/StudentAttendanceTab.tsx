@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ContentCard } from '../../../../components/ui/ContentCard';
+import { SkeletonTable } from '../../../../components/ui/Skeleton';
 import { AttendanceDateLabel } from '../../../attendance/components/AttendanceDateLabel';
 import { useStudentAttendance } from '../../../attendance/hooks/useAttendance';
 import type { AttendanceStatus } from '../../../attendance/types';
@@ -28,7 +29,7 @@ export const StudentAttendanceTab = ({ studentId }: Props) => {
   const { data, isLoading } = useStudentAttendance(studentId, Boolean(studentId));
 
   if (isLoading) {
-    return <p className="text-sm text-muted-foreground">{t('attendance.loading')}</p>;
+    return <SkeletonTable rows={4} />;
   }
 
   if (!data) {

@@ -2,6 +2,7 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useTeacherSalaryHistory } from '../hooks/useSalaries';
 import { formatEthiopianMonthYear } from '../utils/ethiopian';
@@ -22,7 +23,7 @@ export const TeacherSalaryHistoryPage = () => {
       />
       <PageBody>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('salaries.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : data ? (
           <>
             {data.currentRank ? (

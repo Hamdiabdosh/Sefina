@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonList } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import {
   useCreateSalaryRank,
@@ -62,7 +63,7 @@ export const SalaryRanksPage = () => {
       />
       <PageBody>
         {ranks.isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('salaries.loading')}</p>
+          <SkeletonList rows={3} />
         ) : (
           <ul className="mb-6 space-y-2">
             {(ranks.data?.items ?? []).map((row) => (

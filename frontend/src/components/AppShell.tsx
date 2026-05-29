@@ -7,6 +7,7 @@ import { useAuth } from '../features/auth/hooks/useAuth';
 import { useCurrentUser } from '../features/auth/hooks/useCurrentUser';
 import { ProfileCard } from '../features/auth/components/ProfileCard';
 import { useMedresas } from '../features/medresas/hooks/useMedresas';
+import { useNotifications } from '../features/notifications/useNotifications';
 import { useTeachers } from '../features/teachers/hooks/useTeachers';
 import { buildNavSections } from './layout/navConfig';
 import { MobileShellBar, SidebarNavContent, useActivePath } from './layout/SidebarNav';
@@ -15,6 +16,7 @@ export const AppShell = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentUser } = useCurrentUser();
+  const { pendingGradeEdits } = useNotifications(Boolean(currentUser));
   const { logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
@@ -56,6 +58,20 @@ export const AppShell = () => {
     ? t('nav.brandSuperAdmin')
     : undefined;
 
+  const handleNotificationClick = () => {
+    if (currentUser.isSuperAdmin) {
+      void navigate({ to: '/admin/grade-edits' });
+      return;
+    }
+    if (currentUser.isMedresaAdmin) {
+      void navigate({ to: '/medresa/grade-edits' });
+      return;
+    }
+    if (currentUser.isTeacher) {
+      void navigate({ to: '/teacher/grades' });
+    }
+  };
+
   return (
     <div className="min-h-dvh bg-canvas">
       {/* Fixed to viewport on md+ so it does not scroll with the main column */}
@@ -68,6 +84,8 @@ export const AppShell = () => {
           sections={sections}
           badges={badges}
           pathname={pathname}
+          notifCount={pendingGradeEdits}
+          onNotificationClick={handleNotificationClick}
           onOpenProfile={() => setShowProfile(true)}
           onLogout={logout}
           brandSubtitle={brandSubtitle}
@@ -88,6 +106,11 @@ export const AppShell = () => {
               sections={sections}
               badges={badges}
               pathname={pathname}
+              notifCount={pendingGradeEdits}
+              onNotificationClick={() => {
+                handleNotificationClick();
+                setMobileOpen(false);
+              }}
               onNavigate={() => setMobileOpen(false)}
               onOpenProfile={() => {
                 setMobileOpen(false);

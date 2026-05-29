@@ -57,6 +57,7 @@ const superAdminNav: NavSectionConfig[] = [
     sectionLabelKey: 'finance',
     items: [
       { to: '/admin/fee-structure', labelKey: 'feeStructure', icon: Coins },
+      { to: '/admin/salary-ranks', labelKey: 'salaryRanks', icon: Wallet },
       { to: '/admin/fees', labelKey: 'networkFees', icon: Coins },
       { to: '/admin/salaries', labelKey: 'salaries', icon: Wallet },
     ],

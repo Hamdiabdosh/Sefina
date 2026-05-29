@@ -2,6 +2,8 @@ import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonList } from '../../../components/ui/Skeleton';
+import { MyGradeEditRequests } from '../components/MyGradeEditRequests';
 import { useTeacherGradeCourses } from '../hooks/useGrades';
 
 export const TeacherGradesHubPage = () => {
@@ -15,7 +17,7 @@ export const TeacherGradesHubPage = () => {
       <PageTopBar title={t('grades.title')} subtitle={t('grades.teacherSubtitle')} />
       <PageBody>
         {coursesQuery.isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonList rows={3} />
         ) : courses.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t('grades.noAssignedCourses')}</p>
         ) : (
@@ -40,6 +42,13 @@ export const TeacherGradesHubPage = () => {
             ))}
           </ul>
         )}
+
+        {!coursesQuery.isLoading ? (
+          <>
+            <hr className="my-8 border-cream-dark" />
+            <MyGradeEditRequests />
+          </>
+        ) : null}
       </PageBody>
     </div>
   );

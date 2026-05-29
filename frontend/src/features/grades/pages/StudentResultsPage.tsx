@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useStudentResults } from '../hooks/useGrades';
 
@@ -98,7 +99,7 @@ export const StudentResultsPage = () => {
         </Link>
 
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : !data ? (
           <p className="text-sm text-muted-foreground">{t('grades.noGradesYet')}</p>
         ) : (

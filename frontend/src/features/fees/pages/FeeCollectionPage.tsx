@@ -1,18 +1,71 @@
 import { Link } from '@tanstack/react-router';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { StudentAvatar } from '../../students/components/StudentAvatar';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useFeeCollection } from '../hooks/useFees';
 import { formatEtb } from '../utils/money';
 import {
+  ethiopianMonthCompare,
   formatEthiopianMonthYear,
   getCurrentEthiopianMonthYear,
+  type EthiopianMonthYear,
 } from '../utils/ethiopian';
 import type { FeeCollectionStatus } from '../types';
+
+const prevEthiopianMonth = (month: number, year: number): EthiopianMonthYear =>
+  month === 1 ? { month: 13, year: year - 1 } : { month: month - 1, year };
+
+const nextEthiopianMonth = (month: number, year: number): EthiopianMonthYear =>
+  month === 13 ? { month: 1, year: year + 1 } : { month: month + 1, year };
+
+type EthiopianMonthNavigatorProps = {
+  month: number;
+  year: number;
+  onChange: (month: number, year: number) => void;
+};
+
+const EthiopianMonthNavigator = ({ month, year, onChange }: EthiopianMonthNavigatorProps) => {
+  const { t } = useTranslation();
+  const current = getCurrentEthiopianMonthYear();
+  const atOrAfterCurrent = ethiopianMonthCompare({ month, year }, current) >= 0;
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={() => {
+          const prev = prevEthiopianMonth(month, year);
+          onChange(prev.month, prev.year);
+        }}
+        className="rounded-lg border border-cream-dark bg-surface p-2 hover:bg-cream"
+        aria-label={t('fees.prevMonth')}
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </button>
+      <span className="text-sm font-medium text-foreground">
+        {formatEthiopianMonthYear(month, year, t)}
+      </span>
+      <button
+        type="button"
+        disabled={atOrAfterCurrent}
+        onClick={() => {
+          const next = nextEthiopianMonth(month, year);
+          onChange(next.month, next.year);
+        }}
+        className="rounded-lg border border-cream-dark bg-surface p-2 hover:bg-cream disabled:cursor-not-allowed disabled:opacity-50"
+        aria-label={t('fees.nextMonth')}
+      >
+        <ChevronRight className="h-4 w-4" />
+      </button>
+    </div>
+  );
+};
 
 const statusClass = (s: FeeCollectionStatus) => {
   switch (s) {
@@ -60,27 +113,15 @@ export const FeeCollectionPage = () => {
           <p className="text-sm text-muted-foreground">{t('courses.noMedresaAccess')}</p>
         ) : (
           <>
-            <div className="mb-4 flex flex-wrap gap-3 items-end">
-              <label className="text-xs text-muted-foreground">
-                {t('fees.ethiopianMonth')}
-                <input
-                  type="number"
-                  min={1}
-                  max={13}
-                  className="field-input mt-1 block w-20"
-                  value={month}
-                  onChange={(e) => setMonth(Number(e.target.value))}
-                />
-              </label>
-              <label className="text-xs text-muted-foreground">
-                {t('fees.ethiopianYear')}
-                <input
-                  type="number"
-                  className="field-input mt-1 block w-24"
-                  value={year}
-                  onChange={(e) => setYear(Number(e.target.value))}
-                />
-              </label>
+            <div className="mb-4">
+              <EthiopianMonthNavigator
+                month={month}
+                year={year}
+                onChange={(m, y) => {
+                  setMonth(m);
+                  setYear(y);
+                }}
+              />
             </div>
 
             {data?.summary ? (
@@ -112,7 +153,9 @@ export const FeeCollectionPage = () => {
             />
 
             {isLoading ? (
-              <p className="mt-4 text-sm text-muted-foreground">{t('fees.loading')}</p>
+              <div className="mt-4">
+                <SkeletonTable rows={6} />
+              </div>
             ) : (
               <div className="mt-3 overflow-x-auto rounded-lg border border-cream-dark bg-surface">
                 <table className="w-full text-[13px]">

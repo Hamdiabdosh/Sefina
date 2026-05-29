@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useNetworkSalaryOverview } from '../hooks/useSalaries';
 import { formatEtb } from '../utils/money';
 import { formatEthiopianMonthYear, getCurrentEthiopianMonthYear } from '../utils/ethiopian';
@@ -70,7 +71,7 @@ export const NetworkSalariesOverviewPage = () => {
           </label>
         </div>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('salaries.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : (
           <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
             <table className="w-full text-sm">

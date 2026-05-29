@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { ViewModeToggle } from '../../../components/ui/ViewModeToggle';
 import { cn } from '../../../lib/utils';
 import { TeacherListCard } from '../components/TeacherListCard';
@@ -58,7 +59,7 @@ export const TeachersPage = () => {
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('nav.teachers')} subtitle={t('courses.loading')} />
         <PageBody>
-          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+          <SkeletonTable rows={5} />
         </PageBody>
       </div>
     );

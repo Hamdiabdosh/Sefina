@@ -99,6 +99,15 @@ export const useBatchSubmitGrades = () => {
   });
 };
 
+export const useMyGradeEditRequests = () =>
+  useQuery<{ items: GradeEditRequestDTO[] }>({
+    queryKey: ['myGradeEditRequests'],
+    queryFn: async () => {
+      const res = await axiosInstance.get('/api/v1/grades/edit-requests');
+      return res.data.data;
+    },
+  });
+
 export const useGradeEditRequests = (params?: {
   status?: string;
   medresaId?: string;
@@ -153,7 +162,10 @@ export const useCreateGradeEditRequest = () => {
       });
       return res.data.data;
     },
-    onSuccess: () => void qc.invalidateQueries({ queryKey: ['gradeEditRequests'] }),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ['gradeEditRequests'] });
+      void qc.invalidateQueries({ queryKey: ['myGradeEditRequests'] });
+    },
   });
 };
 

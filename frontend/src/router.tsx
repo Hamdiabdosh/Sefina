@@ -2,11 +2,13 @@ import {
   createRouter,
   createRoute,
   createRootRouteWithContext,
+  Link,
   redirect,
   Outlet,
 } from '@tanstack/react-router';
 import type { QueryClient } from '@tanstack/react-query';
 import { AppShell } from './components/AppShell';
+import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 import { LoginPage } from './features/auth/pages/LoginPage';
 import { MarketingPage } from './features/marketing/pages/MarketingPage';
 import { ForgotPasswordPage } from './features/auth/pages/ForgotPasswordPage';
@@ -78,6 +80,14 @@ const requireFeeAccess = (user: CurrentUser) => {
 
 const rootRoute = createRootRouteWithContext<RouterContext>()({
   component: () => <Outlet />,
+  errorComponent: () => (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-canvas p-6 text-center">
+      <p className="text-foreground">Something went wrong.</p>
+      <Link to="/" className="mt-4 text-sm font-medium text-primary hover:underline">
+        Go to home
+      </Link>
+    </div>
+  ),
 });
 
 const indexRoute = createRoute({
@@ -122,6 +132,7 @@ const protectedRoute = createRoute({
     requireAuth(context.queryClient);
   },
   component: AppShell,
+  errorComponent: ({ error }) => <RouteErrorBoundary error={error} />,
 });
 
 const adminDashboardRoute = createRoute({

@@ -7,6 +7,7 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { ViewModeToggle, type ListTableMode } from '../../../components/ui/ViewModeToggle';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { cn } from '../../../lib/utils';
 import { MedresaPicker } from '../../courses/components/MedresaPicker';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
@@ -61,6 +62,9 @@ export const MedresaStudentsPage = () => {
     return (
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('students.title')} subtitle={t('students.loading')} />
+        <PageBody>
+          <SkeletonTable rows={5} />
+        </PageBody>
       </div>
     );
   }
@@ -80,6 +84,9 @@ export const MedresaStudentsPage = () => {
     return (
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('students.title')} subtitle={t('students.loading')} />
+        <PageBody>
+          <SkeletonTable rows={5} />
+        </PageBody>
       </div>
     );
   }

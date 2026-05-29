@@ -53,6 +53,14 @@ export const getCurrentEthiopianMonthYear = (): EthiopianMonthYear => {
   return { year: y, month: m };
 };
 
+export const ethiopianMonthCompare = (
+  a: EthiopianMonthYear,
+  b: EthiopianMonthYear
+): number => {
+  if (a.year !== b.year) return a.year - b.year;
+  return a.month - b.month;
+};
+
 export const ethiopianMonthName = (month: number, t?: TFunction): string => {
   if (t) {
     const key = `calendar.ethMonth.${month}`;

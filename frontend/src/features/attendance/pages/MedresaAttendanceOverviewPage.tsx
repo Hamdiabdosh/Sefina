@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { AttendanceDualDateLine } from '../components/AttendanceDateLabel';
 import { AttendanceMarkerStrip } from '../components/AttendanceMarkerStrip';
 import { getCurrentEthiopianMonthYear, getTodayCalendarEt } from '../utils/ethiopian';
@@ -28,6 +29,9 @@ export const MedresaAttendanceOverviewPage = () => {
     return (
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('attendance.medresaOverview')} subtitle={t('attendance.loading')} />
+        <PageBody>
+          <SkeletonTable rows={5} />
+        </PageBody>
       </div>
     );
   }
@@ -75,7 +79,7 @@ export const MedresaAttendanceOverviewPage = () => {
               </p>
             </div>
             {overview.isLoading ? (
-              <p className="text-sm text-muted-foreground">{t('attendance.loading')}</p>
+              <SkeletonTable rows={5} />
             ) : !row ? (
               <p className="text-sm text-muted-foreground">{t('attendance.noOverviewRows')}</p>
             ) : (

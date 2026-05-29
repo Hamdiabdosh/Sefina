@@ -40,6 +40,8 @@ export type GradeEditRequestDTO = {
   medresaId?: string;
   examTypeName?: LocalizedString;
   teacherName?: string;
+  createdAt?: string;
+  rejectionReason?: string | null;
 };
 
 export type TeacherCourseOption = {

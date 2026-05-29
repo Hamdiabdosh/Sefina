@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useMedresaResultsOverview } from '../hooks/useGrades';
 
@@ -47,6 +48,9 @@ export const MedresaResultsOverviewPage = () => {
     return (
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('grades.medresaOverviewTitle')} subtitle={t('grades.loading')} />
+        <PageBody fullWidth>
+          <SkeletonTable rows={5} />
+        </PageBody>
       </div>
     );
   }
@@ -58,7 +62,7 @@ export const MedresaResultsOverviewPage = () => {
         {adminMedresas.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t('courses.noMedresaAccess')}</p>
         ) : isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : (
           <>
             <div className="mb-4 flex flex-wrap gap-3">

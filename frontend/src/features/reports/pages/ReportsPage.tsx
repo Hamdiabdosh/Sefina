@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useCurrentUser } from '../../auth/hooks/useCurrentUser';
 import { formatEthiopianMonthYear, getCurrentEthiopianMonthYear } from '../../../lib/ethiopian';
@@ -249,7 +250,7 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
         </div>
 
         {activeQuery.isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('reports.loading')}</p>
+          <SkeletonTable rows={8} />
         ) : null}
         {activeQuery.isError ? (
           <p className="text-sm text-red-700">{t('reports.error')}</p>

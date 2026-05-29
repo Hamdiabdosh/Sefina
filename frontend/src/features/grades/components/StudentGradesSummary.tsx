@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { SkeletonCard } from '../../../components/ui/Skeleton';
 import { useStudentResults } from '../hooks/useGrades';
 
 type Props = {
@@ -19,7 +20,7 @@ export const StudentGradesSummary = ({
   const { data, isLoading } = useStudentResults(studentId, Boolean(studentId));
 
   if (isLoading) {
-    return <p className="text-xs text-muted-foreground">{t('grades.loading')}</p>;
+    return <SkeletonCard />;
   }
 
   if (!data || data.courses.length === 0) {

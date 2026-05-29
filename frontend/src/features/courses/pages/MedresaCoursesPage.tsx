@@ -4,6 +4,7 @@ import { BookOpen, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { SkeletonList } from '../../../components/ui/Skeleton';
 import { ActivateCourseModal } from '../components/ActivateCourseModal';
 import { AssignTeacherModal } from '../components/AssignTeacherModal';
 import { MedresaPicker } from '../components/MedresaPicker';
@@ -37,7 +38,7 @@ export const MedresaCoursesPage = () => {
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
         <PageBody>
-          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+          <SkeletonList rows={3} />
         </PageBody>
       </div>
     );
@@ -59,7 +60,7 @@ export const MedresaCoursesPage = () => {
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title={t('courses.medresaTitle')} subtitle={t('courses.loading')} />
         <PageBody>
-          <div className="h-24 animate-pulse rounded-xl border border-cream-dark bg-surface" />
+          <SkeletonList rows={3} />
         </PageBody>
       </div>
     );

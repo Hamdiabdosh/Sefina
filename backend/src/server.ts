@@ -19,6 +19,7 @@ import medresaAttendanceRoutes from './modules/m06-attendance/medresa-attendance
 import examTypeRoutes from './modules/m07-grades/exam-type.routes';
 import gradeRoutes from './modules/m07-grades/grade.routes';
 import gradeEditRequestRoutes from './modules/m07-grades/grade-edit-request.routes';
+import notificationsRoutes from './modules/m07-grades/notifications.routes';
 import medresaGradeRoutes from './modules/m07-grades/medresa-grade.routes';
 import medresaCourseGradeRoutes from './modules/m07-grades/medresa-course-grade.routes';
 import resultsRoutes from './modules/m07-grades/results.routes';
@@ -104,6 +105,7 @@ app.use('/api/v1/medresas/:medresaId/attendance', medresaAttendanceRoutes);
 app.use('/api/v1/exam-types', examTypeRoutes);
 app.use('/api/v1/grades', gradeRoutes);
 app.use('/api/v1/grade-edit-requests', gradeEditRequestRoutes);
+app.use('/api/v1/notifications', notificationsRoutes);
 app.use('/api/v1/medresas/:medresaId/results', medresaGradeRoutes);
 app.use('/api/v1/medresa-courses', medresaCourseGradeRoutes);
 app.use('/api/v1/results', resultsRoutes);

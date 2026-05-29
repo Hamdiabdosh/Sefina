@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { ContentCard } from '../../../components/ui/ContentCard';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useCreateExamType, useExamTypes, useUpdateExamType } from '../hooks/useGrades';
 import type { ExamTypeDTO } from '../types';
@@ -164,7 +165,7 @@ export const ExamTypesPage = () => {
         ) : null}
 
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : (
           <ul className="space-y-2">
             {items.map((et) => (

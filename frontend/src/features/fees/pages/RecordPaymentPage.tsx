@@ -31,6 +31,7 @@ export const RecordPaymentPage = () => {
   const [bankReference, setBankReference] = useState('');
   const [paymentDate, setPaymentDate] = useState(getTodayCalendarEt());
   const [note, setNote] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const record = useRecordFeePayment();
 
@@ -47,20 +48,37 @@ export const RecordPaymentPage = () => {
   };
 
   const onSubmit = async () => {
+    if (!studentId || !medresaId) {
+      setError(t('fees.errorMissingContext'));
+      return;
+    }
+    if (!amountPaid || Number.parseFloat(amountPaid) <= 0) {
+      setError(t('fees.errorInvalidAmount'));
+      return;
+    }
+    if (method === 'BANK_TRANSFER' && !bankReference.trim()) {
+      setError(t('fees.errorBankRefRequired'));
+      return;
+    }
+
     const paid = Number.parseFloat(amountPaid);
-    if (!studentId || !medresaId || !paid || paid <= 0) return;
-    await record.mutateAsync({
-      studentId,
-      medresaId,
-      month,
-      year,
-      amountPaidEtb: paid,
-      paymentMethod: method,
-      bankReference: method === 'BANK_TRANSFER' ? bankReference : undefined,
-      paymentDate,
-      note: note.trim() || undefined,
-    });
-    back();
+    try {
+      await record.mutateAsync({
+        studentId,
+        medresaId,
+        month,
+        year,
+        amountPaidEtb: paid,
+        paymentMethod: method,
+        bankReference: method === 'BANK_TRANSFER' ? bankReference : undefined,
+        paymentDate,
+        note: note.trim() || undefined,
+      });
+      setError(null);
+      back();
+    } catch {
+      setError(t('fees.errorSubmitFailed'));
+    }
   };
 
   return (
@@ -138,13 +156,16 @@ export const RecordPaymentPage = () => {
               onChange={(e) => setNote(e.target.value)}
             />
           </div>
+          {error ? (
+            <p className="rounded-lg bg-danger-bg px-3 py-2 text-sm text-danger-text">{error}</p>
+          ) : null}
           <button
             type="button"
             className="btn-primary-inline w-full"
-            disabled={record.isPending || !amountPaid}
+            disabled={record.isPending}
             onClick={() => void onSubmit()}
           >
-            {t('fees.submitPayment')}
+            {record.isPending ? t('fees.recording') : t('fees.recordPaymentAction')}
           </button>
         </div>
       </PageBody>

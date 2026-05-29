@@ -5,6 +5,7 @@ import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { AttendanceDateLabel } from '../components/AttendanceDateLabel';
 import { useMedresas } from '../../medresas/hooks/useMedresas';
 import { useNetworkAttendanceOverview } from '../hooks/useAttendance';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getTodayCalendarEt } from '../utils/ethiopiaDate';
 
 function subtractDaysIso(isoStart: string, days: number): string {
@@ -70,9 +71,9 @@ export const AdminAttendanceNetworkPage = () => {
           </label>
         </div>
         {medLoading ? (
-          <p className="text-sm text-muted-foreground">{t('attendance.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : overview.isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('attendance.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : (overview.data?.items.length ?? 0) === 0 ? (
           <p className="text-sm text-muted-foreground">{t('attendance.noOverviewRows')}</p>
         ) : (

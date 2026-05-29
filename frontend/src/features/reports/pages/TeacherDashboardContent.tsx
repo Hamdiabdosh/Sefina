@@ -16,6 +16,7 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { StatCard } from '../../../components/ui/StatCard';
 import { ChartCard } from '../components/ChartCard';
+import { SkeletonCard, SkeletonStatGrid } from '../../../components/ui/Skeleton';
 import { formatEthiopianDayMonth } from '../../../lib/ethiopian';
 import { useTeacherDashboard } from '../hooks/useDashboard';
 
@@ -43,7 +44,10 @@ export const TeacherDashboardContent = () => {
       <PageTopBar title={t('dashboard.title')} subtitle={t('dashboard.teacherSubtitle')} />
       <PageBody fullWidth className="max-w-none space-y-4">
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('dashboard.loading')}</p>
+          <>
+            <SkeletonStatGrid cols={4} />
+            <SkeletonCard />
+          </>
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">

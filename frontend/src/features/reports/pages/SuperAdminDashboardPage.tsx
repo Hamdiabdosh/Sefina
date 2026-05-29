@@ -17,6 +17,7 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { StatCard } from '../../../components/ui/StatCard';
 import { formatEthiopianMonthYear } from '../../../lib/ethiopian';
 import { ChartCard } from '../components/ChartCard';
+import { SkeletonCard, SkeletonStatGrid } from '../../../components/ui/Skeleton';
 import { useSuperAdminDashboard } from '../hooks/useDashboard';
 
 export const SuperAdminDashboardPage = () => {
@@ -45,7 +46,13 @@ export const SuperAdminDashboardPage = () => {
           showBlessing={false}
         />
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('dashboard.loading')}</p>
+          <>
+            <SkeletonStatGrid cols={7} />
+            <div className="grid gap-4 lg:grid-cols-2">
+              <SkeletonCard />
+              <SkeletonCard />
+            </div>
+          </>
         ) : (
           <>
             <OrnateCard className="!border-cream-dark !shadow-sm">

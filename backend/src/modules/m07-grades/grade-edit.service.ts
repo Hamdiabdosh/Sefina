@@ -86,6 +86,36 @@ export const createGradeEditRequest = async (
   return { request: mapGradeEditRequest(row) };
 };
 
+export const listTeacherGradeEditRequests = async (userId: string) => {
+  const teacherId = await getActiveTeacherIdForUser(userId);
+  if (!teacherId) return { error: "FORBIDDEN" as const };
+
+  const rows = await prisma.gradeEditRequest.findMany({
+    where: {
+      deleted_at: null,
+      requested_by: teacherId,
+    },
+    include: {
+      grade: {
+        include: {
+          student: { select: { full_name: true } },
+          medresa_course: {
+            select: {
+              medresa_id: true,
+              course: { select: { name: true } },
+            },
+          },
+          exam_type: { select: { name: true } },
+          teacher: { select: { user: { select: { full_name: true } } } },
+        },
+      },
+    },
+    orderBy: { created_at: "desc" },
+  });
+
+  return { items: rows.map(mapGradeEditRequest) };
+};
+
 export const listGradeEditRequests = async (
   req: Request,
   query: ListGradeEditRequestsQuery

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useNetworkFeeOverview } from '../hooks/useFees';
 import { formatEtb } from '../utils/money';
 import { formatEthiopianMonthYear, getCurrentEthiopianMonthYear } from '../utils/ethiopian';
@@ -41,7 +42,7 @@ export const NetworkFeesOverviewPage = () => {
           <FilterTabs value={medresaFilter} onChange={setMedresaFilter} tabs={medresaTabs} />
         </div>
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">{t('fees.loading')}</p>
+          <SkeletonTable rows={5} />
         ) : (
           <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
             <table className="w-full text-sm">

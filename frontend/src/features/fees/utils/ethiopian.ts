@@ -1,5 +1,6 @@
 export {
   ET_MONTHS,
+  ethiopianMonthCompare,
   formatEthiopianMonthYear,
   getCurrentEthiopianMonthYear,
   type EthiopianMonthYear,

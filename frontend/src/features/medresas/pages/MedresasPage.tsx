@@ -7,6 +7,7 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { StatCard } from '../../../components/ui/StatCard';
+import { SkeletonList } from '../../../components/ui/Skeleton';
 import { ViewModeToggle, type ListTableMode } from '../../../components/ui/ViewModeToggle';
 import { cn } from '../../../lib/utils';
 import { useMedresas } from '../hooks/useMedresas';
@@ -60,11 +61,7 @@ export const MedresasPage = () => {
       <div className="flex min-h-0 flex-1 flex-col">
         <PageTopBar title="Medresas" subtitle="Loading network data..." />
         <PageBody>
-          <div className="space-y-4">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-32 animate-pulse rounded-xl border border-cream-dark bg-surface" />
-            ))}
-          </div>
+          <SkeletonList rows={4} />
         </PageBody>
       </div>
     );

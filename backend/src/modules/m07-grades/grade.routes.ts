@@ -8,6 +8,7 @@ import {
   createGradeHandler,
   listCourseGradesEntryHandler,
   listTeacherCoursesHandler,
+  listTeacherGradeEditRequestsHandler,
 } from "./grade.controller";
 import {
   batchGradesSchema,
@@ -18,6 +19,8 @@ import {
 const gradeRoutes = Router();
 
 const writerChain = [requireAuth, requireGradeWriter] as const;
+
+gradeRoutes.get("/edit-requests", ...writerChain, listTeacherGradeEditRequestsHandler);
 
 gradeRoutes.get("/my-courses", ...writerChain, listTeacherCoursesHandler);
 

@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { SkeletonTable } from '../../../../components/ui/Skeleton';
 import { useStudentFeeHistory } from '../../../fees/hooks/useFees';
 import { formatEtb } from '../../../fees/utils/money';
 import { formatEthiopianMonthYear, getCurrentEthiopianMonthYear } from '../../../fees/utils/ethiopian';
@@ -16,7 +17,7 @@ export const StudentFeesTab = ({ studentId, medresaId, studentName }: Props) => 
   const { data, isLoading } = useStudentFeeHistory(medresaId, studentId, Boolean(medresaId && studentId));
 
   if (isLoading) {
-    return <p className="text-sm text-muted-foreground">{t('fees.loading')}</p>;
+    return <SkeletonTable rows={4} />;
   }
 
   if (!data) {
