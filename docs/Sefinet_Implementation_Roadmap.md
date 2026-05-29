@@ -80,10 +80,10 @@ This roadmap defines the execution sequence for **Sefinet Al Neja** using [`Sefi
 
 ### Priority 6: M06 Attendance Tracking
 
-- Teachers record attendance for assigned classes/students.
-- Daily attendance status and corrections workflow with audit history.
+- Teachers and Amir record one medresa-wide roll per calendar day (Ethiopia TZ).
+- Daily attendance status and corrections workflow with `teacher_marked_at` / `admin_marked_at`.
 
-**Exit criteria:** Attendance entries are role-scoped and tied to valid teacher-course-student relationships.
+**Exit criteria:** One session per medresa per day; writers are TEACHER or ADMIN at that medresa; Super Admin cannot POST/PATCH; same-day lock after midnight.
 
 ### Priority 7: M07 Grades & Results
 

@@ -15,7 +15,8 @@ This board translates `docs/Sefinet_Implementation_Roadmap.md` into actionable e
 |--------|--------|-----|
 | 8 (done) | M08 Fee Management | `docs/08-fees.md` |
 | 9 (done) | M09 Salary Management | `docs/09-salary.md` |
-| **10 (done)** | **M10 Reporting & Dashboard** | `docs/10-reporting.md` |
+| 10 (done) | M10 Reporting & Dashboard | `docs/10-reporting.md` |
+| **11 (next)** | **Medresa Admin UX** | `docs/ux-backlog/Medresa-Admin-UX.md` |
 
 Project-wide manual API regression (all modules) is scheduled later; use per-module `make dev-verify-m0N` scripts until then.
 
@@ -289,7 +290,7 @@ Project-wide manual API regression (all modules) is scheduled later; use per-mod
 
 - [x] Prisma models wired (`SalaryRank`, `TeacherRank`, `SalaryPayment`)
 - [x] Salary rank CRUD + versioned amount (`POST/PATCH /salary-ranks`)
-- [x] Assign rank to teacher (`POST /teachers/:id/rank`, `GET rank-history`)
+- [x] Assign rank to teacher (`POST /salary/teachers/:id/rank`, `GET rank-history`)
 - [x] Payment list with PAID/UNPAID for Ethiopian month (`GET /salary-payments`)
 - [x] Record payment (`POST /salary-payments`, unique per teacher/month/year)
 - [x] Teacher salary history + network overview APIs
@@ -342,6 +343,62 @@ Project-wide manual API regression (all modules) is scheduled later; use per-mod
 
 - [x] Reports read from existing M01-M09 tables (no new core tables)
 - [x] Role-scoped report visibility validated (`make dev-verify-m10`)
+
+---
+
+## Epic E11: Medresa Admin UX (Sprint 11+)
+
+**Backlog (locked):** `docs/ux-backlog/Medresa-Admin-UX.md` — UX-MA-01 through UX-MA-07  
+**Implement in order:** MA-01 → MA-05 → MA-03 → MA-02 → MA-04 → MA-06 → MA-07
+
+### E11.1 UX-MA-01 Student hub (P0)
+
+- [x] Tabbed `/medresa/students/$studentId`: Profile | Courses | Attendance | Grades | Fees
+- [x] Wire attendance tab to `GET /api/v1/attendance/students/:studentId`
+- [x] Remove student detail M06 placeholder copy
+- [x] Deep-link tabs (`?tab=`); i18n `en` / `am` / `ar`
+- [x] Legacy routes `/results` and `/fees` redirect to hub tabs
+
+### E11.2 UX-MA-05 Fee flow from student hub (P1)
+
+- [x] Record payment from student Fees tab (depends E11.1)
+- [x] Return to Fees tab after success (`returnTab=fees`); preserve `medresaId`
+
+### E11.3 UX-MA-03 Course workspace (P1)
+
+- [ ] Tabbed course page: Overview | Roster | Attendance | Results | Teacher
+- [ ] Medresa admin results at `/medresa/courses/$id/results` (not teacher route)
+- [ ] Clear placeholder copy where features exist
+
+### E11.4 UX-MA-02 Dashboard command center (P1)
+
+- [ ] Clickable course rows → course workspace
+- [ ] Pending grade edits count + link
+- [ ] Today attendance incomplete indicator + link
+- [ ] Outstanding fees card → `/medresa/fees`
+
+### E11.5 UX-MA-04 Academics nav merge (P2)
+
+- [ ] Consolidate grade-edits + results in sidebar
+- [ ] Badge for pending grade edit count
+- [ ] Optional `G` `E` shortcut in help
+
+### E11.6 UX-MA-06 Multi-medresa context safety (P2)
+
+- [ ] Medresa name in shell when multiple medresas
+- [ ] `medresaId` retained on sidebar navigation
+- [ ] Confirm dialogs show medresa name on writes
+
+### E11.7 UX-MA-07 i18n and polish (P3)
+
+- [ ] No hardcoded English in E11 touchpoints
+- [ ] RTL check on student hub + course workspace tabs
+
+### E11 DoD
+
+- [ ] All UX-MA acceptance criteria in `docs/ux-backlog/Medresa-Admin-UX.md` marked done
+- [ ] Medresa admin UI smoke passes (`docs/seed-dev-credentials.md`)
+- [ ] `ui-conventions.md` updated if new patterns (tabs/hubs) are canonical
 
 ---
 

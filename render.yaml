@@ -1,0 +1,46 @@
+# Optional Render Blueprint — staging backend + Postgres
+# Dashboard: New → Blueprint → connect repo (branch deploy/paas-staging)
+# After deploy: set FRONTEND_URL to your Vercel URL and redeploy the API.
+
+databases:
+  - name: sefinet-db
+    plan: free
+    databaseName: sefinet_db
+    user: sefinet
+
+services:
+  - type: web
+    name: sefinet-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci && npm run build && npx prisma generate
+    startCommand: npm run start:paas
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sefinet-db
+          property: connectionString
+      - key: DATABASE_ADMIN_URL
+        fromDatabase:
+          name: sefinet-db
+          property: connectionString
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_FROM
+        value: Sefinet Al Neja <noreply@sefinet.et>
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: TZ
+        value: Africa/Addis_Ababa

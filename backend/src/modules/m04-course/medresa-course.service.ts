@@ -7,7 +7,7 @@ import type {
   ActivateMedresaCourseInput,
   ListMedresaCoursesQuery,
 } from "./course.schema";
-import { teacherCanAccessMedresaCourse } from "./course-assignment.service";
+import { teacherCanAccessMedresaCourse } from "../../lib/course-access";
 
 const medresaCourseListInclude = {
   course: {
@@ -26,7 +26,7 @@ const medresaCourseListInclude = {
     select: {
       id: true,
       assigned_since: true,
-      teacher: { select: { id: true, full_name: true } },
+      teacher: { select: { id: true, user: { select: { full_name: true } } } },
     },
   },
   _count: {
@@ -90,17 +90,17 @@ export const listTeachersForMedresaAssignment = async (medresaId: string) => {
     },
     select: {
       teacher: {
-        select: { id: true, full_name: true, email: true },
+        select: { id: true, user: { select: { full_name: true, email: true } } },
       },
     },
-    orderBy: { teacher: { full_name: "asc" } },
+    orderBy: { teacher: { user: { full_name: "asc" } } },
   });
 
   return {
     items: rows.map((row) => ({
       id: row.teacher.id,
-      fullName: row.teacher.full_name,
-      email: row.teacher.email,
+      fullName: row.teacher.user.full_name,
+      email: row.teacher.user.email,
     })),
   };
 };

@@ -96,7 +96,7 @@ export const assignTeacherRank = async (
 export const getTeacherRankHistory = async (teacherId: string) => {
   const teacher = await prisma.teacher.findFirst({
     where: { id: teacherId, deleted_at: null },
-    select: { id: true, full_name: true },
+    select: { id: true, user: { select: { full_name: true } } },
   });
   if (!teacher) return { error: "TEACHER_NOT_FOUND" as const };
 
@@ -108,7 +108,7 @@ export const getTeacherRankHistory = async (teacherId: string) => {
 
   return {
     teacherId: teacher.id,
-    fullName: teacher.full_name,
+    fullName: teacher.user.full_name,
     items: rows.map((r) => ({
       id: r.id,
       salaryRankId: r.salary_rank_id,

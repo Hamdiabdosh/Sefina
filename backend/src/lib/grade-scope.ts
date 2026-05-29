@@ -1,8 +1,8 @@
 import type { Request } from "express";
 import { Status, StudentStatus } from "../../prisma/generated/prisma/enums";
 import { prisma } from "./prisma";
-import { teacherCanAccessMedresaCourse } from "../modules/m04-course/course-assignment.service";
-import { hasMedresaAdminRole, teacherCanAccessStudent } from "./student-scope";
+import { teacherCanAccessMedresaCourse } from "./course-access";
+import { canReadStudent, hasMedresaAdminRole, loadStudentForAccess } from "./student-scope";
 
 export const getActiveTeacherIdForUser = async (userId: string): Promise<string | null> => {
   const teacher = await prisma.teacher.findFirst({
@@ -48,14 +48,9 @@ export const studentEnrolledInCourse = async (
 };
 
 export const canReadStudentGrades = async (req: Request, studentId: string): Promise<boolean> => {
-  if (req.user!.isSuperAdmin) return true;
-  const student = await prisma.student.findFirst({
-    where: { id: studentId, deleted_at: null },
-    select: { current_medresa_id: true },
-  });
-  if (!student) return false;
-  if (hasMedresaAdminRole(req, student.current_medresa_id)) return true;
-  return teacherCanAccessStudent(req.user!.userId, studentId);
+  const row = await loadStudentForAccess(studentId);
+  if (!row) return false;
+  return canReadStudent(req, row);
 };
 
 export const canApproveGradeEditForMedresa = (req: Request, medresaId: string): boolean =>

@@ -22,6 +22,12 @@ Each route under the protected layout should render:
 
 Avoid wrapping feature pages in `min-h-screen bg-cream` — the shell and `PageBody` own the canvas.
 
+## Student hub (Medresa Admin / Teacher)
+
+- **`/medresa/students/$studentId`** uses tabbed panels under `frontend/src/features/students/components/hub/`.
+- Deep-link with `?tab=profile|courses|attendance|grades|fees` (fees tab only for Medresa Admin / Super Admin).
+- Legacy `/results` and `/fees` routes redirect to the hub.
+
 ## Reusable building blocks
 
 - **[`StatCard`](frontend/src/components/ui/StatCard.tsx)**: KPI tiles (e.g. medresa network overview).

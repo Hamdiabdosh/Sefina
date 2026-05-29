@@ -2,10 +2,13 @@ import { useMemo, useRef, useState } from 'react';
 import { useFocusSearchShortcut } from '../../../hooks/useFocusSearchShortcut';
 import { useNavigate } from '@tanstack/react-router';
 import { BookOpen, Building2, GraduationCap, Plus, Search, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { StatCard } from '../../../components/ui/StatCard';
+import { ViewModeToggle, type ListTableMode } from '../../../components/ui/ViewModeToggle';
+import { cn } from '../../../lib/utils';
 import { useMedresas } from '../hooks/useMedresas';
 import { MedresaList } from '../components/MedresaList';
 import { CreateMedresaModal } from '../components/CreateMedresaModal';
@@ -15,6 +18,7 @@ import type { MedresaListItem, MedresaStatus } from '../types';
 type StatusFilter = 'ALL' | MedresaStatus;
 
 export const MedresasPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { medresas, isLoading, error, createMedresa, updateMedresa } = useMedresas();
 
@@ -22,6 +26,7 @@ export const MedresasPage = () => {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [showCreate, setShowCreate] = useState(false);
   const [editMedresa, setEditMedresa] = useState<MedresaListItem | null>(null);
+  const [viewMode, setViewMode] = useState<ListTableMode>('list');
   const searchInputRef = useRef<HTMLInputElement>(null);
   useFocusSearchShortcut(searchInputRef);
 
@@ -143,29 +148,94 @@ export const MedresasPage = () => {
         </div>
 
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-sm font-medium text-foreground">All institutions</h2>
-          <FilterTabs
-            value={statusFilter}
-            onChange={setStatusFilter}
-            tabs={[
-              { value: 'ALL', label: 'All' },
-              { value: 'ACTIVE', label: 'Active' },
-              { value: 'INACTIVE', label: 'Inactive' },
-            ]}
-          />
+          <h2 className="text-sm font-medium text-foreground">{t('medresas.allInstitutions')}</h2>
+          <div className="flex flex-wrap items-center gap-3">
+            <FilterTabs
+              value={statusFilter}
+              onChange={setStatusFilter}
+              tabs={[
+                { value: 'ALL', label: t('medresas.filterAll') },
+                { value: 'ACTIVE', label: t('medresas.filterActive') },
+                { value: 'INACTIVE', label: t('medresas.filterInactive') },
+              ]}
+            />
+            <ViewModeToggle variant="list-table" value={viewMode} onChange={setViewMode} />
+          </div>
         </div>
 
-        <MedresaList
-          medresas={filteredMedresas}
-          onAddMedresa={() => setShowCreate(true)}
-          onEditMedresa={setEditMedresa}
-          onViewMedresa={(medresa) =>
-            void navigate({
-              to: '/admin/medresas/$medresaId',
-              params: { medresaId: medresa.id },
-            })
-          }
-        />
+        {viewMode === 'table' ? (
+          <div className="overflow-x-auto rounded-lg border border-cream-dark bg-surface">
+            <table className="w-full text-[13px]">
+              <thead>
+                <tr className="border-b border-cream-dark bg-cream/80 text-left text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <th className="px-2 py-1.5 sm:px-3">{t('medresas.colName')}</th>
+                  <th className="px-2 py-1.5 sm:px-3">{t('medresas.colLocation')}</th>
+                  <th className="px-2 py-1.5 text-right sm:px-3">{t('medresas.colStudents')}</th>
+                  <th className="px-2 py-1.5 text-right sm:px-3">{t('medresas.colTeachers')}</th>
+                  <th className="px-2 py-1.5 sm:px-3">{t('medresas.colStatus')}</th>
+                  <th className="px-2 py-1.5 sm:px-3" />
+                </tr>
+              </thead>
+              <tbody>
+                {filteredMedresas.map((medresa) => (
+                  <tr
+                    key={medresa.id}
+                    className="cursor-pointer border-b border-cream-dark/60 last:border-0 hover:bg-cream/50"
+                    onClick={() =>
+                      void navigate({
+                        to: '/admin/medresas/$medresaId',
+                        params: { medresaId: medresa.id },
+                      })
+                    }
+                  >
+                    <td className="px-2 py-1.5 font-medium text-teal-800 sm:px-3">{medresa.name}</td>
+                    <td className="px-2 py-1.5 text-muted-foreground sm:px-3">{medresa.location}</td>
+                    <td className="px-2 py-1.5 text-right tabular-nums sm:px-3">
+                      {medresa._count?.students ?? 0}
+                    </td>
+                    <td className="px-2 py-1.5 text-right tabular-nums sm:px-3">
+                      {medresa._count?.teacher_medresas ?? 0}
+                    </td>
+                    <td className="px-2 py-1.5 sm:px-3">
+                      <span
+                        className={cn(
+                          'text-[10px] font-medium uppercase',
+                          medresa.status === 'ACTIVE' ? 'text-success-text' : 'text-danger-text'
+                        )}
+                      >
+                        {medresa.status}
+                      </span>
+                    </td>
+                    <td className="px-2 py-1.5 sm:px-3">
+                      <button
+                        type="button"
+                        className="text-[11px] text-teal-600 hover:underline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditMedresa(medresa);
+                        }}
+                      >
+                        {t('medresas.edit')}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <MedresaList
+            medresas={filteredMedresas}
+            onAddMedresa={() => setShowCreate(true)}
+            onEditMedresa={setEditMedresa}
+            onViewMedresa={(medresa) =>
+              void navigate({
+                to: '/admin/medresas/$medresaId',
+                params: { medresaId: medresa.id },
+              })
+            }
+          />
+        )}
       </PageBody>
 
       <button

@@ -37,6 +37,32 @@ export const getMedresas = async () => {
   });
 };
 
+const publicMedresaSelect = {
+  id: true,
+  name: true,
+  location: true,
+  phone: true,
+  _count: {
+    select: {
+      students: true,
+      teacher_medresas: true,
+      medresa_courses: true,
+    },
+  },
+} as const;
+
+/** Public marketing directory — active medresas only, no auth. */
+export const getPublicMedresas = async () => {
+  return prisma.medresa.findMany({
+    where: {
+      deleted_at: null,
+      status: Status.ACTIVE,
+    },
+    select: publicMedresaSelect,
+    orderBy: { name: "asc" },
+  });
+};
+
 export const getMedresaDetail = async (id: string) => {
   return prisma.medresa.findFirst({
     where: {

@@ -47,6 +47,15 @@ if (parsed.NODE_ENV === "production") {
     );
     process.exit(1);
   }
+  const short = [parsed.JWT_ACCESS_SECRET, parsed.JWT_REFRESH_SECRET].filter(
+    (secret) => secret.length < 32
+  );
+  if (short.length > 0) {
+    console.error(
+      "[env] FATAL: JWT_ACCESS_SECRET and JWT_REFRESH_SECRET must be at least 32 characters in production"
+    );
+    process.exit(1);
+  }
 }
 
 export const env = parsed;

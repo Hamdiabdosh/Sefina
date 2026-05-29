@@ -4,6 +4,7 @@ import type {
   AttendanceSessionDTO,
   AttendanceStatus,
   SessionListItemDTO,
+  StudentAttendanceSummaryDTO,
 } from '../types';
 
 export const attendanceRosterKey = (medresaId: string) => ['attendanceRoster', medresaId] as const;
@@ -117,6 +118,16 @@ export const useMedresaAttendanceOverview = (
       };
     },
     enabled: enabled && Boolean(medresaId) && Boolean(date),
+  });
+
+export const useStudentAttendance = (studentId: string, enabled: boolean) =>
+  useQuery<StudentAttendanceSummaryDTO>({
+    queryKey: ['studentAttendance', studentId],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/api/v1/attendance/students/${studentId}`);
+      return res.data.data;
+    },
+    enabled: enabled && Boolean(studentId),
   });
 
 export const useNetworkAttendanceOverview = (from: string, to: string, medresaId?: string) =>

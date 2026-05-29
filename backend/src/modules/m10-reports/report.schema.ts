@@ -23,7 +23,7 @@ export const reportRangeQuerySchema = z
     medresaId: z.string().uuid().optional(),
     medresaCourseId: z.string().uuid().optional(),
     studentId: z.string().uuid().optional(),
-    status: z.enum(["ACTIVE", "TRANSFERRED", "ALL"]).optional(),
+    status: z.enum(["ACTIVE", "TRANSFERRED", "WITHDRAWN", "GRADUATED", "ALL"]).optional(),
     feeStatus: z.enum(["PAID", "PARTIAL", "UNPAID", "ALL"]).optional(),
     paymentStatus: z.enum(["PAID", "UNPAID", "ALL"]).optional(),
     rankId: z.string().uuid().optional(),

@@ -16,16 +16,11 @@ export const previousEthiopianMonth = (
 
 export const runSalaryUnpaidCheck = async (): Promise<number> => {
   const prev = previousEthiopianMonth();
-  const unpaid = await countUnpaidTeachersForMonth(prev.month, prev.year);
   const today = getEthiopianToday();
   if (ethiopianMonthCompare(prev, today) >= 0) {
-    console.warn("[salary-cron] Previous month is not before current month; skipped");
     return 0;
   }
-  console.log(
-    `[salary-cron] Ethiopian ${prev.month}/${prev.year}: ${unpaid} active teacher(s) without salary payment`
-  );
-  return unpaid;
+  return countUnpaidTeachersForMonth(prev.month, prev.year);
 };
 
 export const scheduleSalaryCron = (): void => {

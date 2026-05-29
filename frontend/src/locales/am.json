@@ -23,65 +23,92 @@
     "goGrades": "ደረጃ",
     "goHome": "መነሻ"
   },
+  "layout": {
+    "viewMode": "የእይታ ሁነታ",
+    "viewList": "ዝርዝር",
+    "viewGrid": "ፍርግርግ",
+    "viewTable": "ሠንጠረዥ"
+  },
   "common": {
     "blessingQuote": "በአላህ የተደገፈ ሰው አላህ በቂ ነው።",
     "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     "blessingReference": "ቁርኣን ፬፭፥፫ — ሱራት አት-ጠላቅ"
   },
-  "marketing": {
-    "heroTitleAr": "سفينة النجاح",
-    "heroSubtitle": "የሐረሪ ማድረሳ ኔትወርክ — ተማሪዎች፣ ቅጥያ፣ ደረጃ፣ ክፍያ እና ደመወዝ በአንድ ቦታ።",
-    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    "blessingLine": "አላህ በትምህርት ጥረታችሁ ይባርክ።",
-    "signIn": "ግባ",
-    "featuresTitle": "ኔትወርክዎ የሚፈልገው ሁሉ",
-    "features": {
-      "medresas": {
-        "title": "ማድረሳዎች",
-        "titleAr": "المدارس",
-        "description": "ሁሉንም ማድረሳ ከአንድ ዳሽቦርድ ያስተዳድሩ።"
-      },
-      "students": {
-        "title": "ተማሪዎች",
-        "titleAr": "الطلاب",
-        "description": "ምዝገባ፣ ወላጆች፣ ፎቶ እና ተማሪ መዝገቦች።"
-      },
-      "attendance": {
-        "title": "ቅጥያ",
-        "titleAr": "الحضور",
-        "description": "ዕለታዊ ክፍለ ጊዜ፣ መምህር ቁጥር እና ታሪክ።"
-      },
-      "grades": {
-        "title": "ደረጃ እና ውጤት",
-        "titleAr": "الدرجات",
-        "description": "ፈተና አይነቶች፣ ደረጃ መግቢያ እና ውጤቶች።"
-      },
-      "fees": {
-        "title": "ክፍያ",
-        "titleAr": "الرسوم",
-        "description": "የክፍያ መዋቅር፣ መሰብሰብ እና አጠቃላይ እይታ።"
-      },
-      "salaries": {
-        "title": "ደመወዝ",
-        "titleAr": "الرواتب",
-        "description": "ደረጃ፣ ወራዊ ክፍያ እና የመምህር ታሪክ።"
-      }
+  "calendar": {
+    "ethMonth": {
+      "1": "መስከረም",
+      "2": "ጥቅምት",
+      "3": "ኅዳር",
+      "4": "ታኅሣሥ",
+      "5": "ጥር",
+      "6": "የካቲት",
+      "7": "መጋቢት",
+      "8": "ሚያዝያ",
+      "9": "ግንቦት",
+      "10": "ሰኔ",
+      "11": "ሐምሌ",
+      "12": "ነሐሴ",
+      "13": "ጳጉሜ"
     }
   },
+  "marketing": {
+    "siteName": "የሐረሪ ማድረሳ ኔትወርክ",
+    "siteTagline": "Sefinatu Nejah",
+    "heroTitle": "የሐረሪ ማድረሳ ኔትወርክ",
+    "heroTitleAr": "شبكة مدارس الحراري",
+    "heroSubtitle": "በሐረር ውስጥ ንቁ ማድረሳዎችን ያግኙ — ቁርኣን፣ ማህበረሰብ እና ባህል ለልጆችዎ።",
+    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "blessingLine": "አላህ በትምህርት ጥረታችሁ ይባርክ።",
+    "staffSignIn": "ሰራተኛ ግባ",
+    "valuesTitle": "ማድረሳዎቻችን ለምን",
+    "valuesSubtitle": "ኔትወርኩ ውስጥ ያለ እያንዳንዱ ትምህርት ቤት ለቤተሰቦች በዲን እና በማህበረሰብ ቁርጠኝነት ያገለግላል።",
+    "values": {
+      "learning": {
+        "title": "ቅዱስ ትምህርት",
+        "titleAr": "تعليم ديني",
+        "description": "ቁርኣን፣ ዓረብኛ እና እስላማዊ ትምህርት በታማኝ መምህራን።"
+      },
+      "community": {
+        "title": "ማህበረሰብ",
+        "titleAr": "المجتمع",
+        "description": "በሰፈር ሕይወት ውስጥ የተሰሩ ማድረሳዎች — ተማሪዎች በሚያውቋቸው መምህራን እና ቤተሰቦች ይድገፋሉ።"
+      },
+      "heritage": {
+        "title": "የሐረሪ ባህል",
+        "titleAr": "تراث الحراري",
+        "description": "የሐረሪ ማንነት እና ቋንቋን ከሃይማኖታዊ ትምህርት ጋር ለቀጣዩ ትውልድ መጠበቅ።"
+      }
+    },
+    "medresasTitle": "በኔትወርኩ ውስጥ ያሉ ማድረሳዎች",
+    "medresasSubtitle": "ንቁ ትምህርት ቤቶችን ይመልከቱ — ስለ ምዝገባ ለመጠየቅ ማድረሳውን በቀጥታ ይደውሉ።",
+    "medresasEmpty": "ገና ንቁ ማድረሳዎች አልተዘረዘሩም። በቅርቡ እንደገና ይመለከቱ።",
+    "medresasLoadError": "ማድረሳዎችን መጫን አልተሳካም። ገጹን ያድሱ።",
+    "stats": {
+      "students": "ተማሪዎች",
+      "teachers": "መምህራን",
+      "courses": "ኮርሶች"
+    },
+    "enrollHint": "ልጅዎን ለመመዝገብ ማድረሳውን በስልክ ይደውሉ። እያንዳንዱ ትምህርት ቤት የራሱን ቅብልና ያስተዳድራል።",
+    "staffOnlyNote": "መምህራን እና አስተዳዳሪዎች ለውስጣዊ ስርዓት ከላይ መግባት ይችላሉ።"
+  },
   "auth": {
-    "appName": "Sefinet Al Neja",
+    "appName": "Sefinatu Nejah",
+    "appNameAr": "ሰፊናቱ ነጃህ",
+    "googleSignIn": "በ Google ይግቡ",
     "tagline": "የሐረሪ ማድረሳ አስተዳደር",
     "taglineAr": "مدرسة الحرري",
     "phoneOrEmail": "ስልክ ወይም ኢሜይል",
     "password": "የይለፍ ቃል",
     "forgotPassword": "የይለፍ ቃል ረሱ?",
     "signIn": "ግባ",
+    "signInHint": "ለመምህሮች እና ለአሚሮች የሰራተኛ መዳረሻ",
+    "marketingBlurb": "ተማሪዎችን፣ ተገኝነት፣ ውጤት እና ክፍያዎችን በሐረሪ የማድረሳ አውታረ መረብ ያስተዳድሩ።",
     "orContinueWith": "ወይም በ",
     "googleSignInFailed": "በጉግል መግቢያ አልተሳካም። እንደገና ይሞክሩ።",
     "googleAccountNotFound": "ለዚህ ጉግል ኢሜይል መለያ የለም። አስተዳዳሪዎን ያግኙ።",
     "googleNotConfigured": "በጉግል መግቢያ አሁን አይገኝም።",
     "invalidCredentials": "ትክክል ያልሆነ መረጃ። እንደገና ይሞክሩ።",
-    "version": "Sefinet Al Neja v1.0 · ሐረር፣ ኢትዮጵያ",
+    "version": "Sefinatu Nejah v1.0 · ሐረር፣ ኢትዮጵያ",
     "resetTitle": "የይለፍ ቃል ዳግም አስጀምር",
     "resetSubtitle": "ስልክ ወይም ኢሜይልዎን ያስገቡ ሊንክ እንልክልዎታለን",
     "email": "ኢሜይል",
@@ -150,6 +177,7 @@
     "section": {
       "network": "አውታር",
       "academics": "ትምህርት",
+      "finance": "ፋይናንስ",
       "school": "ማድረሳ",
       "teaching": "ማስተማር",
       "account": "መለያ"
@@ -181,6 +209,9 @@
     "overviewHistoricalNote": "መረለሻ ለዛሬው ክፍለ ጊዜ ብቻ በተገኝነት ገጽ ይገኛል።",
     "networkOverview": "የአውታረመረብ ተገኝነት",
     "networkSubtitle": "በቀናት ክልል በማድረሳ ጠቅላላ",
+    "networkSubtitleEthiopian": "ዕለታዊ ዝርዝር · የኢትዮጵያ ቀን ይታያል",
+    "jumpToday": "ዛሬ ይሂዱ",
+    "ethiopianMonthHint": "አሁን የኢትዮጵያ ወር፡ {{month}} / {{year}}",
     "openTakeAttendance": "ዛሬ የመምህር ተገኝነት ይውሰዱ ወይም ያርትዙ",
     "openTakeAttendanceAmir": "ዛሬ የአሚር ተገኝነት ይውሰዱ ወይም ያርትዙ",
     "openMedresaOverview": "የማድረሳ የተገኝነት እይታ ይክፈቱ",
@@ -197,10 +228,12 @@
       "late": "ዘግይቷል",
       "excused": "የተፈቀደ ክፍት"
     },
-    "markerTeacher": "መምህር አስቀምጧል",
-    "markerAmir": "አሚር አስቀምጧል",
+    "markerTeacher": "መምህር",
+    "markerAmir": "አሚር",
+    "markerAt": "{{time}}",
     "markerDone": "አዎ",
     "markerPending": "አልሆነም",
+    "amirOverrideWarning": "መምህሩ የዛሬውን ቁጥር አስቀድሞ አስቀምጧል። በዚህ ቀን ማስተካከያ ብቻ ይጠቀሙ፤ መምህሩ በቦታ ሲሆን እርሱ ይውሰድ።",
     "studentCountHeader": "{{count}} ተማሪዎች",
     "progressMarkedSuffix": "ተመዝግቧል",
     "bulkMarkAs": "ሁሉንም እንደ:",
@@ -213,6 +246,9 @@
     "completeAllRowsHint": "ለእያንዳንዱ ተማሪ ሁኔታ ይምረጡ ወይም «ሁሉንም» ይጠቀሙ።"
   },
   "grades": {
+    "colStudent": "ተማሪ",
+    "colScore": "ውጤት",
+    "colLetter": "ደረጃ",
     "title": "ውጤቶች",
     "teacherSubtitle": "ለተመደቡት ኮርሶች ውጤት ያስገቡ",
     "entryTitle": "ውጤት ማስገባት",
@@ -292,6 +328,12 @@
     "saveFailed": "ማስቀመጥ አልተሳካም። እንደገና ይሞክሩ።"
   },
   "fees": {
+    "colStudent": "ተማሪ",
+    "colDue": "የሚከፈል",
+    "colPaid": "የተከፈለ",
+    "colBalance": "ቀሪ",
+    "colStatus": "ሁኔታ",
+    "colActions": "ድርጊቶች",
     "collectionTitle": "ክፍያ ስብስብ",
     "loading": "በመጫን ላይ...",
     "ethiopianMonth": "ወር (ኢትዮጵያ)",
@@ -461,10 +503,32 @@
       "teacher": "መምህር"
     }
   },
+  "medresas": {
+    "allInstitutions": "ሁሉም ተቋማት",
+    "filterAll": "ሁሉ",
+    "filterActive": "ንቁ",
+    "filterInactive": "ንቁ ያልሆኑ",
+    "colName": "ማድረሳ",
+    "colLocation": "ቦታ",
+    "colStudents": "ተማሪዎች",
+    "colTeachers": "መምህራን",
+    "colStatus": "ሁኔታ",
+    "edit": "አርትዕ"
+  },
   "students": {
+    "colName": "ተማሪ",
+    "colCourses": "ኮርሶች",
+    "colStatus": "ሁኔታ",
     "title": "ተማሪዎች",
     "subtitle": "{{name}} · {{count}} ንቁ",
     "teacherSubtitle": "የክፍልዎ ዝርዝር",
+    "teacherSubtitleMedresa": "{{name}} · {{count}} በኮርሶችዎ",
+    "teacherSubtitleCount": "{{count}} በኮርሶችዎ",
+    "teacherEmpty": "በተመደቡት ኮርሶች ላይ ተማሪ የለም።",
+    "teacherEmptyHint": "በሚያስተምሩት ኮርስ የተመዘገቡ ተማሪዎች እዚህ ይታያሉ። አሚር ኮርስ ይመድብልዎ ወይም ተማሪዎችን ይመዝግቡ። በብዙ ማድረሳ ከሚያስተምሩ ከላይ ማድረሳ ይምረጡ።",
+    "amirSubtitleMedresa": "{{name}} · {{count}} ተማሪዎች (አሚር)",
+    "amirSubtitleCount": "{{count}} ተማሪዎች (አሚር)",
+    "amirEmptyHint": "በዚህ ማድረሳ ንቁ ተማሪ የለም። ከማድረሳ ተማሪዎች ገጽ ይመዝግቡ ወይም ትክክለኛውን ማድረሳ ከላይ ይምረጡ።",
     "detailTitle": "ተማሪ",
     "loading": "በመጫን ላይ...",
     "loadError": "ተማሪዎችን መጫን አልተሳካም።",
@@ -506,8 +570,27 @@
     "attendancePlaceholder": "ተገኝነት",
     "gradesPlaceholder": "ውጤቶች",
     "comingM06": "ተገኝነት (M06) ሲገነባ ይታያል።",
+    "hub": {
+      "profile": "መገለጫ",
+      "courses": "ኮርሶች",
+      "attendance": "ተገኝነት",
+      "grades": "ውጤቶች",
+      "fees": "ክፍያ",
+      "noAttendance": "እስካሁን ተገኝነት አልተመዘገበም።",
+      "attendanceRate": "የተገኝነት መጠን",
+      "sessions": "ክፍለ ጊዜያት",
+      "presentCount": "የተገኙ (በረሃ ውስጥ)",
+      "status": "ሁኔታ",
+      "noPayments": "እስካሁን ክፍያ አልተመዘገበም።"
+    },
     "gender": { "male": "ወንድ", "female": "ሴት" },
-    "status": { "active": "ንቁ", "transferred": "ተላልፏል" },
+    "status": {
+      "active": "ንቁ",
+      "transferred": "ተላልፏል",
+      "withdrawn": "ወጥቷል",
+      "graduated": "ተመረቀ"
+    },
+    "enrollmentNumber": "የተማሪ ቁጥር",
     "filter": { "all": "ሁሉ", "allCourses": "ሁሉም ኮርሶች" },
     "form": {
       "fullName": "ሙሉ ስም",
@@ -558,6 +641,7 @@
   "reports": {
     "title": "ሪፖርቶች",
     "subtitle": "የሚላኩ ሪፖርቶች · የኢትዮጵያ ቀን መቁጠሪያ",
+    "attendancePeriod": "የተገኝነት ጊዜ፡ {{from}} — {{to}}",
     "kinds": {
       "enrollment": "የተማሪ ምዝገባ",
       "attendance": "ተገኝነት",

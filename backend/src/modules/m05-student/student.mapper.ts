@@ -16,6 +16,7 @@ type StudentListRow = {
   gender: Gender;
   guardian_phone: string;
   guardian_name: string;
+  enrollment_number?: string | null;
   photo_url: string | null;
   status: StudentStatus;
   enrolled_at: Date;
@@ -44,6 +45,7 @@ export const mapStudentListItem = (row: StudentListRow) => ({
   gender: row.gender,
   guardianPhone: row.guardian_phone,
   guardianName: row.guardian_name,
+  enrollmentNumber: row.enrollment_number ?? null,
   photoUrl: row.photo_url,
   status: row.status,
   enrolledAt: row.enrolled_at,
@@ -63,6 +65,13 @@ export const mapStudentDetail = (
   row: StudentListRow & {
     date_of_birth: Date;
     address: string;
+    secondary_guardian_name?: string | null;
+    secondary_guardian_phone?: string | null;
+    national_id?: string | null;
+    blood_group?: string | null;
+    allergies?: string | null;
+    withdrawn_at?: Date | null;
+    graduated_at?: Date | null;
     current_medresa_id: string;
     current_medresa: { id: string; name: string };
     transfers: Array<
@@ -87,9 +96,17 @@ export const mapStudentDetail = (
   address: row.address,
   guardianName: row.guardian_name,
   guardianPhone: row.guardian_phone,
+  secondaryGuardianName: row.secondary_guardian_name ?? null,
+  secondaryGuardianPhone: row.secondary_guardian_phone ?? null,
+  nationalId: row.national_id ?? null,
+  bloodGroup: row.blood_group ?? null,
+  allergies: row.allergies ?? null,
+  enrollmentNumber: row.enrollment_number ?? null,
   photoUrl: row.photo_url,
   status: row.status,
   enrolledAt: row.enrolled_at,
+  withdrawnAt: row.withdrawn_at ?? null,
+  graduatedAt: row.graduated_at ?? null,
   currentMedresaId: row.current_medresa_id,
   currentMedresaName: row.current_medresa.name,
   courses: row.student_courses.map(mapStudentCourseItem),

@@ -17,8 +17,8 @@ export const getSalaryPaymentList = async (query: SalaryPaymentListQuery) => {
 
   const teachers = await prisma.teacher.findMany({
     where: { deleted_at: null, status: Status.ACTIVE },
-    orderBy: { full_name: "asc" },
-    select: { id: true, full_name: true, photo_url: true },
+    orderBy: { user: { full_name: "asc" } },
+    select: { id: true, photo_url: true, user: { select: { full_name: true } } },
   });
 
   const payments = await prisma.salaryPayment.findMany({
@@ -43,7 +43,7 @@ export const getSalaryPaymentList = async (query: SalaryPaymentListQuery) => {
 
     rows.push({
       teacherId: teacher.id,
-      fullName: teacher.full_name,
+      fullName: teacher.user.full_name,
       photoUrl: teacher.photo_url,
       salaryRankId: resolved?.salaryRankId ?? null,
       rankName: resolved ? (resolved.rank.name as Record<string, string>) : null,
@@ -72,7 +72,7 @@ export const getSalaryPaymentList = async (query: SalaryPaymentListQuery) => {
 export const getTeacherSalaryHistory = async (teacherId: string) => {
   const teacher = await prisma.teacher.findFirst({
     where: { id: teacherId, deleted_at: null },
-    select: { id: true, full_name: true, photo_url: true },
+    select: { id: true, photo_url: true, user: { select: { full_name: true } } },
   });
   if (!teacher) return { error: "TEACHER_NOT_FOUND" as const };
 
@@ -91,7 +91,7 @@ export const getTeacherSalaryHistory = async (teacherId: string) => {
 
   return {
     teacherId: teacher.id,
-    fullName: teacher.full_name,
+    fullName: teacher.user.full_name,
     photoUrl: teacher.photo_url,
     currentRank: current
       ? {

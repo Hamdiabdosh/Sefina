@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { AttendanceDateLabel } from '../components/AttendanceDateLabel';
 import { useMedresas } from '../../medresas/hooks/useMedresas';
 import { useNetworkAttendanceOverview } from '../hooks/useAttendance';
+import { getTodayCalendarEt } from '../utils/ethiopiaDate';
 
 function subtractDaysIso(isoStart: string, days: number): string {
   const d = new Date(`${isoStart}T12:00:00Z`);
@@ -13,7 +15,7 @@ function subtractDaysIso(isoStart: string, days: number): string {
 
 export const AdminAttendanceNetworkPage = () => {
   const { t } = useTranslation();
-  const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const today = useMemo(() => getTodayCalendarEt(), []);
   const [from, setFrom] = useState(() => subtractDaysIso(today, 6));
   const [to, setTo] = useState(today);
   const [medresaFilter, setMedresaFilter] = useState('');
@@ -27,7 +29,10 @@ export const AdminAttendanceNetworkPage = () => {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col pb-12">
-      <PageTopBar title={t('attendance.networkOverview')} subtitle={t('attendance.networkSubtitle')} />
+      <PageTopBar
+        title={t('attendance.networkOverview')}
+        subtitle={t('attendance.networkSubtitleEthiopian')}
+      />
       <PageBody fullWidth className="max-w-none">
         <div className="flex flex-wrap gap-3 items-end">
           <label className="flex flex-col gap-1 text-sm">
@@ -87,7 +92,9 @@ export const AdminAttendanceNetworkPage = () => {
               <tbody>
                 {overview.data!.items.map((row, i) => (
                   <tr key={`${row.date}-${row.medresaId}-${i}`} className="border-t border-cream-dark">
-                    <td className="p-2">{row.date}</td>
+                    <td className="p-2">
+                      <AttendanceDateLabel ymd={row.date} />
+                    </td>
                     <td className="p-2">{row.medresaName}</td>
                     <td className="text-right p-2">{row.present}</td>
                     <td className="text-right p-2">{row.absent}</td>

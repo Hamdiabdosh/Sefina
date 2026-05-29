@@ -396,10 +396,10 @@ On larger screens, the bottom nav becomes a left sidebar (240px wide). Content a
 | S24 | Assign Student to Course | Medresa Admin | M05 |
 | S25 | Transfer Student | Medresa Admin | M05 |
 | S26 | Teacher Student List | Teacher | M05 |
-| S27 | Take Attendance | Teacher | M06 |
-| S28 | Edit Attendance | Teacher | M06 |
-| S29 | Attendance History | Teacher | M06 |
-| S30 | Student Attendance Detail | Teacher | M06 |
+| S27 | Take Attendance | Teacher \| Medresa Admin | M06 |
+| S28 | Edit Attendance | Teacher \| Medresa Admin | M06 |
+| S29 | Attendance History | Teacher \| Medresa Admin | M06 |
+| S30 | Student Attendance Detail | Teacher \| Medresa Admin (+ read scope) | M06 |
 | S31 | Medresa Attendance Overview | Medresa Admin | M06 |
 | S32 | Network Attendance Overview | Super Admin | M06 |
 | S33 | Exam Type Management | Super Admin | M07 |
@@ -811,13 +811,25 @@ Error states:
 
 ## 10. Screen Specifications — M06 Attendance
 
-### S27 — Take Attendance
+**Shared daily roll:** One roster per medresa per day (all active students). Same screen component for ustaz and Amir; routes differ by role.
+
+| Screen | Teacher route | Medresa Admin route |
+|--------|---------------|---------------------|
+| S27 Take | `/teacher/attendance/take?medresaId=` | `/medresa/attendance/take?medresaId=` |
+| S28 Edit | Same as S27 when session exists | Same as S27 when session exists |
+| S29 Hub | `/teacher/attendance` | `/medresa/attendance` |
+| S31 Overview | — | `/medresa/attendance` (date picker + totals) |
+
+**Markers:** Show `teacher_marked_at` and `admin_marked_at` as localized times (Ethiopia). Amir sees a soft warning if the teacher already saved today’s roll.
+
+### S27 — Take Attendance (Teacher \| Medresa Admin)
 
 ```
 ┌─────────────────────────┐
 │  [← Back]               │
 │  Attendance             │
-│  Quran Recitation · Today│
+│  Today · 17 students    │  Medresa-wide daily roll
+│  Teacher: 08:12 · Amir: not yet │  Marker strip (times when set)
 │  ┌─────────────────────┐│
 │  │14 Present│2 Absent  ││  Summary bar
 │  │1 Late    │17 Total  ││
@@ -826,13 +838,7 @@ Error states:
 │  [YA] Yusuf Ali         │
 │       [P✓] [A] [L] [E] │  P=Present A=Absent L=Late E=Excused
 │  ─────────────────────  │
-│  [MH] Mariam Hassan     │
-│       [P] [A✓] [L] [E] │
-│  ─────────────────────  │
-│  [OA] Omar Abdullahi    │
-│       [P] [A] [L✓] [E] │
-│  ─────────────────────  │
-│  ... 14 more            │
+│  ...                    │
 ├─────────────────────────┤
 │  [   Submit attendance  ]│  Fixed submit bar
 └─────────────────────────┘
@@ -846,9 +852,9 @@ Button states:
   E selected: #E6F1FB bg + #185FA5 text
 
 After submit:
-  Lock icon appears on header
-  "Submitted at 08:45 AM" shown
-  Edit button appears (if same day)
+  Lock icon appears on header (when day locked)
+  Marker strip shows last save time per role
+  Edit available same day until midnight lock
 ```
 
 ### S28 — Edit Attendance (same day)
@@ -857,6 +863,7 @@ After submit:
 Same layout as S27 but:
   Header shows: "Edit Attendance · Submitted 08:45"
   Warning banner: "Changes locked after midnight"
+  Amir-only banner (if teacher_marked_at set): prefer corrections only
   Submit becomes: "Save changes"
   All records pre-filled with submitted values
 ```

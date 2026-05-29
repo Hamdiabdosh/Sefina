@@ -301,6 +301,23 @@ export type EnumStudentStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumStudentStatusFilter<$PrismaModel>
 }
 
+export type EnumEnrollmentEndReasonFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnrollmentEndReason | Prisma.EnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEnrollmentEndReasonFilter<$PrismaModel> | $Enums.EnrollmentEndReason
+}
+
+export type EnumEnrollmentEndReasonWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnrollmentEndReason | Prisma.EnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEnrollmentEndReasonWithAggregatesFilter<$PrismaModel> | $Enums.EnrollmentEndReason
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEnrollmentEndReasonFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEnrollmentEndReasonFilter<$PrismaModel>
+}
+
 export type EnumAttendanceStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.AttendanceStatus | Prisma.EnumAttendanceStatusFieldRefInput<$PrismaModel>
   in?: $Enums.AttendanceStatus[] | Prisma.ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
@@ -735,6 +752,23 @@ export type NestedEnumStudentStatusWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumStudentStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumStudentStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumEnrollmentEndReasonFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnrollmentEndReason | Prisma.EnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEnrollmentEndReasonFilter<$PrismaModel> | $Enums.EnrollmentEndReason
+}
+
+export type NestedEnumEnrollmentEndReasonWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EnrollmentEndReason | Prisma.EnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  in?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EnrollmentEndReason[] | Prisma.ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEnrollmentEndReasonWithAggregatesFilter<$PrismaModel> | $Enums.EnrollmentEndReason
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEnrollmentEndReasonFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEnrollmentEndReasonFilter<$PrismaModel>
 }
 
 export type NestedEnumAttendanceStatusFilter<$PrismaModel = never> = {

@@ -92,7 +92,7 @@ export const useAssignTeacherRank = () => {
       salaryRankId: string;
       effectiveFrom: string;
     }) => {
-      const res = await axiosInstance.post(`/api/v1/teachers/${teacherId}/rank`, {
+      const res = await axiosInstance.post(`/api/v1/salary/teachers/${teacherId}/rank`, {
         salaryRankId,
         effectiveFrom,
       });
@@ -152,7 +152,7 @@ export const useTeacherSalaryHistory = (teacherId: string, enabled: boolean) =>
   useQuery<TeacherSalaryHistoryDTO>({
     queryKey: ['teacherSalaryHistory', teacherId],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/api/v1/teachers/${teacherId}/salary-history`);
+      const res = await axiosInstance.get(`/api/v1/salary/teachers/${teacherId}/salary-history`);
       return res.data.data;
     },
     enabled: enabled && Boolean(teacherId),

@@ -66,8 +66,8 @@ Amounts: **integer cents** in DB; API exposes **ETB** (mirror M08).
 
 | Method | Path | Description |
 |--------|------|-------------|
-| POST | `/api/v1/teachers/:id/rank` | Assign/change rank `{ salaryRankId, effectiveFrom }` |
-| GET | `/api/v1/teachers/:id/rank-history` | Assignment history |
+| POST | `/api/v1/salary/teachers/:id/rank` | Assign/change rank `{ salaryRankId, effectiveFrom }` |
+| GET | `/api/v1/salary/teachers/:id/rank-history` | Assignment history |
 
 ### Payments (Super Admin)
 
@@ -75,7 +75,7 @@ Amounts: **integer cents** in DB; API exposes **ETB** (mirror M08).
 |--------|------|-------------|
 | GET | `/api/v1/salary-payments` | List teachers: rank, amount, PAID/UNPAID for month; filters rank/status/month |
 | POST | `/api/v1/salary-payments` | Record payment |
-| GET | `/api/v1/teachers/:id/salary-history` | Per-teacher ledger + year summary |
+| GET | `/api/v1/salary/teachers/:id/salary-history` | Per-teacher ledger + year summary |
 | GET | `/api/v1/salaries/network-overview` | Monthly network totals; month range + rank filters |
 
 POST body (planned): `teacherId`, `month`, `year`, `amountPaidEtb`, `bankReference`, `paymentDate`, `note?`, `isAdjusted?`, `adjustmentReason?` (required when adjusted).

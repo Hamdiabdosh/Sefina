@@ -4,6 +4,8 @@ import { googleClientId, isGoogleSignInEnabled } from '../../../config/env';
 type GoogleSignInButtonProps = {
   onCredential: (credential: string) => void;
   disabled?: boolean;
+  /** Transparent overlay on a custom-styled sign-in control. */
+  overlay?: boolean;
 };
 
 /** GSI initialize() must run once per page load; StrictMode and re-renders must not repeat it. */
@@ -31,7 +33,7 @@ const ensureGsiInitialized = (onCredential: (credential: string) => void) => {
   return true;
 };
 
-export const GoogleSignInButton = ({ onCredential, disabled }: GoogleSignInButtonProps) => {
+export const GoogleSignInButton = ({ onCredential, disabled, overlay }: GoogleSignInButtonProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const onCredentialRef = useRef(onCredential);
   onCredentialRef.current = onCredential;
@@ -81,7 +83,11 @@ export const GoogleSignInButton = ({ onCredential, disabled }: GoogleSignInButto
   return (
     <div
       ref={containerRef}
-      className={`w-full flex justify-center min-h-[44px] ${disabled ? 'pointer-events-none opacity-50' : ''}`}
+      className={
+        overlay
+          ? `absolute inset-0 z-10 flex items-center justify-center overflow-hidden opacity-0 ${disabled ? 'pointer-events-none' : ''}`
+          : `flex min-h-[44px] w-full justify-center ${disabled ? 'pointer-events-none opacity-50' : ''}`
+      }
     />
   );
 };

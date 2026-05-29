@@ -360,8 +360,6 @@ const run = async (): Promise<void> => {
   await requireSuperAdmin();
   const passwordHash = await hashPassword(DEV_PASSWORD);
 
-  console.log("Seeding dev dataset…");
-
   const medresas = await Promise.all(
     MEDRESA_NAMES.map((name, i) => {
       const location = MEDRESA_LOCATIONS[i] ?? name;
@@ -626,24 +624,6 @@ const run = async (): Promise<void> => {
     }
   }
 
-  const totalStudents = await prisma.student.count({
-    where: {
-      deleted_at: null,
-      current_medresa: { name: { startsWith: "Dev Medresa" } },
-    },
-  });
-
-  console.log("");
-  console.log("Dev dataset ready.");
-  console.log(`  Medresas:  ${medresas.length}`);
-  console.log(`  Teachers:  ${teachers.length}`);
-  console.log(`  Courses:   ${masterCourses.length} master, 2 active per medresa`);
-  console.log(`  Students:  ${totalStudents} (target ${STUDENTS_PER_MEDRESA} per medresa)`);
-  console.log("");
-  console.log("Logins (password for all):", DEV_PASSWORD);
-  console.log("  Medresa admins: admin01@sefinet.dev … admin05@sefinet.dev");
-  console.log("  Teachers:       ustaz06@sefinet.dev … ustaz10@sefinet.dev");
-  console.log("  See docs/seed-dev-credentials.md for full list.");
 };
 
 run()

@@ -23,65 +23,92 @@
     "goGrades": "Grades",
     "goHome": "Home"
   },
+  "layout": {
+    "viewMode": "View mode",
+    "viewList": "List view",
+    "viewGrid": "Grid view",
+    "viewTable": "Table view"
+  },
   "common": {
     "blessingQuote": "And whoever relies upon Allah - then He is sufficient for him.",
     "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     "blessingReference": "Quran 65:3 — Surah At-Talaq"
   },
-  "marketing": {
-    "heroTitleAr": "سفينة النجاح",
-    "heroSubtitle": "Harari medresa network — students, attendance, grades, fees, and salaries in one place.",
-    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    "blessingLine": "May Allah bless your efforts in education.",
-    "signIn": "Sign in",
-    "featuresTitle": "Everything your network needs",
-    "features": {
-      "medresas": {
-        "title": "Medresas",
-        "titleAr": "المدارس",
-        "description": "Manage every medresa in the Harari network from one dashboard."
-      },
-      "students": {
-        "title": "Students",
-        "titleAr": "الطلاب",
-        "description": "Enrollment, guardians, photos, and per-medresa student records."
-      },
-      "attendance": {
-        "title": "Attendance",
-        "titleAr": "الحضور",
-        "description": "Daily sessions, teacher roll call, and locked attendance history."
-      },
-      "grades": {
-        "title": "Grades & results",
-        "titleAr": "الدرجات",
-        "description": "Exam types, grade entry, class results, and edit approvals."
-      },
-      "fees": {
-        "title": "Fees",
-        "titleAr": "الرسوم",
-        "description": "Fee structures, collections, and network-wide fee overview."
-      },
-      "salaries": {
-        "title": "Salaries",
-        "titleAr": "الرواتب",
-        "description": "Salary ranks, monthly payments, and teacher salary history."
-      }
+  "calendar": {
+    "ethMonth": {
+      "1": "Meskerem",
+      "2": "Tikimt",
+      "3": "Hidar",
+      "4": "Tahsas",
+      "5": "Tir",
+      "6": "Yekatit",
+      "7": "Megabit",
+      "8": "Miazia",
+      "9": "Ginbot",
+      "10": "Sene",
+      "11": "Hamle",
+      "12": "Nehase",
+      "13": "Pagumen"
     }
   },
+  "marketing": {
+    "siteName": "Harari Medresa Network",
+    "siteTagline": "Sefinatu Nejah",
+    "heroTitle": "Harari Medresa Network",
+    "heroTitleAr": "شبكة مدارس الحراري",
+    "heroSubtitle": "Discover active medresas across Harar — Quranic education, community, and tradition for your children.",
+    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "blessingLine": "May Allah bless your efforts in education.",
+    "staffSignIn": "Staff sign in",
+    "valuesTitle": "Why our medresas",
+    "valuesSubtitle": "Each school in the network serves families with the same commitment to deen and community.",
+    "values": {
+      "learning": {
+        "title": "Sacred learning",
+        "titleAr": "تعليم ديني",
+        "description": "Quran, Arabic, and Islamic studies taught with care by dedicated ustaz and ustazas."
+      },
+      "community": {
+        "title": "Community",
+        "titleAr": "المجتمع",
+        "description": "Medresas rooted in neighborhood life — where students grow among teachers and families who know them."
+      },
+      "heritage": {
+        "title": "Harari heritage",
+        "titleAr": "تراث الحراري",
+        "description": "Preserving Harari identity and language alongside religious education for the next generation."
+      }
+    },
+    "medresasTitle": "Medresas in the network",
+    "medresasSubtitle": "Browse active schools — contact a medresa directly to ask about enrollment.",
+    "medresasEmpty": "No active medresas are listed yet. Please check back soon.",
+    "medresasLoadError": "Could not load medresas. Please refresh the page.",
+    "stats": {
+      "students": "Students",
+      "teachers": "Teachers",
+      "courses": "Courses"
+    },
+    "enrollHint": "To enroll your child, contact the medresa by phone. Each school manages its own admissions.",
+    "staffOnlyNote": "Teachers and administrators can sign in above for the internal management system."
+  },
   "auth": {
-    "appName": "Sefinet Al Neja",
+    "appName": "Sefinatu Nejah",
+    "appNameAr": "سَفِينَةُ النَّجَاحِ",
+    "googleSignIn": "Sign in with Google",
     "tagline": "Harari Medresa Management",
     "taglineAr": "مدرسة الحرري",
     "phoneOrEmail": "Phone or email",
     "password": "Password",
     "forgotPassword": "Forgot password?",
     "signIn": "Sign in",
+    "signInHint": "Staff access for teachers and medresa administrators",
+    "marketingBlurb": "Manage students, attendance, grades, and fees across the Harari medresa network — built for daily use on phones and desktops.",
     "orContinueWith": "or continue with",
     "googleSignInFailed": "Google sign-in failed. Please try again.",
     "googleAccountNotFound": "No account exists for this Google email. Contact your administrator.",
     "googleNotConfigured": "Google sign-in is not available right now.",
     "invalidCredentials": "Invalid credentials. Please try again.",
-    "version": "Sefinet Al Neja v1.0 · Harari, Ethiopia",
+    "version": "Sefinatu Nejah v1.0 · Harari, Ethiopia",
     "resetTitle": "Reset password",
     "resetSubtitle": "Enter your phone or email to receive a reset link",
     "email": "Email",
@@ -150,6 +177,7 @@
     "section": {
       "network": "Network",
       "academics": "Academics",
+      "finance": "Finance",
       "school": "Medresa",
       "teaching": "Teaching",
       "account": "Account"
@@ -181,6 +209,9 @@
     "overviewHistoricalNote": "Editing is only available for today’s session on the take-attendance screen.",
     "networkOverview": "Network attendance",
     "networkSubtitle": "Totals by medresa across a date range",
+    "networkSubtitleEthiopian": "Daily rolls · Ethiopian dates shown (Gregorian stored for each day)",
+    "jumpToday": "Jump to today",
+    "ethiopianMonthHint": "Current Ethiopian month: {{month}} / {{year}} (use Reports for month ranges)",
     "openTakeAttendance": "Take or edit today’s attendance (teacher)",
     "openTakeAttendanceAmir": "Take or edit today’s attendance (Amir)",
     "openMedresaOverview": "Open medresa attendance overview",
@@ -197,10 +228,12 @@
       "late": "Late",
       "excused": "Excused"
     },
-    "markerTeacher": "Teacher saved",
-    "markerAmir": "Amir saved",
+    "markerTeacher": "Teacher",
+    "markerAmir": "Amir",
+    "markerAt": "{{time}}",
     "markerDone": "yes",
     "markerPending": "not yet",
+    "amirOverrideWarning": "A teacher already saved today’s roll. Use this screen for same-day corrections only; ustaz should take attendance when present.",
     "studentCountHeader": "{{count}} students",
     "progressMarkedSuffix": "marked",
     "bulkMarkAs": "Mark all as:",
@@ -213,6 +246,9 @@
     "completeAllRowsHint": "Set a status for every student, or use Mark all, before submitting."
   },
   "grades": {
+    "colStudent": "Student",
+    "colScore": "Score",
+    "colLetter": "Grade",
     "title": "Grades",
     "teacherSubtitle": "Enter scores for your assigned courses",
     "entryTitle": "Enter grades",
@@ -292,6 +328,12 @@
     "saveFailed": "Could not save. Try again."
   },
   "fees": {
+    "colStudent": "Student",
+    "colDue": "Due",
+    "colPaid": "Paid",
+    "colBalance": "Balance",
+    "colStatus": "Status",
+    "colActions": "Actions",
     "collectionTitle": "Fee collection",
     "loading": "Loading...",
     "ethiopianMonth": "Month (Ethiopian)",
@@ -461,15 +503,37 @@
       "teacher": "Teacher"
     }
   },
+  "medresas": {
+    "allInstitutions": "All institutions",
+    "filterAll": "All",
+    "filterActive": "Active",
+    "filterInactive": "Inactive",
+    "colName": "Medresa",
+    "colLocation": "Location",
+    "colStudents": "Students",
+    "colTeachers": "Teachers",
+    "colStatus": "Status",
+    "edit": "Edit"
+  },
   "students": {
     "title": "Students",
     "subtitle": "{{name}} · {{count}} active",
     "teacherSubtitle": "Your class roster",
+    "teacherSubtitleMedresa": "{{name}} · {{count}} in your courses",
+    "teacherSubtitleCount": "{{count}} in your courses",
+    "teacherEmpty": "No students in your assigned courses.",
+    "teacherEmptyHint": "Students appear here when they are enrolled in a course you teach. Ask your Amir to assign you to a course or enroll students. If you teach at several medresas, pick one above.",
+    "amirSubtitleMedresa": "{{name}} · {{count}} students (Amir)",
+    "amirSubtitleCount": "{{count}} students (Amir)",
+    "amirEmptyHint": "No active students at this medresa yet. Enroll students from the medresa Students page or check that you selected the correct medresa above.",
     "detailTitle": "Student",
     "loading": "Loading...",
     "loadError": "Failed to load students.",
     "empty": "No students enrolled.",
     "noMedresaAccess": "You do not have medresa admin access.",
+    "colName": "Student",
+    "colCourses": "Courses",
+    "colStatus": "Status",
     "searchPlaceholder": "Search students...",
     "enroll": "Enroll student",
     "enrollTitle": "Enroll student",
@@ -506,14 +570,30 @@
     "attendancePlaceholder": "Attendance",
     "gradesPlaceholder": "Grades",
     "comingM06": "Available when attendance (M06) is built.",
+    "hub": {
+      "profile": "Profile",
+      "courses": "Courses",
+      "attendance": "Attendance",
+      "grades": "Grades",
+      "fees": "Fees",
+      "noAttendance": "No attendance recorded yet.",
+      "attendanceRate": "Attendance rate",
+      "sessions": "Sessions",
+      "presentCount": "Present (incl. late & excused)",
+      "status": "Status",
+      "noPayments": "No payments recorded yet."
+    },
     "gender": {
       "male": "Male",
       "female": "Female"
     },
     "status": {
       "active": "Active",
-      "transferred": "Transferred"
+      "transferred": "Transferred",
+      "withdrawn": "Withdrawn",
+      "graduated": "Graduated"
     },
+    "enrollmentNumber": "Student ID",
     "filter": {
       "all": "All",
       "allCourses": "All courses"
@@ -567,6 +647,7 @@
   "reports": {
     "title": "Reports",
     "subtitle": "Exportable reports · Ethiopian calendar",
+    "attendancePeriod": "Attendance period: {{from}} — {{to}}",
     "kinds": {
       "enrollment": "Student enrollment",
       "attendance": "Attendance",

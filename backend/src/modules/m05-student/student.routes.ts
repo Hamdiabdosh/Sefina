@@ -7,17 +7,23 @@ import {
   assignStudentCourseHandler,
   getStudentHandler,
   getStudentPhotoHandler,
+  graduateStudentHandler,
   listTransferDestinationsHandler,
+  reactivateStudentHandler,
   removeStudentCourseHandler,
   transferStudentHandler,
   updateStudentHandler,
   uploadStudentPhotoHandler,
+  withdrawStudentHandler,
 } from "./student.controller";
 import { getStudentResultsHandler } from "../m07-grades/grade.controller";
 import {
   assignStudentCourseSchema,
+  graduateStudentSchema,
+  reactivateStudentSchema,
   transferStudentSchema,
   updateStudentSchema,
+  withdrawStudentSchema,
 } from "./student.schema";
 
 const studentRoutes = Router();
@@ -69,6 +75,27 @@ studentRoutes.post(
   requireAuth,
   validateBody(transferStudentSchema),
   transferStudentHandler
+);
+
+studentRoutes.post(
+  "/:id/withdraw",
+  requireAuth,
+  validateBody(withdrawStudentSchema),
+  withdrawStudentHandler
+);
+
+studentRoutes.post(
+  "/:id/graduate",
+  requireAuth,
+  validateBody(graduateStudentSchema),
+  graduateStudentHandler
+);
+
+studentRoutes.post(
+  "/:id/reactivate",
+  requireAuth,
+  validateBody(reactivateStudentSchema),
+  reactivateStudentHandler
 );
 
 export default studentRoutes;

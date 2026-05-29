@@ -48,7 +48,7 @@ type MedresaCourseListRow = {
   assignments: Array<{
     id: string;
     assigned_since: Date;
-    teacher: { id: string; full_name: string };
+    teacher: { id: string; user: { full_name: string } };
   }>;
   _count: { student_courses: number };
 };
@@ -67,7 +67,7 @@ export const mapMedresaCourseListItem = (row: MedresaCourseListRow) => {
     assignedTeacher: activeAssignment
       ? {
           id: activeAssignment.teacher.id,
-          fullName: activeAssignment.teacher.full_name,
+          fullName: activeAssignment.teacher.user.full_name,
           assignedSince: activeAssignment.assigned_since,
         }
       : null,

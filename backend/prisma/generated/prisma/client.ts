@@ -100,6 +100,16 @@ export type StudentCourse = Prisma.StudentCourseModel
  */
 export type StudentTransfer = Prisma.StudentTransferModel
 /**
+ * Model StudentNote
+ * 
+ */
+export type StudentNote = Prisma.StudentNoteModel
+/**
+ * Model StudentEnrollmentPeriod
+ * 
+ */
+export type StudentEnrollmentPeriod = Prisma.StudentEnrollmentPeriodModel
+/**
  * Model AttendanceSession
  * One attendance roll per medresa per Gregorian day (Africa/Addis_Ababa calendar date)
  */

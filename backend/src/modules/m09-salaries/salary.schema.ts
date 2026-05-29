@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { localizedStringSchema } from "../m04-course/course.schema";
+import { localizedStringSchema } from "../../lib/localized-string.schema";
 
 export const createSalaryRankSchema = z.object({
   name: localizedStringSchema,

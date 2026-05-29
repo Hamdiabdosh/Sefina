@@ -50,10 +50,15 @@ const superAdminNav: NavSectionConfig[] = [
       { to: '/admin/exam-types', labelKey: 'examTypes', icon: ClipboardList },
       { to: '/admin/grade-edits', labelKey: 'gradeEdits', icon: FileBarChart },
       { to: '/admin/results', labelKey: 'results', icon: FileBarChart },
+      { to: '/medresa/students', labelKey: 'students', icon: Users },
+    ],
+  },
+  {
+    sectionLabelKey: 'finance',
+    items: [
       { to: '/admin/fee-structure', labelKey: 'feeStructure', icon: Coins },
       { to: '/admin/fees', labelKey: 'networkFees', icon: Coins },
       { to: '/admin/salaries', labelKey: 'salaries', icon: Wallet },
-      { to: '/medresa/students', labelKey: 'students', icon: Users },
     ],
   },
 ];

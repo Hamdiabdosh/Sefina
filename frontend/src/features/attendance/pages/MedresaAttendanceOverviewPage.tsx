@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
-import { getTodayCalendarEt } from '../utils/ethiopiaDate';
+import { AttendanceDualDateLine } from '../components/AttendanceDateLabel';
+import { AttendanceMarkerStrip } from '../components/AttendanceMarkerStrip';
+import { getCurrentEthiopianMonthYear, getTodayCalendarEt } from '../utils/ethiopian';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useMedresaAttendanceOverview } from '../hooks/useAttendance';
 
@@ -20,6 +22,7 @@ export const MedresaAttendanceOverviewPage = () => {
   const overview = useMedresaAttendanceOverview(medresaId, date, Boolean(medresaId));
 
   const todayEt = getTodayCalendarEt();
+  const ethToday = getCurrentEthiopianMonthYear();
 
   if (medresaScopeLoading) {
     return (
@@ -44,33 +47,43 @@ export const MedresaAttendanceOverviewPage = () => {
               search={{ medresaId }}
               className="inline-block text-sm px-4 py-2 rounded-lg bg-teal-700 text-white"
             >
-              {t('attendance.openTakeAttendance')}
+              {t('attendance.openTakeAttendanceAmir')}
             </Link>
-            <label className="flex flex-col gap-1 text-sm">
-              <span>{t('attendance.date')}</span>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="border border-cream-dark rounded-md px-2 py-1 max-w-xs"
-              />
-            </label>
+            <div className="flex flex-col gap-2">
+              <label className="flex flex-col gap-1 text-sm">
+                <span>{t('attendance.date')}</span>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="border border-cream-dark rounded-md px-2 py-1 max-w-xs"
+                />
+              </label>
+              <AttendanceDualDateLine ymd={date} />
+              <button
+                type="button"
+                onClick={() => setDate(todayEt)}
+                className="text-left text-xs text-teal-700 underline w-fit"
+              >
+                {t('attendance.jumpToday')}
+              </button>
+              <p className="text-xs text-muted-foreground">
+                {t('attendance.ethiopianMonthHint', {
+                  month: ethToday.month,
+                  year: ethToday.year,
+                })}
+              </p>
+            </div>
             {overview.isLoading ? (
               <p className="text-sm text-muted-foreground">{t('attendance.loading')}</p>
             ) : !row ? (
               <p className="text-sm text-muted-foreground">{t('attendance.noOverviewRows')}</p>
             ) : (
               <>
-                <p className="text-xs text-muted-foreground flex flex-wrap gap-3">
-                  <span>
-                    {t('attendance.markerTeacher')}:{' '}
-                    {row.teacherMarkedAt ? t('attendance.markerDone') : t('attendance.markerPending')}
-                  </span>
-                  <span>
-                    {t('attendance.markerAmir')}:{' '}
-                    {row.adminMarkedAt ? t('attendance.markerDone') : t('attendance.markerPending')}
-                  </span>
-                </p>
+                <AttendanceMarkerStrip
+                  teacherMarkedAt={row.teacherMarkedAt}
+                  adminMarkedAt={row.adminMarkedAt}
+                />
                 <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
                   <table className="w-full text-sm">
                     <thead className="bg-cream-dark/50">

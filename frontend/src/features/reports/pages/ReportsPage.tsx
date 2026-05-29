@@ -4,7 +4,8 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useCurrentUser } from '../../auth/hooks/useCurrentUser';
-import { getCurrentEthiopianMonthYear, formatEthiopianMonthYear } from '../../../lib/ethiopian';
+import { formatEthiopianMonthYear, getCurrentEthiopianMonthYear } from '../../../lib/ethiopian';
+import { AttendanceDateLabel } from '../../attendance/components/AttendanceDateLabel';
 import {
   useAttendanceReport,
   useEnrollmentReport,
@@ -90,6 +91,7 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
       exportTableXlsx('Enrollment', headers, rows, filename);
     } else if (kind === 'attendance' && attendance.data?.studentSummaries) {
       const headers = ['Student', 'Present', 'Absent', 'Late', 'Excused', '%'];
+      const period = `${formatEthiopianMonthYear(fromMonth, fromYear, t)} – ${formatEthiopianMonthYear(toMonth, toYear, t)}`;
       const rows = attendance.data.studentSummaries.map(
         (r: {
           fullName: string;
@@ -107,7 +109,7 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
           r.attendancePercent != null ? String(r.attendancePercent) : '—',
         ]
       );
-      exportTablePdf(title, headers, rows, filename);
+      exportTablePdf(`${title} (${period})`, headers, rows, filename);
       exportTableXlsx('Attendance', headers, rows, filename);
     } else if (kind === 'fees' && fees.data?.items) {
       const headers = ['Student', 'Month', 'Due', 'Paid', 'Balance', 'Status'];
@@ -287,37 +289,81 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
         ) : null}
 
         {run && kind === 'attendance' && attendance.data?.studentSummaries ? (
-          <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
-            <table className="w-full text-sm">
-              <thead className="bg-cream-dark/50">
-                <tr>
-                  <th className="p-2 text-left">{t('reports.name')}</th>
-                  <th className="p-2 text-right">P</th>
-                  <th className="p-2 text-right">A</th>
-                  <th className="p-2 text-right">%</th>
-                </tr>
-              </thead>
-              <tbody>
-                {attendance.data.studentSummaries.map(
-                  (r: {
-                    studentId: string;
-                    fullName: string;
-                    present: number;
-                    absent: number;
-                    attendancePercent: number | null;
-                  }) => (
-                    <tr key={r.studentId} className="border-t border-cream-dark/60">
-                      <td className="p-2">{r.fullName}</td>
-                      <td className="p-2 text-right">{r.present}</td>
-                      <td className="p-2 text-right">{r.absent}</td>
-                      <td className="p-2 text-right">
-                        {r.attendancePercent != null ? `${r.attendancePercent}%` : '—'}
-                      </td>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              {t('reports.attendancePeriod', {
+                from: formatEthiopianMonthYear(fromMonth, fromYear, t),
+                to: formatEthiopianMonthYear(toMonth, toYear, t),
+              })}
+            </p>
+            {attendance.data.dailyRows?.length ? (
+              <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+                <table className="w-full text-sm">
+                  <thead className="bg-cream-dark/50">
+                    <tr>
+                      <th className="p-2 text-left">{t('attendance.date')}</th>
+                      <th className="p-2 text-left">{t('nav.medresas')}</th>
+                      <th className="p-2 text-right">P</th>
+                      <th className="p-2 text-right">A</th>
+                      <th className="p-2 text-right">%</th>
                     </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {(attendance.data.dailyRows as Array<{
+                      date: string;
+                      medresaName: string;
+                      present: number;
+                      absent: number;
+                      ratePercent: number | null;
+                    }>).map((row, i) => (
+                      <tr key={`${row.date}-${row.medresaName}-${i}`} className="border-t border-cream-dark/60">
+                        <td className="p-2">
+                          <AttendanceDateLabel ymd={row.date} />
+                        </td>
+                        <td className="p-2">{row.medresaName}</td>
+                        <td className="p-2 text-right">{row.present}</td>
+                        <td className="p-2 text-right">{row.absent}</td>
+                        <td className="p-2 text-right">
+                          {row.ratePercent != null ? `${row.ratePercent}%` : '—'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+            <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+              <table className="w-full text-sm">
+                <thead className="bg-cream-dark/50">
+                  <tr>
+                    <th className="p-2 text-left">{t('reports.name')}</th>
+                    <th className="p-2 text-right">P</th>
+                    <th className="p-2 text-right">A</th>
+                    <th className="p-2 text-right">%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {attendance.data.studentSummaries.map(
+                    (r: {
+                      studentId: string;
+                      fullName: string;
+                      present: number;
+                      absent: number;
+                      attendancePercent: number | null;
+                    }) => (
+                      <tr key={r.studentId} className="border-t border-cream-dark/60">
+                        <td className="p-2">{r.fullName}</td>
+                        <td className="p-2 text-right">{r.present}</td>
+                        <td className="p-2 text-right">{r.absent}</td>
+                        <td className="p-2 text-right">
+                          {r.attendancePercent != null ? `${r.attendancePercent}%` : '—'}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : null}
 

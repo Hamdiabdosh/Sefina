@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { getAvatarColor, getInitials } from '../../../lib/avatarColors';
+import { cn } from '../../../lib/utils';
 import { axiosInstance } from '../../../lib/axios';
 import { studentPhotoUrl } from '../hooks/useStudents';
 
@@ -10,17 +12,11 @@ type StudentAvatarProps = {
 };
 
 const sizeClasses = {
-  sm: 'w-10 h-10 text-sm',
+  sm: 'w-10 h-10 text-[13px]',
   md: 'w-14 h-14 text-lg',
-  lg: 'w-16 h-16 text-xl',
+  /** Profile / detail — scales up on desktop per UI spec (56px → 64px). */
+  lg: 'w-14 h-14 text-lg md:w-16 md:h-16 md:text-xl',
 };
-
-const getInitials = (name: string) =>
-  name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('');
 
 export const StudentAvatar = ({
   studentId,
@@ -56,10 +52,14 @@ export const StudentAvatar = ({
     };
   }, [studentId, photoUrl]);
 
-  const className = `${sizeClasses[size]} rounded-full flex items-center justify-center font-medium shrink-0 overflow-hidden bg-teal-50 text-teal-600`;
+  const className = cn(
+    sizeClasses[size],
+    'rounded-full flex items-center justify-center font-medium shrink-0 overflow-hidden',
+    getAvatarColor(name)
+  );
 
   if (src) {
-    return <img src={src} alt="" className={`${className} object-cover`} />;
+    return <img src={src} alt="" className={cn(className, 'object-cover')} />;
   }
 
   return <div className={className}>{getInitials(name)}</div>;

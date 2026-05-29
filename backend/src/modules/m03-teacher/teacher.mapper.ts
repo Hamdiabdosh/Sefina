@@ -4,15 +4,17 @@ import type { Status } from "../../../prisma/generated/prisma/enums";
 type TeacherWithAssignments = {
   id: string;
   user_id: string;
-  full_name: string;
-  phone: string;
-  email: string;
   specialization: Prisma.JsonValue;
   date_joined: Date;
   photo_url: string | null;
   status: Status;
   created_at: Date;
   updated_at: Date;
+  user: {
+    full_name: string;
+    phone: string;
+    email: string;
+  };
   teacher_medresas: Array<{
     id: string;
     role: "TEACHER" | "ADMIN";
@@ -33,9 +35,9 @@ export const mapTeacherAssignment = (row: TeacherWithAssignments["teacher_medres
 export const mapTeacherDetail = (teacher: TeacherWithAssignments) => ({
   id: teacher.id,
   userId: teacher.user_id,
-  fullName: teacher.full_name,
-  phone: teacher.phone,
-  email: teacher.email,
+  fullName: teacher.user.full_name,
+  phone: teacher.user.phone,
+  email: teacher.user.email,
   specialization: teacher.specialization,
   dateJoined: teacher.date_joined,
   photoUrl: teacher.photo_url,
@@ -47,9 +49,9 @@ export const mapTeacherDetail = (teacher: TeacherWithAssignments) => ({
 
 export const mapTeacherListItem = (teacher: TeacherWithAssignments) => ({
   id: teacher.id,
-  fullName: teacher.full_name,
-  phone: teacher.phone,
-  email: teacher.email,
+  fullName: teacher.user.full_name,
+  phone: teacher.user.phone,
+  email: teacher.user.email,
   specialization: teacher.specialization,
   dateJoined: teacher.date_joined,
   photoUrl: teacher.photo_url,
@@ -58,6 +60,7 @@ export const mapTeacherListItem = (teacher: TeacherWithAssignments) => ({
 });
 
 export const teacherInclude = {
+  user: { select: { full_name: true, phone: true, email: true } },
   teacher_medresas: {
     where: { deleted_at: null },
     include: {

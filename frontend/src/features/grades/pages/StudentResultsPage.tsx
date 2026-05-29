@@ -78,14 +78,20 @@ export const StudentResultsPage = () => {
         onBack={() =>
           void navigate({
             to: backTo,
-            search: search.medresaId ? { medresaId: search.medresaId } : undefined,
+            search: isTeacherRoute
+              ? { medresaId: search.medresaId }
+              : { medresaId: search.medresaId, medresaCourseId: undefined },
           })
         }
       />
       <PageBody>
         <Link
           to={backTo}
-          search={search.medresaId ? { medresaId: search.medresaId } : undefined}
+          search={
+            isTeacherRoute
+              ? { medresaId: search.medresaId }
+              : { medresaId: search.medresaId, medresaCourseId: undefined }
+          }
           className="mb-4 inline-block text-sm text-teal-700 underline"
         >
           {t('grades.backToStudents')}

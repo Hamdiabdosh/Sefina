@@ -5,20 +5,26 @@ import {
   assignStudentToCourse,
   createStudent,
   getStudentDetail,
+  graduateStudent,
   listStudentsByMedresa,
   listTeacherStudents,
   listTransferDestinations,
+  reactivateStudent,
   removeStudentFromCourse,
   transferStudent,
   updateStudent,
+  withdrawStudent,
 } from "./student.service";
 import {
   createStudentSchema,
   type AssignStudentCourseInput,
   type CreateStudentInput,
+  type GraduateStudentInput,
   type ListStudentsQuery,
+  type ReactivateStudentInput,
   type TransferStudentInput,
   type UpdateStudentInput,
+  type WithdrawStudentInput,
 } from "./student.schema";
 
 const getIdParam = (req: Request): string => String(req.params.id);
@@ -32,6 +38,12 @@ const parseStudentBody = (req: Request): CreateStudentInput => ({
   address: req.body.address,
   guardianName: req.body.guardianName,
   guardianPhone: req.body.guardianPhone,
+  enrollmentNumber: req.body.enrollmentNumber,
+  nationalId: req.body.nationalId,
+  bloodGroup: req.body.bloodGroup,
+  allergies: req.body.allergies,
+  secondaryGuardianName: req.body.secondaryGuardianName,
+  secondaryGuardianPhone: req.body.secondaryGuardianPhone,
 });
 
 export const listMedresaStudentsHandler = async (
@@ -83,13 +95,25 @@ export const createStudentHandler = async (req: Request, res: Response): Promise
     getMedresaIdParam(req),
     parsed.data,
     req.user!.userId,
-    file
+    file,
+    req
   );
 
   if ("error" in result) {
-    res.status(422).json({
+    const code = result.error;
+    const status =
+      code === "DUPLICATE_STUDENT" || code === "DUPLICATE_ENROLLMENT_NUMBER" ? 409 : 422;
+    res.status(status).json({
       success: false,
-      error: { code: result.error, message: "Medresa is not active" },
+      error: {
+        code,
+        message:
+          code === "DUPLICATE_STUDENT"
+            ? "A student with this name and date of birth already exists"
+            : code === "DUPLICATE_ENROLLMENT_NUMBER"
+              ? "Enrollment number already in use"
+              : "Medresa is not active",
+      },
     });
     return;
   }
@@ -140,17 +164,95 @@ export const updateStudentHandler = async (req: Request, res: Response): Promise
   );
 
   if ("error" in result) {
+    const code = result.error;
     const status =
-      result.error === "FORBIDDEN" ? 403 : result.error === "STUDENT_NOT_FOUND" ? 404 : 400;
+      code === "FORBIDDEN"
+        ? 403
+        : code === "STUDENT_NOT_FOUND"
+          ? 404
+          : code === "DUPLICATE_STUDENT" || code === "DUPLICATE_ENROLLMENT_NUMBER"
+            ? 409
+            : 400;
     res.status(status).json({
       success: false,
       error: {
-        code: result.error,
+        code,
         message:
-          result.error === "FORBIDDEN"
+          code === "FORBIDDEN"
             ? "Insufficient permissions"
-            : "Student not found",
+            : code === "DUPLICATE_STUDENT"
+              ? "A student with this name and date of birth already exists"
+              : code === "DUPLICATE_ENROLLMENT_NUMBER"
+                ? "Enrollment number already in use"
+                : "Student not found",
       },
+    });
+    return;
+  }
+
+  res.status(200).json({ success: true, data: result.student });
+};
+
+const lifecycleErrorStatus = (code: string | undefined): number => {
+  if (code === "FORBIDDEN") return 403;
+  if (code === "STUDENT_NOT_FOUND") return 404;
+  if (code === "INVALID_STATUS_TRANSITION" || code === "STUDENT_NOT_ACTIVE") return 422;
+  return 400;
+};
+
+export const withdrawStudentHandler = async (req: Request, res: Response): Promise<void> => {
+  const result = await withdrawStudent(
+    req,
+    getIdParam(req),
+    req.body as WithdrawStudentInput,
+    req.user!.userId
+  );
+
+  if ("error" in result) {
+    const code = result.error;
+    res.status(lifecycleErrorStatus(code)).json({
+      success: false,
+      error: { code, message: "Cannot withdraw student" },
+    });
+    return;
+  }
+
+  res.status(200).json({ success: true, data: result.student });
+};
+
+export const graduateStudentHandler = async (req: Request, res: Response): Promise<void> => {
+  const result = await graduateStudent(
+    req,
+    getIdParam(req),
+    req.body as GraduateStudentInput,
+    req.user!.userId
+  );
+
+  if ("error" in result) {
+    const code = result.error;
+    res.status(lifecycleErrorStatus(code)).json({
+      success: false,
+      error: { code, message: "Cannot graduate student" },
+    });
+    return;
+  }
+
+  res.status(200).json({ success: true, data: result.student });
+};
+
+export const reactivateStudentHandler = async (req: Request, res: Response): Promise<void> => {
+  const result = await reactivateStudent(
+    req,
+    getIdParam(req),
+    req.body as ReactivateStudentInput,
+    req.user!.userId
+  );
+
+  if ("error" in result) {
+    const code = result.error;
+    res.status(lifecycleErrorStatus(code)).json({
+      success: false,
+      error: { code, message: "Cannot reactivate student" },
     });
     return;
   }
@@ -304,7 +406,9 @@ export const transferStudentHandler = async (req: Request, res: Response): Promi
           ? 422
           : code === "STUDENT_NOT_FOUND"
             ? 404
-            : 400;
+            : code === "STUDENT_NOT_ACTIVE"
+              ? 422
+              : 400;
     res.status(status).json({
       success: false,
       error: { code, message: "Transfer failed" },
@@ -319,7 +423,11 @@ export const listTeacherStudentsHandler = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const result = await listTeacherStudents(req.user!.userId);
+  const medresaId =
+    typeof req.query.medresaId === "string" && req.query.medresaId.trim()
+      ? req.query.medresaId.trim()
+      : undefined;
+  const result = await listTeacherStudents(req, medresaId);
   res.status(200).json({ success: true, data: result });
 };
 

@@ -8,6 +8,7 @@ Canonical documentation for **Sefinet Al Neja**. Start here instead of legacy HM
 |-----|---------|
 | [Sefinet_Task_Board.md](./Sefinet_Task_Board.md) | Sprint/epic checklist (what is done) |
 | [Sefinet_Implementation_Roadmap.md](./Sefinet_Implementation_Roadmap.md) | Build order and phase goals |
+| [ux-backlog/Medresa-Admin-UX.md](./ux-backlog/Medresa-Admin-UX.md) | Locked Medresa Admin UX stories (UX-MA-01–07) |
 
 ## Specification
 
@@ -37,7 +38,8 @@ Pointers (legacy filenames): [features.md](./features.md), [prompt.md](./prompt.
 
 | Doc | Purpose |
 |-----|---------|
-| [Sefinet-Docker-Setup.md](./Sefinet-Docker-Setup.md) | Docker, Postgres, PgBouncer, deployment |
+| [Sefinet-Docker-Setup.md](./Sefinet-Docker-Setup.md) | Docker, Postgres, PgBouncer, VPS deployment |
+| [deploy-paas.md](./deploy-paas.md) | Safe staging deploy (Vercel + Render/Railway) |
 | [seed-dev-credentials.md](./seed-dev-credentials.md) | Dev seed logins |
 
 ## Agents

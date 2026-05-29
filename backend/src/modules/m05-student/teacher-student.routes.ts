@@ -8,7 +8,7 @@ const teacherStudentRoutes = Router();
 teacherStudentRoutes.get(
   "/",
   requireAuth,
-  requireRole(["teacher"]),
+  requireRole(["teacher", "medresa_admin"]),
   listTeacherStudentsHandler
 );
 

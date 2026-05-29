@@ -31,9 +31,9 @@ export const listTeachers = async (query: ListTeachersQuery) => {
     ...(search
       ? {
           OR: [
-            { full_name: { contains: search, mode: "insensitive" } },
-            { email: { contains: search, mode: "insensitive" } },
-            { phone: { contains: search } },
+            { user: { full_name: { contains: search, mode: "insensitive" } } },
+            { user: { email: { contains: search, mode: "insensitive" } } },
+            { user: { phone: { contains: search } } },
           ],
         }
       : {}),
@@ -164,8 +164,8 @@ export const createTeacher = async (input: CreateTeacherInput, performedBy: stri
     action: AuditAction.INSERT,
     performedBy,
     newValues: {
-      fullName: result.teacher.full_name,
-      email: result.teacher.email,
+      fullName: result.user.full_name,
+      email: result.user.email,
       inviteEmailSent: shouldSendInvite,
       ...(input.initialAssignment
         ? {
@@ -223,9 +223,6 @@ export const updateTeacher = async (
     return tx.teacher.update({
       where: { id },
       data: {
-        ...(input.fullName !== undefined ? { full_name: input.fullName } : {}),
-        ...(input.phone !== undefined ? { phone: input.phone } : {}),
-        ...(input.email !== undefined ? { email: input.email } : {}),
         ...(input.specialization !== undefined ? { specialization: input.specialization } : {}),
         ...(input.dateJoined !== undefined ? { date_joined: input.dateJoined } : {}),
         ...(input.status !== undefined ? { status: input.status } : {}),

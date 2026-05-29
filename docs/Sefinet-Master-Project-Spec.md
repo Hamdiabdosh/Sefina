@@ -513,58 +513,65 @@ StudentTransfer {
 
 ### M06: Attendance Tracking
 
-**Owner:** Teacher (record), Medresa Admin (view), Super Admin (view all)
+**Owner:** Teacher and Medresa Admin (Amir) record; Super Admin view-only network analytics
 **Depends on:** M01, M02, M03, M04, M05
+
+**Calendar:** One roll per **medresa per calendar day** (`YYYY-MM-DD` stored, **Africa/Addis_Ababa**). **UI/reports show Ethiopian dates** (Meskerem–Nehase + Pagumen); fees/salaries use Ethiopian month/year for billing periods on the same library (`lib/ethiopian-calendar.ts`).
 
 #### Screens
 
-| Screen | Access |
-|--------|--------|
-| Attendance Taking | Teacher |
-| Edit Attendance | Teacher (same day only) |
-| Attendance History | Teacher |
-| Student Attendance Detail | Teacher |
-| Medresa Attendance Overview | Medresa Admin |
-| Network Attendance Overview | Super Admin |
+| Screen | Access | Route (UI) |
+|--------|--------|------------|
+| Attendance Taking | Teacher \| Medresa Admin | `/teacher/attendance/take`, `/medresa/attendance/take` |
+| Edit Attendance | Teacher \| Medresa Admin (same day only) | Same as take (existing session) |
+| Attendance History / hub | Teacher \| Medresa Admin | `/teacher/attendance`, `/medresa/attendance` |
+| Student Attendance Detail | Teacher, Medresa Admin, Super Admin (student read scope) | Student hub tab |
+| Medresa Attendance Overview | Medresa Admin | `/medresa/attendance` |
+| Network Attendance Overview | Super Admin | `/admin/attendance` |
 
 **Attendance Taking Screen**
-- Default status: Absent for all students
+- One session per `(medresa_id, date)`; roster = all **active** students at that medresa
+- Default status: Absent for any student not explicitly marked
 - Statuses: Present / Absent / Late / Excused
 - Optional note per student
-- Submit locks record for the day
+- `teacher_marked_at` / `admin_marked_at` updated when TEACHER vs ADMIN role last saves
 
 **Edit Attendance Screen**
-- Same-day edits only — locked after midnight
-- Edit timestamp logged on any change
+- Same-day edits only — locked after midnight (Ethiopia calendar day)
+- Session-level markers and audit log on create; record `edited_at` on change
 
 **Medresa Attendance Overview**
-- Columns: Course, Teacher, Present, Absent, Late, Excused, Total Students
-- Drill down into any course's attendance
+- Single row per medresa per selected date: Present, Absent, Late, Excused, Total
+- Shows teacher and Amir last-saved timestamps when present
+
+**Operational policy (product, not enforced in API):** Amir should submit the daily roll when no teacher is available, or correct same-day mistakes; ustaz should take attendance when present.
 
 #### Business Rules
 
 | Code | Rule |
 |------|------|
-| BR-01 | Only teachers can record and edit attendance |
-| BR-02 | Attendance recorded once per day per student |
+| BR-01 | Teachers **and** Medresa Admins (Amir) at the medresa may `POST`/`PATCH` attendance; Super Admin may **not** write |
+| BR-02 | At most one attendance session per medresa per calendar day; one record per student per session |
 | BR-03 | Default status for all students is Absent |
-| BR-04 | Teacher can only edit attendance on the same calendar day |
-| BR-05 | After midnight, attendance is permanently locked |
-| BR-06 | Edit timestamp is logged when attendance is corrected |
-| BR-07 | Teacher can only take attendance for their assigned courses |
+| BR-04 | Writers may edit only on the same Ethiopian calendar day as the session; locked sessions reject `PATCH` |
+| BR-05 | After midnight (Ethiopia), attendance is permanently locked (cron + startup catch-up) |
+| BR-06 | `teacher_marked_at` and `admin_marked_at` record which role last saved; audit log on session create |
+| BR-07 | Roster is **medresa-wide** (all active students at `current_medresa_id`), not per assigned course |
 | BR-08 | Attendance cannot be taken for future dates |
-| BR-09 | Medresa Admin can view but NOT edit attendance |
-| BR-10 | Super Admin can view all attendance but cannot edit |
+| BR-09 | Medresa Admin may view overview and take/edit same-day rolls (shared with teachers) |
+| BR-10 | Super Admin can view network/medresa aggregates but cannot `POST`/`PATCH` attendance |
 
 #### Data Entities
 
 ```
 AttendanceSession {
-  id, medresa_course_id (FK → MedresaCourse),
-  teacher_id (FK → Teacher),
+  id, medresa_id (FK → Medresa),
+  teacher_id (FK → Teacher, optional),
   date, submitted_at,
+  teacher_marked_at, admin_marked_at,
   is_locked (bool),
   created_at, updated_at
+  @@unique([medresa_id, date])
 }
 
 AttendanceRecord {
@@ -574,6 +581,7 @@ AttendanceRecord {
   note (nullable),
   edited_at (nullable),
   created_at, updated_at
+  @@unique([session_id, student_id])
 }
 ```
 
@@ -1345,22 +1353,24 @@ model StudentTransfer {
 
 // ── M06: ATTENDANCE ─────────────────────────────
 
-/// One attendance session per course per day
+/// One attendance session per medresa per day (Gregorian date, Africa/Addis_Ababa)
 model AttendanceSession {
-  id                String            @id @default(uuid())
-  medresa_course_id String
-  teacher_id        String
-  date              DateTime          @db.Date
-  submitted_at      DateTime?
-  is_locked         Boolean           @default(false)
-  deleted_at        DateTime?
-  medresa_course    MedresaCourse     @relation(fields: [medresa_course_id], references: [id])
-  teacher           Teacher           @relation(fields: [teacher_id], references: [id])
-  records           AttendanceRecord[]
-  created_at        DateTime          @default(now())
-  updated_at        DateTime          @updatedAt
+  id                 String            @id @default(uuid())
+  medresa_id         String
+  teacher_id         String?
+  date               DateTime          @db.Date
+  submitted_at       DateTime?
+  teacher_marked_at  DateTime?
+  admin_marked_at    DateTime?
+  is_locked          Boolean           @default(false)
+  deleted_at         DateTime?
+  medresa            Medresa           @relation(fields: [medresa_id], references: [id])
+  teacher            Teacher?          @relation(fields: [teacher_id], references: [id])
+  records            AttendanceRecord[]
+  created_at         DateTime          @default(now())
+  updated_at         DateTime          @updatedAt
 
-  @@unique([medresa_course_id, date])
+  @@unique([medresa_id, date])
   @@index([date])
   @@index([teacher_id])
   @@index([is_locked])
@@ -1764,7 +1774,8 @@ Security: helmet, CORS whitelist, rate-limit 100req/min,
 ROLES:
 - super_admin: full network access
 - medresa_admin: own medresa only (students & fees, NOT teachers)
-- teacher: own courses only (attendance & grades)
+- teacher: medresa daily attendance + course-scoped grades
+- medresa admin (Amir): medresa students, fees, and daily attendance (with teachers)
 - Teacher role stored per medresa in TeacherMedresa table
 - A teacher can be admin in multiple medresas simultaneously
 
@@ -1899,18 +1910,18 @@ Build M06: Attendance Tracking.
 
 SCOPE:
 1. Take attendance (default Absent, mark Present/Absent/Late/Excused)
-2. Edit attendance (same day only, log edit timestamp)
-3. Attendance history per course (read only after lock)
-4. Student attendance detail + percentage
-5. Medresa overview (by course/teacher)
-6. Network overview (Super Admin)
+2. Edit attendance (same day only; teacher_marked_at / admin_marked_at)
+3. One roll per medresa per day; roster = all active students at medresa
+4. Student attendance detail + percentage (read scope)
+5. Medresa overview (daily totals + markers)
+6. Network overview (Super Admin, read-only writes)
 
 BUSINESS RULES:
-- Once per day per student (not per session)
+- One session per medresa per calendar day (Ethiopia timezone)
 - Default: Absent
 - Editable same day only — locked after midnight (cron job)
-- Teacher sees own course students only
-- Medresa Admin + Super Admin: view only
+- Writers: TEACHER or ADMIN (Amir) at medresa; Super Admin cannot POST/PATCH
+- Operational: Amir fills when teacher absent; prefer teacher-first when both on site
 
 DELIVERABLES: attendance UI, session locking cron job,
 attendance overview by role

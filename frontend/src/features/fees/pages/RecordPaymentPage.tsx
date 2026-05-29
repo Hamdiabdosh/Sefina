@@ -17,6 +17,7 @@ export const RecordPaymentPage = () => {
     month?: number;
     year?: number;
     amountDueEtb?: number;
+    returnTab?: string;
   };
 
   const studentId = search.studentId ?? '';
@@ -33,8 +34,17 @@ export const RecordPaymentPage = () => {
 
   const record = useRecordFeePayment();
 
-  const back = () =>
+  const back = () => {
+    if (search.returnTab === 'fees' && studentId) {
+      void navigate({
+        to: '/medresa/students/$studentId',
+        params: { studentId },
+        search: { medresaId, tab: 'fees' },
+      });
+      return;
+    }
     void navigate({ to: '/medresa/fees', search: { medresaId } });
+  };
 
   const onSubmit = async () => {
     const paid = Number.parseFloat(amountPaid);

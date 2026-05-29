@@ -57,7 +57,7 @@ export const mapGradeEditRequest = (row: {
       medresa_id: string;
     };
     exam_type: { name: unknown };
-    teacher: { full_name: string };
+    teacher: { user: { full_name: string } };
   };
 }) => ({
   id: row.id,
@@ -77,7 +77,7 @@ export const mapGradeEditRequest = (row: {
         courseName: row.grade.medresa_course.course.name,
         medresaId: row.grade.medresa_course.medresa_id,
         examTypeName: row.grade.exam_type.name,
-        teacherName: row.grade.teacher.full_name,
+        teacherName: row.grade.teacher.user.full_name,
       }
     : {}),
 });

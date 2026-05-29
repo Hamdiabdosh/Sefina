@@ -23,65 +23,92 @@
     "goGrades": "الدرجات",
     "goHome": "الرئيسية"
   },
+  "layout": {
+    "viewMode": "طريقة العرض",
+    "viewList": "قائمة",
+    "viewGrid": "شبكة",
+    "viewTable": "جدول"
+  },
   "common": {
     "blessingQuote": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     "blessingReference": "القرآن ٦٥:٣ — سورة الطلاق"
   },
-  "marketing": {
-    "heroTitleAr": "سفينة النجاح",
-    "heroSubtitle": "شبكة مدارس الحراري — طلاب، حضور، درجات، رسوم، ورواتب في مكان واحد.",
-    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    "blessingLine": "بارك الله في جهودكم في التعليم.",
-    "signIn": "تسجيل الدخول",
-    "featuresTitle": "كل ما تحتاجه شبكتكم",
-    "features": {
-      "medresas": {
-        "title": "المدارس",
-        "titleAr": "المدارس",
-        "description": "إدارة كل مدرسة في شبكة الحراري من لوحة واحدة."
-      },
-      "students": {
-        "title": "الطلاب",
-        "titleAr": "الطلاب",
-        "description": "التسجيل، أولياء الأمور، الصور، وسجلات الطلاب لكل مدرسة."
-      },
-      "attendance": {
-        "title": "الحضور",
-        "titleAr": "الحضور",
-        "description": "جلسات يومية، تسجيل المعلمين، وسجل حضور مقفل."
-      },
-      "grades": {
-        "title": "الدرجات والنتائج",
-        "titleAr": "الدرجات",
-        "description": "أنواع الامتحانات، إدخال الدرجات، نتائج الصف، والموافقات."
-      },
-      "fees": {
-        "title": "الرسوم",
-        "titleAr": "الرسوم",
-        "description": "هياكل الرسوم، التحصيل، ونظرة عامة على الشبكة."
-      },
-      "salaries": {
-        "title": "الرواتب",
-        "titleAr": "الرواتب",
-        "description": "مراتب الرواتب، الدفعات الشهرية، وسجل رواتب المعلمين."
-      }
+  "calendar": {
+    "ethMonth": {
+      "1": "مسكيرم",
+      "2": "تقيمت",
+      "3": "هيدار",
+      "4": "تخساس",
+      "5": "تير",
+      "6": "يكاتيت",
+      "7": "مقابيت",
+      "8": "ميازيا",
+      "9": "غنبت",
+      "10": "سيني",
+      "11": "هاملي",
+      "12": "نهاسي",
+      "13": "باغومين"
     }
   },
+  "marketing": {
+    "siteName": "شبكة مدارس الحراري",
+    "siteTagline": "سفيناتو نجاح",
+    "heroTitle": "شبكة مدارس الحراري",
+    "heroTitleAr": "شبكة مدارس الحراري",
+    "heroSubtitle": "اكتشف المدارس النشطة في هرر — تعليم قرآني ومجتمع وتراث لأبنائكم.",
+    "basmala": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "blessingLine": "بارك الله في جهودكم في التعليم.",
+    "staffSignIn": "دخول الموظفين",
+    "valuesTitle": "لماذا مدارسنا",
+    "valuesSubtitle": "كل مدرسة في الشبكة تخدم العائلات بنفس الالتزام بالدين والمجتمع.",
+    "values": {
+      "learning": {
+        "title": "تعليم ديني",
+        "titleAr": "تعليم ديني",
+        "description": "القرآن والعربية والدراسات الإسلامية بعناية من معلمين ومعلمات مخلصين."
+      },
+      "community": {
+        "title": "المجتمع",
+        "titleAr": "المجتمع",
+        "description": "مدارس متجذرة في الحي — حيث ينمو الطلاب بين معلمين وعائلات يعرفونهم."
+      },
+      "heritage": {
+        "title": "تراث الحراري",
+        "titleAr": "تراث الحراري",
+        "description": "الحفاظ على الهوية واللغة الحرارية إلى جانب التعليم الديني للأجيال القادمة."
+      }
+    },
+    "medresasTitle": "المدارس في الشبكة",
+    "medresasSubtitle": "تصفح المدارس النشطة — تواصل مع المدرسة مباشرة للاستفسار عن التسجيل.",
+    "medresasEmpty": "لا توجد مدارس نشطة معروضة بعد. يرجى العودة لاحقاً.",
+    "medresasLoadError": "تعذر تحميل المدارس. يرجى تحديث الصفحة.",
+    "stats": {
+      "students": "طلاب",
+      "teachers": "معلمون",
+      "courses": "دورات"
+    },
+    "enrollHint": "لتسجيل طفلك، اتصل بالمدرسة هاتفياً. كل مدرسة تدير قبولها بنفسها.",
+    "staffOnlyNote": "يمكن للمعلمين والإداريين تسجيل الدخول أعلاه لنظام الإدارة الداخلي."
+  },
   "auth": {
-    "appName": "Sefinet Al Neja",
+    "appName": "Sefinatu Nejah",
+    "appNameAr": "سَفِينَةُ النَّجَاحِ",
+    "googleSignIn": "تسجيل الدخول عبر Google",
     "tagline": "إدارة مدارس الحراري",
     "taglineAr": "مدرسة الحرري",
     "phoneOrEmail": "الهاتف أو البريد الإلكتروني",
     "password": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
+    "signInHint": "دخول الموظفين للمعلّمين ومديري المدرسة",
+    "marketingBlurb": "إدارة الطلاب والحضور والدرجات والرسوم عبر شبكة مدارس الحراري — للهاتف وسطح المكتب.",
     "orContinueWith": "أو تابع باستخدام",
     "googleSignInFailed": "فشل تسجيل الدخول عبر Google. حاول مرة أخرى.",
     "googleAccountNotFound": "لا يوجد حساب لهذا البريد من Google. تواصل مع المسؤول.",
     "googleNotConfigured": "تسجيل الدخول عبر Google غير متاح حالياً.",
     "invalidCredentials": "بيانات الدخول غير صحيحة. حاول مرة أخرى.",
-    "version": "Sefinet Al Neja v1.0 · هرر، إثيوبيا",
+    "version": "Sefinatu Nejah v1.0 · هرر، إثيوبيا",
     "resetTitle": "إعادة تعيين كلمة المرور",
     "resetSubtitle": "أدخل هاتفك أو بريدك الإلكتروني لاستلام رابط إعادة التعيين",
     "email": "البريد الإلكتروني",
@@ -150,6 +177,7 @@
     "section": {
       "network": "الشبكة",
       "academics": "أكاديمي",
+      "finance": "المالية",
       "school": "المدرسة",
       "teaching": "التدريس",
       "account": "الحساب"
@@ -181,6 +209,9 @@
     "overviewHistoricalNote": "التعديل متاح لهذا اليوم فقط من شاشة تسجيل الحضور.",
     "networkOverview": "حضور الشبكة",
     "networkSubtitle": "إجماليات حسب المدرسة على مدى فترة",
+    "networkSubtitleEthiopian": "سجلات يومية · التواريخ بالتقويم الإثيوبي",
+    "jumpToday": "الانتقال إلى اليوم",
+    "ethiopianMonthHint": "الشهر الإثيوبي الحالي: {{month}} / {{year}}",
     "openTakeAttendance": "سجّل حضور اليوم أو عدّله (المعلّم)",
     "openTakeAttendanceAmir": "سجّل حضور اليوم أو عدّله (الأمير)",
     "openMedresaOverview": "افتح ملخص الحضور للمدرسة",
@@ -197,10 +228,12 @@
       "late": "متأخر",
       "excused": "بعذر"
     },
-    "markerTeacher": "حفظ المعلّم",
-    "markerAmir": "حفظ الأمير",
+    "markerTeacher": "المعلّم",
+    "markerAmir": "الأمير",
+    "markerAt": "{{time}}",
     "markerDone": "نعم",
     "markerPending": "لم يُحفَظ بعد",
+    "amirOverrideWarning": "المعلّم حفظ سجل اليوم مسبقاً. استخدم هذه الشاشة لتصحيحات نفس اليوم فقط؛ يفضّل أن يأخذ المعلّم الحضور عند تواجده.",
     "studentCountHeader": "{{count}} طالباً",
     "progressMarkedSuffix": "مُسجّل",
     "bulkMarkAs": "تعيين الكل كـ:",
@@ -213,6 +246,9 @@
     "completeAllRowsHint": "عيّن حالة لكل طالب أو استخدم «تعيين الكل» قبل الحفظ."
   },
   "grades": {
+    "colStudent": "الطالب",
+    "colScore": "الدرجة",
+    "colLetter": "التقدير",
     "title": "الدرجات",
     "teacherSubtitle": "أدخل الدرجات للدورات المعيّنة لك",
     "entryTitle": "إدخال الدرجات",
@@ -292,6 +328,12 @@
     "saveFailed": "تعذر الحفظ. حاول مرة أخرى."
   },
   "fees": {
+    "colStudent": "الطالب",
+    "colDue": "المستحق",
+    "colPaid": "المدفوع",
+    "colBalance": "المتبقي",
+    "colStatus": "الحالة",
+    "colActions": "إجراءات",
     "collectionTitle": "تحصيل الرسوم",
     "loading": "جاري التحميل...",
     "ethiopianMonth": "الشهر (إثيوبي)",
@@ -461,10 +503,32 @@
       "teacher": "المعلم"
     }
   },
+  "medresas": {
+    "allInstitutions": "جميع المؤسسات",
+    "filterAll": "الكل",
+    "filterActive": "نشط",
+    "filterInactive": "غير نشط",
+    "colName": "المدرسة",
+    "colLocation": "الموقع",
+    "colStudents": "الطلاب",
+    "colTeachers": "المعلّمون",
+    "colStatus": "الحالة",
+    "edit": "تعديل"
+  },
   "students": {
+    "colName": "الطالب",
+    "colCourses": "الدورات",
+    "colStatus": "الحالة",
     "title": "الطلاب",
     "subtitle": "{{name}} · {{count}} نشط",
     "teacherSubtitle": "قائمة صفك",
+    "teacherSubtitleMedresa": "{{name}} · {{count}} في دوراتك",
+    "teacherSubtitleCount": "{{count}} في دوراتك",
+    "teacherEmpty": "لا يوجد طلاب في الدورات المعيّنة لك.",
+    "teacherEmptyHint": "يظهر الطلاب هنا عند تسجيلهم في دورة تدرّسها. اطلب من الأمير تعيينك لدورة أو تسجيل الطلاب. إن كنت تدرّس في عدة مدارس، اختر مدرسة من القائمة أعلاه.",
+    "amirSubtitleMedresa": "{{name}} · {{count}} طالب (أمير)",
+    "amirSubtitleCount": "{{count}} طالب (أمير)",
+    "amirEmptyHint": "لا يوجد طلاب نشطون في هذه المدرسة بعد. سجّل الطلاب من صفحة طلاب المدرسة أو تحقق من اختيار المدرسة أعلاه.",
     "detailTitle": "طالب",
     "loading": "جارٍ التحميل...",
     "loadError": "تعذر تحميل الطلاب.",
@@ -506,8 +570,27 @@
     "attendancePlaceholder": "الحضور",
     "gradesPlaceholder": "الدرجات",
     "comingM06": "يُتاح عند بناء الحضور (M06).",
+    "hub": {
+      "profile": "الملف",
+      "courses": "الدورات",
+      "attendance": "الحضور",
+      "grades": "الدرجات",
+      "fees": "الرسوم",
+      "noAttendance": "لم يُسجَّل حضور بعد.",
+      "attendanceRate": "نسبة الحضور",
+      "sessions": "الجلسات",
+      "presentCount": "حاضر (متأخر ومعذور)",
+      "status": "الحالة",
+      "noPayments": "لم تُسجَّل مدفوعات بعد."
+    },
     "gender": { "male": "ذكر", "female": "أنثى" },
-    "status": { "active": "نشط", "transferred": "منقول" },
+    "status": {
+      "active": "نشط",
+      "transferred": "منقول",
+      "withdrawn": "منسحب",
+      "graduated": "متخرج"
+    },
+    "enrollmentNumber": "رقم الطالب",
     "filter": { "all": "الكل", "allCourses": "كل الدورات" },
     "form": {
       "fullName": "الاسم الكامل",
@@ -558,6 +641,7 @@
   "reports": {
     "title": "التقارير",
     "subtitle": "تقارير قابلة للتصدير · التقويم الإثيوبي",
+    "attendancePeriod": "فترة الحضور: {{from}} — {{to}}",
     "kinds": {
       "enrollment": "تسجيل الطلاب",
       "attendance": "الحضور",

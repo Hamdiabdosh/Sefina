@@ -174,105 +174,125 @@ export const GradeEntryPage = () => {
             search: { medresaCourseId, examTypeId: undefined },
           })
         }
+        actions={
+          <button
+            type="button"
+            disabled={batchSubmit.isPending || enteredCount === 0}
+            onClick={() => void onSubmit()}
+            className="btn-primary-inline hidden gap-2 md:inline-flex"
+          >
+            <Send size={16} />
+            {t('grades.saveGrades', { count: enteredCount, total: rows.length })}
+          </button>
+        }
       />
       <PageBody>
         {rosterQuery.isLoading ? (
           <p className="text-sm text-muted-foreground">{t('grades.loading')}</p>
         ) : (
-          <div className="space-y-2">
-            {rows.map((row) => {
-              const num = row.score.trim() === '' ? null : Number.parseInt(row.score, 10);
-              const letter =
-                num !== null && !Number.isNaN(num) ? scoreToLetter(Math.min(maxScore, num)) : null;
-              const examTypeLabel = examName;
-              return (
-                <div
-                  key={row.studentId}
-                  className="flex flex-wrap items-center gap-3 rounded-lg border border-cream-dark bg-surface p-3"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium">{row.fullName}</p>
-                    {row.existingGradeId ? (
-                      <p className="text-xs text-muted-foreground">
-                        {t('grades.alreadySubmitted')}
-                      </p>
-                    ) : null}
-                  </div>
-                  {row.existingGradeId ? (
-                    <>
-                      <span className="text-sm tabular-nums font-medium">{row.existingScore}</span>
-                      <span
-                        className={cn(
-                          'flex h-8 w-8 items-center justify-center rounded-md text-xs font-medium',
-                          letterClass(
-                            row.existingScore !== undefined
-                              ? scoreToLetter(row.existingScore)
-                              : null
-                          )
+          <div className="overflow-x-auto rounded-lg border border-cream-dark bg-surface">
+            <table className="w-full text-[13px]">
+              <thead>
+                <tr className="border-b border-cream-dark bg-cream/80 text-left text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <th className="px-2 py-1.5 sm:px-3">{t('grades.colStudent')}</th>
+                  <th className="w-14 px-2 py-1.5 text-center sm:px-3">{t('grades.colScore')}</th>
+                  <th className="w-12 px-2 py-1.5 text-center sm:px-3">{t('grades.colLetter')}</th>
+                  <th className="hidden w-24 px-2 py-1.5 sm:table-cell sm:px-3" />
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row) => {
+                  const num = row.score.trim() === '' ? null : Number.parseInt(row.score, 10);
+                  const letter =
+                    num !== null && !Number.isNaN(num)
+                      ? scoreToLetter(Math.min(maxScore, num))
+                      : null;
+                  const examTypeLabel = examName;
+                  const submittedLetter =
+                    row.existingScore !== undefined ? scoreToLetter(row.existingScore) : null;
+
+                  return (
+                    <tr
+                      key={row.studentId}
+                      className="border-b border-cream-dark/60 last:border-0 hover:bg-cream/40"
+                    >
+                      <td className="px-2 py-1.5 sm:px-3">
+                        <p className="font-medium leading-tight text-foreground">{row.fullName}</p>
+                        {row.existingGradeId ? (
+                          <p className="text-[10px] text-muted-foreground">
+                            {t('grades.alreadySubmitted')}
+                          </p>
+                        ) : null}
+                      </td>
+                      <td className="px-2 py-1.5 text-center sm:px-3">
+                        {row.existingGradeId ? (
+                          <span className="tabular-nums font-medium">{row.existingScore}</span>
+                        ) : (
+                          <input
+                            type="number"
+                            min={0}
+                            max={maxScore}
+                            className="field-input mx-auto h-8 w-11 px-1 text-center text-[13px]"
+                            value={row.score}
+                            onChange={(e) => {
+                              const raw = e.target.value;
+                              const n = Number.parseInt(raw, 10);
+                              const clamped =
+                                raw === ''
+                                  ? ''
+                                  : String(
+                                      Number.isNaN(n)
+                                        ? raw
+                                        : Math.min(maxScore, Math.max(0, n))
+                                    );
+                              setRows((prev) =>
+                                prev.map((r) =>
+                                  r.studentId === row.studentId ? { ...r, score: clamped } : r
+                                )
+                              );
+                            }}
+                          />
                         )}
-                      >
-                        {row.existingScore !== undefined
-                          ? scoreToLetter(row.existingScore)
-                          : '?'}
-                      </span>
-                      <Link
-                        to="/teacher/grades/edit-request"
-                        search={{
-                          gradeId: row.existingGradeId,
-                          currentScore: String(row.existingScore ?? ''),
-                          studentName: row.fullName,
-                          examTypeName: examTypeLabel,
-                          medresaCourseId,
-                          examTypeId,
-                        }}
-                        className="text-xs text-teal-700 underline"
-                      >
-                        {t('grades.requestEdit')}
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <input
-                        type="number"
-                        min={0}
-                        max={maxScore}
-                        className="field-input w-11 text-center text-sm"
-                        value={row.score}
-                        onChange={(e) => {
-                          const raw = e.target.value;
-                          const n = Number.parseInt(raw, 10);
-                          const clamped =
-                            raw === ''
-                              ? ''
-                              : String(
-                                  Number.isNaN(n)
-                                    ? raw
-                                    : Math.min(maxScore, Math.max(0, n))
-                                );
-                          setRows((prev) =>
-                            prev.map((r) =>
-                              r.studentId === row.studentId ? { ...r, score: clamped } : r
-                            )
-                          );
-                        }}
-                      />
-                      <span
-                        className={cn(
-                          'flex h-8 w-8 items-center justify-center rounded-md text-xs font-medium',
-                          letterClass(letter)
-                        )}
-                      >
-                        {letter ?? '?'}
-                      </span>
-                    </>
-                  )}
-                </div>
-              );
-            })}
+                      </td>
+                      <td className="px-2 py-1.5 text-center sm:px-3">
+                        <span
+                          className={cn(
+                            'inline-flex h-7 w-7 items-center justify-center rounded-md text-[11px] font-medium',
+                            letterClass(row.existingGradeId ? submittedLetter : letter)
+                          )}
+                        >
+                          {row.existingGradeId
+                            ? (submittedLetter ?? '?')
+                            : (letter ?? '?')}
+                        </span>
+                      </td>
+                      <td className="hidden px-2 py-1.5 text-right sm:table-cell sm:px-3">
+                        {row.existingGradeId ? (
+                          <Link
+                            to="/teacher/grades/edit-request"
+                            search={{
+                              gradeId: row.existingGradeId,
+                              currentScore: String(row.existingScore ?? ''),
+                              studentName: row.fullName,
+                              examTypeName: examTypeLabel,
+                              medresaCourseId,
+                              examTypeId,
+                            }}
+                            className="text-[11px] text-teal-700 underline"
+                          >
+                            {t('grades.requestEdit')}
+                          </Link>
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </PageBody>
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-cream-dark bg-surface px-4 py-3 md:left-[220px]">
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-cream-dark bg-surface px-4 py-3 md:hidden">
         <button
           type="button"
           disabled={batchSubmit.isPending || enteredCount === 0}

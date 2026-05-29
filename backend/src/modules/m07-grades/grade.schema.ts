@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { localizedStringSchema } from "../m04-course/course.schema";
+import { localizedStringSchema } from "../../lib/localized-string.schema";
 
 export const listExamTypesQuerySchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE"]).optional(),

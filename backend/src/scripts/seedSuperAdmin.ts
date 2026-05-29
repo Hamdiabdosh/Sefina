@@ -50,18 +50,13 @@ const run = async (): Promise<void> => {
           deleted_at: null,
         },
       });
-      console.log("Super Admin updated (dev): password reset to default.");
-      console.log(`Email: ${DEFAULT_ADMIN.email}`);
-      console.log(`Password: ${DEFAULT_ADMIN.password}`);
       return;
     }
 
-    console.log("Super Admin already exists.");
-    console.log(`Email: ${existing.email}`);
     return;
   }
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: {
       full_name: DEFAULT_ADMIN.fullName,
       email: DEFAULT_ADMIN.email,
@@ -70,11 +65,6 @@ const run = async (): Promise<void> => {
       is_super_admin: true,
     },
   });
-
-  console.log("Super Admin seeded successfully.");
-  console.log(`User ID: ${user.id}`);
-  console.log(`Email: ${DEFAULT_ADMIN.email}`);
-  console.log(`Password: ${DEFAULT_ADMIN.password}`);
 };
 
 run()

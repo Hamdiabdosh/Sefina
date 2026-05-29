@@ -11,7 +11,7 @@ export const prisma =
   global.__sefinetPrisma ??
   new PrismaClient({
     adapter: new PrismaPg({ connectionString: env.DATABASE_URL }),
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    log: ["error"],
   });
 
 if (process.env.NODE_ENV !== "production") {

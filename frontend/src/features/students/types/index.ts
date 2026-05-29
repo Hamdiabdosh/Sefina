@@ -1,4 +1,4 @@
-export type StudentStatus = 'ACTIVE' | 'TRANSFERRED';
+export type StudentStatus = 'ACTIVE' | 'TRANSFERRED' | 'WITHDRAWN' | 'GRADUATED';
 export type Gender = 'MALE' | 'FEMALE';
 
 export type EnrolledCourseSummary = {
@@ -13,6 +13,7 @@ export type StudentListItem = {
   gender: Gender;
   guardianPhone: string;
   guardianName: string;
+  enrollmentNumber: string | null;
   photoUrl: string | null;
   status: StudentStatus;
   enrolledAt: string;
@@ -45,9 +46,17 @@ export type StudentDetail = {
   address: string;
   guardianName: string;
   guardianPhone: string;
+  secondaryGuardianName: string | null;
+  secondaryGuardianPhone: string | null;
+  nationalId: string | null;
+  bloodGroup: string | null;
+  allergies: string | null;
+  enrollmentNumber: string | null;
   photoUrl: string | null;
   status: StudentStatus;
   enrolledAt: string;
+  withdrawnAt: string | null;
+  graduatedAt: string | null;
   currentMedresaId: string;
   currentMedresaName: string;
   courses: StudentCourseDetail[];

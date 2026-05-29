@@ -1,10 +1,14 @@
 import type { Request } from "express";
 import { AttendanceStatus, StudentStatus } from "../../../prisma/generated/prisma/enums";
 import {
-  getCalendarDateEt,
+  ethiopianMonthEndYmd,
+  ethiopianMonthStartYmd,
+  toEthiopian,
+} from "../../lib/ethiopian-calendar";
+import {
+  dateToCalendarEt,
   parseCalendarYmd,
   prismaDateFromCalendarYmd,
-  subtractGregorianDays,
 } from "../../lib/ethiopia-time";
 import { prisma } from "../../lib/prisma";
 import {
@@ -30,8 +34,9 @@ export const getAttendanceReport = async (req: Request, query: AttendanceReportQ
   const medresaAccess = assertMedresaReportAccess(req, query.medresaId);
   if ("error" in medresaAccess) return medresaAccess;
 
-  const fromYmd = query.from ?? subtractGregorianDays(getCalendarDateEt(), 30);
-  const toYmd = query.to ?? getCalendarDateEt();
+  const fromYmd =
+    query.from ?? ethiopianMonthStartYmd(query.fromYear, query.fromMonth);
+  const toYmd = query.to ?? ethiopianMonthEndYmd(query.toYear, query.toMonth);
   const from = parseCalendarYmd(fromYmd);
   const to = parseCalendarYmd(toYmd);
   if (!from || !to) return { error: "INVALID_DATE_RANGE" as const };
@@ -96,6 +101,7 @@ export const getAttendanceReport = async (req: Request, query: AttendanceReportQ
 
   const dailyRows: Array<{
     date: string;
+    ethiopianDate: { year: number; month: number; day: number };
     medresaId: string;
     medresaName: string;
     present: number;
@@ -135,8 +141,14 @@ export const getAttendanceReport = async (req: Request, query: AttendanceReportQ
     }
     const total = session.records.length;
     const present = p + l + e;
+    const dateYmd = dateToCalendarEt(session.date);
+    const parts = dateYmd.split("-").map(Number);
+    const gy = parts[0] ?? 2020;
+    const gm = parts[1] ?? 1;
+    const gd = parts[2] ?? 1;
     dailyRows.push({
-      date: session.date.toISOString().slice(0, 10),
+      date: dateYmd,
+      ethiopianDate: toEthiopian(gy, gm, gd),
       medresaId: session.medresa.id,
       medresaName: session.medresa.name,
       present: p,
@@ -175,6 +187,10 @@ export const getAttendanceReport = async (req: Request, query: AttendanceReportQ
   return {
     from: fromYmd,
     to: toYmd,
+    ethiopianPeriod: {
+      from: { month: query.fromMonth, year: query.fromYear },
+      to: { month: query.toMonth, year: query.toYear },
+    },
     courseFilterNote,
     dailyRows,
     studentSummaries,

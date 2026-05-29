@@ -194,24 +194,49 @@ export const updateUser = async (
     await setUserTemporaryPassword(id, input.temporaryPassword, performedBy);
   }
 
-  const user = await prisma.user.update({
-    where: { id },
-    data: {
-      ...(input.fullName !== undefined ? { full_name: input.fullName } : {}),
-      ...(input.phone !== undefined ? { phone: input.phone } : {}),
-      ...(input.email !== undefined ? { email: input.email } : {}),
-      ...(input.status !== undefined ? { status: input.status } : {}),
-    },
-    include: {
-      teacher: {
-        include: {
-          teacher_medresas: {
-            where: { deleted_at: null },
-            include: { medresa: { select: { id: true, name: true } } },
+  const hasIdentityChange =
+    input.fullName !== undefined ||
+    input.phone !== undefined ||
+    input.email !== undefined;
+
+  const user = await prisma.$transaction(async (tx) => {
+    const updated = await tx.user.update({
+      where: { id },
+      data: {
+        ...(input.fullName !== undefined ? { full_name: input.fullName } : {}),
+        ...(input.phone !== undefined ? { phone: input.phone } : {}),
+        ...(input.email !== undefined ? { email: input.email } : {}),
+        ...(input.status !== undefined ? { status: input.status } : {}),
+      },
+      include: {
+        teacher: { select: { id: true } },
+      },
+    });
+
+    if (updated.teacher && hasIdentityChange) {
+      await tx.teacher.update({
+        where: { id: updated.teacher.id },
+        data: {
+          ...(input.fullName !== undefined ? { full_name: input.fullName } : {}),
+          ...(input.phone !== undefined ? { phone: input.phone } : {}),
+          ...(input.email !== undefined ? { email: input.email } : {}),
+        },
+      });
+    }
+
+    return tx.user.findUniqueOrThrow({
+      where: { id },
+      include: {
+        teacher: {
+          include: {
+            teacher_medresas: {
+              where: { deleted_at: null },
+              include: { medresa: { select: { id: true, name: true } } },
+            },
           },
         },
       },
-    },
+    });
   });
 
   await auditLog({

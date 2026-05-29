@@ -530,16 +530,17 @@ DEPENDENCY CHECK: Confirm M01–M05 are fully complete.
 
 FEATURES TO BUILD (in this order):
 
-Feature 1: Take Attendance (Teacher)
+Feature 1: Take Attendance (Teacher | Medresa Admin)
 - POST /api/v1/attendance/sessions
-- Body: { medresaCourseId, date, records: [{studentId, status, note}] }
-- Creates AttendanceSession + AttendanceRecord per student
+- Body: { medresaId, date, records: [{studentId, status, note}] }
+- One session per medresa per day; roster = all active students at medresa
+- Writers: TEACHER or ADMIN at medresa; Super Admin forbidden
+- Sets teacher_marked_at or admin_marked_at on save
 - Default status: ABSENT for any student not included
 - Cannot take attendance for future dates
-- Cannot take attendance for courses not assigned to this teacher
-- Cannot duplicate session for same course + date
+- Cannot duplicate session for same medresa + date
 
-Feature 2: Edit Attendance (Teacher — same day only)
+Feature 2: Edit Attendance (Teacher | Medresa Admin — same day only)
 - PATCH /api/v1/attendance/sessions/:sessionId
 - Only allowed if session date = today AND is_locked = false
 - Updates individual AttendanceRecord statuses
@@ -567,10 +568,9 @@ Feature 5: Student Attendance Detail (Teacher)
 
 Feature 6: Medresa Attendance Overview (Medresa Admin)
 - GET /api/v1/medresas/:medresaId/attendance/overview
-- Daily summary across all courses in their medresa
-- Columns: course, teacher, present, absent, late, excused, total
-- Filterable by date/course/teacher
-- Read only
+- One row per medresa per date: present, absent, late, excused, total
+- Includes teacher_marked_at / admin_marked_at
+- Amir may also POST/PATCH via /attendance/sessions (see docs/06-attendance.md)
 
 Feature 7: Network Attendance Overview (Super Admin)
 - GET /api/v1/attendance/network-overview
@@ -579,15 +579,15 @@ Feature 7: Network Attendance Overview (Super Admin)
 - Read only
 
 BUSINESS RULES TO IMPLEMENT:
-BR-01: Only teachers can record and edit attendance
-BR-02: Attendance recorded once per day per student
+BR-01: Teachers and Amir (ADMIN) at medresa record/edit; Super Admin cannot POST/PATCH
+BR-02: One session per medresa per day; one record per student
 BR-03: Default status is ABSENT
-BR-04: Teacher can only edit attendance on same calendar day
+BR-04: Same-calendar-day edits only (Ethiopia TZ)
 BR-05: After midnight, attendance permanently locked (cron)
-BR-06: Edit timestamp logged on corrections
-BR-07: Teacher can only take attendance for assigned courses
+BR-06: teacher_marked_at / admin_marked_at on save; audit on create
+BR-07: Medresa-wide roster (all active students at medresa)
 BR-08: No future date attendance
-BR-09: Medresa Admin and Super Admin view only
+BR-09: Amir may write; Super Admin view-only on writes
 
 TIMEZONE NOTE — HIGH-ALERT:
 Ethiopia is UTC+3 (Africa/Addis_Ababa).
@@ -596,14 +596,14 @@ Ethiopia timezone, not server timezone.
 Use the date-fns-tz library or equivalent.
 
 TESTS REQUIRED:
-- Submit attendance for valid course → 201
-- Submit attendance for course not assigned to teacher → 403
+- Submit attendance for valid medresa (teacher or Amir) → 201
+- Submit for medresa without membership → 403
 - Submit attendance for future date → 400
-- Submit duplicate session (same course + date) → 409
-- Edit attendance same day → 200, edited_at set
+- Submit duplicate session (same medresa + date) → 409
+- Edit attendance same day → 200, markers updated
 - Edit attendance after midnight (locked) → 403
-- Teacher viewing another teacher's attendance → 403
-- Medresa Admin viewing their medresa overview → 200
+- Super Admin POST/PATCH → 403
+- Amir overview + PATCH → 200
 - Midnight cron: sessions from yesterday locked → verified
 
 Report after each feature is complete.
@@ -840,12 +840,12 @@ Feature 1: Salary Rank Management (Super Admin only)
 - HIGH-ALERT: financial data zone
 
 Feature 2: Assign Rank to Teacher (Super Admin only)
-- POST /api/v1/teachers/:id/rank
+- POST /api/v1/salary/teachers/:id/rank
 - Body: { salaryRankId, effectiveFrom }
 - Creates TeacherRank record (versioned history)
 - One active rank per teacher at a time
 - Previous rank record kept (history preserved)
-- GET /api/v1/teachers/:id/rank-history — view history
+- GET /api/v1/salary/teachers/:id/rank-history — view history
 
 Feature 3: Salary Payment List (Super Admin only)
 - GET /api/v1/salary-payments
@@ -875,10 +875,10 @@ Feature 5: Record Salary Payment (Super Admin only)
 - HIGH-ALERT: financial data, log everything
 
 Feature 6: Teacher Salary History (Super Admin only)
-- GET /api/v1/teachers/:id/salary-history
+- GET /api/v1/salary/teachers/:id/salary-history
 - Full payment history: month, rank, amount, reference, date
 - Summary: total paid this year, current rank, monthly amount
-- PDF export: GET /api/v1/teachers/:id/salary-history/pdf
+- PDF export: GET /api/v1/salary/teachers/:id/salary-history/pdf
 
 Feature 7: Network Salary Overview (Super Admin only)
 - GET /api/v1/salaries/network-overview
@@ -1077,7 +1077,7 @@ Report after each feature is complete.
 | M03 | `modules/teachers/` | `features/teachers/` | Super Admin |
 | M04 | `modules/courses/` | `features/courses/` | Super Admin + Medresa Admin |
 | M05 | `modules/students/` | `features/students/` | Medresa Admin |
-| M06 | `modules/attendance/` | `features/attendance/` | Teacher |
+| M06 | `modules/attendance/` | `features/attendance/` | Teacher \| Amir |
 | M07 | `modules/grades/` | `features/grades/` | Teacher |
 | M08 | `modules/fees/` | `features/fees/` | Medresa Admin |
 | M09 | `modules/salaries/` | `features/salaries/` | Super Admin ONLY |

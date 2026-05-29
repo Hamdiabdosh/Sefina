@@ -7,6 +7,7 @@ import { env } from './config/env';
 import authRoutes from './modules/m01-auth/auth.routes';
 import userRoutes from './modules/m01-users/user.routes';
 import medresaRoutes from './modules/m02-medresa/medresa.routes';
+import publicMedresaRoutes from './modules/m02-medresa/public-medresa.routes';
 import teacherRoutes from './modules/m03-teacher/teacher.routes';
 import courseRoutes from './modules/m04-course/course.routes';
 import medresaCourseRoutes from './modules/m04-course/medresa-course.routes';
@@ -48,6 +49,14 @@ const devOrigins = [
   'http://127.0.0.1:5174',
 ];
 
+const sanitizeOriginForLog = (origin: string): string => {
+  try {
+    return new URL(origin).hostname;
+  } catch {
+    return 'invalid-origin';
+  }
+};
+
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
@@ -57,7 +66,10 @@ app.use(cors({
     const allowed =
       origin === env.FRONTEND_URL ||
       (env.NODE_ENV !== 'production' && devOrigins.includes(origin));
-    callback(allowed ? null : new Error(`CORS blocked origin: ${origin}`), allowed);
+    callback(
+      allowed ? null : new Error(`CORS blocked: ${sanitizeOriginForLog(origin)}`),
+      allowed
+    );
   },
   credentials: true,
 }));
@@ -76,10 +88,11 @@ app.get('/health', (_req, res) => {
   res.json({ success: true, data: { status: 'ok', timestamp: new Date().toISOString() } });
 });
 
+app.use('/api/v1/public', publicMedresaRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/medresas', medresaRoutes);
-app.use('/api/v1/teachers', salaryTeacherRoutes);
+app.use('/api/v1/salary/teachers', salaryTeacherRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
 app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/medresas/:medresaId/courses', medresaCourseRoutes);
@@ -109,7 +122,6 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
 });
 
 app.listen(PORT, () => {
-  console.log(`Sefinet Al Neja backend running on port ${PORT}`);
   scheduleAttendanceCron();
   scheduleSalaryCron();
 });

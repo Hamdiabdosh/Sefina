@@ -16,6 +16,7 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { StatCard } from '../../../components/ui/StatCard';
 import { ChartCard } from '../components/ChartCard';
+import { formatEthiopianDayMonth } from '../../../lib/ethiopian';
 import { useTeacherDashboard } from '../hooks/useDashboard';
 
 export const TeacherDashboardContent = () => {
@@ -24,7 +25,7 @@ export const TeacherDashboardContent = () => {
 
   const attData =
     data?.attendanceTrend.map((d) => ({
-      label: d.date.slice(5),
+      label: formatEthiopianDayMonth(d.date, t),
       rate: d.ratePercent ?? 0,
     })) ?? [];
 

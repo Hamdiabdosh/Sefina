@@ -45,9 +45,17 @@ export const StudentGradesSummary = ({
       </ul>
       {resultsLinkTo ? (
         <Link
-          to={resultsLinkTo}
+          to={
+            resultsLinkTo.includes('/medresa/students/')
+              ? '/medresa/students/$studentId'
+              : resultsLinkTo
+          }
           params={resultsParams}
-          search={resultsSearch}
+          search={
+            resultsLinkTo.includes('/medresa/students/')
+              ? { ...resultsSearch, tab: 'grades' }
+              : resultsSearch
+          }
           className="text-xs text-teal-700 underline"
         >
           {t('grades.viewFullResults')}

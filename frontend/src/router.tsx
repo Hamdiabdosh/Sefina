@@ -33,7 +33,7 @@ import { GradeEditApprovalPage } from './features/grades/pages/GradeEditApproval
 import { GradeEntryPage } from './features/grades/pages/GradeEntryPage';
 import { GradeEditRequestPage } from './features/grades/pages/GradeEditRequestPage';
 import { ClassResultsPage } from './features/grades/pages/ClassResultsPage';
-import { StudentResultsPage } from './features/grades/pages/StudentResultsPage';
+import { isStudentHubTab } from './features/students/types/studentHub';
 import { MedresaResultsOverviewPage } from './features/grades/pages/MedresaResultsOverviewPage';
 import { NetworkResultsOverviewPage } from './features/grades/pages/NetworkResultsOverviewPage';
 import { TeacherGradesHubPage } from './features/grades/pages/TeacherGradesHubPage';
@@ -41,7 +41,6 @@ import { FeeStructurePage } from './features/fees/pages/FeeStructurePage';
 import { FeeCollectionPage } from './features/fees/pages/FeeCollectionPage';
 import { RecordPaymentPage } from './features/fees/pages/RecordPaymentPage';
 import { NetworkFeesOverviewPage } from './features/fees/pages/NetworkFeesOverviewPage';
-import { StudentFeeHistoryPage } from './features/fees/pages/StudentFeeHistoryPage';
 import { SalaryRanksPage } from './features/salaries/pages/SalaryRanksPage';
 import { SalaryPaymentListPage } from './features/salaries/pages/SalaryPaymentListPage';
 import { RecordSalaryPaymentPage } from './features/salaries/pages/RecordSalaryPaymentPage';
@@ -333,6 +332,7 @@ const medresaStudentDetailRoute = createRoute({
   component: StudentDetailPage,
   validateSearch: (search: Record<string, unknown>) => ({
     medresaId: (search.medresaId as string) || undefined,
+    tab: isStudentHubTab(search.tab as string | undefined) ? search.tab : undefined,
   }),
 });
 
@@ -346,6 +346,9 @@ const teacherStudentsRoute = createRoute({
     }
   },
   component: TeacherStudentsPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
 });
 
 const teacherDashboardRoute = createRoute({
@@ -441,28 +444,39 @@ const teacherGradeEditRequestRoute = createRoute({
 const teacherStudentResultsRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/teacher/students/$studentId/results',
-  beforeLoad: ({ context }) => {
+  beforeLoad: ({ context, params }) => {
     const user = requireAuth(context.queryClient);
     if (!user.isTeacher && !user.isSuperAdmin) {
       throw redirect({ to: getHomeRouteForUser(user) });
     }
+    throw redirect({
+      to: '/medresa/students/$studentId',
+      params: { studentId: params.studentId },
+      search: { medresaId: undefined, tab: 'grades' },
+    });
   },
-  component: StudentResultsPage,
 });
 
 const medresaStudentResultsRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/medresa/students/$studentId/results',
-  beforeLoad: ({ context }) => {
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+  beforeLoad: ({ context, params, search }) => {
     const user = requireAuth(context.queryClient);
     if (!user.isMedresaAdmin && !user.isTeacher && !user.isSuperAdmin) {
       throw redirect({ to: getHomeRouteForUser(user) });
     }
+    throw redirect({
+      to: '/medresa/students/$studentId',
+      params: { studentId: params.studentId },
+      search: {
+        medresaId: search.medresaId,
+        tab: 'grades',
+      },
+    });
   },
-  component: StudentResultsPage,
-  validateSearch: (search: Record<string, unknown>) => ({
-    medresaId: (search.medresaId as string) || undefined,
-  }),
 });
 
 const classResultsRoute = createRoute({
@@ -652,23 +666,31 @@ const medresaRecordPaymentRoute = createRoute({
     month: search.month !== undefined ? Number(search.month) : undefined,
     year: search.year !== undefined ? Number(search.year) : undefined,
     amountDueEtb: search.amountDueEtb !== undefined ? Number(search.amountDueEtb) : undefined,
+    returnTab: (search.returnTab as string) || undefined,
   }),
 });
 
 const medresaStudentFeesRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/medresa/students/$studentId/fees',
-  beforeLoad: ({ context }) => {
+  validateSearch: (search: Record<string, unknown>) => ({
+    medresaId: (search.medresaId as string) || undefined,
+  }),
+  beforeLoad: ({ context, params, search }) => {
     const user = requireAuth(context.queryClient);
     requireFeeAccess(user);
     if (!user.isMedresaAdmin && !user.isSuperAdmin) {
       throw redirect({ to: getHomeRouteForUser(user) });
     }
+    throw redirect({
+      to: '/medresa/students/$studentId',
+      params: { studentId: params.studentId },
+      search: {
+        medresaId: search.medresaId,
+        tab: 'fees',
+      },
+    });
   },
-  component: StudentFeeHistoryPage,
-  validateSearch: (search: Record<string, unknown>) => ({
-    medresaId: (search.medresaId as string) || undefined,
-  }),
 });
 
 const medresaAttendanceTakeRoute = createRoute({

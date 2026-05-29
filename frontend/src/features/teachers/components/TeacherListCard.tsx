@@ -6,14 +6,6 @@ import { TeacherAvatar } from './TeacherAvatar';
 import type { TeacherListItem } from '../types';
 import { getLocalizedValue } from '../utils/localizedJson';
 
-const AVATAR_INITIAL = [
-  'bg-teal-50 text-teal-800',
-  'bg-info-bg text-info-text',
-  'bg-gold-50 text-warning-text',
-  'bg-teal-50 text-teal-600',
-  'bg-[#EEEDFE] text-[#3C3489]',
-] as const;
-
 const SUBJECT_BADGE = [
   'bg-teal-50 text-teal-800 border border-teal-100',
   'bg-info-bg text-info-text border border-teal-100',
@@ -29,25 +21,15 @@ function hashStr(s: string) {
   return Math.abs(h);
 }
 
-function initials(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  const a = parts[0]?.[0];
-  const b = parts[1]?.[0];
-  if (a && b) return `${a}${b}`.toUpperCase();
-  return (name.slice(0, 2) || '?').toUpperCase();
-}
-
 type TeacherListCardProps = {
   teacher: TeacherListItem;
-  index: number;
 };
 
-export const TeacherListCard = ({ teacher, index }: TeacherListCardProps) => {
+export const TeacherListCard = ({ teacher }: TeacherListCardProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const specLabel = getLocalizedValue(teacher.specialization);
   const badgeIdx = hashStr(specLabel.toLowerCase()) % SUBJECT_BADGE.length;
-  const avatarIdx = index % AVATAR_INITIAL.length;
   const nMedresa = teacher.medresaAssignments.length;
   const isAdmin = teacher.medresaAssignments.some((a) => a.role === 'ADMIN');
 
@@ -70,25 +52,13 @@ export const TeacherListCard = ({ teacher, index }: TeacherListCardProps) => {
         }
       }}
     >
-      {teacher.photoUrl ? (
-        <TeacherAvatar
-          teacherId={teacher.id}
-          name={teacher.fullName}
-          photoUrl={teacher.photoUrl}
-          size="sm"
-          square
-        />
-      ) : (
-        <div
-          className={cn(
-            'flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-[13px] font-medium',
-            AVATAR_INITIAL[avatarIdx]
-          )}
-          aria-hidden
-        >
-          {initials(teacher.fullName)}
-        </div>
-      )}
+      <TeacherAvatar
+        teacherId={teacher.id}
+        name={teacher.fullName}
+        photoUrl={teacher.photoUrl}
+        size="sm"
+        square
+      />
 
       <div className="min-w-0 flex-1">
         <div className="mb-0.5 flex flex-wrap items-center gap-2">

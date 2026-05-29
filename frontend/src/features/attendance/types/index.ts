@@ -30,3 +30,22 @@ export type SessionListItemDTO = {
   counts: Record<AttendanceStatus, number>;
   totalStudents: number;
 };
+
+export type StudentAttendanceEntryDTO = {
+  date: string;
+  medresaId: string;
+  medresaName: string;
+  status: AttendanceStatus;
+  note: string | null;
+};
+
+export type StudentAttendanceSummaryDTO = {
+  studentId: string;
+  totalSessions: number;
+  countedAsPresent: number;
+  absent: number;
+  late: number;
+  excused: number;
+  attendanceRatePct: number;
+  entries: StudentAttendanceEntryDTO[];
+};

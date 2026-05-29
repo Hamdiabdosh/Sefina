@@ -32,8 +32,8 @@ export const getSalaryReport = async (req: Request, query: ReportRangeQuery) => 
           }
         : {}),
     },
-    select: { id: true, full_name: true },
-    orderBy: { full_name: "asc" },
+    select: { id: true, user: { select: { full_name: true } } },
+    orderBy: { user: { full_name: "asc" } },
   });
 
   for (const { month, year } of iterateEthiopianMonths(
@@ -52,7 +52,7 @@ export const getSalaryReport = async (req: Request, query: ReportRangeQuery) => 
 
       items.push({
         teacherId: t.id,
-        fullName: t.full_name,
+        fullName: t.user.full_name,
         month,
         year,
         rankName: payment

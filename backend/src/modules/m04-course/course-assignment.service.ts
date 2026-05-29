@@ -1,5 +1,6 @@
 import { AuditAction, Status } from "../../../prisma/generated/prisma/enums";
 import { auditLog } from "../../lib/audit";
+import { ensureTeacherInMedresa } from "../../lib/course-access";
 import { assertMedresaActive } from "../../lib/medresa-scope";
 import { prisma } from "../../lib/prisma";
 import type { AssignTeacherToCourseInput } from "./course.schema";
@@ -8,20 +9,7 @@ const activeAssignmentWhere = {
   deleted_at: null,
 } as const;
 
-export const ensureTeacherInMedresa = async (
-  teacherId: string,
-  medresaId: string
-): Promise<boolean> => {
-  const row = await prisma.teacherMedresa.findFirst({
-    where: {
-      teacher_id: teacherId,
-      medresa_id: medresaId,
-      deleted_at: null,
-      teacher: { deleted_at: null, status: Status.ACTIVE },
-    },
-  });
-  return row !== null;
-};
+export { ensureTeacherInMedresa, teacherCanAccessMedresaCourse } from "../../lib/course-access";
 
 export const assignTeacherToCourse = async (
   medresaId: string,
@@ -70,7 +58,7 @@ export const assignTeacherToCourse = async (
           assigned_since: new Date(),
         },
         include: {
-          teacher: { select: { id: true, full_name: true } },
+          teacher: { select: { id: true, user: { select: { full_name: true } } } },
         },
       });
     }
@@ -81,7 +69,7 @@ export const assignTeacherToCourse = async (
         teacher_id: input.teacherId,
       },
       include: {
-        teacher: { select: { id: true, full_name: true } },
+        teacher: { select: { id: true, user: { select: { full_name: true } } } },
       },
     });
   });
@@ -102,34 +90,8 @@ export const assignTeacherToCourse = async (
     assignment: {
       id: assignment.id,
       teacherId: assignment.teacher.id,
-      fullName: assignment.teacher.full_name,
+      fullName: assignment.teacher.user.full_name,
       assignedSince: assignment.assigned_since,
     },
   };
-};
-
-export const teacherCanAccessMedresaCourse = async (
-  userId: string,
-  medresaCourseId: string,
-  medresaId: string
-): Promise<boolean> => {
-  const teacher = await prisma.teacher.findFirst({
-    where: { user_id: userId, deleted_at: null, status: Status.ACTIVE },
-    select: { id: true },
-  });
-  if (!teacher) return false;
-
-  const assignment = await prisma.courseAssignment.findFirst({
-    where: {
-      medresa_course_id: medresaCourseId,
-      teacher_id: teacher.id,
-      deleted_at: null,
-      medresa_course: {
-        medresa_id: medresaId,
-        deleted_at: null,
-      },
-    },
-  });
-
-  return assignment !== null;
 };

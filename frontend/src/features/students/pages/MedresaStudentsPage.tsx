@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { ViewModeToggle, type ListTableMode } from '../../../components/ui/ViewModeToggle';
+import { cn } from '../../../lib/utils';
 import { MedresaPicker } from '../../courses/components/MedresaPicker';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useMedresaCourses } from '../../courses/hooks/useMedresaCourses';
@@ -29,9 +31,12 @@ export const MedresaStudentsPage = () => {
     medresaScopeLoading,
   } = useMedresaContext();
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'TRANSFERRED'>('ALL');
+  const [statusFilter, setStatusFilter] = useState<
+    'ALL' | 'ACTIVE' | 'TRANSFERRED' | 'WITHDRAWN' | 'GRADUATED'
+  >('ALL');
   const [courseFilter, setCourseFilter] = useState(search.medresaCourseId ?? '');
   const [showEnroll, setShowEnroll] = useState(false);
+  const [viewMode, setViewMode] = useState<ListTableMode>('list');
   const searchInputRef = useRef<HTMLInputElement>(null);
   useFocusSearchShortcut(searchInputRef);
 
@@ -139,7 +144,7 @@ export const MedresaStudentsPage = () => {
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <FilterTabs
             value={statusFilter}
             onChange={setStatusFilter}
@@ -147,8 +152,11 @@ export const MedresaStudentsPage = () => {
               { value: 'ALL', label: t('students.filter.all') },
               { value: 'ACTIVE', label: t('students.status.active') },
               { value: 'TRANSFERRED', label: t('students.status.transferred') },
+              { value: 'WITHDRAWN', label: t('students.status.withdrawn') },
+              { value: 'GRADUATED', label: t('students.status.graduated') },
             ]}
           />
+          <ViewModeToggle variant="list-table" value={viewMode} onChange={setViewMode} />
         </div>
 
         {courses.length > 0 && (
@@ -181,6 +189,70 @@ export const MedresaStudentsPage = () => {
 
         {students.length === 0 ? (
           <p className="py-12 text-center text-muted-foreground">{t('students.empty')}</p>
+        ) : viewMode === 'table' ? (
+          <div className="overflow-x-auto rounded-lg border border-cream-dark bg-surface">
+            <table className="w-full text-[13px]">
+              <thead>
+                <tr className="border-b border-cream-dark bg-cream/80 text-left text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <th className="px-2 py-1.5 sm:px-3">{t('students.colName')}</th>
+                  <th className="hidden px-2 py-1.5 md:table-cell md:px-3">{t('students.colCourses')}</th>
+                  <th className="hidden px-2 py-1.5 lg:table-cell lg:px-3">{t('students.guardian')}</th>
+                  <th className="px-2 py-1.5 sm:px-3">{t('students.colStatus')}</th>
+                  <th className="w-8 px-2 py-1.5" />
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student) => (
+                  <tr
+                    key={student.id}
+                    className="cursor-pointer border-b border-cream-dark/60 last:border-0 hover:bg-cream/50"
+                    onClick={() =>
+                      void navigate({
+                        to: '/medresa/students/$studentId',
+                        params: { studentId: student.id },
+                        search: { medresaId, tab: undefined },
+                      })
+                    }
+                  >
+                    <td className="px-2 py-1.5 sm:px-3">
+                      <div className="flex items-center gap-2">
+                        <StudentAvatar
+                          studentId={student.id}
+                          name={student.fullName}
+                          photoUrl={student.photoUrl}
+                          size="sm"
+                        />
+                        <span className="font-medium text-teal-800">{student.fullName}</span>
+                      </div>
+                    </td>
+                    <td className="hidden max-w-[200px] truncate px-2 py-1.5 text-muted-foreground md:table-cell md:px-3">
+                      {student.enrolledCourses
+                        .map((c) => getLocalizedValue(c.courseName))
+                        .join(', ') || t('students.noCourses')}
+                    </td>
+                    <td className="hidden truncate px-2 py-1.5 text-muted-foreground lg:table-cell lg:px-3">
+                      {student.guardianName}
+                    </td>
+                    <td className="px-2 py-1.5 sm:px-3">
+                      <span
+                        className={cn(
+                          'inline-block rounded-full px-2 py-0.5 text-[10px]',
+                          student.status === 'ACTIVE'
+                            ? 'bg-teal-50 text-teal-600'
+                            : 'bg-cream-dark text-muted-foreground'
+                        )}
+                      >
+                        {t(`students.status.${student.status.toLowerCase()}`)}
+                      </span>
+                    </td>
+                    <td className="px-2 py-1.5 text-muted-foreground">
+                      <ChevronRight size={16} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="flex flex-col gap-3">
             {students.map((student) => (
@@ -191,7 +263,7 @@ export const MedresaStudentsPage = () => {
                   void navigate({
                     to: '/medresa/students/$studentId',
                     params: { studentId: student.id },
-                    search: { medresaId },
+                    search: { medresaId, tab: undefined },
                   })
                 }
                 className="flex w-full items-center gap-3 rounded-xl border border-cream-dark bg-surface p-4 text-left"

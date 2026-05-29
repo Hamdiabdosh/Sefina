@@ -22,6 +22,16 @@ enum Status {
 enum StudentStatus {
   ACTIVE
   TRANSFERRED
+  WITHDRAWN
+  GRADUATED
+}
+
+enum EnrollmentEndReason {
+  ENROLLED
+  TRANSFERRED
+  WITHDRAWN
+  GRADUATED
+  REACTIVATED
 }
 
 enum MedresaRole {
@@ -76,20 +86,21 @@ enum AuditAction {
 
 /// Stores all system users (super admin & teachers)
 model User {
-  id             String             @id @default(uuid())
+  id             String               @id @default(uuid())
   full_name      String
-  phone          String             @unique
-  email          String             @unique
+  phone          String               @unique
+  email          String               @unique
   password_hash  String
-  is_super_admin Boolean            @default(false)
-  status         UserStatus         @default(ACTIVE)
+  is_super_admin Boolean              @default(false)
+  status         UserStatus           @default(ACTIVE)
   deleted_at     DateTime?
   teacher        Teacher?
   reset_tokens   PasswordResetToken[]
   refresh_tokens RefreshToken[]
   audit_logs     AuditLog[]
-  created_at     DateTime           @default(now())
-  updated_at     DateTime           @updatedAt
+  student_notes  StudentNote[]
+  created_at     DateTime             @default(now())
+  updated_at     DateTime             @updatedAt
 
   @@index([email])
   @@index([phone])
@@ -128,20 +139,24 @@ model RefreshToken {
 
 /// Islamic school in the Harari network
 model Medresa {
-  id               String           @id @default(uuid())
-  name             String           @unique
-  location         String
-  phone            String?
-  status           Status           @default(ACTIVE)
-  deleted_at       DateTime?
-  teacher_medresas     TeacherMedresa[]
-  students             Student[]
-  medresa_courses      MedresaCourse[]
-  attendance_sessions  AttendanceSession[]
-  fee_payments         FeePayment[]
-  fee_balances         FeeBalance[]
-  created_at       DateTime         @default(now())
-  updated_at       DateTime         @updatedAt
+  id                  String              @id @default(uuid())
+  name                String              @unique
+  location            String
+  phone               String?
+  status              Status              @default(ACTIVE)
+  deleted_at          DateTime?
+  teacher_medresas    TeacherMedresa[]
+  students            Student[]
+  medresa_courses     MedresaCourse[]
+  attendance_sessions AttendanceSession[]
+  fee_payments        FeePayment[]
+  fee_balances        FeeBalance[]
+  transfers_from      StudentTransfer[]   @relation("TransferFrom")
+  transfers_to        StudentTransfer[]   @relation("TransferTo")
+  student_notes       StudentNote[]
+  enrollment_periods  StudentEnrollmentPeriod[]
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
 
   @@index([status])
 }
@@ -216,19 +231,19 @@ model Course {
 
 /// Course activated per medresa
 model MedresaCourse {
-  id                  String              @id @default(uuid())
-  medresa_id          String
-  course_id           String
-  status              Status              @default(ACTIVE)
-  activated_at        DateTime            @default(now())
-  deleted_at          DateTime?
-  medresa             Medresa             @relation(fields: [medresa_id], references: [id])
-  course              Course              @relation(fields: [course_id], references: [id])
-  assignments         CourseAssignment[]
-  student_courses     StudentCourse[]
-  grades              Grade[]
-  created_at          DateTime            @default(now())
-  updated_at          DateTime            @updatedAt
+  id              String             @id @default(uuid())
+  medresa_id      String
+  course_id       String
+  status          Status             @default(ACTIVE)
+  activated_at    DateTime           @default(now())
+  deleted_at      DateTime?
+  medresa         Medresa            @relation(fields: [medresa_id], references: [id])
+  course          Course             @relation(fields: [course_id], references: [id])
+  assignments     CourseAssignment[]
+  student_courses StudentCourse[]
+  grades          Grade[]
+  created_at      DateTime           @default(now())
+  updated_at      DateTime           @updatedAt
 
   @@unique([medresa_id, course_id])
   @@index([medresa_id])
@@ -256,28 +271,39 @@ model CourseAssignment {
 
 /// Student — belongs to one medresa at a time
 model Student {
-  id                 String           @id @default(uuid())
-  full_name          String
-  date_of_birth      DateTime
-  gender             Gender
-  address            String
-  guardian_name      String
-  guardian_phone     String
-  photo_url          String?
-  current_medresa_id String
-  status             StudentStatus    @default(ACTIVE)
-  enrolled_at        DateTime         @default(now())
-  deleted_at         DateTime?
-  current_medresa    Medresa          @relation(fields: [current_medresa_id], references: [id])
-  student_courses    StudentCourse[]
-  transfers          StudentTransfer[]
-  attendance_records AttendanceRecord[]
-  grades             Grade[]
-  fee_payments       FeePayment[]
-  fee_balances       FeeBalance[]
-  created_at         DateTime         @default(now())
-  updated_at         DateTime         @updatedAt
+  id                       String                    @id @default(uuid())
+  full_name                String
+  date_of_birth            DateTime
+  gender                   Gender
+  address                  String
+  guardian_name            String
+  guardian_phone           String
+  secondary_guardian_name  String?
+  secondary_guardian_phone String?
+  national_id              String?
+  blood_group              String?
+  allergies                String?
+  enrollment_number        String?
+  photo_url                String?
+  current_medresa_id       String
+  status                   StudentStatus             @default(ACTIVE)
+  enrolled_at              DateTime                  @default(now())
+  withdrawn_at             DateTime?
+  graduated_at             DateTime?
+  deleted_at               DateTime?
+  current_medresa          Medresa                   @relation(fields: [current_medresa_id], references: [id])
+  student_courses          StudentCourse[]
+  transfers                StudentTransfer[]
+  attendance_records       AttendanceRecord[]
+  grades                   Grade[]
+  fee_payments             FeePayment[]
+  fee_balances             FeeBalance[]
+  notes                    StudentNote[]
+  enrollment_periods       StudentEnrollmentPeriod[]
+  created_at               DateTime                  @default(now())
+  updated_at               DateTime                  @updatedAt
 
+  @@unique([current_medresa_id, enrollment_number])
   @@index([current_medresa_id])
   @@index([status])
 }
@@ -307,6 +333,8 @@ model StudentTransfer {
   transfer_date   DateTime
   reason          String?
   student         Student  @relation(fields: [student_id], references: [id])
+  from_medresa    Medresa  @relation("TransferFrom", fields: [from_medresa_id], references: [id])
+  to_medresa      Medresa  @relation("TransferTo", fields: [to_medresa_id], references: [id])
   created_at      DateTime @default(now())
 
   @@index([student_id])
@@ -314,27 +342,63 @@ model StudentTransfer {
   @@index([to_medresa_id])
 }
 
+model StudentNote {
+  id         String    @id @default(uuid())
+  student_id String
+  medresa_id String
+  author_id  String
+  body       String
+  is_private Boolean   @default(true)
+  deleted_at DateTime?
+  student    Student   @relation(fields: [student_id], references: [id])
+  medresa    Medresa   @relation(fields: [medresa_id], references: [id])
+  author     User      @relation(fields: [author_id], references: [id])
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  @@index([student_id])
+  @@index([medresa_id])
+  @@index([author_id])
+}
+
+model StudentEnrollmentPeriod {
+  id         String               @id @default(uuid())
+  student_id String
+  medresa_id String
+  started_at DateTime
+  ended_at   DateTime?
+  end_reason EnrollmentEndReason  @default(ENROLLED)
+  student    Student              @relation(fields: [student_id], references: [id])
+  medresa    Medresa              @relation(fields: [medresa_id], references: [id])
+  created_at DateTime             @default(now())
+  updated_at DateTime             @updatedAt
+
+  @@index([student_id])
+  @@index([medresa_id])
+  @@index([started_at])
+}
+
 // ── M06: ATTENDANCE ─────────────────────────────
 
 /// One attendance roll per medresa per Gregorian day (Africa/Addis_Ababa calendar date)
 model AttendanceSession {
-  id               String    @id @default(uuid())
-  medresa_id       String
+  id                String             @id @default(uuid())
+  medresa_id        String
   /// Original submitter when a teacher created the session (null if Amir created first)
-  teacher_id       String?
-  date             DateTime  @db.Date
-  submitted_at     DateTime?
+  teacher_id        String?
+  date              DateTime           @db.Date
+  submitted_at      DateTime?
   /// Last save by a user with TEACHER role for this medresa
   teacher_marked_at DateTime?
   /// Last save by a medresa ADMIN (Amir) for this medresa
   admin_marked_at   DateTime?
-  is_locked        Boolean   @default(false)
-  deleted_at       DateTime?
-  medresa          Medresa   @relation(fields: [medresa_id], references: [id])
-  teacher          Teacher?  @relation(fields: [teacher_id], references: [id])
-  records          AttendanceRecord[]
-  created_at       DateTime  @default(now())
-  updated_at       DateTime  @updatedAt
+  is_locked         Boolean            @default(false)
+  deleted_at        DateTime?
+  medresa           Medresa            @relation(fields: [medresa_id], references: [id])
+  teacher           Teacher?           @relation(fields: [teacher_id], references: [id])
+  records           AttendanceRecord[]
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
 
   @@unique([medresa_id, date])
   @@index([date])
@@ -365,16 +429,16 @@ model AttendanceRecord {
 
 /// Exam types defined network-wide by Super Admin
 model ExamType {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   /// { "en": "Midterm Exam", "am": "...", "ar": "..." }
   name       Json
   max_score  Int
-  weight     Int      // percentage, all active weights sum to 100
-  status     Status   @default(ACTIVE)
+  weight     Int // percentage, all active weights sum to 100
+  status     Status    @default(ACTIVE)
   deleted_at DateTime?
   grades     Grade[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
 
   @@index([status])
 }
@@ -430,7 +494,7 @@ model GradeEditRequest {
 /// Network-wide fee structure — versioned, never deleted
 model FeeStructure {
   id             String       @id @default(uuid())
-  monthly_amount Int          // in Ethiopian cents
+  monthly_amount Int // in Ethiopian cents
   effective_from DateTime
   status         Status       @default(ACTIVE)
   created_by     String
@@ -450,8 +514,8 @@ model FeePayment {
   fee_structure_id String
   month            Int
   year             Int
-  amount_due       Int           // in Ethiopian cents
-  amount_paid      Int           // in Ethiopian cents
+  amount_due       Int // in Ethiopian cents
+  amount_paid      Int // in Ethiopian cents
   payment_method   PaymentMethod
   bank_reference   String?
   payment_date     DateTime
@@ -474,9 +538,9 @@ model FeeBalance {
   id                  String   @id @default(uuid())
   student_id          String
   medresa_id          String
-  total_due           Int      // in Ethiopian cents
-  total_paid          Int      // in Ethiopian cents
-  outstanding_balance Int      // in Ethiopian cents
+  total_due           Int // in Ethiopian cents
+  total_paid          Int // in Ethiopian cents
+  outstanding_balance Int // in Ethiopian cents
   student             Student  @relation(fields: [student_id], references: [id])
   medresa             Medresa  @relation(fields: [medresa_id], references: [id])
   updated_at          DateTime @updatedAt
@@ -493,7 +557,7 @@ model SalaryRank {
   id              String          @id @default(uuid())
   /// { "en": "Senior Teacher", "am": "...", "ar": "..." }
   name            Json
-  monthly_amount  Int             // in Ethiopian cents
+  monthly_amount  Int // in Ethiopian cents
   effective_from  DateTime
   status          Status          @default(ACTIVE)
   deleted_at      DateTime?
@@ -527,7 +591,7 @@ model SalaryPayment {
   salary_rank_id    String
   month             Int
   year              Int
-  amount_paid       Int        // in Ethiopian cents
+  amount_paid       Int // in Ethiopian cents
   bank_reference    String
   payment_date      DateTime
   note              String?

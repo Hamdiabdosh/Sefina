@@ -249,6 +249,11 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 See `docs/Sefinet-Docker-Setup.md` for VPS deployment, secrets, and firewall notes. **Do not** use dev seed credentials in production.
 
+### Staging on Vercel + Render / Railway (optional)
+
+Safe cloud smoke test without replacing local Docker: [`docs/deploy-paas.md`](docs/deploy-paas.md)  
+Run `./scripts/paas-preflight.sh` first. Use a git branch (e.g. `deploy/paas-staging`) so `main` stays untouched.
+
 ---
 
 ## Module build order

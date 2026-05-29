@@ -84,6 +84,23 @@ export const toEthiopian = (year: number, month: number, day: number): Ethiopian
   return { year: ethiopianYear, month: order[m] ?? 1, day: ethiopianDate };
 };
 
+/** Days in Ethiopian month (13 = Pagumen, 5 or 6 days). */
+export const daysInEthiopianMonth = (year: number, month: number): number =>
+  month === 13 ? (year % 4 === 3 ? 6 : 5) : 30;
+
+/** First Gregorian `YYYY-MM-DD` of an Ethiopian month (Ethiopia civil day). */
+export const ethiopianMonthStartYmd = (year: number, month: number): string => {
+  const [gy, gm, gd] = toGregorian(year, month, 1);
+  return `${gy}-${String(gm).padStart(2, "0")}-${String(gd).padStart(2, "0")}`;
+};
+
+/** Last Gregorian `YYYY-MM-DD` of an Ethiopian month. */
+export const ethiopianMonthEndYmd = (year: number, month: number): string => {
+  const dim = daysInEthiopianMonth(year, month);
+  const [gy, gm, gd] = toGregorian(year, month, dim);
+  return `${gy}-${String(gm).padStart(2, "0")}-${String(gd).padStart(2, "0")}`;
+};
+
 export const getEthiopianToday = (ref: Date = new Date()): EthiopianYmd => {
   const ymd = formatInTimeZone(ref, ETHIOPIA_TZ, "yyyy-MM-dd");
   const parts = ymd.split("-").map(Number);

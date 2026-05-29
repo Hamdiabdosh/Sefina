@@ -197,7 +197,7 @@ export const getMedresaResultsOverview = async (req: Request, medresaId: string)
       assignments: {
         where: { deleted_at: null },
         take: 1,
-        include: { teacher: { select: { id: true, full_name: true } } },
+        include: { teacher: { select: { id: true, user: { select: { full_name: true } } } } },
       },
       grades: {
         where: { deleted_at: null },
@@ -244,7 +244,7 @@ export const getMedresaResultsOverview = async (req: Request, medresaId: string)
       medresaCourseId: mc.id,
       courseName: pickLocalizedName(mc.course.name),
       assignedTeacher: assignment
-        ? { id: assignment.teacher.id, fullName: assignment.teacher.full_name }
+        ? { id: assignment.teacher.id, fullName: assignment.teacher.user.full_name }
         : null,
       studentCount: mc.student_courses.length,
       averagePercent: avg,

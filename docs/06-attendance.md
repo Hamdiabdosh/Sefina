@@ -1,6 +1,8 @@
 # M06 — Attendance tracking
 
-Teachers (ustaz) and Amir (Medresa Admin) record **one attendance roll per medresa per Gregorian calendar day** in **Africa/Addis_Ababa**. Super Admin has **read-only** network analytics; Super Admin JWT is **blocked** from `POST`/`PATCH` attendance.
+Teachers (ustaz) and Amir (Medresa Admin) record **one attendance roll per medresa per calendar day** in **Africa/Addis_Ababa**. Super Admin has **read-only** network analytics; Super Admin JWT is **blocked** from `POST`/`PATCH` attendance.
+
+**Calendar display:** UI and reports show **Ethiopian** dates (12 named months + Pagumen for the short 13th month). Storage remains one Gregorian `YYYY-MM-DD` per session (`@db.Date`) — same pattern as fees/salaries using Ethiopian periods without changing the day key.
 
 ## Data model
 
@@ -47,7 +49,14 @@ Base: `/api/v1`
 - No **future** `date` (Ethiopian calendar comparison).
 - **409** duplicate when a session exists for `(medresaId, date)`.
 - **Super Admin** cannot `POST`/`PATCH` attendance (writers middleware).
+- **Writers:** active TEACHER or ADMIN (Amir) membership at the medresa (`requireAttendanceWriter`).
 - **Attendance rate** in student history: `(PRESENT + LATE + EXCUSED) / total sessions × 100`, two decimal places server-side.
+
+### Operational policy (UI guidance, not API-enforced)
+
+- **Ustaz first:** When a teacher is on site, they should take the daily roll.
+- **Amir backup:** Amir may create or patch same-day attendance when no teacher has submitted, or to correct mistakes the same day.
+- **Accountability:** `teacher_marked_at` and `admin_marked_at` show who last saved; Amir UI warns if editing after `teacher_marked_at` is set.
 
 ## Automation
 

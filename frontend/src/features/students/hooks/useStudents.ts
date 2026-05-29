@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../../../lib/axios';
-import type { StudentDetail, StudentsListResponse } from '../types';
+import type { StudentDetail, StudentStatus, StudentsListResponse } from '../types';
 import { toStudentFormData, type StudentFormValues } from '../schemas/student.schemas';
 
 export type StudentListFilters = {
   search?: string;
   gender?: 'MALE' | 'FEMALE';
-  status?: 'ACTIVE' | 'TRANSFERRED';
+  status?: StudentStatus;
   medresaCourseId?: string;
   page?: number;
   limit?: number;

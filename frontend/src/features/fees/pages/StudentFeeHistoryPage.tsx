@@ -54,6 +54,7 @@ export const StudentFeeHistoryPage = () => {
                 month: data.payments[0]?.month ?? 1,
                 year: data.payments[0]?.year ?? 2017,
                 amountDueEtb: data.outstandingBalanceEtb,
+                returnTab: 'fees',
               }}
               className="inline-block mb-4 text-sm text-teal-700 underline"
             >

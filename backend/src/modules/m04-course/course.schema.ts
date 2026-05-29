@@ -1,10 +1,7 @@
 import { z } from "zod";
+import { localizedStringSchema } from "../../lib/localized-string.schema";
 
-export const localizedStringSchema = z.object({
-  en: z.string().min(1, "English text is required"),
-  am: z.string().optional(),
-  ar: z.string().optional(),
-});
+export { localizedStringSchema };
 
 export const listCoursesQuerySchema = z.object({
   page: z.coerce.number().int().positive().default(1),

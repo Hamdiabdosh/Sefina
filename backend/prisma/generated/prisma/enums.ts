@@ -27,10 +27,23 @@ export type Status = (typeof Status)[keyof typeof Status]
 
 export const StudentStatus = {
   ACTIVE: 'ACTIVE',
-  TRANSFERRED: 'TRANSFERRED'
+  TRANSFERRED: 'TRANSFERRED',
+  WITHDRAWN: 'WITHDRAWN',
+  GRADUATED: 'GRADUATED'
 } as const
 
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
+
+
+export const EnrollmentEndReason = {
+  ENROLLED: 'ENROLLED',
+  TRANSFERRED: 'TRANSFERRED',
+  WITHDRAWN: 'WITHDRAWN',
+  GRADUATED: 'GRADUATED',
+  REACTIVATED: 'REACTIVATED'
+} as const
+
+export type EnrollmentEndReason = (typeof EnrollmentEndReason)[keyof typeof EnrollmentEndReason]
 
 
 export const MedresaRole = {

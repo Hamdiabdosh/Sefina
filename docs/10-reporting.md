@@ -22,7 +22,7 @@
 | R04 | `GET /api/v1/reports/salary` | Super Admin only |
 | R05 | `GET /api/v1/reports/grades` | Teacher, Amir, Super Admin |
 
-Shared query params: `fromMonth`, `fromYear`, `toMonth`, `toYear`, optional `medresaId`, `medresaCourseId`, `studentId`, `status`, `feeStatus`, `paymentStatus`, `from`/`to` (Gregorian `YYYY-MM-DD` for attendance).
+Shared query params: `fromMonth`, `fromYear`, `toMonth`, `toYear` (Ethiopian months 1–13), optional `medresaId`, `medresaCourseId`, `studentId`, `status`, `feeStatus`, `paymentStatus`. Attendance report maps the Ethiopian range to Gregorian `from`/`to` internally; optional `from`/`to` override as `YYYY-MM-DD`.
 
 Exports: **client-side** PDF (jsPDF) and Excel (SheetJS) from report JSON in the frontend.
 

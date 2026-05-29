@@ -5,6 +5,7 @@ import {
   deactivateMedresa,
   getMedresaDetail,
   getMedresas,
+  getPublicMedresas,
   reactivateMedresa,
   updateMedresa,
 } from "./medresa.service";
@@ -213,6 +214,27 @@ export const reactivateMedresaHandler = async (
       error: {
         code: "INTERNAL_ERROR",
         message: "Failed to reactivate medresa",
+      },
+    });
+  }
+};
+
+export const getPublicMedresasHandler = async (
+  _req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const medresas = await getPublicMedresas();
+    res.status(200).json({
+      success: true,
+      data: { items: medresas },
+    });
+  } catch {
+    res.status(500).json({
+      success: false,
+      error: {
+        code: "INTERNAL_ERROR",
+        message: "Failed to fetch medresas",
       },
     });
   }

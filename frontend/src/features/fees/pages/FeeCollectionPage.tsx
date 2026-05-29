@@ -114,60 +114,96 @@ export const FeeCollectionPage = () => {
             {isLoading ? (
               <p className="mt-4 text-sm text-muted-foreground">{t('fees.loading')}</p>
             ) : (
-              <ul className="mt-4 space-y-2">
-                {(data?.items ?? []).map((row) => (
-                  <li
-                    key={row.studentId}
-                    className="flex flex-wrap items-center gap-3 rounded-xl border border-cream-dark bg-surface p-3"
-                  >
-                    <StudentAvatar
-                      studentId={row.studentId}
-                      name={row.fullName}
-                      photoUrl={row.photoUrl}
-                      size="sm"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-sm">{row.fullName}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {t('fees.duePaidBalance', {
-                          due: row.amountDueEtb,
-                          paid: row.amountPaidEtb,
-                          balance: row.balanceEtb,
-                        })}
-                      </p>
-                    </div>
-                    <span
-                      className={`rounded-md px-2 py-0.5 text-xs font-medium ${statusClass(row.status)}`}
-                    >
-                      {t(`fees.status${row.status}`)}
-                    </span>
-                    <div className="flex gap-2">
-                      <Link
-                        to="/medresa/fees/record"
-                        search={{
-                          studentId: row.studentId,
-                          studentName: row.fullName,
-                          medresaId,
-                          month,
-                          year,
-                          amountDueEtb: row.balanceEtb,
-                        }}
-                        className="text-xs text-teal-700 underline"
+              <div className="mt-3 overflow-x-auto rounded-lg border border-cream-dark bg-surface">
+                <table className="w-full text-[13px]">
+                  <thead>
+                    <tr className="border-b border-cream-dark bg-cream/80 text-left text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                      <th className="px-2 py-1.5 sm:px-3">{t('fees.colStudent')}</th>
+                      <th className="hidden px-2 py-1.5 text-right sm:table-cell sm:px-3">
+                        {t('fees.colDue')}
+                      </th>
+                      <th className="hidden px-2 py-1.5 text-right md:table-cell md:px-3">
+                        {t('fees.colPaid')}
+                      </th>
+                      <th className="px-2 py-1.5 text-right sm:px-3">{t('fees.colBalance')}</th>
+                      <th className="px-2 py-1.5 sm:px-3">{t('fees.colStatus')}</th>
+                      <th className="px-2 py-1.5 text-right sm:px-3">{t('fees.colActions')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(data?.items ?? []).map((row) => (
+                      <tr
+                        key={row.studentId}
+                        className="border-b border-cream-dark/60 last:border-0 hover:bg-cream/40"
                       >
-                        {t('fees.recordPayment')}
-                      </Link>
-                      <Link
-                        to="/medresa/students/$studentId/fees"
-                        params={{ studentId: row.studentId }}
-                        search={{ medresaId }}
-                        className="text-xs text-muted-foreground underline"
-                      >
-                        {t('fees.history')}
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                        <td className="px-2 py-1.5 sm:px-3">
+                          <div className="flex items-center gap-2">
+                            <StudentAvatar
+                              studentId={row.studentId}
+                              name={row.fullName}
+                              photoUrl={row.photoUrl}
+                              size="sm"
+                            />
+                            <span className="min-w-0 truncate font-medium leading-tight">
+                              {row.fullName}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 text-[10px] text-muted-foreground sm:hidden">
+                            {t('fees.duePaidBalance', {
+                              due: row.amountDueEtb,
+                              paid: row.amountPaidEtb,
+                              balance: row.balanceEtb,
+                            })}
+                          </p>
+                        </td>
+                        <td className="hidden px-2 py-1.5 text-right tabular-nums sm:table-cell sm:px-3">
+                          {formatEtb(row.amountDueEtb)}
+                        </td>
+                        <td className="hidden px-2 py-1.5 text-right tabular-nums md:table-cell md:px-3">
+                          {formatEtb(row.amountPaidEtb)}
+                        </td>
+                        <td className="px-2 py-1.5 text-right tabular-nums font-medium sm:px-3">
+                          {formatEtb(row.balanceEtb)}
+                        </td>
+                        <td className="px-2 py-1.5 sm:px-3">
+                          <span
+                            className={`inline-block rounded-md px-1.5 py-0.5 text-[10px] font-medium ${statusClass(row.status)}`}
+                          >
+                            {t(`fees.status${row.status}`)}
+                          </span>
+                        </td>
+                        <td className="px-2 py-1.5 text-right sm:px-3">
+                          <div className="flex flex-col items-end gap-0.5">
+                            <Link
+                              to="/medresa/fees/record"
+                              search={{
+                                studentId: row.studentId,
+                                studentName: row.fullName,
+                                medresaId,
+                                month,
+                                year,
+                                amountDueEtb: row.balanceEtb,
+                                returnTab: undefined,
+                              }}
+                              className="text-[11px] text-teal-700 underline"
+                            >
+                              {t('fees.recordPayment')}
+                            </Link>
+                            <Link
+                              to="/medresa/students/$studentId"
+                              params={{ studentId: row.studentId }}
+                              search={{ medresaId, tab: 'fees' }}
+                              className="text-[10px] text-muted-foreground underline"
+                            >
+                              {t('fees.history')}
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </>
         )}

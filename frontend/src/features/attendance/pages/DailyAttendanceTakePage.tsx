@@ -6,6 +6,8 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { cn } from '../../../lib/utils';
 import type { AttendanceStatus } from '../types';
+import { AttendanceMarkerStrip } from '../components/AttendanceMarkerStrip';
+import { formatEthiopianFromYmd } from '../utils/ethiopian';
 import { getTodayCalendarEt } from '../utils/ethiopiaDate';
 import {
   useAttendanceRoster,
@@ -216,8 +218,12 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
   }
 
   const sessionInfo = sessionData?.session;
+  const showAmirOverrideWarning =
+    variant === 'medresa_admin' &&
+    Boolean(sessionInfo?.teacherMarkedAt) &&
+    !locked;
   const metaParts = [
-    today,
+    formatEthiopianFromYmd(today, t),
     t('attendance.studentCountHeader', { count: rosterItems.length }),
     t('attendance.dailyRollSubtitle'),
   ];
@@ -250,7 +256,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
           </div>
         </div>
 
-        <div className="mt-3 flex items-center gap-3">
+        <div className="mt-3 flex flex-wrap items-center gap-3">
           <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-cream-dark">
             <div
               className="h-full rounded-full bg-teal-400 transition-[width] duration-300"
@@ -262,20 +268,33 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
             {' / '}
             {totalStudents} {t('attendance.progressMarkedSuffix')}
           </span>
+          {!locked ? (
+            <button
+              type="button"
+              disabled={busy || !canSubmit}
+              onClick={() => void onSubmit()}
+              className="btn-primary-inline hidden shrink-0 gap-2 px-4 py-2 md:inline-flex"
+              title={!allTouched ? t('attendance.completeAllRowsHint') : undefined}
+            >
+              <Send size={16} />
+              {existingId ? t('attendance.saveEdits') : t('attendance.submitAttendance')}
+            </button>
+          ) : null}
         </div>
       </header>
 
       {sessionInfo ? (
-        <div className="flex flex-wrap gap-3 border-b border-cream-dark bg-canvas px-4 py-2 text-xs text-muted-foreground md:px-6">
-          <span>
-            {t('attendance.markerTeacher')}:{' '}
-            {sessionInfo.teacherMarkedAt ? t('attendance.markerDone') : t('attendance.markerPending')}
-          </span>
-          <span>
-            {t('attendance.markerAmir')}:{' '}
-            {sessionInfo.adminMarkedAt ? t('attendance.markerDone') : t('attendance.markerPending')}
-          </span>
-        </div>
+        <AttendanceMarkerStrip
+          teacherMarkedAt={sessionInfo.teacherMarkedAt}
+          adminMarkedAt={sessionInfo.adminMarkedAt}
+          className="border-b border-cream-dark bg-canvas px-4 py-2 md:px-6"
+        />
+      ) : null}
+
+      {showAmirOverrideWarning ? (
+        <p className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-900 md:px-6">
+          {t('attendance.amirOverrideWarning')}
+        </p>
       ) : null}
 
       {!locked ? (
@@ -399,7 +418,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
       </div>
 
       {!locked ? (
-        <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-3 border-t border-cream-dark bg-surface px-4 py-3 md:left-[220px] md:px-6">
+        <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-3 border-t border-cream-dark bg-surface px-4 py-3 md:hidden">
           <div className="hidden min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground sm:flex">
             <span className="inline-flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-teal-400" />

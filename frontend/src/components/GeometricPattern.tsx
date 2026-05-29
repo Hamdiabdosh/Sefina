@@ -1,5 +1,5 @@
 // components/GeometricPattern.tsx
-export const GeometricPattern = ({ opacity = 0.15 }: { opacity?: number }) => (
+export const GeometricPattern = ({ opacity = 0.12 }: { opacity?: number }) => (
   <svg
     width="130"
     height="110"

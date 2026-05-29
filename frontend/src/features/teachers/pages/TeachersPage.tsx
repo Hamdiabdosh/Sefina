@@ -1,11 +1,12 @@
 import { useMemo, useRef, useState } from 'react';
 import { useFocusSearchShortcut } from '../../../hooks/useFocusSearchShortcut';
 import { useSearch } from '@tanstack/react-router';
-import { LayoutGrid, List, Plus, Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { ViewModeToggle } from '../../../components/ui/ViewModeToggle';
 import { cn } from '../../../lib/utils';
 import { TeacherListCard } from '../components/TeacherListCard';
 import { CreateTeacherModal } from '../components/CreateTeacherModal';
@@ -131,36 +132,7 @@ export const TeachersPage = () => {
               { value: 'INACTIVE', label: t('teacherDirectory.filterInactive') },
             ]}
           />
-          <div
-            className="flex gap-1 rounded-md border border-cream-dark bg-surface p-0.5"
-            role="group"
-            aria-label={t('teacherDirectory.viewList')}
-          >
-            <button
-              type="button"
-              className={cn(
-                'flex h-7 w-7 items-center justify-center rounded transition-colors',
-                viewMode === 'list' ? 'bg-cream text-foreground' : 'text-muted-foreground'
-              )}
-              aria-pressed={viewMode === 'list'}
-              aria-label={t('teacherDirectory.viewList')}
-              onClick={() => setViewMode('list')}
-            >
-              <List size={16} />
-            </button>
-            <button
-              type="button"
-              className={cn(
-                'flex h-7 w-7 items-center justify-center rounded transition-colors',
-                viewMode === 'grid' ? 'bg-cream text-foreground' : 'text-muted-foreground'
-              )}
-              aria-pressed={viewMode === 'grid'}
-              aria-label={t('teacherDirectory.viewGrid')}
-              onClick={() => setViewMode('grid')}
-            >
-              <LayoutGrid size={16} />
-            </button>
-          </div>
+          <ViewModeToggle variant="list-grid" value={viewMode} onChange={setViewMode} />
         </div>
 
         <div className="mb-4 sm:hidden">
@@ -187,8 +159,8 @@ export const TeachersPage = () => {
               viewMode === 'list' ? 'flex flex-col' : 'grid grid-cols-1 md:grid-cols-2'
             )}
           >
-            {teachers.map((teacher, index) => (
-              <TeacherListCard key={teacher.id} teacher={teacher} index={index} />
+            {teachers.map((teacher) => (
+              <TeacherListCard key={teacher.id} teacher={teacher} />
             ))}
           </div>
         )}

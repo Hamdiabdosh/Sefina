@@ -29,9 +29,9 @@ export const StudentFeesSummary = ({ studentId, medresaId, feeStatus }: Props) =
         {t('fees.outstandingShort', { amount: formatEtb(feeStatus.outstandingBalanceEtb) })}
       </p>
       <Link
-        to="/medresa/students/$studentId/fees"
+        to="/medresa/students/$studentId"
         params={{ studentId }}
-        search={{ medresaId }}
+        search={{ medresaId, tab: 'fees' }}
         className="text-xs text-teal-700 underline"
       >
         {t('fees.viewHistory')}
