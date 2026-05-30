@@ -14,8 +14,8 @@ export type PageBodyProps = {
 export const PageBody = ({ children, fullWidth, className }: PageBodyProps) => (
   <div
     className={cn(
-      'flex-1 overflow-y-auto px-4 py-5 md:px-6 bg-canvas',
-      !fullWidth && 'mx-auto w-full max-w-6xl',
+      'flex-1 overflow-y-auto bg-canvas px-4 py-6 sm:px-6 lg:px-8 space-y-8',
+      !fullWidth && 'mx-auto w-full max-w-7xl',
       className
     )}
   >

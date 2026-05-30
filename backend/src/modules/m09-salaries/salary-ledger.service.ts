@@ -5,6 +5,7 @@ import {
 } from "../../lib/ethiopian-calendar";
 import { prisma } from "../../lib/prisma";
 import type { SalaryOverviewQuery, SalaryPaymentListQuery } from "./salary.schema";
+import { computeTeacherSalary } from "./salary-computation";
 import {
   centsToEtb,
   type SalaryPaymentListRowDto,
@@ -18,7 +19,12 @@ export const getSalaryPaymentList = async (query: SalaryPaymentListQuery) => {
   const teachers = await prisma.teacher.findMany({
     where: { deleted_at: null, status: Status.ACTIVE },
     orderBy: { user: { full_name: "asc" } },
-    select: { id: true, photo_url: true, user: { select: { full_name: true } } },
+    select: {
+      id: true,
+      photo_url: true,
+      cbe_account: true,
+      user: { select: { full_name: true } },
+    },
   });
 
   const payments = await prisma.salaryPayment.findMany({
@@ -31,11 +37,12 @@ export const getSalaryPaymentList = async (query: SalaryPaymentListQuery) => {
   let unpaidCount = 0;
 
   for (const teacher of teachers) {
+    const computed = await computeTeacherSalary(teacher.id, month, year);
     const resolved = await resolveCurrentTeacherRank(teacher.id, month, year);
     const payment = paymentByTeacher.get(teacher.id);
     const listStatus: SalaryPaymentListStatus = payment ? "PAID" : "UNPAID";
 
-    if (rankId && resolved?.salaryRankId !== rankId) continue;
+    if (rankId && computed.rankId !== rankId) continue;
     if (statusFilter !== "ALL" && listStatus !== statusFilter) continue;
 
     if (listStatus === "UNPAID") unpaidCount += 1;
@@ -45,14 +52,22 @@ export const getSalaryPaymentList = async (query: SalaryPaymentListQuery) => {
       teacherId: teacher.id,
       fullName: teacher.user.full_name,
       photoUrl: teacher.photo_url,
-      salaryRankId: resolved?.salaryRankId ?? null,
-      rankName: resolved ? (resolved.rank.name as Record<string, string>) : null,
-      monthlyAmountEtb: resolved ? centsToEtb(resolved.rank.monthly_amount) : null,
+      salaryRankId: computed.rankId,
+      rankName:
+        computed.breakdown === "ADMIN_ONLY"
+          ? null
+          : resolved
+            ? (resolved.rank.name as Record<string, string>)
+            : null,
+      monthlyAmountEtb: computed.amountEtb > 0 ? computed.amountEtb : null,
       month,
       year,
       status: listStatus,
       paymentId: payment?.id ?? null,
       amountPaidEtb: payment ? centsToEtb(payment.amount_paid) : null,
+      breakdown: computed.amountEtb > 0 ? computed.breakdown : null,
+      medresaCount: computed.medresaCount,
+      cbeAccount: teacher.cbe_account ?? null,
     });
   }
 
@@ -106,7 +121,9 @@ export const getTeacherSalaryHistory = async (teacherId: string) => {
       month: p.month,
       year: p.year,
       salaryRankId: p.salary_rank_id,
-      rankName: p.salary_rank.name as Record<string, string>,
+      rankName: p.salary_rank
+        ? (p.salary_rank.name as Record<string, string>)
+        : { en: "Admin only" },
       amountPaidEtb: centsToEtb(p.amount_paid),
       bankReference: p.bank_reference,
       paymentDate: p.payment_date.toISOString().slice(0, 10),
@@ -155,8 +172,8 @@ export const getNetworkSalaryOverview = async (query: SalaryOverviewQuery) => {
       });
       let eligible = 0;
       for (const t of teachers) {
-        const r = await resolveCurrentTeacherRank(t.id, month, year);
-        if (r?.salaryRankId === query.rankId) eligible += 1;
+        const computed = await computeTeacherSalary(t.id, month, year);
+        if (computed.rankId === query.rankId) eligible += 1;
       }
       paidCount = payments.length;
       items.push({

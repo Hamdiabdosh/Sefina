@@ -45,6 +45,7 @@ import { RecordPaymentPage } from './features/fees/pages/RecordPaymentPage';
 import { NetworkFeesOverviewPage } from './features/fees/pages/NetworkFeesOverviewPage';
 import { SalaryRanksPage } from './features/salaries/pages/SalaryRanksPage';
 import { SalaryPaymentListPage } from './features/salaries/pages/SalaryPaymentListPage';
+import { SalaryCBEPrintPage } from './features/salaries/pages/SalaryCBEPrintPage';
 import { RecordSalaryPaymentPage } from './features/salaries/pages/RecordSalaryPaymentPage';
 import { TeacherSalaryHistoryPage } from './features/salaries/pages/TeacherSalaryHistoryPage';
 import { NetworkSalariesOverviewPage } from './features/salaries/pages/NetworkSalariesOverviewPage';
@@ -633,6 +634,20 @@ const adminRecordSalaryRoute = createRoute({
   }),
 });
 
+const adminSalariesCbePrintRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/admin/salaries/cbe-print',
+  beforeLoad: ({ context }) => {
+    const user = requireAuth(context.queryClient);
+    if (!user.isSuperAdmin) throw redirect({ to: getHomeRouteForUser(user) });
+  },
+  component: SalaryCBEPrintPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    month: search.month !== undefined ? Number(search.month) : undefined,
+    year: search.year !== undefined ? Number(search.year) : undefined,
+  }),
+});
+
 const adminTeacherSalaryRoute = createRoute({
   getParentRoute: () => protectedRoute,
   path: '/admin/teachers/$teacherId/salary',
@@ -764,6 +779,7 @@ const routeTree = rootRoute.addChildren([
     adminSalariesRoute,
     adminSalariesOverviewRoute,
     adminRecordSalaryRoute,
+    adminSalariesCbePrintRoute,
     adminTeacherSalaryRoute,
     medresaFeesRoute,
     medresaRecordPaymentRoute,

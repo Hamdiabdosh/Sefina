@@ -1,7 +1,7 @@
 import { cn } from '../../lib/utils';
 
 export const Skeleton = ({ className }: { className?: string }) => (
-  <div className={cn('animate-pulse rounded-md bg-cream-dark/60', className)} />
+  <div className={cn('skeleton rounded-md', className)} />
 );
 
 export const SkeletonCard = () => (

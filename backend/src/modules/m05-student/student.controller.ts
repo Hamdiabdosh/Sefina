@@ -33,6 +33,8 @@ const getStudentCourseIdParam = (req: Request): string => String(req.params.stud
 
 const parseStudentBody = (req: Request): CreateStudentInput => ({
   fullName: req.body.fullName,
+  fullNameAm: req.body.fullNameAm,
+  fullNameAr: req.body.fullNameAr,
   dateOfBirth: req.body.dateOfBirth,
   gender: req.body.gender,
   address: req.body.address,

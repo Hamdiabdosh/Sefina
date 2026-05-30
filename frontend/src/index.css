@@ -101,12 +101,20 @@
     @apply w-full bg-teal-400 text-white rounded-md py-3.5 px-5 text-[15px] font-medium hover:bg-teal-600 transition-colors flex items-center justify-center gap-2 border-0 cursor-pointer;
   }
 
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-medium transition-all active:scale-[0.985];
+  }
+
   .btn-secondary {
-    @apply w-full bg-teal-50 text-teal-600 border border-teal-100 rounded-md py-3 px-5 text-sm font-medium hover:bg-teal-100 transition-colors flex items-center justify-center gap-2 cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 font-medium transition-all active:scale-[0.985] w-full bg-teal-50 text-teal-600 border border-teal-100 rounded-md py-3 px-5 text-sm hover:bg-teal-100 cursor-pointer;
   }
 
   .btn-primary-inline {
-    @apply inline-flex items-center justify-center gap-1.5 bg-teal-600 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-teal-800 transition-colors border-0 cursor-pointer shrink-0;
+    @apply inline-flex items-center justify-center gap-2 font-medium transition-all active:scale-[0.985] bg-teal-600 text-white rounded-md px-4 py-2 text-sm hover:bg-teal-800 shadow-sm hover:shadow-md border-0 cursor-pointer shrink-0;
+  }
+
+  .btn-primary-compact {
+    @apply inline-flex items-center justify-center gap-2 font-medium transition-all active:scale-[0.985] bg-teal-600 hover:bg-teal-800 text-white shadow-sm hover:shadow-md rounded-md px-4 py-2 text-sm border-0 cursor-pointer;
   }
 
   .btn-ghost-inline {
@@ -128,5 +136,43 @@
   .islamic-geometric-bg {
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23B8860B' stroke-width='1' opacity='0.12'%3E%3Cpath d='M30 10c10 0 20 10 20 20s-10 20-20 20-20-10-20-20 10-20 20-20'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 30px 30px;
+  }
+
+  .card {
+    @apply bg-surface border border-cream-dark rounded-xl shadow-sm hover:shadow transition-all duration-200;
+  }
+
+  .ornate-border {
+    position: relative;
+  }
+
+  .ornate-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid;
+    border-image: linear-gradient(45deg, transparent, var(--color-gold-400), transparent) 1;
+    opacity: 0.15;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #f0ebdf 25%, #e8e2d0 50%, #f0ebdf 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }

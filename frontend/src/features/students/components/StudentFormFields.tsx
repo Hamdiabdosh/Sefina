@@ -20,6 +20,14 @@ export const StudentFormFields = ({ register, errors }: StudentFormFieldsProps) 
         )}
       </div>
       <div>
+        <label className="field-label">{t('students.form.fullNameAm')}</label>
+        <input className="field-input" {...register('fullNameAm')} />
+      </div>
+      <div>
+        <label className="field-label">{t('students.form.fullNameAr')}</label>
+        <input dir="rtl" className="field-input" {...register('fullNameAr')} />
+      </div>
+      <div>
         <label className="field-label">{t('students.form.dateOfBirth')}</label>
         <input type="date" className="field-input" {...register('dateOfBirth')} />
         {errors.dateOfBirth && (

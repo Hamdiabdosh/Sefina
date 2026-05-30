@@ -31,7 +31,7 @@ export const mapSalaryRank = (row: {
 export type SalaryPaymentDto = {
   id: string;
   teacherId: string;
-  salaryRankId: string;
+  salaryRankId: string | null;
   month: number;
   year: number;
   amountPaidEtb: number;
@@ -46,7 +46,7 @@ export type SalaryPaymentDto = {
 export const mapSalaryPayment = (row: {
   id: string;
   teacher_id: string;
-  salary_rank_id: string;
+  salary_rank_id: string | null;
   month: number;
   year: number;
   amount_paid: number;
@@ -73,6 +73,8 @@ export const mapSalaryPayment = (row: {
 
 export type SalaryPaymentListStatus = "PAID" | "UNPAID";
 
+export type SalaryBreakdownDto = "TEACHER_MULTI" | "ADMIN_ONLY" | "TEACHER_ADMIN_COMBINED";
+
 export type SalaryPaymentListRowDto = {
   teacherId: string;
   fullName: string;
@@ -85,4 +87,7 @@ export type SalaryPaymentListRowDto = {
   status: SalaryPaymentListStatus;
   paymentId: string | null;
   amountPaidEtb: number | null;
+  breakdown: SalaryBreakdownDto | null;
+  medresaCount: number;
+  cbeAccount: string | null;
 };

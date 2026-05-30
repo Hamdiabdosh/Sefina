@@ -8,7 +8,8 @@ if [ -n "$DATABASE_ADMIN_URL" ]; then
   export DATABASE_URL="$DATABASE_ADMIN_URL"
 fi
 
-w
+echo "Applying migrations..."
+npx prisma migrate deploy
 
 echo "Generating Prisma client..."
 npx prisma generate

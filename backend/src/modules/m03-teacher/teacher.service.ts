@@ -125,6 +125,7 @@ export const createTeacher = async (input: CreateTeacherInput, performedBy: stri
         email: input.email,
         specialization: input.specialization,
         date_joined: input.dateJoined,
+        cbe_account: input.cbeAccount ?? null,
         status,
       },
     });
@@ -223,8 +224,12 @@ export const updateTeacher = async (
     return tx.teacher.update({
       where: { id },
       data: {
+        ...(input.fullName !== undefined ? { full_name: input.fullName } : {}),
+        ...(input.phone !== undefined ? { phone: input.phone } : {}),
+        ...(input.email !== undefined ? { email: input.email } : {}),
         ...(input.specialization !== undefined ? { specialization: input.specialization } : {}),
         ...(input.dateJoined !== undefined ? { date_joined: input.dateJoined } : {}),
+        ...(input.cbeAccount !== undefined ? { cbe_account: input.cbeAccount ?? null } : {}),
         ...(input.status !== undefined ? { status: input.status } : {}),
       },
       include: teacherInclude,

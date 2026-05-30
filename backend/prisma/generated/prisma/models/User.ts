@@ -226,6 +226,7 @@ export type UserWhereInput = {
   reset_tokens?: Prisma.PasswordResetTokenListRelationFilter
   refresh_tokens?: Prisma.RefreshTokenListRelationFilter
   audit_logs?: Prisma.AuditLogListRelationFilter
+  student_notes?: Prisma.StudentNoteListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -243,6 +244,7 @@ export type UserOrderByWithRelationInput = {
   reset_tokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
   refresh_tokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
   audit_logs?: Prisma.AuditLogOrderByRelationAggregateInput
+  student_notes?: Prisma.StudentNoteOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -263,6 +265,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   reset_tokens?: Prisma.PasswordResetTokenListRelationFilter
   refresh_tokens?: Prisma.RefreshTokenListRelationFilter
   audit_logs?: Prisma.AuditLogListRelationFilter
+  student_notes?: Prisma.StudentNoteListRelationFilter
 }, "id" | "phone" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -312,6 +315,7 @@ export type UserCreateInput = {
   reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -329,6 +333,7 @@ export type UserUncheckedCreateInput = {
   reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUpdateInput = {
@@ -346,6 +351,7 @@ export type UserUpdateInput = {
   reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -363,6 +369,7 @@ export type UserUncheckedUpdateInput = {
   reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -515,6 +522,20 @@ export type UserUpdateOneRequiredWithoutTeacherNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTeacherInput, Prisma.UserUpdateWithoutTeacherInput>, Prisma.UserUncheckedUpdateWithoutTeacherInput>
 }
 
+export type UserCreateNestedOneWithoutStudent_notesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStudent_notesInput, Prisma.UserUncheckedCreateWithoutStudent_notesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudent_notesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutStudent_notesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStudent_notesInput, Prisma.UserUncheckedCreateWithoutStudent_notesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudent_notesInput
+  upsert?: Prisma.UserUpsertWithoutStudent_notesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStudent_notesInput, Prisma.UserUpdateWithoutStudent_notesInput>, Prisma.UserUncheckedUpdateWithoutStudent_notesInput>
+}
+
 export type UserCreateNestedOneWithoutAudit_logsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAudit_logsInput, Prisma.UserUncheckedCreateWithoutAudit_logsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAudit_logsInput
@@ -545,6 +566,7 @@ export type UserCreateWithoutReset_tokensInput = {
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutReset_tokensInput = {
@@ -561,6 +583,7 @@ export type UserUncheckedCreateWithoutReset_tokensInput = {
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutReset_tokensInput = {
@@ -593,6 +616,7 @@ export type UserUpdateWithoutReset_tokensInput = {
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReset_tokensInput = {
@@ -609,6 +633,7 @@ export type UserUncheckedUpdateWithoutReset_tokensInput = {
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutRefresh_tokensInput = {
@@ -625,6 +650,7 @@ export type UserCreateWithoutRefresh_tokensInput = {
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutRefresh_tokensInput = {
@@ -641,6 +667,7 @@ export type UserUncheckedCreateWithoutRefresh_tokensInput = {
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
   reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutRefresh_tokensInput = {
@@ -673,6 +700,7 @@ export type UserUpdateWithoutRefresh_tokensInput = {
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefresh_tokensInput = {
@@ -689,6 +717,7 @@ export type UserUncheckedUpdateWithoutRefresh_tokensInput = {
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
   reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutTeacherInput = {
@@ -705,6 +734,7 @@ export type UserCreateWithoutTeacherInput = {
   reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutTeacherInput = {
@@ -721,6 +751,7 @@ export type UserUncheckedCreateWithoutTeacherInput = {
   reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   audit_logs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutTeacherInput = {
@@ -753,6 +784,7 @@ export type UserUpdateWithoutTeacherInput = {
   reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeacherInput = {
@@ -766,6 +798,91 @@ export type UserUncheckedUpdateWithoutTeacherInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  refresh_tokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  audit_logs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutStudent_notesInput = {
+  id?: string
+  full_name: string
+  phone: string
+  email: string
+  password_hash: string
+  is_super_admin?: boolean
+  status?: $Enums.UserStatus
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  refresh_tokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  audit_logs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutStudent_notesInput = {
+  id?: string
+  full_name: string
+  phone: string
+  email: string
+  password_hash: string
+  is_super_admin?: boolean
+  status?: $Enums.UserStatus
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  refresh_tokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  audit_logs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutStudent_notesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStudent_notesInput, Prisma.UserUncheckedCreateWithoutStudent_notesInput>
+}
+
+export type UserUpsertWithoutStudent_notesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStudent_notesInput, Prisma.UserUncheckedUpdateWithoutStudent_notesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStudent_notesInput, Prisma.UserUncheckedCreateWithoutStudent_notesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStudent_notesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStudent_notesInput, Prisma.UserUncheckedUpdateWithoutStudent_notesInput>
+}
+
+export type UserUpdateWithoutStudent_notesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  is_super_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  refresh_tokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  audit_logs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStudent_notesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  is_super_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
   reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   audit_logs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
@@ -785,6 +902,7 @@ export type UserCreateWithoutAudit_logsInput = {
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAudit_logsInput = {
@@ -801,6 +919,7 @@ export type UserUncheckedCreateWithoutAudit_logsInput = {
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
   reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  student_notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAudit_logsInput = {
@@ -833,6 +952,7 @@ export type UserUpdateWithoutAudit_logsInput = {
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAudit_logsInput = {
@@ -849,6 +969,7 @@ export type UserUncheckedUpdateWithoutAudit_logsInput = {
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
   reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   refresh_tokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  student_notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 
@@ -860,12 +981,14 @@ export type UserCountOutputType = {
   reset_tokens: number
   refresh_tokens: number
   audit_logs: number
+  student_notes: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reset_tokens?: boolean | UserCountOutputTypeCountReset_tokensArgs
   refresh_tokens?: boolean | UserCountOutputTypeCountRefresh_tokensArgs
   audit_logs?: boolean | UserCountOutputTypeCountAudit_logsArgs
+  student_notes?: boolean | UserCountOutputTypeCountStudent_notesArgs
 }
 
 /**
@@ -899,6 +1022,13 @@ export type UserCountOutputTypeCountAudit_logsArgs<ExtArgs extends runtime.Types
   where?: Prisma.AuditLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStudent_notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentNoteWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -915,6 +1045,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   reset_tokens?: boolean | Prisma.User$reset_tokensArgs<ExtArgs>
   refresh_tokens?: boolean | Prisma.User$refresh_tokensArgs<ExtArgs>
   audit_logs?: boolean | Prisma.User$audit_logsArgs<ExtArgs>
+  student_notes?: boolean | Prisma.User$student_notesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -963,6 +1094,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   reset_tokens?: boolean | Prisma.User$reset_tokensArgs<ExtArgs>
   refresh_tokens?: boolean | Prisma.User$refresh_tokensArgs<ExtArgs>
   audit_logs?: boolean | Prisma.User$audit_logsArgs<ExtArgs>
+  student_notes?: boolean | Prisma.User$student_notesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -975,6 +1107,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     reset_tokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     refresh_tokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
     audit_logs: Prisma.$AuditLogPayload<ExtArgs>[]
+    student_notes: Prisma.$StudentNotePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1385,6 +1518,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   reset_tokens<T extends Prisma.User$reset_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reset_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refresh_tokens<T extends Prisma.User$refresh_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refresh_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   audit_logs<T extends Prisma.User$audit_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$audit_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  student_notes<T extends Prisma.User$student_notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$student_notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1905,6 +2039,30 @@ export type User$audit_logsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
+ * User.student_notes
+ */
+export type User$student_notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentNote
+   */
+  select?: Prisma.StudentNoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentNote
+   */
+  omit?: Prisma.StudentNoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentNoteInclude<ExtArgs> | null
+  where?: Prisma.StudentNoteWhereInput
+  orderBy?: Prisma.StudentNoteOrderByWithRelationInput | Prisma.StudentNoteOrderByWithRelationInput[]
+  cursor?: Prisma.StudentNoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentNoteScalarFieldEnum | Prisma.StudentNoteScalarFieldEnum[]
 }
 
 /**

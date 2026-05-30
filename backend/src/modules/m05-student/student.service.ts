@@ -67,6 +67,8 @@ const softDeleteActiveEnrollments = async (
 
 const studentProfileFields = (input: CreateStudentInput | UpdateStudentInput) => ({
   ...(input.fullName !== undefined ? { full_name: input.fullName } : {}),
+  ...(input.fullNameAm !== undefined ? { full_name_am: input.fullNameAm ?? null } : {}),
+  ...(input.fullNameAr !== undefined ? { full_name_ar: input.fullNameAr ?? null } : {}),
   ...(input.dateOfBirth !== undefined ? { date_of_birth: input.dateOfBirth } : {}),
   ...(input.gender !== undefined ? { gender: input.gender } : {}),
   ...(input.address !== undefined ? { address: input.address } : {}),

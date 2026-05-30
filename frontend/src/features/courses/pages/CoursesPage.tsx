@@ -3,6 +3,7 @@ import { BookOpen, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { CreateCourseModal } from '../components/CreateCourseModal';
 import { DeactivateCourseDialog } from '../components/DeactivateCourseDialog';
@@ -90,7 +91,7 @@ export const CoursesPage = () => {
         </div>
 
         {courses.length === 0 ? (
-          <p className="py-12 text-center text-muted-foreground">{t('courses.empty')}</p>
+          <EmptyState icon={BookOpen} title={t('courses.empty')} />
         ) : (
           <div className="flex flex-col gap-3">
             {courses.map((course) => (

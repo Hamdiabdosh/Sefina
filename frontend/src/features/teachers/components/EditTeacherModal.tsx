@@ -46,6 +46,7 @@ export const EditTeacherModal = ({
         specializationAm: spec.am ?? '',
         specializationAr: spec.ar ?? '',
         dateJoined: teacher.dateJoined.slice(0, 10),
+        cbeAccount: teacher.cbeAccount ?? '',
       });
     }
   }, [teacher, reset]);

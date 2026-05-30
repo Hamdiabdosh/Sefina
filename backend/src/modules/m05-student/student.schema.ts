@@ -44,6 +44,8 @@ export const listStudentsQuerySchema = z.object({
 
 const studentBodySchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
+  fullNameAm: z.string().max(200).optional(),
+  fullNameAr: z.string().max(200).optional(),
   dateOfBirth: z.coerce.date(),
   gender: z.enum(["MALE", "FEMALE"]),
   address: z.string().min(1, "Address is required"),

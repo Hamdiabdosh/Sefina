@@ -4,6 +4,8 @@ const ethiopianPhoneRegex = /^(?:\+2519|09)\d{8}$/;
 
 export const studentFormSchema = z.object({
   fullName: z.string().min(1, 'Full name is required'),
+  fullNameAm: z.string().max(200).optional(),
+  fullNameAr: z.string().max(200).optional(),
   dateOfBirth: z.string().min(1, 'Date of birth is required'),
   gender: z.enum(['MALE', 'FEMALE']),
   address: z.string().min(1, 'Address is required'),
@@ -25,6 +27,8 @@ export type TransferFormValues = z.infer<typeof transferFormSchema>;
 export const toStudentFormData = (values: StudentFormValues, photo?: File | null): FormData => {
   const form = new FormData();
   form.append('fullName', values.fullName);
+  if (values.fullNameAm) form.append('fullNameAm', values.fullNameAm);
+  if (values.fullNameAr) form.append('fullNameAr', values.fullNameAr);
   form.append('dateOfBirth', values.dateOfBirth);
   form.append('gender', values.gender);
   form.append('address', values.address);

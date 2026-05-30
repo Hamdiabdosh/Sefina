@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
+import { BookOpen, Pencil, Plus, Shuffle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
@@ -33,6 +34,8 @@ export const StudentDetailPage = () => {
   const [showAssign, setShowAssign] = useState(false);
   const [showTransfer, setShowTransfer] = useState(false);
   const [removeEnrollment, setRemoveEnrollment] = useState<StudentCourseDetail | null>(null);
+  const [fabOpen, setFabOpen] = useState(false);
+  const fabRef = useRef<HTMLDivElement>(null);
 
   const {
     student,
@@ -58,6 +61,27 @@ export const StudentDetailPage = () => {
       : adminMedresas.some((m) => m.medresaId === medresaId));
 
   const showFeesTab = Boolean(isMedresaAdmin || currentUser?.isSuperAdmin);
+
+  useEffect(() => {
+    if (!fabOpen) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      if (fabRef.current && !fabRef.current.contains(event.target as Node)) {
+        setFabOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setFabOpen(false);
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [fabOpen]);
 
   const setTab = (tab: StudentHubTab) => {
     void navigate({
@@ -158,6 +182,57 @@ export const StudentDetailPage = () => {
           </div>
         ) : null}
       </PageBody>
+
+      {isMedresaAdmin ? (
+        <div ref={fabRef} className="fixed bottom-6 right-6 z-20 sm:hidden">
+          {fabOpen ? (
+            <div className="mb-3 w-48 overflow-hidden rounded-xl border border-cream-dark bg-surface shadow-lg">
+              <button
+                type="button"
+                className="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-teal-800 hover:bg-cream/60"
+                onClick={() => {
+                  setShowAssign(true);
+                  setFabOpen(false);
+                }}
+              >
+                <BookOpen size={16} />
+                {t('students.assignCourse')}
+              </button>
+              <button
+                type="button"
+                className="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-teal-800 hover:bg-cream/60"
+                onClick={() => {
+                  setShowTransfer(true);
+                  setFabOpen(false);
+                }}
+              >
+                <Shuffle size={16} />
+                {t('students.transfer')}
+              </button>
+              <button
+                type="button"
+                className="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-teal-800 hover:bg-cream/60"
+                onClick={() => {
+                  setShowEdit(true);
+                  setFabOpen(false);
+                }}
+              >
+                <Pencil size={16} />
+                {t('students.edit')}
+              </button>
+            </div>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => setFabOpen((open) => !open)}
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-600 text-white shadow-lg"
+            aria-expanded={fabOpen}
+            aria-label={t('students.quickActions')}
+          >
+            <Plus size={24} />
+          </button>
+        </div>
+      ) : null}
 
       {isMedresaAdmin && (
         <>

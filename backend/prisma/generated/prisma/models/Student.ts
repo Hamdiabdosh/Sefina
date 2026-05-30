@@ -27,15 +27,25 @@ export type AggregateStudent = {
 export type StudentMinAggregateOutputType = {
   id: string | null
   full_name: string | null
+  full_name_am: string | null
+  full_name_ar: string | null
   date_of_birth: Date | null
   gender: $Enums.Gender | null
   address: string | null
   guardian_name: string | null
   guardian_phone: string | null
+  secondary_guardian_name: string | null
+  secondary_guardian_phone: string | null
+  national_id: string | null
+  blood_group: string | null
+  allergies: string | null
+  enrollment_number: string | null
   photo_url: string | null
   current_medresa_id: string | null
   status: $Enums.StudentStatus | null
   enrolled_at: Date | null
+  withdrawn_at: Date | null
+  graduated_at: Date | null
   deleted_at: Date | null
   created_at: Date | null
   updated_at: Date | null
@@ -44,15 +54,25 @@ export type StudentMinAggregateOutputType = {
 export type StudentMaxAggregateOutputType = {
   id: string | null
   full_name: string | null
+  full_name_am: string | null
+  full_name_ar: string | null
   date_of_birth: Date | null
   gender: $Enums.Gender | null
   address: string | null
   guardian_name: string | null
   guardian_phone: string | null
+  secondary_guardian_name: string | null
+  secondary_guardian_phone: string | null
+  national_id: string | null
+  blood_group: string | null
+  allergies: string | null
+  enrollment_number: string | null
   photo_url: string | null
   current_medresa_id: string | null
   status: $Enums.StudentStatus | null
   enrolled_at: Date | null
+  withdrawn_at: Date | null
+  graduated_at: Date | null
   deleted_at: Date | null
   created_at: Date | null
   updated_at: Date | null
@@ -61,15 +81,25 @@ export type StudentMaxAggregateOutputType = {
 export type StudentCountAggregateOutputType = {
   id: number
   full_name: number
+  full_name_am: number
+  full_name_ar: number
   date_of_birth: number
   gender: number
   address: number
   guardian_name: number
   guardian_phone: number
+  secondary_guardian_name: number
+  secondary_guardian_phone: number
+  national_id: number
+  blood_group: number
+  allergies: number
+  enrollment_number: number
   photo_url: number
   current_medresa_id: number
   status: number
   enrolled_at: number
+  withdrawn_at: number
+  graduated_at: number
   deleted_at: number
   created_at: number
   updated_at: number
@@ -80,15 +110,25 @@ export type StudentCountAggregateOutputType = {
 export type StudentMinAggregateInputType = {
   id?: true
   full_name?: true
+  full_name_am?: true
+  full_name_ar?: true
   date_of_birth?: true
   gender?: true
   address?: true
   guardian_name?: true
   guardian_phone?: true
+  secondary_guardian_name?: true
+  secondary_guardian_phone?: true
+  national_id?: true
+  blood_group?: true
+  allergies?: true
+  enrollment_number?: true
   photo_url?: true
   current_medresa_id?: true
   status?: true
   enrolled_at?: true
+  withdrawn_at?: true
+  graduated_at?: true
   deleted_at?: true
   created_at?: true
   updated_at?: true
@@ -97,15 +137,25 @@ export type StudentMinAggregateInputType = {
 export type StudentMaxAggregateInputType = {
   id?: true
   full_name?: true
+  full_name_am?: true
+  full_name_ar?: true
   date_of_birth?: true
   gender?: true
   address?: true
   guardian_name?: true
   guardian_phone?: true
+  secondary_guardian_name?: true
+  secondary_guardian_phone?: true
+  national_id?: true
+  blood_group?: true
+  allergies?: true
+  enrollment_number?: true
   photo_url?: true
   current_medresa_id?: true
   status?: true
   enrolled_at?: true
+  withdrawn_at?: true
+  graduated_at?: true
   deleted_at?: true
   created_at?: true
   updated_at?: true
@@ -114,15 +164,25 @@ export type StudentMaxAggregateInputType = {
 export type StudentCountAggregateInputType = {
   id?: true
   full_name?: true
+  full_name_am?: true
+  full_name_ar?: true
   date_of_birth?: true
   gender?: true
   address?: true
   guardian_name?: true
   guardian_phone?: true
+  secondary_guardian_name?: true
+  secondary_guardian_phone?: true
+  national_id?: true
+  blood_group?: true
+  allergies?: true
+  enrollment_number?: true
   photo_url?: true
   current_medresa_id?: true
   status?: true
   enrolled_at?: true
+  withdrawn_at?: true
+  graduated_at?: true
   deleted_at?: true
   created_at?: true
   updated_at?: true
@@ -204,15 +264,25 @@ export type StudentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type StudentGroupByOutputType = {
   id: string
   full_name: string
+  full_name_am: string | null
+  full_name_ar: string | null
   date_of_birth: Date
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name: string | null
+  secondary_guardian_phone: string | null
+  national_id: string | null
+  blood_group: string | null
+  allergies: string | null
+  enrollment_number: string | null
   photo_url: string | null
   current_medresa_id: string
   status: $Enums.StudentStatus
   enrolled_at: Date
+  withdrawn_at: Date | null
+  graduated_at: Date | null
   deleted_at: Date | null
   created_at: Date
   updated_at: Date
@@ -242,15 +312,25 @@ export type StudentWhereInput = {
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   id?: Prisma.StringFilter<"Student"> | string
   full_name?: Prisma.StringFilter<"Student"> | string
+  full_name_am?: Prisma.StringNullableFilter<"Student"> | string | null
+  full_name_ar?: Prisma.StringNullableFilter<"Student"> | string | null
   date_of_birth?: Prisma.DateTimeFilter<"Student"> | Date | string
   gender?: Prisma.EnumGenderFilter<"Student"> | $Enums.Gender
   address?: Prisma.StringFilter<"Student"> | string
   guardian_name?: Prisma.StringFilter<"Student"> | string
   guardian_phone?: Prisma.StringFilter<"Student"> | string
+  secondary_guardian_name?: Prisma.StringNullableFilter<"Student"> | string | null
+  secondary_guardian_phone?: Prisma.StringNullableFilter<"Student"> | string | null
+  national_id?: Prisma.StringNullableFilter<"Student"> | string | null
+  blood_group?: Prisma.StringNullableFilter<"Student"> | string | null
+  allergies?: Prisma.StringNullableFilter<"Student"> | string | null
+  enrollment_number?: Prisma.StringNullableFilter<"Student"> | string | null
   photo_url?: Prisma.StringNullableFilter<"Student"> | string | null
   current_medresa_id?: Prisma.StringFilter<"Student"> | string
   status?: Prisma.EnumStudentStatusFilter<"Student"> | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFilter<"Student"> | Date | string
+  withdrawn_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
+  graduated_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"Student"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Student"> | Date | string
@@ -261,20 +341,32 @@ export type StudentWhereInput = {
   grades?: Prisma.GradeListRelationFilter
   fee_payments?: Prisma.FeePaymentListRelationFilter
   fee_balances?: Prisma.FeeBalanceListRelationFilter
+  notes?: Prisma.StudentNoteListRelationFilter
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodListRelationFilter
 }
 
 export type StudentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  full_name_am?: Prisma.SortOrderInput | Prisma.SortOrder
+  full_name_ar?: Prisma.SortOrderInput | Prisma.SortOrder
   date_of_birth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   address?: Prisma.SortOrder
   guardian_name?: Prisma.SortOrder
   guardian_phone?: Prisma.SortOrder
+  secondary_guardian_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  secondary_guardian_phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  national_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  blood_group?: Prisma.SortOrderInput | Prisma.SortOrder
+  allergies?: Prisma.SortOrderInput | Prisma.SortOrder
+  enrollment_number?: Prisma.SortOrderInput | Prisma.SortOrder
   photo_url?: Prisma.SortOrderInput | Prisma.SortOrder
   current_medresa_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
   enrolled_at?: Prisma.SortOrder
+  withdrawn_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  graduated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -285,23 +377,36 @@ export type StudentOrderByWithRelationInput = {
   grades?: Prisma.GradeOrderByRelationAggregateInput
   fee_payments?: Prisma.FeePaymentOrderByRelationAggregateInput
   fee_balances?: Prisma.FeeBalanceOrderByRelationAggregateInput
+  notes?: Prisma.StudentNoteOrderByRelationAggregateInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodOrderByRelationAggregateInput
 }
 
 export type StudentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  current_medresa_id_enrollment_number?: Prisma.StudentCurrent_medresa_idEnrollment_numberCompoundUniqueInput
   AND?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   OR?: Prisma.StudentWhereInput[]
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   full_name?: Prisma.StringFilter<"Student"> | string
+  full_name_am?: Prisma.StringNullableFilter<"Student"> | string | null
+  full_name_ar?: Prisma.StringNullableFilter<"Student"> | string | null
   date_of_birth?: Prisma.DateTimeFilter<"Student"> | Date | string
   gender?: Prisma.EnumGenderFilter<"Student"> | $Enums.Gender
   address?: Prisma.StringFilter<"Student"> | string
   guardian_name?: Prisma.StringFilter<"Student"> | string
   guardian_phone?: Prisma.StringFilter<"Student"> | string
+  secondary_guardian_name?: Prisma.StringNullableFilter<"Student"> | string | null
+  secondary_guardian_phone?: Prisma.StringNullableFilter<"Student"> | string | null
+  national_id?: Prisma.StringNullableFilter<"Student"> | string | null
+  blood_group?: Prisma.StringNullableFilter<"Student"> | string | null
+  allergies?: Prisma.StringNullableFilter<"Student"> | string | null
+  enrollment_number?: Prisma.StringNullableFilter<"Student"> | string | null
   photo_url?: Prisma.StringNullableFilter<"Student"> | string | null
   current_medresa_id?: Prisma.StringFilter<"Student"> | string
   status?: Prisma.EnumStudentStatusFilter<"Student"> | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFilter<"Student"> | Date | string
+  withdrawn_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
+  graduated_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"Student"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Student"> | Date | string
@@ -312,20 +417,32 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   grades?: Prisma.GradeListRelationFilter
   fee_payments?: Prisma.FeePaymentListRelationFilter
   fee_balances?: Prisma.FeeBalanceListRelationFilter
-}, "id">
+  notes?: Prisma.StudentNoteListRelationFilter
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodListRelationFilter
+}, "id" | "current_medresa_id_enrollment_number">
 
 export type StudentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  full_name_am?: Prisma.SortOrderInput | Prisma.SortOrder
+  full_name_ar?: Prisma.SortOrderInput | Prisma.SortOrder
   date_of_birth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   address?: Prisma.SortOrder
   guardian_name?: Prisma.SortOrder
   guardian_phone?: Prisma.SortOrder
+  secondary_guardian_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  secondary_guardian_phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  national_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  blood_group?: Prisma.SortOrderInput | Prisma.SortOrder
+  allergies?: Prisma.SortOrderInput | Prisma.SortOrder
+  enrollment_number?: Prisma.SortOrderInput | Prisma.SortOrder
   photo_url?: Prisma.SortOrderInput | Prisma.SortOrder
   current_medresa_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
   enrolled_at?: Prisma.SortOrder
+  withdrawn_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  graduated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -340,15 +457,25 @@ export type StudentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.StudentScalarWhereWithAggregatesInput | Prisma.StudentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Student"> | string
   full_name?: Prisma.StringWithAggregatesFilter<"Student"> | string
+  full_name_am?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  full_name_ar?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
   date_of_birth?: Prisma.DateTimeWithAggregatesFilter<"Student"> | Date | string
   gender?: Prisma.EnumGenderWithAggregatesFilter<"Student"> | $Enums.Gender
   address?: Prisma.StringWithAggregatesFilter<"Student"> | string
   guardian_name?: Prisma.StringWithAggregatesFilter<"Student"> | string
   guardian_phone?: Prisma.StringWithAggregatesFilter<"Student"> | string
+  secondary_guardian_name?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  secondary_guardian_phone?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  national_id?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  blood_group?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  allergies?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
+  enrollment_number?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
   photo_url?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
   current_medresa_id?: Prisma.StringWithAggregatesFilter<"Student"> | string
   status?: Prisma.EnumStudentStatusWithAggregatesFilter<"Student"> | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeWithAggregatesFilter<"Student"> | Date | string
+  withdrawn_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
+  graduated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Student"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Student"> | Date | string
@@ -357,14 +484,24 @@ export type StudentScalarWhereWithAggregatesInput = {
 export type StudentCreateInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -375,20 +512,32 @@ export type StudentCreateInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -398,19 +547,31 @@ export type StudentUncheckedCreateInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -421,20 +582,32 @@ export type StudentUpdateInput = {
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -444,20 +617,32 @@ export type StudentUncheckedUpdateInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentCreateManyInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -466,14 +651,24 @@ export type StudentCreateManyInput = {
 export type StudentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -482,15 +677,25 @@ export type StudentUpdateManyMutationInput = {
 export type StudentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -506,18 +711,33 @@ export type StudentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StudentCurrent_medresa_idEnrollment_numberCompoundUniqueInput = {
+  current_medresa_id: string
+  enrollment_number: string
+}
+
 export type StudentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  full_name_am?: Prisma.SortOrder
+  full_name_ar?: Prisma.SortOrder
   date_of_birth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   address?: Prisma.SortOrder
   guardian_name?: Prisma.SortOrder
   guardian_phone?: Prisma.SortOrder
+  secondary_guardian_name?: Prisma.SortOrder
+  secondary_guardian_phone?: Prisma.SortOrder
+  national_id?: Prisma.SortOrder
+  blood_group?: Prisma.SortOrder
+  allergies?: Prisma.SortOrder
+  enrollment_number?: Prisma.SortOrder
   photo_url?: Prisma.SortOrder
   current_medresa_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
   enrolled_at?: Prisma.SortOrder
+  withdrawn_at?: Prisma.SortOrder
+  graduated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -526,15 +746,25 @@ export type StudentCountOrderByAggregateInput = {
 export type StudentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  full_name_am?: Prisma.SortOrder
+  full_name_ar?: Prisma.SortOrder
   date_of_birth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   address?: Prisma.SortOrder
   guardian_name?: Prisma.SortOrder
   guardian_phone?: Prisma.SortOrder
+  secondary_guardian_name?: Prisma.SortOrder
+  secondary_guardian_phone?: Prisma.SortOrder
+  national_id?: Prisma.SortOrder
+  blood_group?: Prisma.SortOrder
+  allergies?: Prisma.SortOrder
+  enrollment_number?: Prisma.SortOrder
   photo_url?: Prisma.SortOrder
   current_medresa_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
   enrolled_at?: Prisma.SortOrder
+  withdrawn_at?: Prisma.SortOrder
+  graduated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -543,15 +773,25 @@ export type StudentMaxOrderByAggregateInput = {
 export type StudentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  full_name_am?: Prisma.SortOrder
+  full_name_ar?: Prisma.SortOrder
   date_of_birth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   address?: Prisma.SortOrder
   guardian_name?: Prisma.SortOrder
   guardian_phone?: Prisma.SortOrder
+  secondary_guardian_name?: Prisma.SortOrder
+  secondary_guardian_phone?: Prisma.SortOrder
+  national_id?: Prisma.SortOrder
+  blood_group?: Prisma.SortOrder
+  allergies?: Prisma.SortOrder
+  enrollment_number?: Prisma.SortOrder
   photo_url?: Prisma.SortOrder
   current_medresa_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
   enrolled_at?: Prisma.SortOrder
+  withdrawn_at?: Prisma.SortOrder
+  graduated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -640,6 +880,34 @@ export type StudentUpdateOneRequiredWithoutTransfersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutTransfersInput, Prisma.StudentUpdateWithoutTransfersInput>, Prisma.StudentUncheckedUpdateWithoutTransfersInput>
 }
 
+export type StudentCreateNestedOneWithoutNotesInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutNotesInput, Prisma.StudentUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutNotesInput
+  connect?: Prisma.StudentWhereUniqueInput
+}
+
+export type StudentUpdateOneRequiredWithoutNotesNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutNotesInput, Prisma.StudentUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutNotesInput
+  upsert?: Prisma.StudentUpsertWithoutNotesInput
+  connect?: Prisma.StudentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutNotesInput, Prisma.StudentUpdateWithoutNotesInput>, Prisma.StudentUncheckedUpdateWithoutNotesInput>
+}
+
+export type StudentCreateNestedOneWithoutEnrollment_periodsInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutEnrollment_periodsInput, Prisma.StudentUncheckedCreateWithoutEnrollment_periodsInput>
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutEnrollment_periodsInput
+  connect?: Prisma.StudentWhereUniqueInput
+}
+
+export type StudentUpdateOneRequiredWithoutEnrollment_periodsNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutEnrollment_periodsInput, Prisma.StudentUncheckedCreateWithoutEnrollment_periodsInput>
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutEnrollment_periodsInput
+  upsert?: Prisma.StudentUpsertWithoutEnrollment_periodsInput
+  connect?: Prisma.StudentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutEnrollment_periodsInput, Prisma.StudentUpdateWithoutEnrollment_periodsInput>, Prisma.StudentUncheckedUpdateWithoutEnrollment_periodsInput>
+}
+
 export type StudentCreateNestedOneWithoutAttendance_recordsInput = {
   create?: Prisma.XOR<Prisma.StudentCreateWithoutAttendance_recordsInput, Prisma.StudentUncheckedCreateWithoutAttendance_recordsInput>
   connectOrCreate?: Prisma.StudentCreateOrConnectWithoutAttendance_recordsInput
@@ -699,14 +967,24 @@ export type StudentUpdateOneRequiredWithoutFee_balancesNestedInput = {
 export type StudentCreateWithoutCurrent_medresaInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -716,19 +994,31 @@ export type StudentCreateWithoutCurrent_medresaInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutCurrent_medresaInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -738,6 +1028,8 @@ export type StudentUncheckedCreateWithoutCurrent_medresaInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutCurrent_medresaInput = {
@@ -772,15 +1064,25 @@ export type StudentScalarWhereInput = {
   NOT?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
   id?: Prisma.StringFilter<"Student"> | string
   full_name?: Prisma.StringFilter<"Student"> | string
+  full_name_am?: Prisma.StringNullableFilter<"Student"> | string | null
+  full_name_ar?: Prisma.StringNullableFilter<"Student"> | string | null
   date_of_birth?: Prisma.DateTimeFilter<"Student"> | Date | string
   gender?: Prisma.EnumGenderFilter<"Student"> | $Enums.Gender
   address?: Prisma.StringFilter<"Student"> | string
   guardian_name?: Prisma.StringFilter<"Student"> | string
   guardian_phone?: Prisma.StringFilter<"Student"> | string
+  secondary_guardian_name?: Prisma.StringNullableFilter<"Student"> | string | null
+  secondary_guardian_phone?: Prisma.StringNullableFilter<"Student"> | string | null
+  national_id?: Prisma.StringNullableFilter<"Student"> | string | null
+  blood_group?: Prisma.StringNullableFilter<"Student"> | string | null
+  allergies?: Prisma.StringNullableFilter<"Student"> | string | null
+  enrollment_number?: Prisma.StringNullableFilter<"Student"> | string | null
   photo_url?: Prisma.StringNullableFilter<"Student"> | string | null
   current_medresa_id?: Prisma.StringFilter<"Student"> | string
   status?: Prisma.EnumStudentStatusFilter<"Student"> | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFilter<"Student"> | Date | string
+  withdrawn_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
+  graduated_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"Student"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Student"> | Date | string
@@ -789,14 +1091,24 @@ export type StudentScalarWhereInput = {
 export type StudentCreateWithoutStudent_coursesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -806,20 +1118,32 @@ export type StudentCreateWithoutStudent_coursesInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutStudent_coursesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -828,6 +1152,8 @@ export type StudentUncheckedCreateWithoutStudent_coursesInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutStudent_coursesInput = {
@@ -849,14 +1175,24 @@ export type StudentUpdateToOneWithWhereWithoutStudent_coursesInput = {
 export type StudentUpdateWithoutStudent_coursesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -866,20 +1202,32 @@ export type StudentUpdateWithoutStudent_coursesInput = {
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutStudent_coursesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -888,19 +1236,31 @@ export type StudentUncheckedUpdateWithoutStudent_coursesInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentCreateWithoutTransfersInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -910,20 +1270,32 @@ export type StudentCreateWithoutTransfersInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutTransfersInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -932,6 +1304,8 @@ export type StudentUncheckedCreateWithoutTransfersInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutTransfersInput = {
@@ -953,14 +1327,24 @@ export type StudentUpdateToOneWithWhereWithoutTransfersInput = {
 export type StudentUpdateWithoutTransfersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -970,20 +1354,32 @@ export type StudentUpdateWithoutTransfersInput = {
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutTransfersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -992,19 +1388,335 @@ export type StudentUncheckedUpdateWithoutTransfersInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
-export type StudentCreateWithoutAttendance_recordsInput = {
+export type StudentCreateWithoutNotesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  current_medresa: Prisma.MedresaCreateNestedOneWithoutStudentsInput
+  student_courses?: Prisma.StudentCourseCreateNestedManyWithoutStudentInput
+  transfers?: Prisma.StudentTransferCreateNestedManyWithoutStudentInput
+  attendance_records?: Prisma.AttendanceRecordCreateNestedManyWithoutStudentInput
+  grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
+  fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
+  fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
+}
+
+export type StudentUncheckedCreateWithoutNotesInput = {
+  id?: string
+  full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
+  date_of_birth: Date | string
+  gender: $Enums.Gender
+  address: string
+  guardian_name: string
+  guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
+  photo_url?: string | null
+  current_medresa_id: string
+  status?: $Enums.StudentStatus
+  enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutStudentInput
+  transfers?: Prisma.StudentTransferUncheckedCreateNestedManyWithoutStudentInput
+  attendance_records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
+  fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
+  fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
+}
+
+export type StudentCreateOrConnectWithoutNotesInput = {
+  where: Prisma.StudentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentCreateWithoutNotesInput, Prisma.StudentUncheckedCreateWithoutNotesInput>
+}
+
+export type StudentUpsertWithoutNotesInput = {
+  update: Prisma.XOR<Prisma.StudentUpdateWithoutNotesInput, Prisma.StudentUncheckedUpdateWithoutNotesInput>
+  create: Prisma.XOR<Prisma.StudentCreateWithoutNotesInput, Prisma.StudentUncheckedCreateWithoutNotesInput>
+  where?: Prisma.StudentWhereInput
+}
+
+export type StudentUpdateToOneWithWhereWithoutNotesInput = {
+  where?: Prisma.StudentWhereInput
+  data: Prisma.XOR<Prisma.StudentUpdateWithoutNotesInput, Prisma.StudentUncheckedUpdateWithoutNotesInput>
+}
+
+export type StudentUpdateWithoutNotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  current_medresa?: Prisma.MedresaUpdateOneRequiredWithoutStudentsNestedInput
+  student_courses?: Prisma.StudentCourseUpdateManyWithoutStudentNestedInput
+  transfers?: Prisma.StudentTransferUpdateManyWithoutStudentNestedInput
+  attendance_records?: Prisma.AttendanceRecordUpdateManyWithoutStudentNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
+  fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
+  fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
+}
+
+export type StudentUncheckedUpdateWithoutNotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutStudentNestedInput
+  transfers?: Prisma.StudentTransferUncheckedUpdateManyWithoutStudentNestedInput
+  attendance_records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
+  fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
+  fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
+}
+
+export type StudentCreateWithoutEnrollment_periodsInput = {
+  id?: string
+  full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
+  date_of_birth: Date | string
+  gender: $Enums.Gender
+  address: string
+  guardian_name: string
+  guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
+  photo_url?: string | null
+  status?: $Enums.StudentStatus
+  enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  current_medresa: Prisma.MedresaCreateNestedOneWithoutStudentsInput
+  student_courses?: Prisma.StudentCourseCreateNestedManyWithoutStudentInput
+  transfers?: Prisma.StudentTransferCreateNestedManyWithoutStudentInput
+  attendance_records?: Prisma.AttendanceRecordCreateNestedManyWithoutStudentInput
+  grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
+  fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
+  fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+}
+
+export type StudentUncheckedCreateWithoutEnrollment_periodsInput = {
+  id?: string
+  full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
+  date_of_birth: Date | string
+  gender: $Enums.Gender
+  address: string
+  guardian_name: string
+  guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
+  photo_url?: string | null
+  current_medresa_id: string
+  status?: $Enums.StudentStatus
+  enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  student_courses?: Prisma.StudentCourseUncheckedCreateNestedManyWithoutStudentInput
+  transfers?: Prisma.StudentTransferUncheckedCreateNestedManyWithoutStudentInput
+  attendance_records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
+  fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
+  fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+}
+
+export type StudentCreateOrConnectWithoutEnrollment_periodsInput = {
+  where: Prisma.StudentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentCreateWithoutEnrollment_periodsInput, Prisma.StudentUncheckedCreateWithoutEnrollment_periodsInput>
+}
+
+export type StudentUpsertWithoutEnrollment_periodsInput = {
+  update: Prisma.XOR<Prisma.StudentUpdateWithoutEnrollment_periodsInput, Prisma.StudentUncheckedUpdateWithoutEnrollment_periodsInput>
+  create: Prisma.XOR<Prisma.StudentCreateWithoutEnrollment_periodsInput, Prisma.StudentUncheckedCreateWithoutEnrollment_periodsInput>
+  where?: Prisma.StudentWhereInput
+}
+
+export type StudentUpdateToOneWithWhereWithoutEnrollment_periodsInput = {
+  where?: Prisma.StudentWhereInput
+  data: Prisma.XOR<Prisma.StudentUpdateWithoutEnrollment_periodsInput, Prisma.StudentUncheckedUpdateWithoutEnrollment_periodsInput>
+}
+
+export type StudentUpdateWithoutEnrollment_periodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  current_medresa?: Prisma.MedresaUpdateOneRequiredWithoutStudentsNestedInput
+  student_courses?: Prisma.StudentCourseUpdateManyWithoutStudentNestedInput
+  transfers?: Prisma.StudentTransferUpdateManyWithoutStudentNestedInput
+  attendance_records?: Prisma.AttendanceRecordUpdateManyWithoutStudentNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
+  fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
+  fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+}
+
+export type StudentUncheckedUpdateWithoutEnrollment_periodsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
+  guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student_courses?: Prisma.StudentCourseUncheckedUpdateManyWithoutStudentNestedInput
+  transfers?: Prisma.StudentTransferUncheckedUpdateManyWithoutStudentNestedInput
+  attendance_records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
+  fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
+  fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+}
+
+export type StudentCreateWithoutAttendance_recordsInput = {
+  id?: string
+  full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
+  date_of_birth: Date | string
+  gender: $Enums.Gender
+  address: string
+  guardian_name: string
+  guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
+  photo_url?: string | null
+  status?: $Enums.StudentStatus
+  enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1014,20 +1726,32 @@ export type StudentCreateWithoutAttendance_recordsInput = {
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutAttendance_recordsInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1036,6 +1760,8 @@ export type StudentUncheckedCreateWithoutAttendance_recordsInput = {
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutAttendance_recordsInput = {
@@ -1057,14 +1783,24 @@ export type StudentUpdateToOneWithWhereWithoutAttendance_recordsInput = {
 export type StudentUpdateWithoutAttendance_recordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1074,20 +1810,32 @@ export type StudentUpdateWithoutAttendance_recordsInput = {
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutAttendance_recordsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1096,19 +1844,31 @@ export type StudentUncheckedUpdateWithoutAttendance_recordsInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentCreateWithoutGradesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1118,20 +1878,32 @@ export type StudentCreateWithoutGradesInput = {
   attendance_records?: Prisma.AttendanceRecordCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutGradesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1140,6 +1912,8 @@ export type StudentUncheckedCreateWithoutGradesInput = {
   attendance_records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutGradesInput = {
@@ -1161,14 +1935,24 @@ export type StudentUpdateToOneWithWhereWithoutGradesInput = {
 export type StudentUpdateWithoutGradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1178,20 +1962,32 @@ export type StudentUpdateWithoutGradesInput = {
   attendance_records?: Prisma.AttendanceRecordUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutGradesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1200,19 +1996,31 @@ export type StudentUncheckedUpdateWithoutGradesInput = {
   attendance_records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentCreateWithoutFee_paymentsInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1222,20 +2030,32 @@ export type StudentCreateWithoutFee_paymentsInput = {
   attendance_records?: Prisma.AttendanceRecordCreateNestedManyWithoutStudentInput
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutFee_paymentsInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1244,6 +2064,8 @@ export type StudentUncheckedCreateWithoutFee_paymentsInput = {
   attendance_records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_balances?: Prisma.FeeBalanceUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutFee_paymentsInput = {
@@ -1265,14 +2087,24 @@ export type StudentUpdateToOneWithWhereWithoutFee_paymentsInput = {
 export type StudentUpdateWithoutFee_paymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1282,20 +2114,32 @@ export type StudentUpdateWithoutFee_paymentsInput = {
   attendance_records?: Prisma.AttendanceRecordUpdateManyWithoutStudentNestedInput
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutFee_paymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1304,19 +2148,31 @@ export type StudentUncheckedUpdateWithoutFee_paymentsInput = {
   attendance_records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentCreateWithoutFee_balancesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1326,20 +2182,32 @@ export type StudentCreateWithoutFee_balancesInput = {
   attendance_records?: Prisma.AttendanceRecordCreateNestedManyWithoutStudentInput
   grades?: Prisma.GradeCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodCreateNestedManyWithoutStudentInput
 }
 
 export type StudentUncheckedCreateWithoutFee_balancesInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   current_medresa_id: string
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1348,6 +2216,8 @@ export type StudentUncheckedCreateWithoutFee_balancesInput = {
   attendance_records?: Prisma.AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutStudentInput
   fee_payments?: Prisma.FeePaymentUncheckedCreateNestedManyWithoutStudentInput
+  notes?: Prisma.StudentNoteUncheckedCreateNestedManyWithoutStudentInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentCreateOrConnectWithoutFee_balancesInput = {
@@ -1369,14 +2239,24 @@ export type StudentUpdateToOneWithWhereWithoutFee_balancesInput = {
 export type StudentUpdateWithoutFee_balancesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1386,20 +2266,32 @@ export type StudentUpdateWithoutFee_balancesInput = {
   attendance_records?: Prisma.AttendanceRecordUpdateManyWithoutStudentNestedInput
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutFee_balancesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   current_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1408,19 +2300,31 @@ export type StudentUncheckedUpdateWithoutFee_balancesInput = {
   attendance_records?: Prisma.AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentCreateManyCurrent_medresaInput = {
   id?: string
   full_name: string
+  full_name_am?: string | null
+  full_name_ar?: string | null
   date_of_birth: Date | string
   gender: $Enums.Gender
   address: string
   guardian_name: string
   guardian_phone: string
+  secondary_guardian_name?: string | null
+  secondary_guardian_phone?: string | null
+  national_id?: string | null
+  blood_group?: string | null
+  allergies?: string | null
+  enrollment_number?: string | null
   photo_url?: string | null
   status?: $Enums.StudentStatus
   enrolled_at?: Date | string
+  withdrawn_at?: Date | string | null
+  graduated_at?: Date | string | null
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
@@ -1429,14 +2333,24 @@ export type StudentCreateManyCurrent_medresaInput = {
 export type StudentUpdateWithoutCurrent_medresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1446,19 +2360,31 @@ export type StudentUpdateWithoutCurrent_medresaInput = {
   grades?: Prisma.GradeUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateWithoutCurrent_medresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1468,19 +2394,31 @@ export type StudentUncheckedUpdateWithoutCurrent_medresaInput = {
   grades?: Prisma.GradeUncheckedUpdateManyWithoutStudentNestedInput
   fee_payments?: Prisma.FeePaymentUncheckedUpdateManyWithoutStudentNestedInput
   fee_balances?: Prisma.FeeBalanceUncheckedUpdateManyWithoutStudentNestedInput
+  notes?: Prisma.StudentNoteUncheckedUpdateManyWithoutStudentNestedInput
+  enrollment_periods?: Prisma.StudentEnrollmentPeriodUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentUncheckedUpdateManyWithoutCurrent_medresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name_am?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_of_birth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   address?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_name?: Prisma.StringFieldUpdateOperationsInput | string
   guardian_phone?: Prisma.StringFieldUpdateOperationsInput | string
+  secondary_guardian_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondary_guardian_phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  national_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blood_group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allergies?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enrollment_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   enrolled_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawn_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  graduated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1498,6 +2436,8 @@ export type StudentCountOutputType = {
   grades: number
   fee_payments: number
   fee_balances: number
+  notes: number
+  enrollment_periods: number
 }
 
 export type StudentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1507,6 +2447,8 @@ export type StudentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   grades?: boolean | StudentCountOutputTypeCountGradesArgs
   fee_payments?: boolean | StudentCountOutputTypeCountFee_paymentsArgs
   fee_balances?: boolean | StudentCountOutputTypeCountFee_balancesArgs
+  notes?: boolean | StudentCountOutputTypeCountNotesArgs
+  enrollment_periods?: boolean | StudentCountOutputTypeCountEnrollment_periodsArgs
 }
 
 /**
@@ -1561,19 +2503,43 @@ export type StudentCountOutputTypeCountFee_balancesArgs<ExtArgs extends runtime.
   where?: Prisma.FeeBalanceWhereInput
 }
 
+/**
+ * StudentCountOutputType without action
+ */
+export type StudentCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentNoteWhereInput
+}
+
+/**
+ * StudentCountOutputType without action
+ */
+export type StudentCountOutputTypeCountEnrollment_periodsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentEnrollmentPeriodWhereInput
+}
+
 
 export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   full_name?: boolean
+  full_name_am?: boolean
+  full_name_ar?: boolean
   date_of_birth?: boolean
   gender?: boolean
   address?: boolean
   guardian_name?: boolean
   guardian_phone?: boolean
+  secondary_guardian_name?: boolean
+  secondary_guardian_phone?: boolean
+  national_id?: boolean
+  blood_group?: boolean
+  allergies?: boolean
+  enrollment_number?: boolean
   photo_url?: boolean
   current_medresa_id?: boolean
   status?: boolean
   enrolled_at?: boolean
+  withdrawn_at?: boolean
+  graduated_at?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -1584,21 +2550,33 @@ export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   grades?: boolean | Prisma.Student$gradesArgs<ExtArgs>
   fee_payments?: boolean | Prisma.Student$fee_paymentsArgs<ExtArgs>
   fee_balances?: boolean | Prisma.Student$fee_balancesArgs<ExtArgs>
+  notes?: boolean | Prisma.Student$notesArgs<ExtArgs>
+  enrollment_periods?: boolean | Prisma.Student$enrollment_periodsArgs<ExtArgs>
   _count?: boolean | Prisma.StudentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["student"]>
 
 export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   full_name?: boolean
+  full_name_am?: boolean
+  full_name_ar?: boolean
   date_of_birth?: boolean
   gender?: boolean
   address?: boolean
   guardian_name?: boolean
   guardian_phone?: boolean
+  secondary_guardian_name?: boolean
+  secondary_guardian_phone?: boolean
+  national_id?: boolean
+  blood_group?: boolean
+  allergies?: boolean
+  enrollment_number?: boolean
   photo_url?: boolean
   current_medresa_id?: boolean
   status?: boolean
   enrolled_at?: boolean
+  withdrawn_at?: boolean
+  graduated_at?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -1608,15 +2586,25 @@ export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   full_name?: boolean
+  full_name_am?: boolean
+  full_name_ar?: boolean
   date_of_birth?: boolean
   gender?: boolean
   address?: boolean
   guardian_name?: boolean
   guardian_phone?: boolean
+  secondary_guardian_name?: boolean
+  secondary_guardian_phone?: boolean
+  national_id?: boolean
+  blood_group?: boolean
+  allergies?: boolean
+  enrollment_number?: boolean
   photo_url?: boolean
   current_medresa_id?: boolean
   status?: boolean
   enrolled_at?: boolean
+  withdrawn_at?: boolean
+  graduated_at?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -1626,21 +2614,31 @@ export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type StudentSelectScalar = {
   id?: boolean
   full_name?: boolean
+  full_name_am?: boolean
+  full_name_ar?: boolean
   date_of_birth?: boolean
   gender?: boolean
   address?: boolean
   guardian_name?: boolean
   guardian_phone?: boolean
+  secondary_guardian_name?: boolean
+  secondary_guardian_phone?: boolean
+  national_id?: boolean
+  blood_group?: boolean
+  allergies?: boolean
+  enrollment_number?: boolean
   photo_url?: boolean
   current_medresa_id?: boolean
   status?: boolean
   enrolled_at?: boolean
+  withdrawn_at?: boolean
+  graduated_at?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "full_name" | "date_of_birth" | "gender" | "address" | "guardian_name" | "guardian_phone" | "photo_url" | "current_medresa_id" | "status" | "enrolled_at" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["student"]>
+export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "full_name" | "full_name_am" | "full_name_ar" | "date_of_birth" | "gender" | "address" | "guardian_name" | "guardian_phone" | "secondary_guardian_name" | "secondary_guardian_phone" | "national_id" | "blood_group" | "allergies" | "enrollment_number" | "photo_url" | "current_medresa_id" | "status" | "enrolled_at" | "withdrawn_at" | "graduated_at" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["student"]>
 export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   current_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
   student_courses?: boolean | Prisma.Student$student_coursesArgs<ExtArgs>
@@ -1649,6 +2647,8 @@ export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   grades?: boolean | Prisma.Student$gradesArgs<ExtArgs>
   fee_payments?: boolean | Prisma.Student$fee_paymentsArgs<ExtArgs>
   fee_balances?: boolean | Prisma.Student$fee_balancesArgs<ExtArgs>
+  notes?: boolean | Prisma.Student$notesArgs<ExtArgs>
+  enrollment_periods?: boolean | Prisma.Student$enrollment_periodsArgs<ExtArgs>
   _count?: boolean | Prisma.StudentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1668,19 +2668,31 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     grades: Prisma.$GradePayload<ExtArgs>[]
     fee_payments: Prisma.$FeePaymentPayload<ExtArgs>[]
     fee_balances: Prisma.$FeeBalancePayload<ExtArgs>[]
+    notes: Prisma.$StudentNotePayload<ExtArgs>[]
+    enrollment_periods: Prisma.$StudentEnrollmentPeriodPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     full_name: string
+    full_name_am: string | null
+    full_name_ar: string | null
     date_of_birth: Date
     gender: $Enums.Gender
     address: string
     guardian_name: string
     guardian_phone: string
+    secondary_guardian_name: string | null
+    secondary_guardian_phone: string | null
+    national_id: string | null
+    blood_group: string | null
+    allergies: string | null
+    enrollment_number: string | null
     photo_url: string | null
     current_medresa_id: string
     status: $Enums.StudentStatus
     enrolled_at: Date
+    withdrawn_at: Date | null
+    graduated_at: Date | null
     deleted_at: Date | null
     created_at: Date
     updated_at: Date
@@ -2085,6 +3097,8 @@ export interface Prisma__StudentClient<T, Null = never, ExtArgs extends runtime.
   grades<T extends Prisma.Student$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fee_payments<T extends Prisma.Student$fee_paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$fee_paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeePaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fee_balances<T extends Prisma.Student$fee_balancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$fee_balancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeeBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notes<T extends Prisma.Student$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  enrollment_periods<T extends Prisma.Student$enrollment_periodsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$enrollment_periodsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentEnrollmentPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2116,15 +3130,25 @@ export interface Prisma__StudentClient<T, Null = never, ExtArgs extends runtime.
 export interface StudentFieldRefs {
   readonly id: Prisma.FieldRef<"Student", 'String'>
   readonly full_name: Prisma.FieldRef<"Student", 'String'>
+  readonly full_name_am: Prisma.FieldRef<"Student", 'String'>
+  readonly full_name_ar: Prisma.FieldRef<"Student", 'String'>
   readonly date_of_birth: Prisma.FieldRef<"Student", 'DateTime'>
   readonly gender: Prisma.FieldRef<"Student", 'Gender'>
   readonly address: Prisma.FieldRef<"Student", 'String'>
   readonly guardian_name: Prisma.FieldRef<"Student", 'String'>
   readonly guardian_phone: Prisma.FieldRef<"Student", 'String'>
+  readonly secondary_guardian_name: Prisma.FieldRef<"Student", 'String'>
+  readonly secondary_guardian_phone: Prisma.FieldRef<"Student", 'String'>
+  readonly national_id: Prisma.FieldRef<"Student", 'String'>
+  readonly blood_group: Prisma.FieldRef<"Student", 'String'>
+  readonly allergies: Prisma.FieldRef<"Student", 'String'>
+  readonly enrollment_number: Prisma.FieldRef<"Student", 'String'>
   readonly photo_url: Prisma.FieldRef<"Student", 'String'>
   readonly current_medresa_id: Prisma.FieldRef<"Student", 'String'>
   readonly status: Prisma.FieldRef<"Student", 'StudentStatus'>
   readonly enrolled_at: Prisma.FieldRef<"Student", 'DateTime'>
+  readonly withdrawn_at: Prisma.FieldRef<"Student", 'DateTime'>
+  readonly graduated_at: Prisma.FieldRef<"Student", 'DateTime'>
   readonly deleted_at: Prisma.FieldRef<"Student", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"Student", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Student", 'DateTime'>
@@ -2670,6 +3694,54 @@ export type Student$fee_balancesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.FeeBalanceScalarFieldEnum | Prisma.FeeBalanceScalarFieldEnum[]
+}
+
+/**
+ * Student.notes
+ */
+export type Student$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentNote
+   */
+  select?: Prisma.StudentNoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentNote
+   */
+  omit?: Prisma.StudentNoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentNoteInclude<ExtArgs> | null
+  where?: Prisma.StudentNoteWhereInput
+  orderBy?: Prisma.StudentNoteOrderByWithRelationInput | Prisma.StudentNoteOrderByWithRelationInput[]
+  cursor?: Prisma.StudentNoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentNoteScalarFieldEnum | Prisma.StudentNoteScalarFieldEnum[]
+}
+
+/**
+ * Student.enrollment_periods
+ */
+export type Student$enrollment_periodsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentEnrollmentPeriod
+   */
+  select?: Prisma.StudentEnrollmentPeriodSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentEnrollmentPeriod
+   */
+  omit?: Prisma.StudentEnrollmentPeriodOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentEnrollmentPeriodInclude<ExtArgs> | null
+  where?: Prisma.StudentEnrollmentPeriodWhereInput
+  orderBy?: Prisma.StudentEnrollmentPeriodOrderByWithRelationInput | Prisma.StudentEnrollmentPeriodOrderByWithRelationInput[]
+  cursor?: Prisma.StudentEnrollmentPeriodWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentEnrollmentPeriodScalarFieldEnum | Prisma.StudentEnrollmentPeriodScalarFieldEnum[]
 }
 
 /**

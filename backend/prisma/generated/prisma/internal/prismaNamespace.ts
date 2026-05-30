@@ -396,6 +396,8 @@ export const ModelName = {
   Student: 'Student',
   StudentCourse: 'StudentCourse',
   StudentTransfer: 'StudentTransfer',
+  StudentNote: 'StudentNote',
+  StudentEnrollmentPeriod: 'StudentEnrollmentPeriod',
   AttendanceSession: 'AttendanceSession',
   AttendanceRecord: 'AttendanceRecord',
   ExamType: 'ExamType',
@@ -423,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "passwordResetToken" | "refreshToken" | "medresa" | "teacher" | "teacherMedresa" | "course" | "medresaCourse" | "courseAssignment" | "student" | "studentCourse" | "studentTransfer" | "attendanceSession" | "attendanceRecord" | "examType" | "grade" | "gradeEditRequest" | "feeStructure" | "feePayment" | "feeBalance" | "salaryRank" | "teacherRank" | "salaryPayment" | "auditLog"
+    modelProps: "user" | "passwordResetToken" | "refreshToken" | "medresa" | "teacher" | "teacherMedresa" | "course" | "medresaCourse" | "courseAssignment" | "student" | "studentCourse" | "studentTransfer" | "studentNote" | "studentEnrollmentPeriod" | "attendanceSession" | "attendanceRecord" | "examType" | "grade" | "gradeEditRequest" | "feeStructure" | "feePayment" | "feeBalance" | "salaryRank" | "teacherRank" | "salaryPayment" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1312,6 +1314,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.StudentTransferCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.StudentTransferCountAggregateOutputType> | number
+        }
+      }
+    }
+    StudentNote: {
+      payload: Prisma.$StudentNotePayload<ExtArgs>
+      fields: Prisma.StudentNoteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentNoteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentNoteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>
+        }
+        findFirst: {
+          args: Prisma.StudentNoteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentNoteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>
+        }
+        findMany: {
+          args: Prisma.StudentNoteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>[]
+        }
+        create: {
+          args: Prisma.StudentNoteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>
+        }
+        createMany: {
+          args: Prisma.StudentNoteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentNoteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>[]
+        }
+        delete: {
+          args: Prisma.StudentNoteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>
+        }
+        update: {
+          args: Prisma.StudentNoteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentNoteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentNoteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentNoteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentNoteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentNotePayload>
+        }
+        aggregate: {
+          args: Prisma.StudentNoteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentNote>
+        }
+        groupBy: {
+          args: Prisma.StudentNoteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentNoteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentNoteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentNoteCountAggregateOutputType> | number
+        }
+      }
+    }
+    StudentEnrollmentPeriod: {
+      payload: Prisma.$StudentEnrollmentPeriodPayload<ExtArgs>
+      fields: Prisma.StudentEnrollmentPeriodFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentEnrollmentPeriodFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentEnrollmentPeriodFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>
+        }
+        findFirst: {
+          args: Prisma.StudentEnrollmentPeriodFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentEnrollmentPeriodFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>
+        }
+        findMany: {
+          args: Prisma.StudentEnrollmentPeriodFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>[]
+        }
+        create: {
+          args: Prisma.StudentEnrollmentPeriodCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>
+        }
+        createMany: {
+          args: Prisma.StudentEnrollmentPeriodCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentEnrollmentPeriodCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>[]
+        }
+        delete: {
+          args: Prisma.StudentEnrollmentPeriodDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>
+        }
+        update: {
+          args: Prisma.StudentEnrollmentPeriodUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentEnrollmentPeriodDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentEnrollmentPeriodUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentEnrollmentPeriodUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentEnrollmentPeriodUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentEnrollmentPeriodPayload>
+        }
+        aggregate: {
+          args: Prisma.StudentEnrollmentPeriodAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentEnrollmentPeriod>
+        }
+        groupBy: {
+          args: Prisma.StudentEnrollmentPeriodGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentEnrollmentPeriodGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentEnrollmentPeriodCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentEnrollmentPeriodCountAggregateOutputType> | number
         }
       }
     }
@@ -2305,6 +2455,7 @@ export const TeacherScalarFieldEnum = {
   specialization: 'specialization',
   date_joined: 'date_joined',
   photo_url: 'photo_url',
+  cbe_account: 'cbe_account',
   status: 'status',
   deleted_at: 'deleted_at',
   created_at: 'created_at',
@@ -2372,15 +2523,25 @@ export type CourseAssignmentScalarFieldEnum = (typeof CourseAssignmentScalarFiel
 export const StudentScalarFieldEnum = {
   id: 'id',
   full_name: 'full_name',
+  full_name_am: 'full_name_am',
+  full_name_ar: 'full_name_ar',
   date_of_birth: 'date_of_birth',
   gender: 'gender',
   address: 'address',
   guardian_name: 'guardian_name',
   guardian_phone: 'guardian_phone',
+  secondary_guardian_name: 'secondary_guardian_name',
+  secondary_guardian_phone: 'secondary_guardian_phone',
+  national_id: 'national_id',
+  blood_group: 'blood_group',
+  allergies: 'allergies',
+  enrollment_number: 'enrollment_number',
   photo_url: 'photo_url',
   current_medresa_id: 'current_medresa_id',
   status: 'status',
   enrolled_at: 'enrolled_at',
+  withdrawn_at: 'withdrawn_at',
+  graduated_at: 'graduated_at',
   deleted_at: 'deleted_at',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -2413,6 +2574,35 @@ export const StudentTransferScalarFieldEnum = {
 } as const
 
 export type StudentTransferScalarFieldEnum = (typeof StudentTransferScalarFieldEnum)[keyof typeof StudentTransferScalarFieldEnum]
+
+
+export const StudentNoteScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  medresa_id: 'medresa_id',
+  author_id: 'author_id',
+  body: 'body',
+  is_private: 'is_private',
+  deleted_at: 'deleted_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type StudentNoteScalarFieldEnum = (typeof StudentNoteScalarFieldEnum)[keyof typeof StudentNoteScalarFieldEnum]
+
+
+export const StudentEnrollmentPeriodScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  medresa_id: 'medresa_id',
+  started_at: 'started_at',
+  ended_at: 'ended_at',
+  end_reason: 'end_reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type StudentEnrollmentPeriodScalarFieldEnum = (typeof StudentEnrollmentPeriodScalarFieldEnum)[keyof typeof StudentEnrollmentPeriodScalarFieldEnum]
 
 
 export const AttendanceSessionScalarFieldEnum = {
@@ -2797,6 +2987,20 @@ export type ListEnumStudentStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'EnrollmentEndReason'
+ */
+export type EnumEnrollmentEndReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollmentEndReason'>
+    
+
+
+/**
+ * Reference to a field of type 'EnrollmentEndReason[]'
+ */
+export type ListEnumEnrollmentEndReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollmentEndReason[]'>
+    
+
+
+/**
  * Reference to a field of type 'AttendanceStatus'
  */
 export type EnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus'>
@@ -3015,6 +3219,8 @@ export type GlobalOmitConfig = {
   student?: Prisma.StudentOmit
   studentCourse?: Prisma.StudentCourseOmit
   studentTransfer?: Prisma.StudentTransferOmit
+  studentNote?: Prisma.StudentNoteOmit
+  studentEnrollmentPeriod?: Prisma.StudentEnrollmentPeriodOmit
   attendanceSession?: Prisma.AttendanceSessionOmit
   attendanceRecord?: Prisma.AttendanceRecordOmit
   examType?: Prisma.ExamTypeOmit

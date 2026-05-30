@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { AttendanceDualDateLine } from '../components/AttendanceDateLabel';
 import { AttendanceMarkerStrip } from '../components/AttendanceMarkerStrip';
@@ -88,7 +89,8 @@ export const MedresaAttendanceOverviewPage = () => {
                   teacherMarkedAt={row.teacherMarkedAt}
                   adminMarkedAt={row.adminMarkedAt}
                 />
-                <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+                <DataTable>
+                  <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead className="bg-cream-dark/50">
                       <tr>
@@ -109,7 +111,8 @@ export const MedresaAttendanceOverviewPage = () => {
                       </tr>
                     </tbody>
                   </table>
-                </div>
+                  </div>
+                </DataTable>
               </>
             )}
             {todayEt !== date ? (

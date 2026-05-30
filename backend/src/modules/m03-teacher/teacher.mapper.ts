@@ -7,6 +7,7 @@ type TeacherWithAssignments = {
   specialization: Prisma.JsonValue;
   date_joined: Date;
   photo_url: string | null;
+  cbe_account?: string | null;
   status: Status;
   created_at: Date;
   updated_at: Date;
@@ -41,6 +42,7 @@ export const mapTeacherDetail = (teacher: TeacherWithAssignments) => ({
   specialization: teacher.specialization,
   dateJoined: teacher.date_joined,
   photoUrl: teacher.photo_url,
+  cbeAccount: teacher.cbe_account ?? null,
   status: teacher.status,
   createdAt: teacher.created_at,
   updatedAt: teacher.updated_at,
@@ -55,6 +57,7 @@ export const mapTeacherListItem = (teacher: TeacherWithAssignments) => ({
   specialization: teacher.specialization,
   dateJoined: teacher.date_joined,
   photoUrl: teacher.photo_url,
+  cbeAccount: teacher.cbe_account ?? null,
   status: teacher.status,
   medresaAssignments: teacher.teacher_medresas.map(mapTeacherAssignment),
 });

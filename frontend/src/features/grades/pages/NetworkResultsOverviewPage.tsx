@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useNetworkResultsOverview } from '../hooks/useGrades';
 
@@ -74,7 +75,8 @@ export const NetworkResultsOverviewPage = () => {
             <div className="mb-4">
               <FilterTabs value={medresaFilter} onChange={setMedresaFilter} tabs={medresaTabs} />
             </div>
-            <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+            <DataTable>
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -105,7 +107,8 @@ export const NetworkResultsOverviewPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+              </div>
+            </DataTable>
           </>
         )}
       </PageBody>

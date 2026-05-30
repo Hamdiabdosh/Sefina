@@ -18,6 +18,7 @@ export const teacherFormSchema = z.object({
   specializationAm: z.string().optional(),
   specializationAr: z.string().optional(),
   dateJoined: z.string().min(1, 'Date joined is required'),
+  cbeAccount: z.string().max(20).optional(),
 });
 
 export const createTeacherFormSchema = teacherFormSchema
@@ -68,6 +69,7 @@ export type TeacherApiPayload = {
   email: string;
   specialization: { en: string; am?: string; ar?: string };
   dateJoined: string;
+  cbeAccount?: string;
   initialAssignment?: {
     medresaId: string;
     role: 'TEACHER' | 'ADMIN';
@@ -88,6 +90,7 @@ export const toTeacherApiPayload = (data: CreateTeacherFormValues): TeacherApiPa
       ...(data.specializationAr?.trim() ? { ar: data.specializationAr.trim() } : {}),
     },
     dateJoined: new Date(data.dateJoined).toISOString(),
+    ...(data.cbeAccount?.trim() ? { cbeAccount: data.cbeAccount.trim() } : {}),
   };
 
   if (data.assignToMedresa && data.medresaId) {
@@ -110,15 +113,19 @@ export const toTeacherApiPayload = (data: CreateTeacherFormValues): TeacherApiPa
   return payload;
 };
 
-/** @deprecated Use CreateTeacherFormValues for create flow */
-export const toTeacherApiPayloadFromBasic = (data: TeacherFormValues): TeacherApiPayload =>
-  toTeacherApiPayload({
+export const toTeacherApiPayloadFromBasic = (data: TeacherFormValues): TeacherApiPayload => {
+  const payload = toTeacherApiPayload({
     ...data,
     assignToMedresa: false,
     assignmentRole: 'TEACHER',
     setTemporaryPassword: false,
     sendInviteEmail: false,
   });
+  if (data.cbeAccount !== undefined) {
+    payload.cbeAccount = data.cbeAccount.trim() || undefined;
+  }
+  return payload;
+};
 
 export const getTeacherMutationError = (error: unknown): string | null => {
   if (

@@ -6,8 +6,8 @@ import { auditLog, getClientIp } from "../../lib/audit";
 import { isFuturePaymentDate, parsePaymentDateYmd } from "../../lib/ethiopian-calendar";
 import { prisma } from "../../lib/prisma";
 import type { RecordSalaryPaymentInput } from "./salary.schema";
+import { computeTeacherSalary } from "./salary-computation";
 import { etbToCents, mapSalaryPayment } from "./salary.mapper";
-import { resolveCurrentTeacherRank } from "./salary-teacher-rank.service";
 
 export const recordSalaryPayment = async (
   userId: string,
@@ -19,20 +19,16 @@ export const recordSalaryPayment = async (
   });
   if (!teacher) return { error: "TEACHER_NOT_FOUND" as const };
 
-  const resolved = await resolveCurrentTeacherRank(
-    input.teacherId,
-    input.month,
-    input.year
-  );
-  if (!resolved) return { error: "TEACHER_HAS_NO_RANK" as const };
+  const computed = await computeTeacherSalary(input.teacherId, input.month, input.year);
+  if (computed.amountEtb === 0) return { error: "TEACHER_HAS_NO_RANK" as const };
 
   const paymentDate = parsePaymentDateYmd(input.paymentDate);
   if (!paymentDate) return { error: "INVALID_PAYMENT_DATE" as const };
   if (isFuturePaymentDate(paymentDate)) return { error: "PAYMENT_DATE_IN_FUTURE" as const };
 
-  const rankAmountCents = resolved.rank.monthly_amount;
+  const expectedAmountCents = etbToCents(computed.amountEtb);
   const amountPaidCents = etbToCents(input.amountPaidEtb);
-  const isAdjusted = amountPaidCents !== rankAmountCents;
+  const isAdjusted = amountPaidCents !== expectedAmountCents;
 
   if (isAdjusted && !input.adjustmentReason?.trim()) {
     return { error: "ADJUSTMENT_REASON_REQUIRED" as const };
@@ -42,7 +38,7 @@ export const recordSalaryPayment = async (
     const created = await prisma.salaryPayment.create({
       data: {
         teacher_id: input.teacherId,
-        salary_rank_id: resolved.salaryRankId,
+        salary_rank_id: computed.rankId ?? undefined,
         month: input.month,
         year: input.year,
         amount_paid: amountPaidCents,

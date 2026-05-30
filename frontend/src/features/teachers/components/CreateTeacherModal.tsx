@@ -29,6 +29,7 @@ const defaultValues: CreateTeacherFormValues = {
   specializationAm: '',
   specializationAr: '',
   dateJoined: new Date().toISOString().slice(0, 10),
+  cbeAccount: '',
   assignToMedresa: false,
   medresaId: '',
   assignmentRole: 'TEACHER',

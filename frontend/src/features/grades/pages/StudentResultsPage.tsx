@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useStudentResults } from '../hooks/useGrades';
@@ -119,7 +120,7 @@ export const StudentResultsPage = () => {
               {filteredCourses.map((course) => (
                 <section
                   key={course.medresaCourseId}
-                  className="rounded-xl border border-cream-dark bg-surface overflow-hidden"
+                  className="card overflow-hidden p-0"
                 >
                   <div className="flex items-center justify-between border-b border-cream-dark px-4 py-2 bg-cream/50">
                     <h2 className="text-sm font-medium">{course.courseName}</h2>
@@ -129,6 +130,7 @@ export const StudentResultsPage = () => {
                       </span>
                     ) : null}
                   </div>
+                  <DataTable className="border-0 shadow-none rounded-none">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-left text-xs uppercase text-muted-foreground border-b border-cream-dark">
@@ -162,6 +164,7 @@ export const StudentResultsPage = () => {
                       )}
                     </tbody>
                   </table>
+                  </DataTable>
                 </section>
               ))}
             </div>

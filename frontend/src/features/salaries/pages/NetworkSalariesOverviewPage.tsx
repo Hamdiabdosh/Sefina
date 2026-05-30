@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useNetworkSalaryOverview } from '../hooks/useSalaries';
 import { formatEtb } from '../utils/money';
@@ -73,7 +74,8 @@ export const NetworkSalariesOverviewPage = () => {
         {isLoading ? (
           <SkeletonTable rows={5} />
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+          <DataTable>
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -96,7 +98,8 @@ export const NetworkSalariesOverviewPage = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+            </div>
+          </DataTable>
         )}
       </PageBody>
     </div>

@@ -250,7 +250,7 @@ export type SalaryPaymentGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type SalaryPaymentGroupByOutputType = {
   id: string
   teacher_id: string
-  salary_rank_id: string
+  salary_rank_id: string | null
   month: number
   year: number
   amount_paid: number
@@ -291,7 +291,7 @@ export type SalaryPaymentWhereInput = {
   NOT?: Prisma.SalaryPaymentWhereInput | Prisma.SalaryPaymentWhereInput[]
   id?: Prisma.StringFilter<"SalaryPayment"> | string
   teacher_id?: Prisma.StringFilter<"SalaryPayment"> | string
-  salary_rank_id?: Prisma.StringFilter<"SalaryPayment"> | string
+  salary_rank_id?: Prisma.StringNullableFilter<"SalaryPayment"> | string | null
   month?: Prisma.IntFilter<"SalaryPayment"> | number
   year?: Prisma.IntFilter<"SalaryPayment"> | number
   amount_paid?: Prisma.IntFilter<"SalaryPayment"> | number
@@ -305,13 +305,13 @@ export type SalaryPaymentWhereInput = {
   created_at?: Prisma.DateTimeFilter<"SalaryPayment"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"SalaryPayment"> | Date | string
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
-  salary_rank?: Prisma.XOR<Prisma.SalaryRankScalarRelationFilter, Prisma.SalaryRankWhereInput>
+  salary_rank?: Prisma.XOR<Prisma.SalaryRankNullableScalarRelationFilter, Prisma.SalaryRankWhereInput> | null
 }
 
 export type SalaryPaymentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   teacher_id?: Prisma.SortOrder
-  salary_rank_id?: Prisma.SortOrder
+  salary_rank_id?: Prisma.SortOrderInput | Prisma.SortOrder
   month?: Prisma.SortOrder
   year?: Prisma.SortOrder
   amount_paid?: Prisma.SortOrder
@@ -335,7 +335,7 @@ export type SalaryPaymentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SalaryPaymentWhereInput[]
   NOT?: Prisma.SalaryPaymentWhereInput | Prisma.SalaryPaymentWhereInput[]
   teacher_id?: Prisma.StringFilter<"SalaryPayment"> | string
-  salary_rank_id?: Prisma.StringFilter<"SalaryPayment"> | string
+  salary_rank_id?: Prisma.StringNullableFilter<"SalaryPayment"> | string | null
   month?: Prisma.IntFilter<"SalaryPayment"> | number
   year?: Prisma.IntFilter<"SalaryPayment"> | number
   amount_paid?: Prisma.IntFilter<"SalaryPayment"> | number
@@ -349,13 +349,13 @@ export type SalaryPaymentWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"SalaryPayment"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"SalaryPayment"> | Date | string
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
-  salary_rank?: Prisma.XOR<Prisma.SalaryRankScalarRelationFilter, Prisma.SalaryRankWhereInput>
+  salary_rank?: Prisma.XOR<Prisma.SalaryRankNullableScalarRelationFilter, Prisma.SalaryRankWhereInput> | null
 }, "id" | "teacher_id_month_year">
 
 export type SalaryPaymentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   teacher_id?: Prisma.SortOrder
-  salary_rank_id?: Prisma.SortOrder
+  salary_rank_id?: Prisma.SortOrderInput | Prisma.SortOrder
   month?: Prisma.SortOrder
   year?: Prisma.SortOrder
   amount_paid?: Prisma.SortOrder
@@ -381,7 +381,7 @@ export type SalaryPaymentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SalaryPaymentScalarWhereWithAggregatesInput | Prisma.SalaryPaymentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SalaryPayment"> | string
   teacher_id?: Prisma.StringWithAggregatesFilter<"SalaryPayment"> | string
-  salary_rank_id?: Prisma.StringWithAggregatesFilter<"SalaryPayment"> | string
+  salary_rank_id?: Prisma.StringNullableWithAggregatesFilter<"SalaryPayment"> | string | null
   month?: Prisma.IntWithAggregatesFilter<"SalaryPayment"> | number
   year?: Prisma.IntWithAggregatesFilter<"SalaryPayment"> | number
   amount_paid?: Prisma.IntWithAggregatesFilter<"SalaryPayment"> | number
@@ -411,13 +411,13 @@ export type SalaryPaymentCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutSalary_paymentsInput
-  salary_rank: Prisma.SalaryRankCreateNestedOneWithoutSalary_paymentsInput
+  salary_rank?: Prisma.SalaryRankCreateNestedOneWithoutSalary_paymentsInput
 }
 
 export type SalaryPaymentUncheckedCreateInput = {
   id?: string
   teacher_id: string
-  salary_rank_id: string
+  salary_rank_id?: string | null
   month: number
   year: number
   amount_paid: number
@@ -447,13 +447,13 @@ export type SalaryPaymentUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutSalary_paymentsNestedInput
-  salary_rank?: Prisma.SalaryRankUpdateOneRequiredWithoutSalary_paymentsNestedInput
+  salary_rank?: Prisma.SalaryRankUpdateOneWithoutSalary_paymentsNestedInput
 }
 
 export type SalaryPaymentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
-  salary_rank_id?: Prisma.StringFieldUpdateOperationsInput | string
+  salary_rank_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   month?: Prisma.IntFieldUpdateOperationsInput | number
   year?: Prisma.IntFieldUpdateOperationsInput | number
   amount_paid?: Prisma.IntFieldUpdateOperationsInput | number
@@ -471,7 +471,7 @@ export type SalaryPaymentUncheckedUpdateInput = {
 export type SalaryPaymentCreateManyInput = {
   id?: string
   teacher_id: string
-  salary_rank_id: string
+  salary_rank_id?: string | null
   month: number
   year: number
   amount_paid: number
@@ -505,7 +505,7 @@ export type SalaryPaymentUpdateManyMutationInput = {
 export type SalaryPaymentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
-  salary_rank_id?: Prisma.StringFieldUpdateOperationsInput | string
+  salary_rank_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   month?: Prisma.IntFieldUpdateOperationsInput | number
   year?: Prisma.IntFieldUpdateOperationsInput | number
   amount_paid?: Prisma.IntFieldUpdateOperationsInput | number
@@ -700,12 +700,12 @@ export type SalaryPaymentCreateWithoutTeacherInput = {
   deleted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  salary_rank: Prisma.SalaryRankCreateNestedOneWithoutSalary_paymentsInput
+  salary_rank?: Prisma.SalaryRankCreateNestedOneWithoutSalary_paymentsInput
 }
 
 export type SalaryPaymentUncheckedCreateWithoutTeacherInput = {
   id?: string
-  salary_rank_id: string
+  salary_rank_id?: string | null
   month: number
   year: number
   amount_paid: number
@@ -752,7 +752,7 @@ export type SalaryPaymentScalarWhereInput = {
   NOT?: Prisma.SalaryPaymentScalarWhereInput | Prisma.SalaryPaymentScalarWhereInput[]
   id?: Prisma.StringFilter<"SalaryPayment"> | string
   teacher_id?: Prisma.StringFilter<"SalaryPayment"> | string
-  salary_rank_id?: Prisma.StringFilter<"SalaryPayment"> | string
+  salary_rank_id?: Prisma.StringNullableFilter<"SalaryPayment"> | string | null
   month?: Prisma.IntFilter<"SalaryPayment"> | number
   year?: Prisma.IntFilter<"SalaryPayment"> | number
   amount_paid?: Prisma.IntFilter<"SalaryPayment"> | number
@@ -829,7 +829,7 @@ export type SalaryPaymentUpdateManyWithWhereWithoutSalary_rankInput = {
 
 export type SalaryPaymentCreateManyTeacherInput = {
   id?: string
-  salary_rank_id: string
+  salary_rank_id?: string | null
   month: number
   year: number
   amount_paid: number
@@ -858,12 +858,12 @@ export type SalaryPaymentUpdateWithoutTeacherInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  salary_rank?: Prisma.SalaryRankUpdateOneRequiredWithoutSalary_paymentsNestedInput
+  salary_rank?: Prisma.SalaryRankUpdateOneWithoutSalary_paymentsNestedInput
 }
 
 export type SalaryPaymentUncheckedUpdateWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  salary_rank_id?: Prisma.StringFieldUpdateOperationsInput | string
+  salary_rank_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   month?: Prisma.IntFieldUpdateOperationsInput | number
   year?: Prisma.IntFieldUpdateOperationsInput | number
   amount_paid?: Prisma.IntFieldUpdateOperationsInput | number
@@ -880,7 +880,7 @@ export type SalaryPaymentUncheckedUpdateWithoutTeacherInput = {
 
 export type SalaryPaymentUncheckedUpdateManyWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  salary_rank_id?: Prisma.StringFieldUpdateOperationsInput | string
+  salary_rank_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   month?: Prisma.IntFieldUpdateOperationsInput | number
   year?: Prisma.IntFieldUpdateOperationsInput | number
   amount_paid?: Prisma.IntFieldUpdateOperationsInput | number
@@ -982,7 +982,7 @@ export type SalaryPaymentSelect<ExtArgs extends runtime.Types.Extensions.Interna
   created_at?: boolean
   updated_at?: boolean
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
-  salary_rank?: boolean | Prisma.SalaryRankDefaultArgs<ExtArgs>
+  salary_rank?: boolean | Prisma.SalaryPayment$salary_rankArgs<ExtArgs>
 }, ExtArgs["result"]["salaryPayment"]>
 
 export type SalaryPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1002,7 +1002,7 @@ export type SalaryPaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   created_at?: boolean
   updated_at?: boolean
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
-  salary_rank?: boolean | Prisma.SalaryRankDefaultArgs<ExtArgs>
+  salary_rank?: boolean | Prisma.SalaryPayment$salary_rankArgs<ExtArgs>
 }, ExtArgs["result"]["salaryPayment"]>
 
 export type SalaryPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1022,7 +1022,7 @@ export type SalaryPaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   created_at?: boolean
   updated_at?: boolean
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
-  salary_rank?: boolean | Prisma.SalaryRankDefaultArgs<ExtArgs>
+  salary_rank?: boolean | Prisma.SalaryPayment$salary_rankArgs<ExtArgs>
 }, ExtArgs["result"]["salaryPayment"]>
 
 export type SalaryPaymentSelectScalar = {
@@ -1046,27 +1046,27 @@ export type SalaryPaymentSelectScalar = {
 export type SalaryPaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teacher_id" | "salary_rank_id" | "month" | "year" | "amount_paid" | "bank_reference" | "payment_date" | "note" | "is_adjusted" | "adjustment_reason" | "recorded_by" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["salaryPayment"]>
 export type SalaryPaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
-  salary_rank?: boolean | Prisma.SalaryRankDefaultArgs<ExtArgs>
+  salary_rank?: boolean | Prisma.SalaryPayment$salary_rankArgs<ExtArgs>
 }
 export type SalaryPaymentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
-  salary_rank?: boolean | Prisma.SalaryRankDefaultArgs<ExtArgs>
+  salary_rank?: boolean | Prisma.SalaryPayment$salary_rankArgs<ExtArgs>
 }
 export type SalaryPaymentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
-  salary_rank?: boolean | Prisma.SalaryRankDefaultArgs<ExtArgs>
+  salary_rank?: boolean | Prisma.SalaryPayment$salary_rankArgs<ExtArgs>
 }
 
 export type $SalaryPaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SalaryPayment"
   objects: {
     teacher: Prisma.$TeacherPayload<ExtArgs>
-    salary_rank: Prisma.$SalaryRankPayload<ExtArgs>
+    salary_rank: Prisma.$SalaryRankPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     teacher_id: string
-    salary_rank_id: string
+    salary_rank_id: string | null
     month: number
     year: number
     amount_paid: number
@@ -1474,7 +1474,7 @@ readonly fields: SalaryPaymentFieldRefs;
 export interface Prisma__SalaryPaymentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  salary_rank<T extends Prisma.SalaryRankDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalaryRankDefaultArgs<ExtArgs>>): Prisma.Prisma__SalaryRankClient<runtime.Types.Result.GetResult<Prisma.$SalaryRankPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  salary_rank<T extends Prisma.SalaryPayment$salary_rankArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SalaryPayment$salary_rankArgs<ExtArgs>>): Prisma.Prisma__SalaryRankClient<runtime.Types.Result.GetResult<Prisma.$SalaryRankPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1917,6 +1917,25 @@ export type SalaryPaymentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many SalaryPayments to delete.
    */
   limit?: number
+}
+
+/**
+ * SalaryPayment.salary_rank
+ */
+export type SalaryPayment$salary_rankArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SalaryRank
+   */
+  select?: Prisma.SalaryRankSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SalaryRank
+   */
+  omit?: Prisma.SalaryRankOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SalaryRankInclude<ExtArgs> | null
+  where?: Prisma.SalaryRankWhereInput
 }
 
 /**

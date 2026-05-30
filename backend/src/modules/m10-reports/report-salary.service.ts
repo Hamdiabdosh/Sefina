@@ -55,9 +55,11 @@ export const getSalaryReport = async (req: Request, query: ReportRangeQuery) => 
         fullName: t.user.full_name,
         month,
         year,
-        rankName: payment
+        rankName: payment?.salary_rank
           ? (payment.salary_rank.name as Record<string, string>)
-          : null,
+          : payment
+            ? { en: "Admin only" }
+            : null,
         amountPaidEtb: payment ? centsToEtb(payment.amount_paid) : null,
         bankReference: payment?.bank_reference ?? null,
         paymentDate: payment?.payment_date.toISOString().slice(0, 10) ?? null,

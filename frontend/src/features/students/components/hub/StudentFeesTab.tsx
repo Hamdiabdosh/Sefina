@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { DataTable } from '../../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../../components/ui/Skeleton';
 import { useStudentFeeHistory } from '../../../fees/hooks/useFees';
 import { formatEtb } from '../../../fees/utils/money';
@@ -60,7 +61,8 @@ export const StudentFeesTab = ({ studentId, medresaId, studentName }: Props) => 
       {data.payments.length === 0 ? (
         <p className="text-sm text-muted-foreground">{t('students.hub.noPayments')}</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+        <DataTable>
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -81,7 +83,8 @@ export const StudentFeesTab = ({ studentId, medresaId, studentName }: Props) => 
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
+        </DataTable>
       )}
     </div>
   );

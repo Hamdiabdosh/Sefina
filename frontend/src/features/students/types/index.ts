@@ -41,6 +41,8 @@ export type StudentTransferHistory = {
 export type StudentDetail = {
   id: string;
   fullName: string;
+  fullNameAm?: string | null;
+  fullNameAr?: string | null;
   dateOfBirth: string;
   gender: Gender;
   address: string;

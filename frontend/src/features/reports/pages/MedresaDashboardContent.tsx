@@ -13,7 +13,9 @@ import {
 } from 'recharts';
 import { BookOpen, CalendarDays, Coins, Users } from 'lucide-react';
 import { PageBody } from '../../../components/layout/PageBody';
+import { PageSectionHeader } from '../../../components/layout/PageSectionHeader';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { DataTable } from '../../../components/ui/DataTable';
 import { StatCard } from '../../../components/ui/StatCard';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { formatEthiopianMonthYear } from '../../../lib/ethiopian';
@@ -113,34 +115,39 @@ export const MedresaDashboardContent = () => {
             </div>
 
             {(data?.courseStats.length ?? 0) > 0 ? (
-              <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
-                <table className="w-full text-sm">
-                  <thead className="bg-cream-dark/50">
-                    <tr>
-                      <th className="p-2 text-left">{t('dashboard.course')}</th>
-                      <th className="p-2 text-right">{t('dashboard.students')}</th>
-                      <th className="p-2 text-right">{t('dashboard.attendance')}</th>
-                      <th className="p-2 text-right">{t('dashboard.avgGrade')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data?.courseStats.map((c) => (
-                      <tr key={c.medresaCourseId} className="border-t border-cream-dark/60">
-                        <td className="p-2">{c.courseName}</td>
-                        <td className="p-2 text-right">{c.studentCount}</td>
-                        <td className="p-2 text-right">
-                          {c.todayAttendanceRatePercent != null
-                            ? `${c.todayAttendanceRatePercent}%`
-                            : '—'}
-                        </td>
-                        <td className="p-2 text-right">
-                          {c.averageGradePercent != null ? `${c.averageGradePercent}%` : '—'}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <section className="space-y-4">
+                <PageSectionHeader title={t('nav.courses')} />
+                <DataTable>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead className="bg-cream-dark/50">
+                        <tr>
+                          <th className="p-2 text-left">{t('dashboard.course')}</th>
+                          <th className="p-2 text-right">{t('dashboard.students')}</th>
+                          <th className="p-2 text-right">{t('dashboard.attendance')}</th>
+                          <th className="p-2 text-right">{t('dashboard.avgGrade')}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data?.courseStats.map((c) => (
+                          <tr key={c.medresaCourseId} className="border-t border-cream-dark/60">
+                            <td className="p-2">{c.courseName}</td>
+                            <td className="p-2 text-right">{c.studentCount}</td>
+                            <td className="p-2 text-right">
+                              {c.todayAttendanceRatePercent != null
+                                ? `${c.todayAttendanceRatePercent}%`
+                                : '—'}
+                            </td>
+                            <td className="p-2 text-right">
+                              {c.averageGradePercent != null ? `${c.averageGradePercent}%` : '—'}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </DataTable>
+              </section>
             ) : null}
 
             <div className="flex flex-wrap gap-2">

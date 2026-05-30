@@ -1,8 +1,9 @@
 import { Link, useNavigate, useSearch } from '@tanstack/react-router';
-import { ArrowLeft, Check, MessageSquare, Send } from 'lucide-react';
+import { ArrowLeft, Check, ClipboardList, MessageSquare, Send } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { cn } from '../../../lib/utils';
 import type { AttendanceStatus } from '../types';
@@ -211,7 +212,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
           onBack={() => void navigate({ to: backHref, search: { medresaId } })}
         />
         <PageBody>
-          <p className="text-sm text-muted-foreground">{t('attendance.emptyRoster')}</p>
+          <EmptyState icon={ClipboardList} title={t('attendance.emptyRoster')} />
         </PageBody>
       </div>
     );

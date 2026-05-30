@@ -1,11 +1,12 @@
 import { useMemo, useRef, useState } from 'react';
 import { useFocusSearchShortcut } from '../../../hooks/useFocusSearchShortcut';
 import { useSearch } from '@tanstack/react-router';
-import { Plus, Search } from 'lucide-react';
+import { GraduationCap, Plus, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { ViewModeToggle } from '../../../components/ui/ViewModeToggle';
 import { cn } from '../../../lib/utils';
@@ -152,7 +153,7 @@ export const TeachersPage = () => {
         </div>
 
         {teachers.length === 0 ? (
-          <p className="py-12 text-center text-muted-foreground">{t('teacherDirectory.empty')}</p>
+          <EmptyState icon={GraduationCap} title={t('teacherDirectory.empty')} />
         ) : (
           <div
             className={cn(

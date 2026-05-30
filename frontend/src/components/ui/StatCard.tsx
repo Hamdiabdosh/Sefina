@@ -19,6 +19,13 @@ export type StatCardProps = {
   className?: string;
 };
 
+function formatValue(value: string | number): string {
+  if (typeof value === 'number') {
+    return value.toLocaleString('en-US');
+  }
+  return value;
+}
+
 export const StatCard = ({
   icon: Icon,
   value,
@@ -27,24 +34,25 @@ export const StatCard = ({
   tone = 'green',
   className,
 }: StatCardProps) => (
-  <div
-    className={cn(
-      'rounded-lg border border-cream-dark bg-surface p-4 shadow-sm md:p-5',
-      className
-    )}
-  >
-    <div
-      className={cn(
-        'mb-2.5 flex h-8 w-8 items-center justify-center rounded-lg md:mb-3 md:h-11 md:w-11',
-        toneIcon[tone] ?? toneIcon.green
-      )}
-    >
-      <Icon className="h-[18px] w-[18px] md:h-6 md:w-6" />
+  <div className={cn('card p-4 md:p-5', className)}>
+    <div className="flex items-center gap-4">
+      <div
+        className={cn(
+          'flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl',
+          toneIcon[tone] ?? toneIcon.green
+        )}
+      >
+        <Icon className="h-6 w-6" />
+      </div>
+      <div className="min-w-0">
+        <div className="text-3xl font-semibold tabular-nums tracking-tighter text-foreground">
+          {formatValue(value)}
+        </div>
+        <div className="text-sm text-muted-foreground">{label}</div>
+        {hint ? (
+          <div className="mt-2 text-[11px] text-muted-foreground md:text-xs">{hint}</div>
+        ) : null}
+      </div>
     </div>
-    <p className="text-[22px] font-medium leading-none text-foreground md:text-[26px]">{value}</p>
-    <p className="mt-1 text-xs text-muted-foreground md:text-sm">{label}</p>
-    {hint ? (
-      <div className="mt-2 text-[11px] text-muted-foreground md:text-xs">{hint}</div>
-    ) : null}
   </div>
 );

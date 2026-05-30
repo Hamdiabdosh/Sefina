@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Heart, LogIn, MapPin, Users } from 'lucide-react';
+import { BookOpen, Building2, Heart, LogIn, MapPin, Users } from 'lucide-react';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { AppLogo } from '../../../components/AppLogo';
 import { BlessingFooter, MarketingHero, OrnateCard } from '../../../components/islamic';
 import { LanguageSwitcher } from '../../../components/LanguageSwitcher';
@@ -95,9 +96,7 @@ export const MarketingPage = () => {
               {t('marketing.medresasLoadError')}
             </p>
           ) : medresas.length === 0 ? (
-            <p className="rounded-xl border border-cream-dark bg-surface px-4 py-8 text-center text-sm text-muted-foreground">
-              {t('marketing.medresasEmpty')}
-            </p>
+            <EmptyState icon={Building2} title={t('marketing.medresasEmpty')} className="py-8" />
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {medresas.map((medresa) => (

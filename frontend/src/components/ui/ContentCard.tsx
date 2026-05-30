@@ -25,8 +25,8 @@ export const ContentCard = ({ children, className, onClick }: ContentCardProps) 
         : undefined
     }
     className={cn(
-      'rounded-xl border border-cream-dark bg-surface shadow-sm',
-      onClick && 'group cursor-pointer transition active:scale-[0.99]',
+      'card',
+      onClick && 'group cursor-pointer active:scale-[0.99]',
       className
     )}
   >

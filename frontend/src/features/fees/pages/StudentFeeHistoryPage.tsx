@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams, useSearch } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useStudentFeeHistory } from '../hooks/useFees';
@@ -61,7 +62,8 @@ export const StudentFeeHistoryPage = () => {
             >
               {t('fees.recordPayment')}
             </Link>
-            <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+            <DataTable>
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -82,7 +84,8 @@ export const StudentFeeHistoryPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+              </div>
+            </DataTable>
           </>
         )}
       </PageBody>

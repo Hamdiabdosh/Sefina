@@ -32,6 +32,7 @@ export type TeacherMinAggregateOutputType = {
   email: string | null
   date_joined: Date | null
   photo_url: string | null
+  cbe_account: string | null
   status: $Enums.Status | null
   deleted_at: Date | null
   created_at: Date | null
@@ -46,6 +47,7 @@ export type TeacherMaxAggregateOutputType = {
   email: string | null
   date_joined: Date | null
   photo_url: string | null
+  cbe_account: string | null
   status: $Enums.Status | null
   deleted_at: Date | null
   created_at: Date | null
@@ -61,6 +63,7 @@ export type TeacherCountAggregateOutputType = {
   specialization: number
   date_joined: number
   photo_url: number
+  cbe_account: number
   status: number
   deleted_at: number
   created_at: number
@@ -77,6 +80,7 @@ export type TeacherMinAggregateInputType = {
   email?: true
   date_joined?: true
   photo_url?: true
+  cbe_account?: true
   status?: true
   deleted_at?: true
   created_at?: true
@@ -91,6 +95,7 @@ export type TeacherMaxAggregateInputType = {
   email?: true
   date_joined?: true
   photo_url?: true
+  cbe_account?: true
   status?: true
   deleted_at?: true
   created_at?: true
@@ -106,6 +111,7 @@ export type TeacherCountAggregateInputType = {
   specialization?: true
   date_joined?: true
   photo_url?: true
+  cbe_account?: true
   status?: true
   deleted_at?: true
   created_at?: true
@@ -194,6 +200,7 @@ export type TeacherGroupByOutputType = {
   specialization: runtime.JsonValue
   date_joined: Date
   photo_url: string | null
+  cbe_account: string | null
   status: $Enums.Status
   deleted_at: Date | null
   created_at: Date
@@ -230,6 +237,7 @@ export type TeacherWhereInput = {
   specialization?: Prisma.JsonFilter<"Teacher">
   date_joined?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   photo_url?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  cbe_account?: Prisma.StringNullableFilter<"Teacher"> | string | null
   status?: Prisma.EnumStatusFilter<"Teacher"> | $Enums.Status
   deleted_at?: Prisma.DateTimeNullableFilter<"Teacher"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"Teacher"> | Date | string
@@ -253,6 +261,7 @@ export type TeacherOrderByWithRelationInput = {
   specialization?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
   photo_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  cbe_account?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -279,6 +288,7 @@ export type TeacherWhereUniqueInput = Prisma.AtLeast<{
   specialization?: Prisma.JsonFilter<"Teacher">
   date_joined?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   photo_url?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  cbe_account?: Prisma.StringNullableFilter<"Teacher"> | string | null
   status?: Prisma.EnumStatusFilter<"Teacher"> | $Enums.Status
   deleted_at?: Prisma.DateTimeNullableFilter<"Teacher"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"Teacher"> | Date | string
@@ -302,6 +312,7 @@ export type TeacherOrderByWithAggregationInput = {
   specialization?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
   photo_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  cbe_account?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -323,6 +334,7 @@ export type TeacherScalarWhereWithAggregatesInput = {
   specialization?: Prisma.JsonWithAggregatesFilter<"Teacher">
   date_joined?: Prisma.DateTimeWithAggregatesFilter<"Teacher"> | Date | string
   photo_url?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
+  cbe_account?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
   status?: Prisma.EnumStatusWithAggregatesFilter<"Teacher"> | $Enums.Status
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Teacher"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Teacher"> | Date | string
@@ -337,6 +349,7 @@ export type TeacherCreateInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -360,6 +373,7 @@ export type TeacherUncheckedCreateInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -381,6 +395,7 @@ export type TeacherUpdateInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -404,6 +419,7 @@ export type TeacherUncheckedUpdateInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -426,6 +442,7 @@ export type TeacherCreateManyInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -440,6 +457,7 @@ export type TeacherUpdateManyMutationInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -455,6 +473,7 @@ export type TeacherUncheckedUpdateManyInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -475,6 +494,7 @@ export type TeacherCountOrderByAggregateInput = {
   specialization?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
   photo_url?: Prisma.SortOrder
+  cbe_account?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -489,6 +509,7 @@ export type TeacherMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
   photo_url?: Prisma.SortOrder
+  cbe_account?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -503,6 +524,7 @@ export type TeacherMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
   photo_url?: Prisma.SortOrder
+  cbe_account?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -654,6 +676,7 @@ export type TeacherCreateWithoutUserInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -675,6 +698,7 @@ export type TeacherUncheckedCreateWithoutUserInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -712,6 +736,7 @@ export type TeacherUpdateWithoutUserInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -733,6 +758,7 @@ export type TeacherUncheckedUpdateWithoutUserInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -754,6 +780,7 @@ export type TeacherCreateWithoutTeacher_medresasInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -776,6 +803,7 @@ export type TeacherUncheckedCreateWithoutTeacher_medresasInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -812,6 +840,7 @@ export type TeacherUpdateWithoutTeacher_medresasInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -834,6 +863,7 @@ export type TeacherUncheckedUpdateWithoutTeacher_medresasInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -854,6 +884,7 @@ export type TeacherCreateWithoutCourse_assignmentsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -876,6 +907,7 @@ export type TeacherUncheckedCreateWithoutCourse_assignmentsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -912,6 +944,7 @@ export type TeacherUpdateWithoutCourse_assignmentsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -934,6 +967,7 @@ export type TeacherUncheckedUpdateWithoutCourse_assignmentsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -954,6 +988,7 @@ export type TeacherCreateWithoutAttendance_sessionsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -976,6 +1011,7 @@ export type TeacherUncheckedCreateWithoutAttendance_sessionsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1012,6 +1048,7 @@ export type TeacherUpdateWithoutAttendance_sessionsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1034,6 +1071,7 @@ export type TeacherUncheckedUpdateWithoutAttendance_sessionsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1054,6 +1092,7 @@ export type TeacherCreateWithoutGradesInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1076,6 +1115,7 @@ export type TeacherUncheckedCreateWithoutGradesInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1112,6 +1152,7 @@ export type TeacherUpdateWithoutGradesInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1134,6 +1175,7 @@ export type TeacherUncheckedUpdateWithoutGradesInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1154,6 +1196,7 @@ export type TeacherCreateWithoutGrade_edit_requestsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1176,6 +1219,7 @@ export type TeacherUncheckedCreateWithoutGrade_edit_requestsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1212,6 +1256,7 @@ export type TeacherUpdateWithoutGrade_edit_requestsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1234,6 +1279,7 @@ export type TeacherUncheckedUpdateWithoutGrade_edit_requestsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1254,6 +1300,7 @@ export type TeacherCreateWithoutTeacher_ranksInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1276,6 +1323,7 @@ export type TeacherUncheckedCreateWithoutTeacher_ranksInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1312,6 +1360,7 @@ export type TeacherUpdateWithoutTeacher_ranksInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1334,6 +1383,7 @@ export type TeacherUncheckedUpdateWithoutTeacher_ranksInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1354,6 +1404,7 @@ export type TeacherCreateWithoutSalary_paymentsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1376,6 +1427,7 @@ export type TeacherUncheckedCreateWithoutSalary_paymentsInput = {
   specialization: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined: Date | string
   photo_url?: string | null
+  cbe_account?: string | null
   status?: $Enums.Status
   deleted_at?: Date | string | null
   created_at?: Date | string
@@ -1412,6 +1464,7 @@ export type TeacherUpdateWithoutSalary_paymentsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1434,6 +1487,7 @@ export type TeacherUncheckedUpdateWithoutSalary_paymentsInput = {
   specialization?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   date_joined?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cbe_account?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1540,6 +1594,7 @@ export type TeacherSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   specialization?: boolean
   date_joined?: boolean
   photo_url?: boolean
+  cbe_account?: boolean
   status?: boolean
   deleted_at?: boolean
   created_at?: boolean
@@ -1564,6 +1619,7 @@ export type TeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   specialization?: boolean
   date_joined?: boolean
   photo_url?: boolean
+  cbe_account?: boolean
   status?: boolean
   deleted_at?: boolean
   created_at?: boolean
@@ -1580,6 +1636,7 @@ export type TeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   specialization?: boolean
   date_joined?: boolean
   photo_url?: boolean
+  cbe_account?: boolean
   status?: boolean
   deleted_at?: boolean
   created_at?: boolean
@@ -1596,13 +1653,14 @@ export type TeacherSelectScalar = {
   specialization?: boolean
   date_joined?: boolean
   photo_url?: boolean
+  cbe_account?: boolean
   status?: boolean
   deleted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type TeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "full_name" | "phone" | "email" | "specialization" | "date_joined" | "photo_url" | "status" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["teacher"]>
+export type TeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "full_name" | "phone" | "email" | "specialization" | "date_joined" | "photo_url" | "cbe_account" | "status" | "deleted_at" | "created_at" | "updated_at", ExtArgs["result"]["teacher"]>
 export type TeacherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   teacher_medresas?: boolean | Prisma.Teacher$teacher_medresasArgs<ExtArgs>
@@ -1645,6 +1703,7 @@ export type $TeacherPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     specialization: runtime.JsonValue
     date_joined: Date
     photo_url: string | null
+    cbe_account: string | null
     status: $Enums.Status
     deleted_at: Date | null
     created_at: Date
@@ -2088,6 +2147,7 @@ export interface TeacherFieldRefs {
   readonly specialization: Prisma.FieldRef<"Teacher", 'Json'>
   readonly date_joined: Prisma.FieldRef<"Teacher", 'DateTime'>
   readonly photo_url: Prisma.FieldRef<"Teacher", 'String'>
+  readonly cbe_account: Prisma.FieldRef<"Teacher", 'String'>
   readonly status: Prisma.FieldRef<"Teacher", 'Status'>
   readonly deleted_at: Prisma.FieldRef<"Teacher", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"Teacher", 'DateTime'>

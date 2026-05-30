@@ -5,6 +5,7 @@ import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { AttendanceDateLabel } from '../components/AttendanceDateLabel';
 import { useMedresas } from '../../medresas/hooks/useMedresas';
 import { useNetworkAttendanceOverview } from '../hooks/useAttendance';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getTodayCalendarEt } from '../utils/ethiopiaDate';
 
@@ -77,7 +78,8 @@ export const AdminAttendanceNetworkPage = () => {
         ) : (overview.data?.items.length ?? 0) === 0 ? (
           <p className="text-sm text-muted-foreground">{t('attendance.noOverviewRows')}</p>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+          <DataTable>
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-cream-dark/50">
                 <tr>
@@ -106,7 +108,8 @@ export const AdminAttendanceNetworkPage = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+            </div>
+          </DataTable>
         )}
       </PageBody>
     </div>

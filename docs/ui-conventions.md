@@ -18,7 +18,9 @@ Each route under the protected layout should render:
 
 1. A **single column flex root**: `className="flex min-h-0 flex-1 flex-col"` (optionally with bottom padding if using fixed FABs).
 2. **`PageTopBar`** ([`PageTopBar.tsx`](frontend/src/components/layout/PageTopBar.tsx)): title, optional subtitle, optional `onBack`, optional `actions` (search, primary buttons).
-3. **`PageBody`** ([`PageBody.tsx`](frontend/src/components/layout/PageBody.tsx)): scrollable content with standard horizontal padding. Use **`fullWidth`** when the page needs full-bleed tables or wide grids (e.g. network attendance).
+3. **`PageBody`** ([`PageBody.tsx`](frontend/src/components/layout/PageBody.tsx)): scrollable content with `max-w-7xl`, responsive padding (`px-4 sm:px-6 lg:px-8 py-6`), and default `space-y-8` between direct children. Use **`fullWidth`** to drop the max-width cap while keeping the same padding (e.g. network attendance, dashboards with `className="max-w-none"`).
+
+4. **`PageSectionHeader`** ([`PageSectionHeader.tsx`](frontend/src/components/layout/PageSectionHeader.tsx)) — optional, **inside** `PageBody` only: large in-page section titles (reports blocks, dashboard subsections). Do **not** replace `PageTopBar` on list routes.
 
 Avoid wrapping feature pages in `min-h-screen bg-cream` — the shell and `PageBody` own the canvas.
 
@@ -32,7 +34,11 @@ Avoid wrapping feature pages in `min-h-screen bg-cream` — the shell and `PageB
 
 - **[`StatCard`](frontend/src/components/ui/StatCard.tsx)**: KPI tiles (e.g. medresa network overview).
 - **[`FilterTabs`](frontend/src/components/ui/FilterTabs.tsx)**: pill/tab filters shared across list pages.
-- **[`ContentCard`](frontend/src/components/ui/ContentCard.tsx)**: default object/list row container.
+- **[`ContentCard`](frontend/src/components/ui/ContentCard.tsx)**: default object/list row container (uses global `.card` in CSS).
+- **[`EmptyState`](frontend/src/components/ui/EmptyState.tsx)**: centered empty list/report placeholder with icon, title, and optional CTA.
+- **[`DataTable`](frontend/src/components/ui/DataTable.tsx)**: zebra-striped table wrapper with optional `mobileFallback` card list.
+
+Global component classes (`.card`, `.btn`, `.skeleton`, `.focus-ring`) live in [`frontend/src/index.css`](../frontend/src/index.css). Auth forms keep full-width `.btn-primary`; in-app actions use `.btn-primary-inline` or `.btn-primary-compact`.
 
 ## Design tokens
 

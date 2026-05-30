@@ -19,6 +19,7 @@ export type TeacherListItem = {
   specialization: LocalizedString;
   dateJoined: string;
   photoUrl: string | null;
+  cbeAccount?: string | null;
   status: TeacherStatus;
   medresaAssignments: MedresaAssignment[];
 };

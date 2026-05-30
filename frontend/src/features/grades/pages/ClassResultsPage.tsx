@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { getLocalizedValue } from '../../teachers/utils/localizedJson';
 import { useMedresaCourseResults } from '../hooks/useGrades';
@@ -73,7 +74,8 @@ export const ClassResultsPage = () => {
             <div className="mb-4">
               <FilterTabs value={examFilter} onChange={setExamFilter} tabs={examTabs} />
             </div>
-            <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+            <DataTable>
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -111,7 +113,8 @@ export const ClassResultsPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+              </div>
+            </DataTable>
           </>
         )}
       </PageBody>

@@ -63,6 +63,8 @@ export const ModelName = {
   Student: 'Student',
   StudentCourse: 'StudentCourse',
   StudentTransfer: 'StudentTransfer',
+  StudentNote: 'StudentNote',
+  StudentEnrollmentPeriod: 'StudentEnrollmentPeriod',
   AttendanceSession: 'AttendanceSession',
   AttendanceRecord: 'AttendanceRecord',
   ExamType: 'ExamType',
@@ -156,6 +158,7 @@ export const TeacherScalarFieldEnum = {
   specialization: 'specialization',
   date_joined: 'date_joined',
   photo_url: 'photo_url',
+  cbe_account: 'cbe_account',
   status: 'status',
   deleted_at: 'deleted_at',
   created_at: 'created_at',
@@ -223,15 +226,25 @@ export type CourseAssignmentScalarFieldEnum = (typeof CourseAssignmentScalarFiel
 export const StudentScalarFieldEnum = {
   id: 'id',
   full_name: 'full_name',
+  full_name_am: 'full_name_am',
+  full_name_ar: 'full_name_ar',
   date_of_birth: 'date_of_birth',
   gender: 'gender',
   address: 'address',
   guardian_name: 'guardian_name',
   guardian_phone: 'guardian_phone',
+  secondary_guardian_name: 'secondary_guardian_name',
+  secondary_guardian_phone: 'secondary_guardian_phone',
+  national_id: 'national_id',
+  blood_group: 'blood_group',
+  allergies: 'allergies',
+  enrollment_number: 'enrollment_number',
   photo_url: 'photo_url',
   current_medresa_id: 'current_medresa_id',
   status: 'status',
   enrolled_at: 'enrolled_at',
+  withdrawn_at: 'withdrawn_at',
+  graduated_at: 'graduated_at',
   deleted_at: 'deleted_at',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -264,6 +277,35 @@ export const StudentTransferScalarFieldEnum = {
 } as const
 
 export type StudentTransferScalarFieldEnum = (typeof StudentTransferScalarFieldEnum)[keyof typeof StudentTransferScalarFieldEnum]
+
+
+export const StudentNoteScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  medresa_id: 'medresa_id',
+  author_id: 'author_id',
+  body: 'body',
+  is_private: 'is_private',
+  deleted_at: 'deleted_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type StudentNoteScalarFieldEnum = (typeof StudentNoteScalarFieldEnum)[keyof typeof StudentNoteScalarFieldEnum]
+
+
+export const StudentEnrollmentPeriodScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  medresa_id: 'medresa_id',
+  started_at: 'started_at',
+  ended_at: 'ended_at',
+  end_reason: 'end_reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type StudentEnrollmentPeriodScalarFieldEnum = (typeof StudentEnrollmentPeriodScalarFieldEnum)[keyof typeof StudentEnrollmentPeriodScalarFieldEnum]
 
 
 export const AttendanceSessionScalarFieldEnum = {

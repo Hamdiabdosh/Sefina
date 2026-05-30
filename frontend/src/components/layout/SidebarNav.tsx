@@ -153,7 +153,7 @@ export const SidebarNavContent = ({
 export const MobileShellBar = ({ onOpenMenu }: { onOpenMenu: () => void }) => {
   const { t } = useTranslation();
   return (
-    <header className="flex h-14 shrink-0 items-center gap-3 border-b border-topbar-border bg-surface px-3 md:hidden">
+    <header className="relative flex h-14 shrink-0 items-center gap-3 border-b border-topbar-border bg-surface px-3 shadow-[0_1px_0_0_rgba(15,110,86,0.08)] md:hidden">
       <button
         type="button"
         onClick={onOpenMenu}

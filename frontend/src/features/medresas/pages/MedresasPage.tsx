@@ -7,6 +7,7 @@ import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
 import { StatCard } from '../../../components/ui/StatCard';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonList } from '../../../components/ui/Skeleton';
 import { ViewModeToggle, type ListTableMode } from '../../../components/ui/ViewModeToggle';
 import { cn } from '../../../lib/utils';
@@ -161,7 +162,8 @@ export const MedresasPage = () => {
         </div>
 
         {viewMode === 'table' ? (
-          <div className="overflow-x-auto rounded-lg border border-cream-dark bg-surface">
+          <DataTable>
+            <div className="overflow-x-auto">
             <table className="w-full text-[13px]">
               <thead>
                 <tr className="border-b border-cream-dark bg-cream/80 text-left text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
@@ -219,7 +221,8 @@ export const MedresasPage = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+            </div>
+          </DataTable>
         ) : (
           <MedresaList
             medresas={filteredMedresas}

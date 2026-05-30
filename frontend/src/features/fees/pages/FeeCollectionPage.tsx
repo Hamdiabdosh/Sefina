@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { FilterTabs } from '../../../components/ui/FilterTabs';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { StudentAvatar } from '../../students/components/StudentAvatar';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
@@ -157,7 +158,8 @@ export const FeeCollectionPage = () => {
                 <SkeletonTable rows={6} />
               </div>
             ) : (
-              <div className="mt-3 overflow-x-auto rounded-lg border border-cream-dark bg-surface">
+              <DataTable className="mt-3">
+                <div className="overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
                     <tr className="border-b border-cream-dark bg-cream/80 text-left text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
@@ -246,7 +248,8 @@ export const FeeCollectionPage = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
+                </div>
+              </DataTable>
             )}
           </>
         )}

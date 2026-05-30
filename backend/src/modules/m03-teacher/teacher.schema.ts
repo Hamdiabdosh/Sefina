@@ -30,6 +30,7 @@ export const createTeacherSchema = z.object({
   email: emailSchema,
   specialization: specializationSchema,
   dateJoined: z.coerce.date(),
+  cbeAccount: z.string().max(20).optional(),
   status: z.enum(["ACTIVE", "INACTIVE"]).optional(),
   initialAssignment: initialAssignmentSchema.optional(),
   temporaryPassword: passwordSchema.optional(),
@@ -42,6 +43,7 @@ export const updateTeacherSchema = z.object({
   email: emailSchema.optional(),
   specialization: specializationSchema.optional(),
   dateJoined: z.coerce.date().optional(),
+  cbeAccount: z.string().max(20).optional().nullable(),
   status: z.enum(["ACTIVE", "INACTIVE"]).optional(),
 });
 

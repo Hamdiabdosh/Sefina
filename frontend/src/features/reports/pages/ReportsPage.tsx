@@ -1,7 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BarChart2 } from 'lucide-react';
 import { PageBody } from '../../../components/layout/PageBody';
+import { PageSectionHeader } from '../../../components/layout/PageSectionHeader';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { DataTable } from '../../../components/ui/DataTable';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useCurrentUser } from '../../auth/hooks/useCurrentUser';
@@ -256,8 +260,13 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
           <p className="text-sm text-red-700">{t('reports.error')}</p>
         ) : null}
 
+        {run && activeQuery.data ? (
+          <PageSectionHeader title={t(`reports.kinds.${kind}`)} />
+        ) : null}
+
         {run && kind === 'enrollment' && enrollment.data?.items ? (
-          <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+          <DataTable>
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-cream-dark/50">
                 <tr>
@@ -286,7 +295,8 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
                 )}
               </tbody>
             </table>
-          </div>
+            </div>
+          </DataTable>
         ) : null}
 
         {run && kind === 'attendance' && attendance.data?.studentSummaries ? (
@@ -298,7 +308,8 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
               })}
             </p>
             {attendance.data.dailyRows?.length ? (
-              <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+              <DataTable>
+                <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-cream-dark/50">
                     <tr>
@@ -331,9 +342,11 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
                     ))}
                   </tbody>
                 </table>
-              </div>
+                </div>
+              </DataTable>
             ) : null}
-            <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+            <DataTable>
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-cream-dark/50">
                   <tr>
@@ -364,12 +377,14 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
                   )}
                 </tbody>
               </table>
-            </div>
+              </div>
+            </DataTable>
           </div>
         ) : null}
 
         {run && kind === 'fees' && fees.data?.items ? (
-          <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+          <DataTable>
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-cream-dark/50">
                 <tr>
@@ -400,11 +415,13 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
                 ))}
               </tbody>
             </table>
-          </div>
+            </div>
+          </DataTable>
         ) : null}
 
         {run && kind === 'salary' && currentUser?.isSuperAdmin && salary.data?.items ? (
-          <div className="overflow-x-auto rounded-xl border border-cream-dark bg-white">
+          <DataTable>
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-cream-dark/50">
                 <tr>
@@ -432,7 +449,8 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
                 ))}
               </tbody>
             </table>
-          </div>
+            </div>
+          </DataTable>
         ) : null}
 
         {run && kind === 'grades' && grades.data?.items ? (
@@ -465,7 +483,7 @@ export const ReportsPage = ({ variant }: ReportsPageProps) => {
         ) : null}
 
         {run && !activeQuery.isLoading && !activeQuery.data ? (
-          <p className="text-sm text-muted-foreground">{t('reports.empty')}</p>
+          <EmptyState icon={BarChart2} title={t('reports.empty')} />
         ) : null}
       </PageBody>
     </div>

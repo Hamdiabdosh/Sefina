@@ -1,7 +1,8 @@
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
+import { EmptyState } from '../../../components/ui/EmptyState';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { TeacherMedresaPicker } from '../../courses/components/TeacherMedresaPicker';
 import { useTeacherContext } from '../../courses/hooks/useTeacherContext';
@@ -71,14 +72,13 @@ export const TeacherStudentsPage = () => {
         />
 
         {students.length === 0 ? (
-          <div className="py-12 text-center text-muted-foreground space-y-2">
-            <p>{t('students.teacherEmpty')}</p>
-            <p className="text-xs max-w-md mx-auto">
-              {isAdminAtMedresa
-                ? t('students.amirEmptyHint')
-                : t('students.teacherEmptyHint')}
-            </p>
-          </div>
+          <EmptyState
+            icon={<Users className="h-7 w-7" aria-hidden />}
+            title={t('students.teacherEmpty')}
+            body={
+              isAdminAtMedresa ? t('students.amirEmptyHint') : t('students.teacherEmptyHint')
+            }
+          />
         ) : (
           <div className="flex flex-col gap-3">
             {students.map((student) => (

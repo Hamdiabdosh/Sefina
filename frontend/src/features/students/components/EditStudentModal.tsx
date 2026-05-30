@@ -36,6 +36,8 @@ export const EditStudentModal = ({
     resolver: zodResolver(studentFormSchema),
     defaultValues: {
       fullName: student.fullName,
+      fullNameAm: student.fullNameAm ?? '',
+      fullNameAr: student.fullNameAr ?? '',
       dateOfBirth: student.dateOfBirth.slice(0, 10),
       gender: student.gender,
       address: student.address,
@@ -48,6 +50,8 @@ export const EditStudentModal = ({
     if (open) {
       reset({
         fullName: student.fullName,
+        fullNameAm: student.fullNameAm ?? '',
+        fullNameAr: student.fullNameAr ?? '',
         dateOfBirth: student.dateOfBirth.slice(0, 10),
         gender: student.gender,
         address: student.address,

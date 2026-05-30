@@ -10,12 +10,13 @@ import { useMedresas } from '../features/medresas/hooks/useMedresas';
 import { useNotifications } from '../features/notifications/useNotifications';
 import { useTeachers } from '../features/teachers/hooks/useTeachers';
 import { buildNavSections } from './layout/navConfig';
+import { ShellMainSkeleton, ShellSidebarSkeleton } from './layout/ShellSidebarSkeleton';
 import { MobileShellBar, SidebarNavContent, useActivePath } from './layout/SidebarNav';
 
 export const AppShell = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, isLoading } = useCurrentUser();
   const { pendingGradeEdits } = useNotifications(Boolean(currentUser));
   const { logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
@@ -49,6 +50,23 @@ export const AppShell = () => {
     }),
     [medresas.length, teacherPagination?.total]
   );
+
+  if (isLoading) {
+    return (
+      <div className="min-h-dvh bg-canvas">
+        <aside
+          className="fixed inset-y-0 left-0 z-20 hidden h-dvh w-[220px] shrink-0 border-r border-sidebar-border md:flex md:flex-col"
+          aria-hidden
+        >
+          <ShellSidebarSkeleton />
+        </aside>
+        <div className="flex min-h-dvh min-w-0 flex-1 flex-col md:pl-[220px]">
+          <MobileShellBar onOpenMenu={() => {}} />
+          <ShellMainSkeleton />
+        </div>
+      </div>
+    );
+  }
 
   if (!currentUser) return null;
 
@@ -130,13 +148,24 @@ export const AppShell = () => {
         </div>
       </div>
 
-      {showProfile && (
-        <div className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-black/40 p-4 pt-16">
-          <div className="w-full max-w-lg">
+      {showProfile ? (
+        <div
+          className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto p-4 pt-16"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('shortcuts.openProfile')}
+        >
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            aria-label={t('shortcuts.close')}
+            onClick={() => setShowProfile(false)}
+          />
+          <div className="relative z-10 w-full max-w-lg">
             <ProfileCard user={currentUser} onClose={() => setShowProfile(false)} />
           </div>
         </div>
-      )}
+      ) : null}
 
       {showShortcutsHelp ? (
         <KeyboardShortcutsHelp user={currentUser} onClose={() => setShowShortcutsHelp(false)} />

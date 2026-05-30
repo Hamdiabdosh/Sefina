@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ContentCard } from '../../../../components/ui/ContentCard';
+import { DataTable } from '../../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../../components/ui/Skeleton';
 import { AttendanceDateLabel } from '../../../attendance/components/AttendanceDateLabel';
 import { useStudentAttendance } from '../../../attendance/hooks/useAttendance';
@@ -69,7 +70,8 @@ export const StudentAttendanceTab = ({ studentId }: Props) => {
         </span>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+      <DataTable>
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -96,7 +98,8 @@ export const StudentAttendanceTab = ({ studentId }: Props) => {
             ))}
           </tbody>
         </table>
-      </div>
+        </div>
+      </DataTable>
     </div>
   );
 };

@@ -14,10 +14,34 @@ import {
   formatEthiopianMonthYear,
   getCurrentEthiopianMonthYear,
 } from '../utils/ethiopian';
-import type { SalaryPaymentListStatus } from '../types';
+import type { SalaryPaymentListRow, SalaryPaymentListStatus } from '../types';
 
 const statusClass = (s: SalaryPaymentListStatus) =>
   s === 'PAID' ? 'bg-teal-50 text-teal-800' : 'bg-[#FCEBEB] text-danger-text';
+
+const formatBreakdownLine = (
+  row: SalaryPaymentListRow,
+  t: (key: string, options?: Record<string, unknown>) => string
+): string => {
+  if (!row.breakdown || row.monthlyAmountEtb == null) {
+    return t('salaries.noRankAssigned');
+  }
+
+  const amount = formatEtb(row.monthlyAmountEtb);
+
+  if (row.breakdown === 'ADMIN_ONLY') {
+    return `${t('salaries.breakdownAdminOnly')} · ${amount}`;
+  }
+
+  const rank = row.rankName ? getLocalizedValue(row.rankName) : t('salaries.noRankAssigned');
+  const medresaLabel = t('salaries.breakdownTeacherMulti', { count: row.medresaCount });
+
+  if (row.breakdown === 'TEACHER_ADMIN_COMBINED') {
+    return `${rank} (${t('salaries.breakdownAdminTeacher')}) · ${medresaLabel} · ${amount}`;
+  }
+
+  return `${rank} · ${medresaLabel} · ${amount}`;
+};
 
 export const SalaryPaymentListPage = () => {
   const { t } = useTranslation();
@@ -51,6 +75,13 @@ export const SalaryPaymentListPage = () => {
         subtitle={formatEthiopianMonthYear(month, year)}
         actions={
           <div className="flex gap-2">
+            <Link
+              to="/admin/salaries/cbe-print"
+              search={{ month, year }}
+              className="btn-secondary text-sm"
+            >
+              {t('salaries.cbeOrderButton')}
+            </Link>
             <Link to="/admin/salaries/overview" className="btn-secondary text-sm">
               {t('salaries.networkTitle')}
             </Link>
@@ -134,10 +165,13 @@ export const SalaryPaymentListPage = () => {
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-sm">{row.fullName}</p>
                   <p className="text-xs text-muted-foreground">
-                    {row.rankName
-                      ? `${getLocalizedValue(row.rankName)} · ${row.monthlyAmountEtb != null ? formatEtb(row.monthlyAmountEtb) : '—'}`
-                      : t('salaries.noRankAssigned')}
+                    {formatBreakdownLine(row, t)}
                   </p>
+                  {row.cbeAccount ? (
+                    <p className="text-xs text-muted-foreground">CBE: {row.cbeAccount}</p>
+                  ) : row.status === 'UNPAID' ? (
+                    <p className="text-xs text-amber-700">{t('salaries.cbeAccountMissing')}</p>
+                  ) : null}
                 </div>
                 <span
                   className={`rounded-md px-2 py-0.5 text-xs font-medium ${statusClass(row.status)}`}

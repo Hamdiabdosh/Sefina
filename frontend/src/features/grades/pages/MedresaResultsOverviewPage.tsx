@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
+import { DataTable } from '../../../components/ui/DataTable';
 import { SkeletonTable } from '../../../components/ui/Skeleton';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { useMedresaResultsOverview } from '../hooks/useGrades';
@@ -98,7 +99,8 @@ export const MedresaResultsOverviewPage = () => {
               </label>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-cream-dark bg-surface">
+            <DataTable>
+              <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-cream-dark text-left text-xs uppercase text-muted-foreground">
@@ -129,7 +131,8 @@ export const MedresaResultsOverviewPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
+              </div>
+            </DataTable>
           </>
         )}
       </PageBody>

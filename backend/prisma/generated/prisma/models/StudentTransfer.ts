@@ -199,6 +199,8 @@ export type StudentTransferWhereInput = {
   reason?: Prisma.StringNullableFilter<"StudentTransfer"> | string | null
   created_at?: Prisma.DateTimeFilter<"StudentTransfer"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  from_medresa?: Prisma.XOR<Prisma.MedresaScalarRelationFilter, Prisma.MedresaWhereInput>
+  to_medresa?: Prisma.XOR<Prisma.MedresaScalarRelationFilter, Prisma.MedresaWhereInput>
 }
 
 export type StudentTransferOrderByWithRelationInput = {
@@ -210,6 +212,8 @@ export type StudentTransferOrderByWithRelationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
+  from_medresa?: Prisma.MedresaOrderByWithRelationInput
+  to_medresa?: Prisma.MedresaOrderByWithRelationInput
 }
 
 export type StudentTransferWhereUniqueInput = Prisma.AtLeast<{
@@ -224,6 +228,8 @@ export type StudentTransferWhereUniqueInput = Prisma.AtLeast<{
   reason?: Prisma.StringNullableFilter<"StudentTransfer"> | string | null
   created_at?: Prisma.DateTimeFilter<"StudentTransfer"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  from_medresa?: Prisma.XOR<Prisma.MedresaScalarRelationFilter, Prisma.MedresaWhereInput>
+  to_medresa?: Prisma.XOR<Prisma.MedresaScalarRelationFilter, Prisma.MedresaWhereInput>
 }, "id">
 
 export type StudentTransferOrderByWithAggregationInput = {
@@ -254,12 +260,12 @@ export type StudentTransferScalarWhereWithAggregatesInput = {
 
 export type StudentTransferCreateInput = {
   id?: string
-  from_medresa_id: string
-  to_medresa_id: string
   transfer_date: Date | string
   reason?: string | null
   created_at?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutTransfersInput
+  from_medresa: Prisma.MedresaCreateNestedOneWithoutTransfers_fromInput
+  to_medresa: Prisma.MedresaCreateNestedOneWithoutTransfers_toInput
 }
 
 export type StudentTransferUncheckedCreateInput = {
@@ -274,12 +280,12 @@ export type StudentTransferUncheckedCreateInput = {
 
 export type StudentTransferUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  from_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
-  to_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutTransfersNestedInput
+  from_medresa?: Prisma.MedresaUpdateOneRequiredWithoutTransfers_fromNestedInput
+  to_medresa?: Prisma.MedresaUpdateOneRequiredWithoutTransfers_toNestedInput
 }
 
 export type StudentTransferUncheckedUpdateInput = {
@@ -304,8 +310,6 @@ export type StudentTransferCreateManyInput = {
 
 export type StudentTransferUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  from_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
-  to_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -361,6 +365,90 @@ export type StudentTransferMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
+export type StudentTransferCreateNestedManyWithoutFrom_medresaInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput> | Prisma.StudentTransferCreateWithoutFrom_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyFrom_medresaInputEnvelope
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+}
+
+export type StudentTransferCreateNestedManyWithoutTo_medresaInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput> | Prisma.StudentTransferCreateWithoutTo_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyTo_medresaInputEnvelope
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+}
+
+export type StudentTransferUncheckedCreateNestedManyWithoutFrom_medresaInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput> | Prisma.StudentTransferCreateWithoutFrom_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyFrom_medresaInputEnvelope
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+}
+
+export type StudentTransferUncheckedCreateNestedManyWithoutTo_medresaInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput> | Prisma.StudentTransferCreateWithoutTo_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyTo_medresaInputEnvelope
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+}
+
+export type StudentTransferUpdateManyWithoutFrom_medresaNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput> | Prisma.StudentTransferCreateWithoutFrom_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput[]
+  upsert?: Prisma.StudentTransferUpsertWithWhereUniqueWithoutFrom_medresaInput | Prisma.StudentTransferUpsertWithWhereUniqueWithoutFrom_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyFrom_medresaInputEnvelope
+  set?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  disconnect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  delete?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  update?: Prisma.StudentTransferUpdateWithWhereUniqueWithoutFrom_medresaInput | Prisma.StudentTransferUpdateWithWhereUniqueWithoutFrom_medresaInput[]
+  updateMany?: Prisma.StudentTransferUpdateManyWithWhereWithoutFrom_medresaInput | Prisma.StudentTransferUpdateManyWithWhereWithoutFrom_medresaInput[]
+  deleteMany?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
+}
+
+export type StudentTransferUpdateManyWithoutTo_medresaNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput> | Prisma.StudentTransferCreateWithoutTo_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput[]
+  upsert?: Prisma.StudentTransferUpsertWithWhereUniqueWithoutTo_medresaInput | Prisma.StudentTransferUpsertWithWhereUniqueWithoutTo_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyTo_medresaInputEnvelope
+  set?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  disconnect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  delete?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  update?: Prisma.StudentTransferUpdateWithWhereUniqueWithoutTo_medresaInput | Prisma.StudentTransferUpdateWithWhereUniqueWithoutTo_medresaInput[]
+  updateMany?: Prisma.StudentTransferUpdateManyWithWhereWithoutTo_medresaInput | Prisma.StudentTransferUpdateManyWithWhereWithoutTo_medresaInput[]
+  deleteMany?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
+}
+
+export type StudentTransferUncheckedUpdateManyWithoutFrom_medresaNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput> | Prisma.StudentTransferCreateWithoutFrom_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutFrom_medresaInput[]
+  upsert?: Prisma.StudentTransferUpsertWithWhereUniqueWithoutFrom_medresaInput | Prisma.StudentTransferUpsertWithWhereUniqueWithoutFrom_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyFrom_medresaInputEnvelope
+  set?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  disconnect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  delete?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  update?: Prisma.StudentTransferUpdateWithWhereUniqueWithoutFrom_medresaInput | Prisma.StudentTransferUpdateWithWhereUniqueWithoutFrom_medresaInput[]
+  updateMany?: Prisma.StudentTransferUpdateManyWithWhereWithoutFrom_medresaInput | Prisma.StudentTransferUpdateManyWithWhereWithoutFrom_medresaInput[]
+  deleteMany?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
+}
+
+export type StudentTransferUncheckedUpdateManyWithoutTo_medresaNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput> | Prisma.StudentTransferCreateWithoutTo_medresaInput[] | Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput[]
+  connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput | Prisma.StudentTransferCreateOrConnectWithoutTo_medresaInput[]
+  upsert?: Prisma.StudentTransferUpsertWithWhereUniqueWithoutTo_medresaInput | Prisma.StudentTransferUpsertWithWhereUniqueWithoutTo_medresaInput[]
+  createMany?: Prisma.StudentTransferCreateManyTo_medresaInputEnvelope
+  set?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  disconnect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  delete?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  connect?: Prisma.StudentTransferWhereUniqueInput | Prisma.StudentTransferWhereUniqueInput[]
+  update?: Prisma.StudentTransferUpdateWithWhereUniqueWithoutTo_medresaInput | Prisma.StudentTransferUpdateWithWhereUniqueWithoutTo_medresaInput[]
+  updateMany?: Prisma.StudentTransferUpdateManyWithWhereWithoutTo_medresaInput | Prisma.StudentTransferUpdateManyWithWhereWithoutTo_medresaInput[]
+  deleteMany?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
+}
+
 export type StudentTransferCreateNestedManyWithoutStudentInput = {
   create?: Prisma.XOR<Prisma.StudentTransferCreateWithoutStudentInput, Prisma.StudentTransferUncheckedCreateWithoutStudentInput> | Prisma.StudentTransferCreateWithoutStudentInput[] | Prisma.StudentTransferUncheckedCreateWithoutStudentInput[]
   connectOrCreate?: Prisma.StudentTransferCreateOrConnectWithoutStudentInput | Prisma.StudentTransferCreateOrConnectWithoutStudentInput[]
@@ -403,13 +491,114 @@ export type StudentTransferUncheckedUpdateManyWithoutStudentNestedInput = {
   deleteMany?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
 }
 
-export type StudentTransferCreateWithoutStudentInput = {
+export type StudentTransferCreateWithoutFrom_medresaInput = {
   id?: string
-  from_medresa_id: string
+  transfer_date: Date | string
+  reason?: string | null
+  created_at?: Date | string
+  student: Prisma.StudentCreateNestedOneWithoutTransfersInput
+  to_medresa: Prisma.MedresaCreateNestedOneWithoutTransfers_toInput
+}
+
+export type StudentTransferUncheckedCreateWithoutFrom_medresaInput = {
+  id?: string
+  student_id: string
   to_medresa_id: string
   transfer_date: Date | string
   reason?: string | null
   created_at?: Date | string
+}
+
+export type StudentTransferCreateOrConnectWithoutFrom_medresaInput = {
+  where: Prisma.StudentTransferWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentTransferCreateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput>
+}
+
+export type StudentTransferCreateManyFrom_medresaInputEnvelope = {
+  data: Prisma.StudentTransferCreateManyFrom_medresaInput | Prisma.StudentTransferCreateManyFrom_medresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudentTransferCreateWithoutTo_medresaInput = {
+  id?: string
+  transfer_date: Date | string
+  reason?: string | null
+  created_at?: Date | string
+  student: Prisma.StudentCreateNestedOneWithoutTransfersInput
+  from_medresa: Prisma.MedresaCreateNestedOneWithoutTransfers_fromInput
+}
+
+export type StudentTransferUncheckedCreateWithoutTo_medresaInput = {
+  id?: string
+  student_id: string
+  from_medresa_id: string
+  transfer_date: Date | string
+  reason?: string | null
+  created_at?: Date | string
+}
+
+export type StudentTransferCreateOrConnectWithoutTo_medresaInput = {
+  where: Prisma.StudentTransferWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentTransferCreateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput>
+}
+
+export type StudentTransferCreateManyTo_medresaInputEnvelope = {
+  data: Prisma.StudentTransferCreateManyTo_medresaInput | Prisma.StudentTransferCreateManyTo_medresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudentTransferUpsertWithWhereUniqueWithoutFrom_medresaInput = {
+  where: Prisma.StudentTransferWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudentTransferUpdateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedUpdateWithoutFrom_medresaInput>
+  create: Prisma.XOR<Prisma.StudentTransferCreateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutFrom_medresaInput>
+}
+
+export type StudentTransferUpdateWithWhereUniqueWithoutFrom_medresaInput = {
+  where: Prisma.StudentTransferWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudentTransferUpdateWithoutFrom_medresaInput, Prisma.StudentTransferUncheckedUpdateWithoutFrom_medresaInput>
+}
+
+export type StudentTransferUpdateManyWithWhereWithoutFrom_medresaInput = {
+  where: Prisma.StudentTransferScalarWhereInput
+  data: Prisma.XOR<Prisma.StudentTransferUpdateManyMutationInput, Prisma.StudentTransferUncheckedUpdateManyWithoutFrom_medresaInput>
+}
+
+export type StudentTransferScalarWhereInput = {
+  AND?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
+  OR?: Prisma.StudentTransferScalarWhereInput[]
+  NOT?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
+  id?: Prisma.StringFilter<"StudentTransfer"> | string
+  student_id?: Prisma.StringFilter<"StudentTransfer"> | string
+  from_medresa_id?: Prisma.StringFilter<"StudentTransfer"> | string
+  to_medresa_id?: Prisma.StringFilter<"StudentTransfer"> | string
+  transfer_date?: Prisma.DateTimeFilter<"StudentTransfer"> | Date | string
+  reason?: Prisma.StringNullableFilter<"StudentTransfer"> | string | null
+  created_at?: Prisma.DateTimeFilter<"StudentTransfer"> | Date | string
+}
+
+export type StudentTransferUpsertWithWhereUniqueWithoutTo_medresaInput = {
+  where: Prisma.StudentTransferWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudentTransferUpdateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedUpdateWithoutTo_medresaInput>
+  create: Prisma.XOR<Prisma.StudentTransferCreateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedCreateWithoutTo_medresaInput>
+}
+
+export type StudentTransferUpdateWithWhereUniqueWithoutTo_medresaInput = {
+  where: Prisma.StudentTransferWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudentTransferUpdateWithoutTo_medresaInput, Prisma.StudentTransferUncheckedUpdateWithoutTo_medresaInput>
+}
+
+export type StudentTransferUpdateManyWithWhereWithoutTo_medresaInput = {
+  where: Prisma.StudentTransferScalarWhereInput
+  data: Prisma.XOR<Prisma.StudentTransferUpdateManyMutationInput, Prisma.StudentTransferUncheckedUpdateManyWithoutTo_medresaInput>
+}
+
+export type StudentTransferCreateWithoutStudentInput = {
+  id?: string
+  transfer_date: Date | string
+  reason?: string | null
+  created_at?: Date | string
+  from_medresa: Prisma.MedresaCreateNestedOneWithoutTransfers_fromInput
+  to_medresa: Prisma.MedresaCreateNestedOneWithoutTransfers_toInput
 }
 
 export type StudentTransferUncheckedCreateWithoutStudentInput = {
@@ -447,17 +636,76 @@ export type StudentTransferUpdateManyWithWhereWithoutStudentInput = {
   data: Prisma.XOR<Prisma.StudentTransferUpdateManyMutationInput, Prisma.StudentTransferUncheckedUpdateManyWithoutStudentInput>
 }
 
-export type StudentTransferScalarWhereInput = {
-  AND?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
-  OR?: Prisma.StudentTransferScalarWhereInput[]
-  NOT?: Prisma.StudentTransferScalarWhereInput | Prisma.StudentTransferScalarWhereInput[]
-  id?: Prisma.StringFilter<"StudentTransfer"> | string
-  student_id?: Prisma.StringFilter<"StudentTransfer"> | string
-  from_medresa_id?: Prisma.StringFilter<"StudentTransfer"> | string
-  to_medresa_id?: Prisma.StringFilter<"StudentTransfer"> | string
-  transfer_date?: Prisma.DateTimeFilter<"StudentTransfer"> | Date | string
-  reason?: Prisma.StringNullableFilter<"StudentTransfer"> | string | null
-  created_at?: Prisma.DateTimeFilter<"StudentTransfer"> | Date | string
+export type StudentTransferCreateManyFrom_medresaInput = {
+  id?: string
+  student_id: string
+  to_medresa_id: string
+  transfer_date: Date | string
+  reason?: string | null
+  created_at?: Date | string
+}
+
+export type StudentTransferCreateManyTo_medresaInput = {
+  id?: string
+  student_id: string
+  from_medresa_id: string
+  transfer_date: Date | string
+  reason?: string | null
+  created_at?: Date | string
+}
+
+export type StudentTransferUpdateWithoutFrom_medresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUpdateOneRequiredWithoutTransfersNestedInput
+  to_medresa?: Prisma.MedresaUpdateOneRequiredWithoutTransfers_toNestedInput
+}
+
+export type StudentTransferUncheckedUpdateWithoutFrom_medresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  to_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudentTransferUncheckedUpdateManyWithoutFrom_medresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  to_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudentTransferUpdateWithoutTo_medresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUpdateOneRequiredWithoutTransfersNestedInput
+  from_medresa?: Prisma.MedresaUpdateOneRequiredWithoutTransfers_fromNestedInput
+}
+
+export type StudentTransferUncheckedUpdateWithoutTo_medresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudentTransferUncheckedUpdateManyWithoutTo_medresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentTransferCreateManyStudentInput = {
@@ -471,11 +719,11 @@ export type StudentTransferCreateManyStudentInput = {
 
 export type StudentTransferUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  from_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
-  to_medresa_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  from_medresa?: Prisma.MedresaUpdateOneRequiredWithoutTransfers_fromNestedInput
+  to_medresa?: Prisma.MedresaUpdateOneRequiredWithoutTransfers_toNestedInput
 }
 
 export type StudentTransferUncheckedUpdateWithoutStudentInput = {
@@ -507,6 +755,8 @@ export type StudentTransferSelect<ExtArgs extends runtime.Types.Extensions.Inter
   reason?: boolean
   created_at?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  from_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  to_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentTransfer"]>
 
 export type StudentTransferSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -518,6 +768,8 @@ export type StudentTransferSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   reason?: boolean
   created_at?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  from_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  to_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentTransfer"]>
 
 export type StudentTransferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -529,6 +781,8 @@ export type StudentTransferSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   reason?: boolean
   created_at?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  from_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  to_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentTransfer"]>
 
 export type StudentTransferSelectScalar = {
@@ -544,18 +798,26 @@ export type StudentTransferSelectScalar = {
 export type StudentTransferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "student_id" | "from_medresa_id" | "to_medresa_id" | "transfer_date" | "reason" | "created_at", ExtArgs["result"]["studentTransfer"]>
 export type StudentTransferInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  from_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  to_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
 }
 export type StudentTransferIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  from_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  to_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
 }
 export type StudentTransferIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  from_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
+  to_medresa?: boolean | Prisma.MedresaDefaultArgs<ExtArgs>
 }
 
 export type $StudentTransferPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudentTransfer"
   objects: {
     student: Prisma.$StudentPayload<ExtArgs>
+    from_medresa: Prisma.$MedresaPayload<ExtArgs>
+    to_medresa: Prisma.$MedresaPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -960,6 +1222,8 @@ readonly fields: StudentTransferFieldRefs;
 export interface Prisma__StudentTransferClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  from_medresa<T extends Prisma.MedresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaDefaultArgs<ExtArgs>>): Prisma.Prisma__MedresaClient<runtime.Types.Result.GetResult<Prisma.$MedresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  to_medresa<T extends Prisma.MedresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MedresaDefaultArgs<ExtArgs>>): Prisma.Prisma__MedresaClient<runtime.Types.Result.GetResult<Prisma.$MedresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

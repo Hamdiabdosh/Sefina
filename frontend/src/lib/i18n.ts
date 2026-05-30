@@ -9,7 +9,7 @@ const applyDocumentLanguage = (lng: string) => {
   document.documentElement.lang = lng;
   document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
   document.body.style.fontFamily =
-    lng === 'ar' ? '"Noto Naskh Arabic", serif' : 'system-ui, -apple-system, sans-serif';
+    lng === 'ar' ? 'var(--font-body-ar)' : 'var(--font-sans)';
 };
 
 void i18n

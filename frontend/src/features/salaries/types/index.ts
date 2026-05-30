@@ -1,5 +1,7 @@
 export type SalaryPaymentListStatus = 'PAID' | 'UNPAID';
 
+export type SalaryBreakdown = 'TEACHER_MULTI' | 'ADMIN_ONLY' | 'TEACHER_ADMIN_COMBINED';
+
 export type SalaryRankDTO = {
   id: string;
   name: Record<string, string>;
@@ -22,6 +24,9 @@ export type SalaryPaymentListRow = {
   status: SalaryPaymentListStatus;
   paymentId: string | null;
   amountPaidEtb: number | null;
+  breakdown: SalaryBreakdown | null;
+  medresaCount: number;
+  cbeAccount: string | null;
 };
 
 export type SalaryPaymentListResponse = {

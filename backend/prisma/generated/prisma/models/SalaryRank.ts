@@ -428,6 +428,11 @@ export type SalaryRankScalarRelationFilter = {
   isNot?: Prisma.SalaryRankWhereInput
 }
 
+export type SalaryRankNullableScalarRelationFilter = {
+  is?: Prisma.SalaryRankWhereInput | null
+  isNot?: Prisma.SalaryRankWhereInput | null
+}
+
 export type SalaryRankCreateNestedOneWithoutTeacher_ranksInput = {
   create?: Prisma.XOR<Prisma.SalaryRankCreateWithoutTeacher_ranksInput, Prisma.SalaryRankUncheckedCreateWithoutTeacher_ranksInput>
   connectOrCreate?: Prisma.SalaryRankCreateOrConnectWithoutTeacher_ranksInput
@@ -448,10 +453,12 @@ export type SalaryRankCreateNestedOneWithoutSalary_paymentsInput = {
   connect?: Prisma.SalaryRankWhereUniqueInput
 }
 
-export type SalaryRankUpdateOneRequiredWithoutSalary_paymentsNestedInput = {
+export type SalaryRankUpdateOneWithoutSalary_paymentsNestedInput = {
   create?: Prisma.XOR<Prisma.SalaryRankCreateWithoutSalary_paymentsInput, Prisma.SalaryRankUncheckedCreateWithoutSalary_paymentsInput>
   connectOrCreate?: Prisma.SalaryRankCreateOrConnectWithoutSalary_paymentsInput
   upsert?: Prisma.SalaryRankUpsertWithoutSalary_paymentsInput
+  disconnect?: Prisma.SalaryRankWhereInput | boolean
+  delete?: Prisma.SalaryRankWhereInput | boolean
   connect?: Prisma.SalaryRankWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SalaryRankUpdateToOneWithWhereWithoutSalary_paymentsInput, Prisma.SalaryRankUpdateWithoutSalary_paymentsInput>, Prisma.SalaryRankUncheckedUpdateWithoutSalary_paymentsInput>
 }

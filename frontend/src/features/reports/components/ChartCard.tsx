@@ -8,7 +8,7 @@ type ChartCardProps = {
 };
 
 export const ChartCard = ({ title, children, className }: ChartCardProps) => (
-  <div className={cn('rounded-xl border border-cream-dark bg-surface p-4', className)}>
+  <div className={cn('card p-4 transition-all duration-200', className)}>
     <h3 className="mb-3 text-xs font-medium uppercase tracking-wide text-teal-800">{title}</h3>
     {children}
   </div>

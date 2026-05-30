@@ -45,5 +45,9 @@ export const TeacherFormFields = ({ register, errors }: TeacherFormFieldsProps) 
         <p className="text-xs text-danger-text mt-1">{errors.dateJoined.message}</p>
       )}
     </div>
+    <div>
+      <label className="field-label">CBE Account Number (optional)</label>
+      <input type="text" className="field-input" {...register('cbeAccount')} />
+    </div>
   </>
 );

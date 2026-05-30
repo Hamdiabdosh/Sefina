@@ -13,6 +13,8 @@ type StudentCourseRow = {
 type StudentListRow = {
   id: string;
   full_name: string;
+  full_name_am?: string | null;
+  full_name_ar?: string | null;
   gender: Gender;
   guardian_phone: string;
   guardian_name: string;
@@ -91,6 +93,8 @@ export const mapStudentDetail = (
 ) => ({
   id: row.id,
   fullName: row.full_name,
+  fullNameAm: row.full_name_am ?? null,
+  fullNameAr: row.full_name_ar ?? null,
   dateOfBirth: row.date_of_birth,
   gender: row.gender,
   address: row.address,
