@@ -38,9 +38,6 @@ uploads/students/*
 *.log
 npm-debug.log*
 
-# Prisma
-backend/prisma/migrations/
-
 # Testing
 coverage/
 
