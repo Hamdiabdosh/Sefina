@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useSearch } from '@tanstack/react-router';
 import { useCurrentUser } from '../../auth/hooks/useCurrentUser';
 import { useMedresas } from '../../medresas/hooks/useMedresas';
+import { readStoredMedresaId, writeStoredMedresaId } from '../../../lib/medresaScope';
 
 type AdminMedresaPick = {
   medresaId: string;
@@ -52,8 +53,16 @@ export const useMedresaContext = () => {
     ) {
       return search.medresaId;
     }
+    const stored = readStoredMedresaId();
+    if (stored && adminMedresas.some((m) => m.medresaId === stored)) {
+      return stored;
+    }
     return adminMedresas[0]?.medresaId ?? '';
   }, [adminMedresas, search.medresaId]);
+
+  useEffect(() => {
+    if (medresaId) writeStoredMedresaId(medresaId);
+  }, [medresaId]);
 
   const medresaName =
     adminMedresas.find((m) => m.medresaId === medresaId)?.medresaName ?? '';

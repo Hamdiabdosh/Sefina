@@ -32,7 +32,22 @@
   "common": {
     "blessingQuote": "በአላህ የተደገፈ ሰው አላህ በቂ ነው።",
     "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
-    "blessingReference": "ቁርኣን ፬፭፥፫ — ሱራት አት-ጠላቅ"
+    "blessingReference": "ቁርኣን ፬፭፥፫ — ሱራት አት-ጠላቅ",
+    "close": "ዝጋ",
+    "cancel": "ሰርዝ",
+    "save": "አስቀምጥ",
+    "saving": "በመቀመጥ ላይ...",
+    "create": "ፍጠር",
+    "creating": "በመፍጠር ላይ..."
+  },
+  "errors": {
+    "appTitle": "አንድ ነገር ተሳስቷል",
+    "pageTitle": "ይህ ገጽ መጫን አልተቻለም",
+    "pageBody": "እባክዎ እንደገና ይሞክሩ ወይም ወደ ኋላ ይመለሱ።",
+    "tryAgain": "እንደገና ሞክር",
+    "goBack": "ተመለስ",
+    "goHome": "ወደ መነሻ",
+    "reloadPage": "ገጹን እንደገና ጫን"
   },
   "calendar": {
     "ethMonth": {
@@ -253,7 +268,11 @@
     "summaryAbsent": "አልመጡም",
     "summaryLate": "ዘግይተዋል",
     "summaryExcused": "ምክንያት",
-    "completeAllRowsHint": "ለእያንዳንዱ ተማሪ ሁኔታ ይምረጡ ወይም «ሁሉንም» ይጠቀሙ።"
+    "completeAllRowsHint": "ለእያንዳንዱ ተማሪ ሁኔታ ይምረጡ ወይም «ሁሉንም» ይጠቀሙ።",
+    "submitSuccess": "ተገኝነት ተቀምጧል።",
+    "submitError": "ተገኝነት መቀመጥ አልተሳካም።",
+    "confirmManyAbsentTitle": "ብዙ ተማሪዎች غائب",
+    "confirmManyAbsentBody": "{{count}} ከ {{total}} ተማሪዎች غائب ናቸው። ለማስገባት?"
   },
   "grades": {
     "colStudent": "ተማሪ",
@@ -505,6 +524,13 @@
     "comingM06": "ተገኝነት (M06) ሲገነባ ይታያል።",
     "backToList": "ወደ ኮርሶች ተመለስ",
     "medresaPicker": "ማድረሳ",
+    "hub": {
+      "overview": "አጠቃላይ",
+      "roster": "ዝርዝር",
+      "attendance": "ተገኝነት",
+      "results": "ውጤቶች",
+      "teacher": "መምህር"
+    },
     "save": "አስቀምጥ",
     "saving": "በመቀመጥ ላይ...",
     "cancel": "ሰርዝ",
@@ -546,7 +572,35 @@
     "colStudents": "ተማሪዎች",
     "colTeachers": "መምህራን",
     "colStatus": "ሁኔታ",
-    "edit": "አርትዕ"
+    "edit": "አርትዕ",
+    "addTitle": "ማድረሳ ጨምር",
+    "editTitle": "ማድረሳ አርትዕ",
+    "emptyTitle": "ማድረሳ አልተገኘም",
+    "emptyBody": "በኔትወርኩ ውስጥ የመጀመሪያውን ማድረሳ ይመዝግቡ",
+    "addButton": "ማድረሳ ጨምር",
+    "studentsCount": "{{count}} ተማሪዎች",
+    "teachersCount": "{{count}} መምህራን",
+    "createError": "ማድረሳ መፍጠር አልተሳካም።",
+    "updateError": "ማድረሳ መቀመጥ አልተሳካም።",
+    "deactivateTitle": "ማድረሳ አሰናክል",
+    "reactivateTitle": "ማድረሳ እንደገና አንቃ",
+    "deactivateBody": "{{name}} ይሰናከል? ከኔትወርኩ ይደበቃል። ሁሉም ውሂብ ይጠበቃል።",
+    "reactivateBody": "{{name}} እንደገና ይነሳ? በኔትወርኩ ይታያል።",
+    "deactivateConfirm": "አሰናክል",
+    "reactivateConfirm": "እንደገና አንቃ",
+    "createSuccess": "ማድረሳ ተፈጥሯል።",
+    "updateSuccess": "ማድረሳ ተቀምጧል።",
+    "deactivateSuccess": "ማድረሳ ተሰናክሏል።",
+    "reactivateSuccess": "ማድረሳ እንደገና ተነስቷል።",
+    "statusActive": "ንቁ",
+    "statusInactive": "ንቁ ያልሆነ",
+    "form": {
+      "name": "የማድረሳ ስም",
+      "location": "ቦታ",
+      "phone": "ስልክ (አማራጭ)"
+    },
+    "contextBar": "በ {{name}} ላይ እየሰራ",
+    "confirmAtMedresa": "ይህ እርምጃ በ {{name}} ላይ ይተገበራል።"
   },
   "students": {
     "colName": "ተማሪ",
@@ -680,7 +734,16 @@
     "unpaidTeachers": "ያልተከፈሉ መምህራን",
     "networkFees": "የአውታረ መረብ ክፍያ",
     "enrollmentByMedresa": "ተማሪዎች በማድረሳ",
-    "feeDefaulters": "የክፍያ አጠቃላይ"
+    "feeDefaulters": "የክፍያ አጠቃላይ",
+    "alertsTitle": "ትኩረት ይต้อง",
+    "alertGradeEdits": "{{count}} የሚጠበቁ የውጤት ማስተካከያ(ዎች)",
+    "alertGradeEditsHint": "የመምህር ጥያቄዎችን ይገምግሙ",
+    "alertOutstandingFees": "{{amount}} ብር ያልተከፈለ",
+    "alertOutstandingFeesHint": "ያልተከፈሉ ተማሪዎችን ይመልከቱ",
+    "alertAttendanceIncomplete": "የዛሬ ተገኝነት አልተመዘገበም",
+    "alertAttendanceIncompleteHint": "የዛሬን ዝርዝር ይመዝግቡ",
+    "coursesEmptyTitle": "ንቁ ኮርስ የለም",
+    "coursesEmptyBody": "ከኮርስ ካታሎግ ኮርሶችን ያግብሩ።"
   },
   "reports": {
     "title": "ሪፖርቶች",

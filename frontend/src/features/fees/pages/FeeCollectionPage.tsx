@@ -1,6 +1,6 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useSearch } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
@@ -81,11 +81,18 @@ const statusClass = (s: FeeCollectionStatus) => {
 
 export const FeeCollectionPage = () => {
   const { t } = useTranslation();
+  const urlSearch = useSearch({ strict: false }) as { medresaId?: string; status?: FeeCollectionStatus };
   const { medresaId, medresaName, adminMedresas, medresaScopeLoading } = useMedresaContext();
   const current = getCurrentEthiopianMonthYear();
   const [month, setMonth] = useState(current.month);
   const [year, setYear] = useState(current.year);
-  const [statusFilter, setStatusFilter] = useState<'ALL' | FeeCollectionStatus>('ALL');
+  const [statusFilter, setStatusFilter] = useState<'ALL' | FeeCollectionStatus>(
+    urlSearch.status ?? 'ALL'
+  );
+
+  useEffect(() => {
+    if (urlSearch.status) setStatusFilter(urlSearch.status);
+  }, [urlSearch.status]);
 
   const { data, isLoading } = useFeeCollection(
     medresaId,

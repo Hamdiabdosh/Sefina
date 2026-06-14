@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
+import { Modal } from '../../../components/ui/Modal';
+import { useToast } from '../../../components/ui/toast/ToastProvider';
 import { MedresaFormFields } from './MedresaFormFields';
 import {
   getMedresaMutationError,
@@ -18,6 +21,8 @@ type EditMedresaModalProps = {
 };
 
 export const EditMedresaModal = ({ medresa, onClose, updateMedresa }: EditMedresaModalProps) => {
+  const { t } = useTranslation();
+  const { success } = useToast();
   const {
     register,
     handleSubmit,
@@ -43,31 +48,38 @@ export const EditMedresaModal = ({ medresa, onClose, updateMedresa }: EditMedres
   const onSubmit = (data: MedresaFormValues) => {
     updateMedresa.mutate(
       { id: medresa.id, data: toMedresaApiPayload(data) },
-      { onSuccess: () => onClose() }
+      {
+        onSuccess: () => {
+          success(t('medresas.updateSuccess'));
+          onClose();
+        },
+      }
     );
   };
 
   const apiError = updateMedresa.isError
-    ? (getMedresaMutationError(updateMedresa.error) ?? 'Could not save medresa.')
+    ? (getMedresaMutationError(updateMedresa.error) ?? t('medresas.updateError'))
     : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white rounded-xl w-full max-w-md p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-        <h3 className="text-lg font-medium text-teal-800 mb-4">Edit medresa</h3>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <MedresaFormFields register={register} errors={errors} />
-          {apiError && <p className="text-xs text-danger-text">{apiError}</p>}
-          <div className="flex gap-2 pt-2">
-            <button type="button" onClick={onClose} className="btn-secondary flex-1">
-              Cancel
-            </button>
-            <button type="submit" disabled={updateMedresa.isPending} className="btn-primary flex-1">
-              {updateMedresa.isPending ? 'Saving...' : 'Save'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Modal
+      open={Boolean(medresa)}
+      onClose={onClose}
+      title={t('medresas.editTitle')}
+      preventClose={updateMedresa.isPending}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <MedresaFormFields register={register} errors={errors} />
+        {apiError ? <p className="text-xs text-danger-text">{apiError}</p> : null}
+        <div className="flex gap-2 pt-2">
+          <button type="button" onClick={onClose} className="btn-secondary flex-1">
+            {t('common.cancel')}
+          </button>
+          <button type="submit" disabled={updateMedresa.isPending} className="btn-primary flex-1">
+            {updateMedresa.isPending ? t('common.saving') : t('common.save')}
+          </button>
+        </div>
+      </form>
+    </Modal>
   );
 };

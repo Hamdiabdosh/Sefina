@@ -2,8 +2,10 @@ import { Link, useNavigate, useSearch } from '@tanstack/react-router';
 import { ArrowLeft, Check, ClipboardList, MessageSquare, Send } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PageBody } from '../../../components/layout/PageBody';
+import { ConfirmDialog } from '../../../components/ui/ConfirmDialog';
+import { useToast } from '../../../components/ui/toast/ToastProvider';
 import { EmptyState } from '../../../components/ui/EmptyState';
+import { PageBody } from '../../../components/layout/PageBody';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
 import { cn } from '../../../lib/utils';
 import type { AttendanceStatus } from '../types';
@@ -60,6 +62,7 @@ type DailyAttendanceTakePageProps = {
 
 export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProps) => {
   const { t } = useTranslation();
+  const { success, error: toastError } = useToast();
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { medresaId?: string };
   const medresaId = search.medresaId ?? '';
@@ -79,6 +82,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
 
   const [rows, setRows] = useState<RowState[]>([]);
   const [noteOpen, setNoteOpen] = useState<Record<string, boolean>>({});
+  const [showAbsentConfirm, setShowAbsentConfirm] = useState(false);
 
   useEffect(() => {
     const session = sessionData?.session ?? null;
@@ -91,7 +95,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
         return {
           studentId: s.id,
           fullName: s.fullName,
-          status: (prev?.status ?? 'ABSENT') as AttendanceStatus,
+          status: (prev?.status ?? 'PRESENT') as AttendanceStatus,
           note: prev?.note ?? '',
           touched: hasRecord,
         };
@@ -137,7 +141,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
     setNoteOpen((m) => ({ ...m, [studentId]: !m[studentId] }));
   }, []);
 
-  const onSubmit = async () => {
+  const submitRecords = async () => {
     const records = rows.map((r) => ({
       studentId: r.studentId,
       status: r.status,
@@ -162,13 +166,24 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
         });
       }
       await refetch();
+      success(t('attendance.submitSuccess'));
       void navigate({
         to: backHref,
         search: { medresaId },
       });
     } catch {
-      // surfaced by axios
+      toastError(t('attendance.submitError'));
     }
+  };
+
+  const onSubmit = () => {
+    const absentCount = rows.filter((r) => r.status === 'ABSENT').length;
+    const manyAbsent = totalStudents > 0 && absentCount > totalStudents / 2;
+    if (manyAbsent) {
+      setShowAbsentConfirm(true);
+      return;
+    }
+    void submitRecords();
   };
 
   const busy = createSession.isPending || patchSession.isPending;
@@ -273,7 +288,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
             <button
               type="button"
               disabled={busy || !canSubmit}
-              onClick={() => void onSubmit()}
+              onClick={onSubmit}
               className="btn-primary-inline hidden shrink-0 gap-2 px-4 py-2 md:inline-flex"
               title={!allTouched ? t('attendance.completeAllRowsHint') : undefined}
             >
@@ -441,7 +456,7 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
           <button
             type="button"
             disabled={busy || !canSubmit}
-            onClick={() => void onSubmit()}
+            onClick={onSubmit}
             className="btn-primary-inline ml-auto px-5 py-2.5 disabled:opacity-50 w-full sm:w-auto"
             title={!allTouched ? t('attendance.completeAllRowsHint') : undefined}
           >
@@ -450,6 +465,22 @@ export const DailyAttendanceTakePage = ({ variant }: DailyAttendanceTakePageProp
           </button>
         </div>
       ) : null}
+
+      <ConfirmDialog
+        open={showAbsentConfirm}
+        onClose={() => setShowAbsentConfirm(false)}
+        onConfirm={() => {
+          setShowAbsentConfirm(false);
+          void submitRecords();
+        }}
+        title={t('attendance.confirmManyAbsentTitle')}
+        body={t('attendance.confirmManyAbsentBody', {
+          count: rows.filter((r) => r.status === 'ABSENT').length,
+          total: totalStudents,
+        })}
+        confirmLabel={t('attendance.submitAttendance')}
+        loading={busy}
+      />
     </div>
   );
 };

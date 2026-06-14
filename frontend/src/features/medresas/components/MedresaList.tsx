@@ -1,6 +1,8 @@
-import { MedresaListItem } from "../types";
-import { Building2, Plus, MapPin, Users, GraduationCap, ChevronRight } from "lucide-react";
-import { ContentCard } from "../../../components/ui/ContentCard";
+import { Building2, Plus, MapPin, Users, GraduationCap, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { ContentCard } from '../../../components/ui/ContentCard';
+import { EmptyState } from '../../../components/ui/EmptyState';
+import { MedresaListItem } from '../types';
 
 interface MedresaListProps {
   medresas: MedresaListItem[];
@@ -15,19 +17,21 @@ export const MedresaList = ({
   onEditMedresa,
   onViewMedresa,
 }: MedresaListProps) => {
+  const { t } = useTranslation();
+
   if (medresas.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center px-4 py-20 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 text-teal-200">
-          <Building2 size={32} />
-        </div>
-        <h3 className="mb-1 text-lg font-medium text-teal-800">No medresas found</h3>
-        <p className="mb-6 text-sm text-muted-foreground">Enroll the first medresa in the network</p>
-        <button type="button" onClick={onAddMedresa} className="btn-primary-inline px-6">
-          <Plus size={18} />
-          Add medresa
-        </button>
-      </div>
+      <EmptyState
+        icon={Building2}
+        title={t('medresas.emptyTitle')}
+        body={t('medresas.emptyBody')}
+        action={
+          <button type="button" onClick={onAddMedresa} className="btn-primary-inline px-6">
+            <Plus size={18} />
+            {t('medresas.addButton')}
+          </button>
+        }
+      />
     );
   }
 
@@ -55,11 +59,11 @@ export const MedresaList = ({
                 <div className="mb-3 flex gap-4">
                   <div className="flex items-center gap-1.5 text-xs font-medium text-teal-600">
                     <Users size={12} />
-                    {medresa._count?.students ?? 0} students
+                    {t('medresas.studentsCount', { count: medresa._count?.students ?? 0 })}
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-medium text-teal-600">
                     <GraduationCap size={12} />
-                    {medresa._count?.teacher_medresas ?? 0} teachers
+                    {t('medresas.teachersCount', { count: medresa._count?.teacher_medresas ?? 0 })}
                   </div>
                 </div>
 
@@ -71,7 +75,9 @@ export const MedresaList = ({
                     <span
                       className={`text-[11px] font-medium uppercase tracking-wider ${medresa.status === 'ACTIVE' ? 'text-success-text' : 'text-danger-text'}`}
                     >
-                      {medresa.status}
+                      {medresa.status === 'ACTIVE'
+                        ? t('medresas.statusActive')
+                        : t('medresas.statusInactive')}
                     </span>
                   </div>
 
@@ -83,7 +89,7 @@ export const MedresaList = ({
                     className="text-xs font-medium text-teal-600 hover:underline"
                     type="button"
                   >
-                    Edit
+                    {t('medresas.edit')}
                   </button>
                 </div>
               </div>

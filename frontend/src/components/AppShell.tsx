@@ -9,7 +9,9 @@ import { ProfileCard } from '../features/auth/components/ProfileCard';
 import { useMedresas } from '../features/medresas/hooks/useMedresas';
 import { useNotifications } from '../features/notifications/useNotifications';
 import { useTeachers } from '../features/teachers/hooks/useTeachers';
+import { MedresaContextBar } from './layout/MedresaContextBar';
 import { buildNavSections } from './layout/navConfig';
+import { useMedresaContext } from '../features/courses/hooks/useMedresaContext';
 import { ShellMainSkeleton, ShellSidebarSkeleton } from './layout/ShellSidebarSkeleton';
 import { MobileShellBar, SidebarNavContent, useActivePath } from './layout/SidebarNav';
 
@@ -18,6 +20,7 @@ export const AppShell = () => {
   const navigate = useNavigate();
   const { currentUser, isLoading } = useCurrentUser();
   const { pendingGradeEdits } = useNotifications(Boolean(currentUser));
+  const { medresaId: scopedMedresaId } = useMedresaContext();
   const { logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
@@ -107,6 +110,7 @@ export const AppShell = () => {
           onOpenProfile={() => setShowProfile(true)}
           onLogout={logout}
           brandSubtitle={brandSubtitle}
+          scopedMedresaId={scopedMedresaId || undefined}
         />
       </aside>
 
@@ -136,6 +140,7 @@ export const AppShell = () => {
               }}
               onLogout={logout}
               brandSubtitle={brandSubtitle}
+              scopedMedresaId={scopedMedresaId || undefined}
             />
           </div>
         </div>
@@ -143,6 +148,7 @@ export const AppShell = () => {
 
       <div className="flex min-h-dvh min-w-0 flex-1 flex-col md:pl-[220px]">
         <MobileShellBar onOpenMenu={() => setMobileOpen(true)} />
+        <MedresaContextBar />
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           <Outlet />
         </div>

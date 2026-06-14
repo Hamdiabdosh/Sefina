@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import type { MedresaRoleEntry } from '../../auth/types/auth.types';
 
@@ -10,19 +10,26 @@ type MedresaPickerProps = {
 export const MedresaPicker = ({ medresas, selectedId }: MedresaPickerProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   if (medresas.length <= 1) return null;
 
   return (
     <div>
-      <label className="field-label">{t('courses.medresaPicker')}</label>
+      <label className="field-label" htmlFor="page-medresa-picker">
+        {t('courses.medresaPicker')}
+      </label>
       <select
+        id="page-medresa-picker"
         className="field-input"
         value={selectedId}
         onChange={(e) => {
           void navigate({
-            to: '/medresa/courses',
-            search: { medresaId: e.target.value },
+            to: pathname,
+            search: (prev: Record<string, unknown>) => ({
+              ...prev,
+              medresaId: e.target.value,
+            }),
           });
         }}
       >

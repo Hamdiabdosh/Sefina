@@ -83,6 +83,9 @@ export const TransferStudentModal = ({
             <label className="field-label">{t('students.transferReason')}</label>
             <textarea className="field-input min-h-[80px]" {...register('reason')} />
           </div>
+          <p className="text-xs text-teal-800 bg-teal-50 border border-teal-100 rounded-lg p-3">
+            {t('medresas.confirmAtMedresa', { name: student.currentMedresaName })}
+          </p>
           <p className="text-xs text-amber-800 bg-amber-50 border border-amber-100 rounded-lg p-3">
             {t('students.transferWarning')}
           </p>

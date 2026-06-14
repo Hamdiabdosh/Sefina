@@ -32,7 +32,22 @@
   "common": {
     "blessingQuote": "And whoever relies upon Allah - then He is sufficient for him.",
     "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
-    "blessingReference": "Quran 65:3 — Surah At-Talaq"
+    "blessingReference": "Quran 65:3 — Surah At-Talaq",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "create": "Create",
+    "creating": "Creating..."
+  },
+  "errors": {
+    "appTitle": "Something went wrong",
+    "pageTitle": "This page couldn't load",
+    "pageBody": "Please try again or go back.",
+    "tryAgain": "Try again",
+    "goBack": "Go back",
+    "goHome": "Go to home",
+    "reloadPage": "Reload page"
   },
   "calendar": {
     "ethMonth": {
@@ -253,7 +268,11 @@
     "summaryAbsent": "absent",
     "summaryLate": "late",
     "summaryExcused": "excused",
-    "completeAllRowsHint": "Set a status for every student, or use Mark all, before submitting."
+    "completeAllRowsHint": "Set a status for every student, or use Mark all, before submitting.",
+    "submitSuccess": "Attendance saved.",
+    "submitError": "Could not save attendance.",
+    "confirmManyAbsentTitle": "Many students marked absent",
+    "confirmManyAbsentBody": "{{count}} of {{total}} students are marked absent. Submit anyway?"
   },
   "grades": {
     "colStudent": "Student",
@@ -513,6 +532,13 @@
     "comingM06": "Available when attendance tracking (M06) is built.",
     "backToList": "Back to courses",
     "medresaPicker": "Medresa",
+    "hub": {
+      "overview": "Overview",
+      "roster": "Roster",
+      "attendance": "Attendance",
+      "results": "Results",
+      "teacher": "Teacher"
+    },
     "save": "Save",
     "saving": "Saving...",
     "cancel": "Cancel",
@@ -554,7 +580,35 @@
     "colStudents": "Students",
     "colTeachers": "Teachers",
     "colStatus": "Status",
-    "edit": "Edit"
+    "edit": "Edit",
+    "addTitle": "Add medresa",
+    "editTitle": "Edit medresa",
+    "emptyTitle": "No medresas found",
+    "emptyBody": "Enroll the first medresa in the network",
+    "addButton": "Add medresa",
+    "studentsCount": "{{count}} students",
+    "teachersCount": "{{count}} teachers",
+    "createError": "Could not create medresa.",
+    "updateError": "Could not save medresa.",
+    "deactivateTitle": "Deactivate medresa",
+    "reactivateTitle": "Reactivate medresa",
+    "deactivateBody": "Deactivate {{name}}? It will be hidden from the network. All data will be preserved.",
+    "reactivateBody": "Reactivate {{name}}? It will appear in the network again.",
+    "deactivateConfirm": "Deactivate",
+    "reactivateConfirm": "Reactivate",
+    "createSuccess": "Medresa created.",
+    "updateSuccess": "Medresa saved.",
+    "deactivateSuccess": "Medresa deactivated.",
+    "reactivateSuccess": "Medresa reactivated.",
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "form": {
+      "name": "Medresa name",
+      "location": "Location",
+      "phone": "Phone (optional)"
+    },
+    "contextBar": "Working in: {{name}}",
+    "confirmAtMedresa": "This action applies to {{name}}."
   },
   "students": {
     "title": "Students",
@@ -694,7 +748,16 @@
     "unpaidTeachers": "Unpaid teachers",
     "networkFees": "Network fee trend",
     "enrollmentByMedresa": "Students per medresa",
-    "feeDefaulters": "Fee overview"
+    "feeDefaulters": "Fee overview",
+    "alertsTitle": "Needs attention",
+    "alertGradeEdits": "{{count}} pending grade edit(s)",
+    "alertGradeEditsHint": "Review and approve teacher requests",
+    "alertOutstandingFees": "{{amount}} ETB outstanding",
+    "alertOutstandingFeesHint": "View unpaid students",
+    "alertAttendanceIncomplete": "Today's attendance not recorded",
+    "alertAttendanceIncompleteHint": "Take or complete today's roll",
+    "coursesEmptyTitle": "No active courses",
+    "coursesEmptyBody": "Activate courses from the course catalog to see stats here."
   },
   "reports": {
     "title": "Reports",

@@ -2,12 +2,12 @@ import {
   createRouter,
   createRoute,
   createRootRouteWithContext,
-  Link,
   redirect,
   Outlet,
 } from '@tanstack/react-router';
 import type { QueryClient } from '@tanstack/react-query';
 import { AppShell } from './components/AppShell';
+import { RootRouteError } from './components/RootRouteError';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 import { LoginPage } from './features/auth/pages/LoginPage';
 import { MarketingPage } from './features/marketing/pages/MarketingPage';
@@ -36,6 +36,7 @@ import { GradeEntryPage } from './features/grades/pages/GradeEntryPage';
 import { GradeEditRequestPage } from './features/grades/pages/GradeEditRequestPage';
 import { ClassResultsPage } from './features/grades/pages/ClassResultsPage';
 import { isStudentHubTab } from './features/students/types/studentHub';
+import { isCourseHubTab } from './features/courses/types/courseHub';
 import { MedresaResultsOverviewPage } from './features/grades/pages/MedresaResultsOverviewPage';
 import { NetworkResultsOverviewPage } from './features/grades/pages/NetworkResultsOverviewPage';
 import { TeacherGradesHubPage } from './features/grades/pages/TeacherGradesHubPage';
@@ -81,14 +82,7 @@ const requireFeeAccess = (user: CurrentUser) => {
 
 const rootRoute = createRootRouteWithContext<RouterContext>()({
   component: () => <Outlet />,
-  errorComponent: () => (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-canvas p-6 text-center">
-      <p className="text-foreground">Something went wrong.</p>
-      <Link to="/" className="mt-4 text-sm font-medium text-primary hover:underline">
-        Go to home
-      </Link>
-    </div>
-  ),
+  errorComponent: RootRouteError,
 });
 
 const indexRoute = createRoute({
@@ -311,9 +305,12 @@ const medresaCourseDetailRoute = createRoute({
     }
   },
   component: MedresaCourseDetailPage,
-  validateSearch: (search: Record<string, unknown>) => ({
-    medresaId: (search.medresaId as string) || undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>) => {
+    const result: { medresaId?: string; tab?: string } = {};
+    if (search.medresaId) result.medresaId = search.medresaId as string;
+    if (isCourseHubTab(search.tab as string | undefined)) result.tab = search.tab as string;
+    return result;
+  },
 });
 
 const medresaStudentsRoute = createRoute({
@@ -669,9 +666,14 @@ const medresaFeesRoute = createRoute({
     }
   },
   component: FeeCollectionPage,
-  validateSearch: (search: Record<string, unknown>) => ({
-    medresaId: (search.medresaId as string) || undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>) => {
+    const result: { medresaId?: string; status?: 'PAID' | 'PARTIAL' | 'UNPAID' } = {};
+    if (search.medresaId) result.medresaId = search.medresaId as string;
+    if (search.status === 'PAID' || search.status === 'PARTIAL' || search.status === 'UNPAID') {
+      result.status = search.status;
+    }
+    return result;
+  },
 });
 
 const medresaRecordPaymentRoute = createRoute({

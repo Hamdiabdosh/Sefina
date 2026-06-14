@@ -32,7 +32,22 @@
   "common": {
     "blessingQuote": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
     "blessingArabic": "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
-    "blessingReference": "القرآن ٦٥:٣ — سورة الطلاق"
+    "blessingReference": "القرآن ٦٥:٣ — سورة الطلاق",
+    "close": "إغلاق",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "saving": "جارٍ الحفظ...",
+    "create": "إنشاء",
+    "creating": "جارٍ الإنشاء..."
+  },
+  "errors": {
+    "appTitle": "حدث خطأ ما",
+    "pageTitle": "تعذّر تحميل هذه الصفحة",
+    "pageBody": "يرجى المحاولة مرة أخرى أو الرجوع.",
+    "tryAgain": "إعادة المحاولة",
+    "goBack": "رجوع",
+    "goHome": "الصفحة الرئيسية",
+    "reloadPage": "إعادة تحميل الصفحة"
   },
   "calendar": {
     "ethMonth": {
@@ -253,7 +268,11 @@
     "summaryAbsent": "غائب",
     "summaryLate": "متأخر",
     "summaryExcused": "مُعذَر",
-    "completeAllRowsHint": "عيّن حالة لكل طالب أو استخدم «تعيين الكل» قبل الحفظ."
+    "completeAllRowsHint": "عيّن حالة لكل طالب أو استخدم «تعيين الكل» قبل الحفظ.",
+    "submitSuccess": "تم حفظ الحضور.",
+    "submitError": "تعذّر حفظ الحضور.",
+    "confirmManyAbsentTitle": "عدد كبير غائب",
+    "confirmManyAbsentBody": "{{count}} من {{total}} طلاب غائبون. هل تريد الحفظ؟"
   },
   "grades": {
     "colStudent": "الطالب",
@@ -505,6 +524,13 @@
     "comingM06": "يُتاح عند بناء نظام الحضور (M06).",
     "backToList": "العودة إلى الدورات",
     "medresaPicker": "المدرسة",
+    "hub": {
+      "overview": "نظرة عامة",
+      "roster": "القائمة",
+      "attendance": "الحضور",
+      "results": "النتائج",
+      "teacher": "المعلّم"
+    },
     "save": "حفظ",
     "saving": "جارٍ الحفظ...",
     "cancel": "إلغاء",
@@ -546,7 +572,35 @@
     "colStudents": "الطلاب",
     "colTeachers": "المعلّمون",
     "colStatus": "الحالة",
-    "edit": "تعديل"
+    "edit": "تعديل",
+    "addTitle": "إضافة مدرسة",
+    "editTitle": "تعديل المدرسة",
+    "emptyTitle": "لا توجد مدارس",
+    "emptyBody": "سجّل أول مدرسة في الشبكة",
+    "addButton": "إضافة مدرسة",
+    "studentsCount": "{{count}} طلاب",
+    "teachersCount": "{{count}} معلّمين",
+    "createError": "تعذّر إنشاء المدرسة.",
+    "updateError": "تعذّر حفظ المدرسة.",
+    "deactivateTitle": "إيقاف المدرسة",
+    "reactivateTitle": "إعادة تفعيل المدرسة",
+    "deactivateBody": "إيقاف {{name}}؟ ستُخفى من الشبكة. تُحفظ جميع البيانات.",
+    "reactivateBody": "إعادة تفعيل {{name}}؟ ستظهر في الشبكة مجدداً.",
+    "deactivateConfirm": "إيقاف",
+    "reactivateConfirm": "إعادة التفعيل",
+    "createSuccess": "تم إنشاء المدرسة.",
+    "updateSuccess": "تم حفظ المدرسة.",
+    "deactivateSuccess": "تم إيقاف المدرسة.",
+    "reactivateSuccess": "تم إعادة تفعيل المدرسة.",
+    "statusActive": "نشط",
+    "statusInactive": "غير نشط",
+    "form": {
+      "name": "اسم المدرسة",
+      "location": "الموقع",
+      "phone": "الهاتف (اختياري)"
+    },
+    "contextBar": "العمل في: {{name}}",
+    "confirmAtMedresa": "ينطبق هذا الإجراء على {{name}}."
   },
   "students": {
     "colName": "الطالب",
@@ -680,7 +734,16 @@
     "unpaidTeachers": "معلمون غير مدفوعين",
     "networkFees": "اتجاه رسوم الشبكة",
     "enrollmentByMedresa": "طلاب لكل مدرسة",
-    "feeDefaulters": "نظرة الرسوم"
+    "feeDefaulters": "نظرة الرسوم",
+    "alertsTitle": "يتطلب انتباهك",
+    "alertGradeEdits": "{{count}} طلب(ات) تعديل درجات",
+    "alertGradeEditsHint": "راجع طلبات المعلّمين",
+    "alertOutstandingFees": "{{amount}} بر متبقٍ",
+    "alertOutstandingFeesHint": "عرض الطلاب غير المدفوعين",
+    "alertAttendanceIncomplete": "لم يُسجَّل حضور اليوم",
+    "alertAttendanceIncompleteHint": "سجّل أو أكمل قائمة اليوم",
+    "coursesEmptyTitle": "لا توجد دورات نشطة",
+    "coursesEmptyBody": "فعّل دورات من الكتالوج لرؤية الإحصائيات."
   },
   "reports": {
     "title": "التقارير",

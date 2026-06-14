@@ -13,13 +13,15 @@ import {
 } from 'recharts';
 import { BookOpen, CalendarDays, Coins, Users } from 'lucide-react';
 import { PageBody } from '../../../components/layout/PageBody';
-import { PageSectionHeader } from '../../../components/layout/PageSectionHeader';
 import { PageTopBar } from '../../../components/layout/PageTopBar';
-import { DataTable } from '../../../components/ui/DataTable';
 import { StatCard } from '../../../components/ui/StatCard';
 import { useMedresaContext } from '../../courses/hooks/useMedresaContext';
 import { formatEthiopianMonthYear } from '../../../lib/ethiopian';
 import { ChartCard } from '../components/ChartCard';
+import {
+  MedresaDashboardAlerts,
+  MedresaDashboardCoursesSection,
+} from '../components/MedresaDashboardSections';
 import { SkeletonCard, SkeletonStatGrid } from '../../../components/ui/Skeleton';
 import { useMedresaDashboard } from '../hooks/useDashboard';
 
@@ -40,6 +42,8 @@ export const MedresaDashboardContent = () => {
       label: formatEthiopianMonthYear(e.month, e.year),
       count: e.count,
     })) ?? [];
+
+  const attendanceIncomplete = data?.todayAttendanceRatePercent == null && (data?.totalStudents ?? 0) > 0;
 
   return (
     <div className="flex min-h-0 flex-1 flex-col pb-12">
@@ -63,6 +67,14 @@ export const MedresaDashboardContent = () => {
           </>
         ) : (
           <>
+            {medresaId ? (
+              <MedresaDashboardAlerts
+                medresaId={medresaId}
+                outstandingFeesEtb={data?.outstandingFeesEtb ?? 0}
+                attendanceIncomplete={attendanceIncomplete}
+              />
+            ) : null}
+
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               <StatCard icon={Users} value={data?.totalStudents ?? 0} label={t('dashboard.enrolledStudents')} />
               <StatCard icon={BookOpen} value={data?.activeCourses ?? 0} label={t('dashboard.activeCourses')} />
@@ -114,40 +126,11 @@ export const MedresaDashboardContent = () => {
               </ChartCard>
             </div>
 
-            {(data?.courseStats.length ?? 0) > 0 ? (
-              <section className="space-y-4">
-                <PageSectionHeader title={t('nav.courses')} />
-                <DataTable>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead className="bg-cream-dark/50">
-                        <tr>
-                          <th className="p-2 text-left">{t('dashboard.course')}</th>
-                          <th className="p-2 text-right">{t('dashboard.students')}</th>
-                          <th className="p-2 text-right">{t('dashboard.attendance')}</th>
-                          <th className="p-2 text-right">{t('dashboard.avgGrade')}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data?.courseStats.map((c) => (
-                          <tr key={c.medresaCourseId} className="border-t border-cream-dark/60">
-                            <td className="p-2">{c.courseName}</td>
-                            <td className="p-2 text-right">{c.studentCount}</td>
-                            <td className="p-2 text-right">
-                              {c.todayAttendanceRatePercent != null
-                                ? `${c.todayAttendanceRatePercent}%`
-                                : '—'}
-                            </td>
-                            <td className="p-2 text-right">
-                              {c.averageGradePercent != null ? `${c.averageGradePercent}%` : '—'}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </DataTable>
-              </section>
+            {medresaId ? (
+              <MedresaDashboardCoursesSection
+                medresaId={medresaId}
+                courseStats={data?.courseStats ?? []}
+              />
             ) : null}
 
             <div className="flex flex-wrap gap-2">

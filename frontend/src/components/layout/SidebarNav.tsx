@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AppLogo } from '../AppLogo';
 import type { CurrentUser } from '../../features/auth/types/auth.types';
 import { NotificationBell } from '../../features/notifications/NotificationBell';
+import { buildMedresaNavSearch } from '../../lib/medresaScope';
 import { cn } from '../../lib/utils';
 import type { NavBadgeKey, NavSectionConfig } from './navConfig';
 
@@ -18,6 +19,8 @@ type SidebarContentProps = {
   brandSubtitle?: string;
   notifCount?: number;
   onNotificationClick?: () => void;
+  /** When set, medresa-scoped nav links include ?medresaId= */
+  scopedMedresaId?: string;
 };
 
 function initials(name: string) {
@@ -46,6 +49,7 @@ export const SidebarNavContent = ({
   brandSubtitle,
   notifCount = 0,
   onNotificationClick,
+  scopedMedresaId,
 }: SidebarContentProps) => {
   const { t } = useTranslation();
 
@@ -77,10 +81,12 @@ export const SidebarNavContent = ({
                 const Icon = item.icon;
                 const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
                 const count = item.badgeKey ? badges[item.badgeKey] : undefined;
+                const navSearch = buildMedresaNavSearch(item.to, scopedMedresaId);
                 return (
                   <li key={item.to}>
                     <Link
                       to={item.to}
+                      search={navSearch}
                       onClick={onNavigate}
                       aria-current={active ? 'page' : undefined}
                       className={cn(
